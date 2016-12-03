@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
@@ -19,6 +20,8 @@ namespace DexbotTimetracker2
 
         private NotifyIcon trayIcon;
 
+        private OutlookAppointmentRetriever outlooker;
+
         public Form1()
         {
             // Initialize Tray Icon
@@ -26,30 +29,26 @@ namespace DexbotTimetracker2
             {
                 Icon = new System.Drawing.Icon(Path.GetFullPath(@"asd.ico")),
                 ContextMenu = new ContextMenu(new MenuItem[] {
-                new MenuItem("Exit", OnExit)
-            }),
+                	new MenuItem("Exit", OnExit)
+            	}),
                 Visible = true
             };
 
             InitializeComponent();
-        }
-
-        private ContextMenu trayMenu;
-
-        protected void Displaynotify()
-        {
-            trayMenu = new ContextMenu();
-            trayMenu.MenuItems.Add("Exit", OnExit);
-
-            notifyIcon1.Icon = new System.Drawing.Icon(Path.GetFullPath(@"asd.ico"));
-            notifyIcon1.Text = "Dexbot Desktoptime Tracking Utlity";
-            notifyIcon1.ContextMenu = trayMenu;
-            notifyIcon1.Visible = true;
+            
+            var tracker = new Tracker(trayIcon);
+            Thread t = new Thread(tracker.startDesktopLogging);
+            t.IsBackground = true;
+            t.Start();
+      		
+      		outlooker = new OutlookAppointmentRetriever(dataGridView1);
         }
 
         private void OnExit(object sender, EventArgs e)
         {
-            notifyIcon1.Visible = false;
+        	//doesn't really work
+            trayIcon.Visible = false;
+            //trayIcon.Dispose(); //??
             Application.Exit();
         }
 
@@ -58,10 +57,14 @@ namespace DexbotTimetracker2
             
         }
 
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            //Application.Exit();
+        }
 
-
-        //-----------------------------------------------------------
-        
-
+        private void button1_Click(object sender, EventArgs e)
+        {
+            outlooker.retrieveAppointments(dateTimePicker1.Value);
+        }
     }
 }

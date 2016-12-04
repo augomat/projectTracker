@@ -23,6 +23,9 @@ namespace DexbotTimetracker2
         private OutlookAppointmentRetriever outlooker;
         private Tracker tracker;
 
+        //NOBODY MUST EVER SEE THIS CODE!!!!
+        //I AM REALLY SORRY!!!
+
         public Form1()
         {
             // Initialize Tray Icon
@@ -45,6 +48,10 @@ namespace DexbotTimetracker2
             t.Start();
       		
       		outlooker = new OutlookAppointmentRetriever(dataGridView1);
+
+            trayIcon.BalloonTipTitle = "Change desktop";
+            trayIcon.BalloonTipText = "Please change your desktop to initialize";
+            trayIcon.ShowBalloonTip(10);
         }
 
         private void OnExit(object sender, EventArgs e)
@@ -179,6 +186,23 @@ namespace DexbotTimetracker2
             catch (Exception ex)
             {
                 MessageBox.Show("Exception: " + ex.ToString());
+            }
+        }
+
+        private void Form1_ResizeEnd(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                ShowInTaskbar = false;
+            }
+            else
+            {
+                ShowInTaskbar = true;
             }
         }
     }

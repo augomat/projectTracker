@@ -65,8 +65,7 @@ namespace DexbotTimetracker2
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             trayIcon.Visible = false;
-            trayIcon.Dispose(); //??
-            //Application.Exit();
+            trayIcon.Dispose();
         }
 
         private void button1_Click(object sender, EventArgs e)

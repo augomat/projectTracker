@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
@@ -43,7 +43,16 @@
             this.DiffSecs = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DesktopNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // notifyIcon1
@@ -59,7 +68,7 @@
             // 
             // dateTimePicker1
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(39, 12);
+            this.dateTimePicker1.Location = new System.Drawing.Point(16, 26);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker1.TabIndex = 1;
@@ -75,7 +84,7 @@
             this.DiffSecs,
             this.DesktopNo,
             this.Comment});
-            this.dataGridView1.Location = new System.Drawing.Point(39, 42);
+            this.dataGridView1.Location = new System.Drawing.Point(16, 56);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(691, 287);
@@ -85,17 +94,17 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(564, 13);
+            this.button1.Location = new System.Drawing.Point(531, 27);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(166, 23);
+            this.button1.Size = new System.Drawing.Size(79, 23);
             this.button1.TabIndex = 3;
-            this.button1.Text = "Retrieve Outlook Appointments";
+            this.button1.Text = "Retrieve";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(639, 335);
+            this.button2.Location = new System.Drawing.Point(616, 27);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(91, 23);
             this.button2.TabIndex = 4;
@@ -105,9 +114,9 @@
             // 
             // Date
             // 
-            dataGridViewCellStyle11.BackColor = System.Drawing.Color.WhiteSmoke;
-            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.Gray;
-            this.Date.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle27.BackColor = System.Drawing.Color.WhiteSmoke;
+            dataGridViewCellStyle27.ForeColor = System.Drawing.Color.Gray;
+            this.Date.DefaultCellStyle = dataGridViewCellStyle27;
             this.Date.HeaderText = "Date";
             this.Date.Name = "Date";
             this.Date.ReadOnly = true;
@@ -127,9 +136,9 @@
             // 
             // DiffSecs
             // 
-            dataGridViewCellStyle12.BackColor = System.Drawing.Color.WhiteSmoke;
-            dataGridViewCellStyle12.ForeColor = System.Drawing.Color.DimGray;
-            this.DiffSecs.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle28.BackColor = System.Drawing.Color.WhiteSmoke;
+            dataGridViewCellStyle28.ForeColor = System.Drawing.Color.DimGray;
+            this.DiffSecs.DefaultCellStyle = dataGridViewCellStyle28;
             this.DiffSecs.HeaderText = "Diff Secs";
             this.DiffSecs.Name = "DiffSecs";
             this.DiffSecs.ReadOnly = true;
@@ -147,20 +156,90 @@
             this.Comment.Name = "Comment";
             this.Comment.Width = 250;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.dateTimePicker1);
+            this.groupBox1.Controls.Add(this.dataGridView1);
+            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Location = new System.Drawing.Point(20, 15);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(730, 364);
+            this.groupBox1.TabIndex = 5;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Outlook Appointments";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.textBox2);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Controls.Add(this.button3);
+            this.groupBox2.Location = new System.Drawing.Point(20, 391);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(730, 70);
+            this.groupBox2.TabIndex = 6;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Forgot to switch";
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(423, 24);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(96, 23);
+            this.button3.TabIndex = 0;
+            this.button3.Text = "Generate switch";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(104, 25);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(58, 20);
+            this.textBox1.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(16, 28);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(84, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Correct Desktop";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(167, 29);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(185, 26);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "time passed after missed switch (mins)\r\n(leave empty for whole time)\r\n";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(355, 25);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(58, 20);
+            this.textBox2.TabIndex = 5;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(756, 377);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.dateTimePicker1);
+            this.ClientSize = new System.Drawing.Size(782, 474);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
             this.ShowInTaskbar = false;
             this.Text = "Project Tracker";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -179,6 +258,13 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn DiffSecs;
         private System.Windows.Forms.DataGridViewTextBoxColumn DesktopNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn Comment;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label3;
     }
 }
 

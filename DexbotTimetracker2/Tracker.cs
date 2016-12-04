@@ -35,9 +35,9 @@ namespace DexbotTimetracker2
         
         private const string fileNameLog = @"C:\Users\Georg\AppData\Roaming\Dexpot\dexpot.log";
         private const string fileNameCsv = @"C:\Users\Georg\Documents\DesktopTimes.csv";
-        
-        private string currentDesktop = "";
-        private long lastSwitch = 0;
+
+        public string currentDesktop = "";
+        public long lastSwitch = 0;
         private string desktopBeforeLock = "";
 
         public void startDesktopLogging()
@@ -89,21 +89,21 @@ namespace DexbotTimetracker2
                 if (setCurrentVars)
                 {
                     currentDesktop = desktopTo;
-                    lastSwitch = convertTimeToSec(DateTime.Now.Ticks);
+                    lastSwitch = convertTicksToSec(DateTime.Now.Ticks);
                 }
             }
         }
 
         private bool recordSwitch(string addInfos = "", bool zeroTime = false)
         {
-            long diffSecs = (!zeroTime) ? convertTimeToSec(DateTime.Now.Ticks) - lastSwitch : 0;
+            long diffSecs = (!zeroTime) ? convertTicksToSec(DateTime.Now.Ticks) - lastSwitch : 0;
 
             try
             {
-                writeCSVEntry(diffSecs, currentDesktop, DateTime.Now, new DateTime(convertTimeToTicks(lastSwitch)), addInfos);
+                writeCSVEntry(diffSecs, currentDesktop, new DateTime(convertSecToTicks(lastSwitch)), DateTime.Now, addInfos);
 
                 trayIcon.BalloonTipTitle = "Desktop change detected";
-                trayIcon.BalloonTipText = "Time on Desktop " + currentDesktop + ": " + (convertTimeToSec(DateTime.Now.Ticks) - lastSwitch).ToString();
+                trayIcon.BalloonTipText = "Time on Desktop " + currentDesktop + ": " + (convertTicksToSec(DateTime.Now.Ticks) - lastSwitch).ToString();
                 trayIcon.ShowBalloonTip(10);
 
                 return true;
@@ -118,6 +118,27 @@ namespace DexbotTimetracker2
             }
         }
 
+        public void doFakeSwitch(string DesktopNo, int TimeInMins)
+        {
+            if (TimeInMins > 0)
+            {
+                //TODO check time < trackertime
+
+                //write out difference to CSV
+                writeCSVEntry(convertTicksToSec(DateTime.Now.Ticks) - TimeInMins * 60 - lastSwitch, 
+                    currentDesktop, 
+                    new DateTime(convertSecToTicks(lastSwitch)), 
+                    new DateTime(convertSecToTicks(convertTicksToSec(DateTime.Now.Ticks) - TimeInMins*60)), 
+                    "Forgot to switch");
+
+                //update lastSwitch with diff
+                lastSwitch = convertTicksToSec(DateTime.Now.Ticks) - TimeInMins * 60;
+            }
+
+            //set the currentDesktop to the intentional desktop so the next switch writes out the data as if the switch had occured to the intentional desktop
+            currentDesktop = DesktopNo;
+        }
+
         public void writeCSVEntry(long diffSecs, string currentD, DateTime start, DateTime end, string addInfos)
         {
             string output = String.Format("{2:d};{4:HH:mm:ss};{2:HH:mm:ss};{0};{1};{3}",
@@ -128,12 +149,12 @@ namespace DexbotTimetracker2
             Console.WriteLine(output);
         }
 
-        private static long convertTimeToSec(long ticks)
+        private static long convertTicksToSec(long ticks)
         {
             return (long)(ticks / TimeSpan.TicksPerMillisecond / 1000);
         }
         
-        private static long convertTimeToTicks(long seconds)
+        private static long convertSecToTicks(long seconds)
         {
             return (long)(seconds * TimeSpan.TicksPerMillisecond * 1000);
         }
@@ -146,14 +167,14 @@ namespace DexbotTimetracker2
                 recordSwitch("locked"); //TODO do not swallow return value
                 desktopBeforeLock = currentDesktop;
                 currentDesktop = "0";
-                lastSwitch = convertTimeToSec(DateTime.Now.Ticks);
+                lastSwitch = convertTicksToSec(DateTime.Now.Ticks);
             }
             else if (e.Reason == SessionSwitchReason.SessionUnlock)
             {
                 //I returned to my desk
                recordSwitch("unlocked", true); //TODO do not swallow return value
                currentDesktop = desktopBeforeLock;
-               lastSwitch = convertTimeToSec(DateTime.Now.Ticks);
+               lastSwitch = convertTicksToSec(DateTime.Now.Ticks);
             }
         }
 	}

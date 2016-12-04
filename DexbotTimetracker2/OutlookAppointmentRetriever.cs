@@ -44,7 +44,10 @@ namespace DexbotTimetracker2
                     int RowIndex = dataGrid.RowCount - 1;
                     DataGridViewRow R = dataGrid.Rows[RowIndex];
 
-                    R.Cells["Date"].Value = appt.Start.ToString("g");
+                    R.Cells["Date"].Value = appt.Start.ToString("dd.MM.yyyy");
+                    R.Cells["StartTime"].Value = appt.Start.ToString("HH:mm");
+                    R.Cells["EndTime"].Value = appt.End.ToString("HH:mm");
+                    R.Cells["DiffSecs"].Value = (appt.End - appt.Start).TotalSeconds;
                     R.Cells["Comment"].Value = appt.Subject;
                 }
 

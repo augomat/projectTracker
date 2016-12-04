@@ -94,10 +94,12 @@ namespace DexbotTimetracker2
             }
         }
 
-        private bool recordSwitch(string addInfos = "")
+        private bool recordSwitch(string addInfos = "", bool zeroTime = false)
         {
-        	string output = String.Format("{2:d};{4:HH:mm:ss};{2:HH:mm:ss};{0};{1};{3}", 
-        	                              convertTimeToSec(DateTime.Now.Ticks) - lastSwitch, currentDesktop, DateTime.Now, addInfos, new DateTime(convertTimeToTicks(lastSwitch)));
+            long diffSecs = (!zeroTime) ? convertTimeToSec(DateTime.Now.Ticks) - lastSwitch : 0;
+
+            string output = String.Format("{2:d};{4:HH:mm:ss};{2:HH:mm:ss};{0};{1};{3}", 
+        	                              diffSecs, currentDesktop, DateTime.Now, addInfos, new DateTime(convertTimeToTicks(lastSwitch)));
             Console.WriteLine(output);
             try
             {
@@ -141,7 +143,7 @@ namespace DexbotTimetracker2
             else if (e.Reason == SessionSwitchReason.SessionUnlock)
             {
                 //I returned to my desk
-               recordSwitch("unlocked"); //TODO do not swallow return value
+               recordSwitch("unlocked", true); //TODO do not swallow return value
                currentDesktop = desktopBeforeLock;
                lastSwitch = convertTimeToSec(DateTime.Now.Ticks);
             }

@@ -66,5 +66,37 @@ namespace DexbotTimetracker2
         {
             outlooker.retrieveAppointments(dateTimePicker1.Value);
         }
+
+        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+           // updateDiffSecs();
+        }
+
+        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            updateDiffSecs();
+        }
+
+        //----------------------------------
+
+        private void updateDiffSecs()
+        {
+            try
+            {
+                for (var counter = 0; counter < dataGridView1.Rows.Count; counter++)
+                {
+                    var start = DateTime.Parse(dataGridView1.Rows[counter].Cells["StartTime"].Value.ToString());
+                    var end = DateTime.Parse(dataGridView1.Rows[counter].Cells["EndTime"].Value.ToString());
+
+                    dataGridView1.Rows[counter].Cells["DiffSecs"].Value = (end - start).TotalSeconds.ToString();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Exception: " + e.ToString());
+            }
+        }
+
+        
     }
 }

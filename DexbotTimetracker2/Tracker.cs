@@ -98,19 +98,17 @@ namespace DexbotTimetracker2
         {
             long diffSecs = (!zeroTime) ? convertTimeToSec(DateTime.Now.Ticks) - lastSwitch : 0;
 
-            string output = String.Format("{2:d};{4:HH:mm:ss};{2:HH:mm:ss};{0};{1};{3}", 
-        	                              diffSecs, currentDesktop, DateTime.Now, addInfos, new DateTime(convertTimeToTicks(lastSwitch)));
-            Console.WriteLine(output);
             try
             {
-                File.AppendAllLines(fileNameCsv, new String[] { output });
+                writeCSVEntry(diffSecs, currentDesktop, DateTime.Now, new DateTime(convertTimeToTicks(lastSwitch)), addInfos);
 
                 trayIcon.BalloonTipTitle = "Desktop change detected";
                 trayIcon.BalloonTipText = "Time on Desktop " + currentDesktop + ": " + (convertTimeToSec(DateTime.Now.Ticks) - lastSwitch).ToString();
                 trayIcon.ShowBalloonTip(10);
 
                 return true;
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 trayIcon.BalloonTipTitle = "Exception occurred";
                 trayIcon.BalloonTipText = e.ToString();
@@ -118,6 +116,16 @@ namespace DexbotTimetracker2
 
                 return false;
             }
+        }
+
+        public void writeCSVEntry(long diffSecs, string currentD, DateTime start, DateTime end, string addInfos)
+        {
+            string output = String.Format("{2:d};{4:HH:mm:ss};{2:HH:mm:ss};{0};{1};{3}",
+                                                      diffSecs, currentD, end, addInfos, start);
+
+
+            File.AppendAllLines(fileNameCsv, new String[] { output });
+            Console.WriteLine(output);
         }
 
         private static long convertTimeToSec(long ticks)

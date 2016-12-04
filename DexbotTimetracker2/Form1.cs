@@ -21,6 +21,7 @@ namespace DexbotTimetracker2
         private NotifyIcon trayIcon;
 
         private OutlookAppointmentRetriever outlooker;
+        private Tracker tracker;
 
         public Form1()
         {
@@ -29,14 +30,16 @@ namespace DexbotTimetracker2
             {
                 Icon = new System.Drawing.Icon(Path.GetFullPath(@"asd.ico")),
                 ContextMenu = new ContextMenu(new MenuItem[] {
-                	new MenuItem("Exit", OnExit)
-            	}),
+                    new MenuItem("Show", ShowForm),
+                    new MenuItem("-"),
+                    new MenuItem("Exit", OnExit)
+                }),
                 Visible = true
             };
 
             InitializeComponent();
             
-            var tracker = new Tracker(trayIcon);
+            tracker = new Tracker(trayIcon);
             Thread t = new Thread(tracker.startDesktopLogging);
             t.IsBackground = true;
             t.Start();
@@ -46,10 +49,12 @@ namespace DexbotTimetracker2
 
         private void OnExit(object sender, EventArgs e)
         {
-        	//doesn't really work
-            trayIcon.Visible = false;
-            //trayIcon.Dispose(); //??
             Application.Exit();
+        }
+
+        private void ShowForm(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Normal;
         }
 
         private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
@@ -59,6 +64,8 @@ namespace DexbotTimetracker2
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
+            trayIcon.Visible = false;
+            trayIcon.Dispose(); //??
             //Application.Exit();
         }
 
@@ -97,6 +104,64 @@ namespace DexbotTimetracker2
             }
         }
 
-        
+        private void button2_Click(object sender, EventArgs e)
+        {
+            var isSane = CheckGridSanity();
+
+            if (isSane)
+                    WriteGridToCSV();
+        }
+
+        private bool CheckGridSanity()
+        {
+            for (var counter = 0; counter < dataGridView1.Rows.Count; counter++)
+            {
+                var row = dataGridView1.Rows[counter];
+
+                if (row.Cells["DesktopNo"].Value == null)
+                {
+                    MessageBox.Show("DesktopNo of row " + (counter + 1) + " is not valid");
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private void WriteGridToCSV()
+        {
+            try
+            {
+                for (var counter = 0; counter < dataGridView1.Rows.Count; counter++)
+                {
+                    var row = dataGridView1.Rows[counter];
+
+                    var rdiffSecs = Convert.ToInt64(row.Cells["DiffSecs"].Value);
+                    var rdesktopNo = row.Cells["DesktopNo"].Value.ToString();
+                    var rstartDate = DateTime.ParseExact(
+                            row.Cells["Date"].Value.ToString() + " " + row.Cells["StartTime"].Value.ToString(),
+                            "dd.MM.yyyy HH:mm",
+                            System.Globalization.CultureInfo.InvariantCulture
+                        );
+                    var rendDate = DateTime.ParseExact(
+                            row.Cells["Date"].Value.ToString() + " " + row.Cells["EndTime"].Value.ToString(),
+                            "dd.MM.yyyy HH:mm",
+                            System.Globalization.CultureInfo.InvariantCulture
+                        );
+                    var rcomment = row.Cells["Comment"].Value.ToString();
+
+                    tracker.writeCSVEntry(
+                        rdiffSecs,
+                        rdesktopNo,
+                        rstartDate,
+                        rendDate,
+                        rcomment
+                    );
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Exception: " + e.ToString());
+            }
+        }
     }
 }

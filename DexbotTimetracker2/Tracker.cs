@@ -85,6 +85,12 @@ namespace DexbotTimetracker2
                 {
                     setCurrentVars = recordSwitch();
                 }
+                else
+                {
+                    trayIcon.BalloonTipTitle = "Desktop change detected";
+                    trayIcon.BalloonTipText = "Desktop initialized";
+                    trayIcon.ShowBalloonTip(10);
+                }
 
                 if (setCurrentVars)
                 {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace DexbotTimetracker2
 {
@@ -30,10 +31,29 @@ namespace DexbotTimetracker2
             prompt.Controls.Add(textLabel);
             prompt.AcceptButton = confirmation;
 
+            Task.Delay(500).ContinueWith(t => { prompt.Invoke(new Action(prompt.Activate)); }); //brrrrrrrr hacky, TODO implement something so that it never looses focus (buha)
+            Task.Delay(1000).ContinueWith(t => { prompt.Invoke(new Action(prompt.Activate)); }); //BRRRRRRRRRRRRR
             prompt.TopMost = true;
-            //TODO implement something that dialog remains to have focus even if other applications open afterwards
-            prompt.CancelButton = cancel;
-            
+
+            //center it on main screen
+            Screen mainScreen = null;
+            foreach (var singleScreen in Screen.AllScreens) //TODO agh, wäääh, use lambda, linq, whatever for this!!
+            {
+                if (singleScreen.Primary)
+                    mainScreen = singleScreen;
+            }
+            if (mainScreen == null)
+                mainScreen = Screen.FromControl(prompt);
+
+            Rectangle workingArea = mainScreen.WorkingArea;
+            prompt.StartPosition = FormStartPosition.Manual;
+            //prompt.Location = new Point(10, 10);
+            prompt.Location = new Point()
+            {
+                X = Math.Max(workingArea.X, workingArea.X + (workingArea.Width - prompt.Width) / 2),
+                Y = Math.Max(workingArea.Y, workingArea.Y + (workingArea.Height - prompt.Height) / 2)
+            };
+
             return prompt.ShowDialog() == DialogResult.OK ? textBox.Text : "";
         }
     }

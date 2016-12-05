@@ -24,7 +24,7 @@ namespace DexbotTimetracker2
         private Tracker tracker;
 
         //NOBODY MUST EVER SEE THIS CODE!!!!
-        //I AM REALLY SORRY!!!
+        //I AM DEEPLY SORRY!!!
 
         public Form1()
         {

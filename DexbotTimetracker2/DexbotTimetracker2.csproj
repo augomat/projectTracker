@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="OutlookAppointmentRetriever.cs" />
+    <Compile Include="Prompt.cs" />
     <Compile Include="Tracker.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

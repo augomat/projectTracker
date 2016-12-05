@@ -30,11 +30,11 @@ namespace DexbotTimetracker2
 		
 		//-------------------------------------------------------------
 
-        //private const string fileNameLog = @"C:\Users\gkapeller\AppData\Roaming\Dexpot\dexpot.log";
-        //private const string fileNameCsv = @"C:\Users\gkapeller\Documents\DesktopTimes.csv";
+        private const string fileNameLog = @"C:\Users\gkapeller\AppData\Roaming\Dexpot\dexpot.log";
+        private const string fileNameCsv = @"C:\Users\gkapeller\Documents\DesktopTimes.csv";
         
-        private const string fileNameLog = @"C:\Users\Georg\AppData\Roaming\Dexpot\dexpot.log";
-        private const string fileNameCsv = @"C:\Users\Georg\Documents\DesktopTimes.csv";
+        //private const string fileNameLog = @"C:\Users\Georg\AppData\Roaming\Dexpot\dexpot.log";
+        //private const string fileNameCsv = @"C:\Users\Georg\Documents\DesktopTimes.csv";
 
         public string currentDesktop = "";
         public long lastSwitch = 0;
@@ -172,15 +172,17 @@ namespace DexbotTimetracker2
                 //I left my desk
                 recordSwitch("locked"); //TODO do not swallow return value
                 desktopBeforeLock = currentDesktop;
-                currentDesktop = "0";
+                currentDesktop = "-1";
                 lastSwitch = convertTicksToSec(DateTime.Now.Ticks);
             }
             else if (e.Reason == SessionSwitchReason.SessionUnlock)
             {
                 //I returned to my desk
-               recordSwitch("unlocked", true); //TODO do not swallow return value
-               currentDesktop = desktopBeforeLock;
-               lastSwitch = convertTicksToSec(DateTime.Now.Ticks);
+                string promptValue = Prompt.ShowDialog("Computer unlocked", "What did you do in the mean time?");
+
+                recordSwitch("unlocked: " + promptValue, false); //TODO do not swallow return value
+                currentDesktop = desktopBeforeLock;
+                lastSwitch = convertTicksToSec(DateTime.Now.Ticks);
             }
         }
 	}

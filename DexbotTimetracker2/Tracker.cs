@@ -108,8 +108,10 @@ namespace DexbotTimetracker2
             {
                 writeCSVEntry(diffSecs, currentDesktop, new DateTime(convertSecToTicks(lastSwitch)), DateTime.Now, addInfos);
 
+                var timePassed = (convertTicksToSec(DateTime.Now.Ticks) - lastSwitch);
+
                 trayIcon.BalloonTipTitle = "Desktop change detected";
-                trayIcon.BalloonTipText = "Time on Desktop " + currentDesktop + ": " + (convertTicksToSec(DateTime.Now.Ticks) - lastSwitch).ToString();
+                trayIcon.BalloonTipText = "Time on Desktop [" + currentDesktop + "]: " + (timePassed/60).ToString() + " mins (" + timePassed.ToString() + " secs)" ;
                 trayIcon.ShowBalloonTip(10);
 
                 return true;

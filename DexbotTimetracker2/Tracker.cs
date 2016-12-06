@@ -100,9 +100,9 @@ namespace DexbotTimetracker2
             }
         }
 
-        private bool recordSwitch(string addInfos = "", bool zeroTime = false)
+        private bool recordSwitch(string addInfos = "")
         {
-            long diffSecs = (!zeroTime) ? convertTicksToSec(DateTime.Now.Ticks) - lastSwitch : 0;
+            long diffSecs = convertTicksToSec(DateTime.Now.Ticks) - lastSwitch;
 
             try
             {
@@ -172,15 +172,20 @@ namespace DexbotTimetracker2
                 //I left my desk
                 recordSwitch("locked"); //TODO do not swallow return value
                 desktopBeforeLock = currentDesktop;
-                currentDesktop = "-1";
+                currentDesktop = "-1"; //break, no meeting - TODO make this enum
                 lastSwitch = convertTicksToSec(DateTime.Now.Ticks);
             }
             else if (e.Reason == SessionSwitchReason.SessionUnlock)
             {
                 //I returned to my desk
-                string promptValue = Prompt.ShowDialog("Computer unlocked", "What did you do in the mean time?");
+                Tuple<string, bool> promptValues = Prompt.ShowDialog("Computer unlocked", "What did you do in the mean time?");
+                var promptString = promptValues.Item1;
+                var promptIsMeeting = promptValues.Item2;
 
-                recordSwitch("unlocked: " + promptValue, false); //TODO do not swallow return value
+                if (promptIsMeeting && currentDesktop == "-1")
+                    currentDesktop = "-2"; //meeting, no break - TODO make this an enum
+
+                recordSwitch("unlocked: " + promptString); //TODO do not swallow return value
                 currentDesktop = desktopBeforeLock;
                 lastSwitch = convertTicksToSec(DateTime.Now.Ticks);
             }

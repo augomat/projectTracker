@@ -62,6 +62,8 @@ namespace DexbotTimetracker2
         private void ShowForm(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Normal;
+            this.Activate();
+            this.Focus();
         }
 
         private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)

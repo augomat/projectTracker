@@ -10,7 +10,7 @@ namespace DexbotTimetracker2
 {
     public static class Prompt
     {
-        public static string ShowDialog(string text, string caption)
+        public static Tuple<string, bool> ShowDialog(string text, string caption)
         {
             Form prompt = new Form()
             {
@@ -21,14 +21,16 @@ namespace DexbotTimetracker2
                 StartPosition = FormStartPosition.CenterScreen,
             };
             Label textLabel = new Label() { Left = 50, Top = 20, Text = text };
-            TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 400 };
-            Button confirmation = new Button() { Text = "Ok", Left = 350, Width = 100, Top = 70, DialogResult = DialogResult.OK };
+            TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 400, TabIndex = 0 };
+            Button confirmation = new Button() { Text = "Ok", Left = 350, Width = 100, Top = 70, TabIndex = 3, DialogResult = DialogResult.OK };
             Button cancel = new Button() { Text = "Cancel", Left = 250, Width = 100, Top = 70, DialogResult = DialogResult.Cancel };
+            CheckBox noBreak = new CheckBox() { Left = 50, Top = 70, AutoSize = true, TabIndex = 1, Text = "No break (use for meetings etc)" };
             confirmation.Click += (sender, e) => { prompt.Close(); };
             prompt.Controls.Add(textBox);
             prompt.Controls.Add(confirmation);
             prompt.Controls.Add(cancel);
             prompt.Controls.Add(textLabel);
+            prompt.Controls.Add(noBreak);
             prompt.AcceptButton = confirmation;
 
             Task.Delay(500).ContinueWith(t => { prompt.Invoke(new Action(prompt.Activate)); }); //brrrrrrrr hacky, TODO implement something so that it never looses focus (buha)
@@ -54,7 +56,7 @@ namespace DexbotTimetracker2
                 Y = Math.Max(workingArea.Y, workingArea.Y + (workingArea.Height - prompt.Height) / 2)
             };
 
-            return prompt.ShowDialog() == DialogResult.OK ? textBox.Text : "";
+            return prompt.ShowDialog() == DialogResult.OK ? new Tuple<String, bool>(textBox.Text, noBreak.Checked) : new Tuple<String, bool>("", false);
         }
     }
 }

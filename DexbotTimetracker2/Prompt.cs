@@ -26,6 +26,7 @@ namespace DexbotTimetracker2
             comboBox1.Items.AddRange(new object[] {
             "Meeting (-2)",
             "Pause (-1)",
+            "Arbeitspause (0)", //this will count lawful breaks (10mins/h) from screenwork as general worktime (0), and the rest as Pause (-1)
             "PS customer (1)",
             "PS admin (6)",
             "KB (2)",

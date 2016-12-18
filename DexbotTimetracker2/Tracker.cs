@@ -100,13 +100,13 @@ namespace DexbotTimetracker2
             }
         }
 
-        private bool recordSwitch(string addInfos = "")
+        private bool recordSwitch(string addInfos = "", bool screenTime = true)
         {
             long diffSecs = convertTicksToSec(DateTime.Now.Ticks) - lastSwitchSecs;
 
             try
             {
-                writeCSVEntry(diffSecs, currentDesktop, new DateTime(convertSecToTicks(lastSwitchSecs)), DateTime.Now, addInfos);
+                writeCSVEntry(diffSecs, currentDesktop, new DateTime(convertSecToTicks(lastSwitchSecs)), DateTime.Now, addInfos, screenTime);
 
                 var timePassed = (convertTicksToSec(DateTime.Now.Ticks) - lastSwitchSecs);
 
@@ -130,7 +130,7 @@ namespace DexbotTimetracker2
         {
             try
             {
-                writeCSVEntry(0, "-1", new DateTime(convertSecToTicks(lastSwitchSecs)), DateTime.Now, "New Day begun");
+                writeCSVEntry(0, "-1", new DateTime(convertSecToTicks(lastSwitchSecs)), DateTime.Now, "New Day begun", false);
 
                 trayIcon.BalloonTipTitle = "Desktop change detected";
                 trayIcon.BalloonTipText = "Good morning";
@@ -154,7 +154,9 @@ namespace DexbotTimetracker2
 
             try
             {
-                writeCSVEntry(diffSecs, currentDesktop, new DateTime(convertSecToTicks(lastSwitchSecs)), DateTime.Now, "Project Tracker exited");
+                if (!string.IsNullOrEmpty(currentDesktop))
+                    writeCSVEntry(diffSecs, currentDesktop, new DateTime(convertSecToTicks(lastSwitchSecs)), DateTime.Now, "Project Tracker exited", true);
+
                 return true;
             }
             catch (Exception)
@@ -174,7 +176,7 @@ namespace DexbotTimetracker2
                     currentDesktop, 
                     new DateTime(convertSecToTicks(lastSwitchSecs)), 
                     new DateTime(convertSecToTicks(convertTicksToSec(DateTime.Now.Ticks) - TimeInMins*60)), 
-                    "Forgot to switch");
+                    "Forgot to switch", true);
 
                 //update lastSwitch with diff
                 lastSwitchSecs = convertTicksToSec(DateTime.Now.Ticks) - TimeInMins * 60;
@@ -184,10 +186,10 @@ namespace DexbotTimetracker2
             currentDesktop = DesktopNo;
         }
 
-        public void writeCSVEntry(long diffSecs, string currentD, DateTime start, DateTime end, string addInfos)
+        public void writeCSVEntry(long diffSecs, string currentD, DateTime start, DateTime end, string addInfos, bool screenTime)
         {
-            string output = String.Format("{2:d};{4:HH:mm:ss};{2:HH:mm:ss};{0};{1};{3}",
-                                                      diffSecs, currentD, end, addInfos, start);
+            string output = String.Format("{2:d};{4:HH:mm:ss};{2:HH:mm:ss};{5};{0};{1};{3}",
+                                                      diffSecs, currentD, end, addInfos, start, screenTime.ToString());
 
 
             File.AppendAllLines(fileNameCsv, new String[] { output });
@@ -233,7 +235,7 @@ namespace DexbotTimetracker2
 
                     currentDesktop = promptDesktop;
 
-                    recordSwitch("unlocked: " + promptString); //TODO do not swallow return value
+                    recordSwitch("unlocked: " + promptString, false); //TODO do not swallow return value
                 }
                 
                 currentDesktop = desktopBeforeLock;

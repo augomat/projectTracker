@@ -43,8 +43,6 @@ namespace DexbotTimetracker2
 
             InitializeComponent();
 
-            comboBox1.SelectedIndex = 1;
-
             tracker = new Tracker(trayIcon);
             Thread t = new Thread(tracker.startDesktopLogging);
             t.IsBackground = true;
@@ -174,7 +172,8 @@ namespace DexbotTimetracker2
                     rdesktopNo,
                     rstartDate,
                     rendDate,
-                    rcomment
+                    rcomment,
+                    false
                 );
             }
         }

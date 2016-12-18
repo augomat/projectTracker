@@ -30,11 +30,11 @@ namespace DexbotTimetracker2
 		
 		//-------------------------------------------------------------
 
-        private const string fileNameLog = @"C:\Users\gkapeller\AppData\Roaming\Dexpot\dexpot.log";
-        private const string fileNameCsv = @"C:\Users\gkapeller\Documents\DesktopTimes.csv";
+        //private const string fileNameLog = @"C:\Users\gkapeller\AppData\Roaming\Dexpot\dexpot.log";
+        //private const string fileNameCsv = @"C:\Users\gkapeller\Documents\DesktopTimes.csv";
         
-        //private const string fileNameLog = @"C:\Users\Georg\AppData\Roaming\Dexpot\dexpot.log";
-        //private const string fileNameCsv = @"C:\Users\Georg\Documents\DesktopTimes.csv";
+        private const string fileNameLog = @"C:\Users\Georg\AppData\Roaming\Dexpot\dexpot.log";
+        private const string fileNameCsv = @"C:\Users\Georg\Documents\DesktopTimes.csv";
 
         public string currentDesktop = "";
         public long lastSwitchSecs = 0;
@@ -227,12 +227,11 @@ namespace DexbotTimetracker2
                 }
                 else
                 {
-                    Tuple<string, bool> promptValues = Prompt.ShowDialog("Computer unlocked", "What did you do in the mean time?");
+                    Tuple<string, string> promptValues = Prompt.ShowDialog("Computer unlocked", "What did you do in the mean time?");
                     var promptString = promptValues.Item1;
-                    var promptIsMeeting = promptValues.Item2;
+                    var promptDesktop = promptValues.Item2;
 
-                    if (promptIsMeeting && currentDesktop == "-1")
-                        currentDesktop = "-2"; //meeting, no break - TODO make this an enum
+                    currentDesktop = promptDesktop;
 
                     recordSwitch("unlocked: " + promptString); //TODO do not swallow return value
                 }

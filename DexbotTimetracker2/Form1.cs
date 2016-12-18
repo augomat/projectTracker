@@ -37,11 +37,14 @@ namespace DexbotTimetracker2
                     new MenuItem("-"),
                     new MenuItem("Exit", OnExit)
                 }),
-                Visible = true
+                Visible = true,
             };
+            trayIcon.DoubleClick += ShowForm;
 
             InitializeComponent();
-            
+
+            comboBox1.SelectedIndex = 1;
+
             tracker = new Tracker(trayIcon);
             Thread t = new Thread(tracker.startDesktopLogging);
             t.IsBackground = true;
@@ -116,10 +119,19 @@ namespace DexbotTimetracker2
 
         private void button2_Click(object sender, EventArgs e)
         {
-            var isSane = CheckGridSanity();
+            try
+            {
+                var isSane = CheckGridSanity();
 
-            if (isSane)
+                if (isSane)
                     WriteGridToCSV();
+
+                MessageBox.Show("Written to CSV");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception: " + ex.ToString());
+            }
         }
 
         private bool CheckGridSanity()
@@ -139,38 +151,31 @@ namespace DexbotTimetracker2
 
         private void WriteGridToCSV()
         {
-            try
+            for (var counter = 0; counter < dataGridView1.Rows.Count; counter++)
             {
-                for (var counter = 0; counter < dataGridView1.Rows.Count; counter++)
-                {
-                    var row = dataGridView1.Rows[counter];
+                var row = dataGridView1.Rows[counter];
 
-                    var rdiffSecs = Convert.ToInt64(row.Cells["DiffSecs"].Value);
-                    var rdesktopNo = row.Cells["DesktopNo"].Value.ToString();
-                    var rstartDate = DateTime.ParseExact(
-                            row.Cells["Date"].Value.ToString() + " " + row.Cells["StartTime"].Value.ToString(),
-                            "dd.MM.yyyy HH:mm",
-                            System.Globalization.CultureInfo.InvariantCulture
-                        );
-                    var rendDate = DateTime.ParseExact(
-                            row.Cells["Date"].Value.ToString() + " " + row.Cells["EndTime"].Value.ToString(),
-                            "dd.MM.yyyy HH:mm",
-                            System.Globalization.CultureInfo.InvariantCulture
-                        );
-                    var rcomment = row.Cells["Comment"].Value.ToString();
-
-                    tracker.writeCSVEntry(
-                        rdiffSecs,
-                        rdesktopNo,
-                        rstartDate,
-                        rendDate,
-                        rcomment
+                var rdiffSecs = Convert.ToInt64(row.Cells["DiffSecs"].Value);
+                var rdesktopNo = row.Cells["DesktopNo"].Value.ToString();
+                var rstartDate = DateTime.ParseExact(
+                        row.Cells["Date"].Value.ToString() + " " + row.Cells["StartTime"].Value.ToString(),
+                        "dd.MM.yyyy HH:mm",
+                        System.Globalization.CultureInfo.InvariantCulture
                     );
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Exception: " + e.ToString());
+                var rendDate = DateTime.ParseExact(
+                        row.Cells["Date"].Value.ToString() + " " + row.Cells["EndTime"].Value.ToString(),
+                        "dd.MM.yyyy HH:mm",
+                        System.Globalization.CultureInfo.InvariantCulture
+                    );
+                var rcomment = row.Cells["Comment"].Value.ToString();
+
+                tracker.writeCSVEntry(
+                    rdiffSecs,
+                    rdesktopNo,
+                    rstartDate,
+                    rendDate,
+                    rcomment
+                );
             }
         }
 
@@ -186,6 +191,7 @@ namespace DexbotTimetracker2
             {
                 int time = (textBox2.Text != "") ? Convert.ToInt32(textBox2.Text) : 0; 
                 tracker.doFakeSwitch(textBox1.Text, time);
+                MessageBox.Show("Desktop corrected. It will be logged correctly whenever you switch Desktop the next time");
             }
             catch (Exception ex)
             {
@@ -216,6 +222,11 @@ namespace DexbotTimetracker2
             {
                 e.Cancel = true;
             }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

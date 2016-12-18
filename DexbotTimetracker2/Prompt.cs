@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Text.RegularExpressions;
 
 namespace DexbotTimetracker2
 {
     public static class Prompt
     {
-        public static Tuple<string, bool> ShowDialog(string text, string caption)
+        public static Tuple<string, string> ShowDialog(string text, string caption)
         {
             Form prompt = new Form()
             {
@@ -20,6 +21,17 @@ namespace DexbotTimetracker2
                 Text = caption,
                 StartPosition = FormStartPosition.CenterScreen,
             };
+            var comboBox1 = new System.Windows.Forms.ComboBox() { DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList, Left = 50, Top = 70, AutoSize = true, TabIndex = 1 };
+            //this.comboBox1.FormattingEnabled = true;
+            comboBox1.Items.AddRange(new object[] {
+            "Meeting (-2)",
+            "Pause (-1)",
+            "PS customer (1)",
+            "PS admin (6)",
+            "KB (2)",
+            "AgD (4)",
+            "SalesF (5)"});
+            comboBox1.SelectedIndex = 1;
             Label textLabel = new Label() { Left = 50, Top = 20, Text = text };
             TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 400, TabIndex = 0 };
             Button confirmation = new Button() { Text = "Ok", Left = 350, Width = 100, Top = 70, TabIndex = 3, DialogResult = DialogResult.OK };
@@ -30,7 +42,8 @@ namespace DexbotTimetracker2
             prompt.Controls.Add(confirmation);
             prompt.Controls.Add(cancel);
             prompt.Controls.Add(textLabel);
-            prompt.Controls.Add(noBreak);
+            //prompt.Controls.Add(noBreak);
+            prompt.Controls.Add(comboBox1);
             prompt.AcceptButton = confirmation;
 
             Task.Delay(500).ContinueWith(t => { prompt.Invoke(new Action(prompt.Activate)); }); //brrrrrrrr hacky, TODO implement something so that it never looses focus (buha)
@@ -56,7 +69,19 @@ namespace DexbotTimetracker2
                 Y = Math.Max(workingArea.Y, workingArea.Y + (workingArea.Height - prompt.Height) / 2)
             };
 
-            return prompt.ShowDialog() == DialogResult.OK ? new Tuple<String, bool>(textBox.Text, noBreak.Checked) : new Tuple<String, bool>("", false);
+            var result = prompt.ShowDialog();
+
+            if (result == DialogResult.OK)
+                return new Tuple<String, String>(textBox.Text, convertDesktopNameToNumber(comboBox1.Text));
+            else
+                return new Tuple<String, String>("", "");
+        }
+
+        //this is wrong on so many levels I cannot even say.
+        private static string convertDesktopNameToNumber(string desktopName)
+        {
+            var match = Regex.Match(desktopName, @".* \((.*)\)");
+            return match.Groups[1].Value;
         }
     }
 }

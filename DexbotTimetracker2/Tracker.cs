@@ -148,10 +148,10 @@ namespace DexbotTimetracker2
                     {
                         //write worktimebreak
                         var worktimebreakEnd = new DateTime(convertSecToTicks(convertTicksToSec(DateTime.Now.Ticks) - normalBreakSecs));
-                        writeCSVEntry(diffSecs - normalBreakSecs, "0", new DateTime(convertSecToTicks(lastSwitchPassedSecs)), worktimebreakEnd, "off screen (worktimebreak): " + addInfos, false);
+                        writeCSVEntry(diffSecs - normalBreakSecs, "0", new DateTime(convertSecToTicks(lastSwitchPassedSecs)), worktimebreakEnd, "worktimebreak: " + addInfos, false);
 
                         //write normal break
-                        writeCSVEntry(normalBreakSecs, "-1", worktimebreakEnd, DateTime.Now, "off screen (break): " + addInfos, false);
+                        writeCSVEntry(normalBreakSecs, "-1", worktimebreakEnd, DateTime.Now, "break: " + addInfos, false);
 
                         trayIcon.BalloonTipTitle = "Welcome back, all workbreaktime consumed";
                         trayIcon.BalloonTipText = "Total break: " + (diffSecs / 60).ToString() + " mins (" + diffSecs.ToString() + " secs)";
@@ -159,7 +159,7 @@ namespace DexbotTimetracker2
                     }
                     else
                     {
-                        writeCSVEntry(diffSecs, "0", new DateTime(convertSecToTicks(lastSwitchPassedSecs)), DateTime.Now, "off screen (worktimebreak): " + addInfos, false);
+                        writeCSVEntry(diffSecs, "0", new DateTime(convertSecToTicks(lastSwitchPassedSecs)), DateTime.Now, "worktimebreak: " + addInfos, false);
 
                         trayIcon.BalloonTipTitle = "Welcome back, workbreak left: " + (freeWorktimeBreakSecs).ToString() + " secs";
                         trayIcon.BalloonTipText = "Total break: " + (diffSecs / 60).ToString() + " mins (" + diffSecs.ToString() + " secs)";
@@ -168,7 +168,7 @@ namespace DexbotTimetracker2
                 }
                 else
                 {
-                    writeCSVEntry(diffSecs, currentDesktop, new DateTime(convertSecToTicks(lastSwitchPassedSecs)), DateTime.Now, "off screen (break): " + addInfos, false);
+                    writeCSVEntry(diffSecs, currentDesktop, new DateTime(convertSecToTicks(lastSwitchPassedSecs)), DateTime.Now, "off screen: " + addInfos, false);
 
                     updateFreeWorktimeBreak(true);
 

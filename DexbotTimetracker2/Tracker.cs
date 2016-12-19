@@ -13,6 +13,7 @@ using System.Text.RegularExpressions;
 using Microsoft.Win32;
 
 using System.Windows.Forms;
+using System.Configuration;
 
 namespace DexbotTimetracker2
 {
@@ -28,13 +29,21 @@ namespace DexbotTimetracker2
 			trayIcon = notifyIconExt;
 		}
 		
+        static Tracker()
+        {
+            fileNameCsv = MainSettings.Default.DexbotLogFilePath;
+            fileNameLog = MainSettings.Default.OutputCsvFilePath;
+        }
 		//-------------------------------------------------------------
 
         //private const string fileNameLog = @"C:\Users\gkapeller\AppData\Roaming\Dexpot\dexpot.log";
         //private const string fileNameCsv = @"C:\Users\gkapeller\Documents\DesktopTimes.csv";
         
-        private const string fileNameLog = @"C:\Users\Georg\AppData\Roaming\Dexpot\dexpot.log";
-        private const string fileNameCsv = @"C:\Users\Georg\Documents\DesktopTimes.csv";
+        //private const string fileNameLog = @"C:\Users\Georg\AppData\Roaming\Dexpot\dexpot.log";
+        //private const string fileNameCsv = @"C:\Users\Georg\Documents\DesktopTimes.csv";
+
+        private static readonly string fileNameLog;
+        private static readonly string fileNameCsv;
 
         public string currentDesktop = "";
         public long lastSwitchSecs = 0;

@@ -34,13 +34,6 @@ namespace DexbotTimetracker2
             fileNameCsv = MainSettings.Default.DexbotLogFilePath;
             fileNameLog = MainSettings.Default.OutputCsvFilePath;
         }
-		//-------------------------------------------------------------
-
-        //private const string fileNameLog = @"C:\Users\gkapeller\AppData\Roaming\Dexpot\dexpot.log";
-        //private const string fileNameCsv = @"C:\Users\gkapeller\Documents\DesktopTimes.csv";
-        
-        //private const string fileNameLog = @"C:\Users\Georg\AppData\Roaming\Dexpot\dexpot.log";
-        //private const string fileNameCsv = @"C:\Users\Georg\Documents\DesktopTimes.csv";
 
         private static readonly string fileNameLog;
         private static readonly string fileNameCsv;

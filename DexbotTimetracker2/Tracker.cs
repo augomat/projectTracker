@@ -31,16 +31,19 @@ namespace DexbotTimetracker2
 		
         static Tracker()
         {
-            fileNameCsv = MainSettings.Default.DexbotLogFilePath;
-            fileNameLog = MainSettings.Default.OutputCsvFilePath;
+            fileNameCsv = MainSettings.Default.OutputCsvFilePath;
+            fileNameLog = MainSettings.Default.DexbotLogFilePath;
         }
 
         private static readonly string fileNameLog;
         private static readonly string fileNameCsv;
 
         public string currentDesktop = "";
-        public long lastSwitchSecs = 0;
+        public long lastSwitchPassedSecs = 0;
         private string desktopBeforeLock = "";
+
+        public int countAsWorktimebreakMins { get; set; } = 0; //todo validations
+        public int carryOverWorktimeCountHours { get; set; } = 0; //todo validations
         private int freeWorktimeBreakSecs = 0;
 
         public void startDesktopLogging()
@@ -86,7 +89,7 @@ namespace DexbotTimetracker2
                 bool setCurrentVars = true;
                 if (!string.IsNullOrEmpty(currentDesktop))
                 {
-                    setCurrentVars = recordSwitch();
+                    setCurrentVars = recordOnScreenSwitch();
                 }
                 else
                 {
@@ -98,22 +101,22 @@ namespace DexbotTimetracker2
                 if (setCurrentVars)
                 {
                     currentDesktop = desktopTo;
-                    lastSwitchSecs = convertTicksToSec(DateTime.Now.Ticks);
+                    lastSwitchPassedSecs = convertTicksToSec(DateTime.Now.Ticks);
                 }
             }
         }
 
-        private bool recordSwitch(string addInfos = "", bool screenTime = true)
+        private bool recordOnScreenSwitch(string addInfos = "")
         {
-            long diffSecs = convertTicksToSec(DateTime.Now.Ticks) - lastSwitchSecs;
+            long diffSecs = convertTicksToSec(DateTime.Now.Ticks) - lastSwitchPassedSecs;
 
             try
             {
-                writeCSVEntry(diffSecs, currentDesktop, new DateTime(convertSecToTicks(lastSwitchSecs)), DateTime.Now, addInfos, screenTime);
+                writeCSVEntry(diffSecs, currentDesktop, new DateTime(convertSecToTicks(lastSwitchPassedSecs)), DateTime.Now, addInfos, true);
 
                 updateFreeWorktimeBreak();
 
-                var timePassed = (convertTicksToSec(DateTime.Now.Ticks) - lastSwitchSecs);
+                var timePassed = (convertTicksToSec(DateTime.Now.Ticks) - lastSwitchPassedSecs);
                 trayIcon.BalloonTipTitle = "Desktop change detected";
                 trayIcon.BalloonTipText = "Time on Desktop [" + currentDesktop + "]: " + (timePassed/60).ToString() + " mins (" + timePassed.ToString() + " secs)" ;
                 trayIcon.ShowBalloonTip(10);
@@ -130,11 +133,68 @@ namespace DexbotTimetracker2
             }
         }
 
+        private bool recordBackFromLockscreen(string addInfos = "", bool wasWorkbreak = false)
+        {
+            long diffSecs = convertTicksToSec(DateTime.Now.Ticks) - lastSwitchPassedSecs;
+
+            try
+            {
+                if (wasWorkbreak)
+                {
+                    //this is actually big bullshit as if writeCSVEntry fails, the free time will be updated but the lastSwitchPassedSecs not, so basically
+                    //there you have a method pump up your freetime to the max. oh, how i love methods with side effects
+                    var normalBreakSecs = updateFreeWorktimeBreak(true);
+                    if (normalBreakSecs > 0)
+                    {
+                        //write worktimebreak
+                        var worktimebreakEnd = new DateTime(convertSecToTicks(convertTicksToSec(DateTime.Now.Ticks) - normalBreakSecs));
+                        writeCSVEntry(diffSecs - normalBreakSecs, "0", new DateTime(convertSecToTicks(lastSwitchPassedSecs)), worktimebreakEnd, "off screen (worktimebreak): " + addInfos, false);
+
+                        //write normal break
+                        writeCSVEntry(normalBreakSecs, "-1", worktimebreakEnd, DateTime.Now, "off screen (break): " + addInfos, false);
+
+                        trayIcon.BalloonTipTitle = "Welcome back, all workbreaktime consumed";
+                        trayIcon.BalloonTipText = "Total break: " + (diffSecs / 60).ToString() + " mins (" + diffSecs.ToString() + " secs)";
+                        trayIcon.ShowBalloonTip(10);
+                    }
+                    else
+                    {
+                        writeCSVEntry(diffSecs, "0", new DateTime(convertSecToTicks(lastSwitchPassedSecs)), DateTime.Now, "off screen (worktimebreak): " + addInfos, false);
+
+                        trayIcon.BalloonTipTitle = "Welcome back, workbreak left: " + (freeWorktimeBreakSecs).ToString() + " secs";
+                        trayIcon.BalloonTipText = "Total break: " + (diffSecs / 60).ToString() + " mins (" + diffSecs.ToString() + " secs)";
+                        trayIcon.ShowBalloonTip(10);
+                    }
+                }
+                else
+                {
+                    writeCSVEntry(diffSecs, currentDesktop, new DateTime(convertSecToTicks(lastSwitchPassedSecs)), DateTime.Now, "off screen (break): " + addInfos, false);
+
+                    updateFreeWorktimeBreak(true);
+
+                    var timePassed = (convertTicksToSec(DateTime.Now.Ticks) - lastSwitchPassedSecs);
+                    trayIcon.BalloonTipTitle = "Welcome back, workbreak left: " + (freeWorktimeBreakSecs).ToString() + " secs";
+                    trayIcon.BalloonTipText = "Time on Desktop [" + currentDesktop + "]: " + (timePassed / 60).ToString() + " mins (" + timePassed.ToString() + " secs)";
+                    trayIcon.ShowBalloonTip(10);
+                }
+                
+                return true;
+            }
+            catch (Exception e)
+            {
+                trayIcon.BalloonTipTitle = "Exception occurred";
+                trayIcon.BalloonTipText = e.ToString();
+                trayIcon.ShowBalloonTip(10);
+
+                return false;
+            }
+        }
+
         private bool recordStartOfDay()
         {
             try
             {
-                writeCSVEntry(0, "-1", new DateTime(convertSecToTicks(lastSwitchSecs)), DateTime.Now, "New Day begun", false);
+                writeCSVEntry(0, "-1", new DateTime(convertSecToTicks(lastSwitchPassedSecs)), DateTime.Now, "New Day begun", false);
 
                 trayIcon.BalloonTipTitle = "Desktop change detected";
                 trayIcon.BalloonTipText = "Good morning";
@@ -154,12 +214,12 @@ namespace DexbotTimetracker2
 
         public bool recordAppExit()
         {
-            long diffSecs = convertTicksToSec(DateTime.Now.Ticks) - lastSwitchSecs;
+            long diffSecs = convertTicksToSec(DateTime.Now.Ticks) - lastSwitchPassedSecs;
 
             try
             {
                 if (!string.IsNullOrEmpty(currentDesktop))
-                    writeCSVEntry(diffSecs, currentDesktop, new DateTime(convertSecToTicks(lastSwitchSecs)), DateTime.Now, "Project Tracker exited", true);
+                    writeCSVEntry(diffSecs, currentDesktop, new DateTime(convertSecToTicks(lastSwitchPassedSecs)), DateTime.Now, "Project Tracker exited", true);
 
                 return true;
             }
@@ -176,14 +236,14 @@ namespace DexbotTimetracker2
                 //TODO check time < trackertime
 
                 //write out difference to CSV
-                writeCSVEntry(convertTicksToSec(DateTime.Now.Ticks) - TimeInMins * 60 - lastSwitchSecs, 
+                writeCSVEntry(convertTicksToSec(DateTime.Now.Ticks) - TimeInMins * 60 - lastSwitchPassedSecs, 
                     currentDesktop, 
-                    new DateTime(convertSecToTicks(lastSwitchSecs)), 
+                    new DateTime(convertSecToTicks(lastSwitchPassedSecs)), 
                     new DateTime(convertSecToTicks(convertTicksToSec(DateTime.Now.Ticks) - TimeInMins*60)), 
                     "Forgot to switch", true);
 
                 //update lastSwitch with diff
-                lastSwitchSecs = convertTicksToSec(DateTime.Now.Ticks) - TimeInMins * 60;
+                lastSwitchPassedSecs = convertTicksToSec(DateTime.Now.Ticks) - TimeInMins * 60;
             }
 
             //set the currentDesktop to the intentional desktop so the next switch writes out the data as if the switch had occured to the intentional desktop
@@ -215,15 +275,15 @@ namespace DexbotTimetracker2
             if (e.Reason == SessionSwitchReason.SessionLock)
             {
                 //I left my desk
-                recordSwitch("locked"); //TODO do not swallow return value
+                recordOnScreenSwitch("locked"); //TODO do not swallow return value
                 desktopBeforeLock = currentDesktop;
                 currentDesktop = "-1"; //break, no meeting - TODO make this enum
-                lastSwitchSecs = convertTicksToSec(DateTime.Now.Ticks);
+                lastSwitchPassedSecs = convertTicksToSec(DateTime.Now.Ticks);
             }
             else if (e.Reason == SessionSwitchReason.SessionUnlock)
             {
                 //I returned to my desk
-                var lastSwitched = new DateTime(convertSecToTicks(lastSwitchSecs));
+                var lastSwitched = new DateTime(convertSecToTicks(lastSwitchPassedSecs));
                 var TodayAt4am = DateTime.Now.Date + new TimeSpan(4, 0, 0);
 
                 //check whether todays 4am is within the locked interval and if so, do not count it as a break
@@ -239,20 +299,44 @@ namespace DexbotTimetracker2
 
                     currentDesktop = promptDesktop;
 
-                    recordSwitch("unlocked: " + promptString, false); //TODO do not swallow return value
+                    recordBackFromLockscreen(promptString, (promptDesktop == "0") ? true : false); //TODO do not swallow return value
                 }
                 
                 currentDesktop = desktopBeforeLock;
-                lastSwitchSecs = convertTicksToSec(DateTime.Now.Ticks);
+                lastSwitchPassedSecs = convertTicksToSec(DateTime.Now.Ticks);
             }
         }
 
-        private void updateFreeWorktimeBreak()
+        private int updateFreeWorktimeBreak(bool wasAway = false)
         {
-            var secsPassed = (convertTicksToSec(DateTime.Now.Ticks) - lastSwitchSecs);
-            var factor = 
-            var theoreticalSum = 
-            freeWorktimeBreakSecs += 
+            var secsPassed = (convertTicksToSec(DateTime.Now.Ticks) - lastSwitchPassedSecs); //really bad, implies that lastSwitchPassedSecs is reset after calling updateFreeWorktime
+
+            if (!wasAway)
+            {
+                //when working on screen, add gained seconds to total available worktimebreak 
+                var currentWorktimebreakSecs = WorktimeSecsToWorktimebreakSecs(secsPassed);
+
+                double factor = countAsWorktimebreakMins / 60.0;
+                var maxWorktimebreakSecs = (int)System.Math.Ceiling(carryOverWorktimeCountHours * 60.0 * 60.0 * factor); //todo round
+
+                freeWorktimeBreakSecs += currentWorktimebreakSecs;
+                freeWorktimeBreakSecs = Math.Min(maxWorktimebreakSecs, freeWorktimeBreakSecs);
+                return 0;
+            }
+            else
+            {
+                //when coming back, subtract from available worktimebreak and return secs that do not fall in worktimebreak
+                freeWorktimeBreakSecs -= (int)secsPassed;
+                var notInWorkbreakSecs = Math.Min(0, freeWorktimeBreakSecs)*-1;
+                freeWorktimeBreakSecs = Math.Max(0, freeWorktimeBreakSecs);
+                return notInWorkbreakSecs;
+            }
+        }
+
+        private int WorktimeSecsToWorktimebreakSecs(long worktime)
+        {
+            double factor = countAsWorktimebreakMins / 60.0;
+            return (int)System.Math.Ceiling(worktime * factor); //TODO round
         }
 
     }

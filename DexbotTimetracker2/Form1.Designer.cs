@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
@@ -51,8 +51,10 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.carryOverHours = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.countAsWorktime = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -98,9 +100,9 @@
             // 
             // Date
             // 
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.WhiteSmoke;
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Gray;
-            this.Date.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.WhiteSmoke;
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Gray;
+            this.Date.DefaultCellStyle = dataGridViewCellStyle7;
             this.Date.HeaderText = "Date";
             this.Date.Name = "Date";
             this.Date.ReadOnly = true;
@@ -120,9 +122,9 @@
             // 
             // DiffSecs
             // 
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.WhiteSmoke;
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.DimGray;
-            this.DiffSecs.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle8.BackColor = System.Drawing.Color.WhiteSmoke;
+            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.DimGray;
+            this.DiffSecs.DefaultCellStyle = dataGridViewCellStyle8;
             this.DiffSecs.HeaderText = "Diff Secs";
             this.DiffSecs.Name = "DiffSecs";
             this.DiffSecs.ReadOnly = true;
@@ -232,36 +234,58 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.carryOverHours);
+            this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Controls.Add(this.label2);
-            this.groupBox3.Controls.Add(this.textBox3);
+            this.groupBox3.Controls.Add(this.countAsWorktime);
             this.groupBox3.Location = new System.Drawing.Point(766, 15);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(200, 364);
+            this.groupBox3.Size = new System.Drawing.Size(211, 447);
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Settings";
+            this.groupBox3.Text = "Worktimebreaks";
             // 
-            // textBox3
+            // carryOverHours
             // 
-            this.textBox3.Location = new System.Drawing.Point(7, 56);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 20);
-            this.textBox3.TabIndex = 0;
+            this.carryOverHours.Location = new System.Drawing.Point(10, 131);
+            this.carryOverHours.Name = "carryOverHours";
+            this.carryOverHours.Size = new System.Drawing.Size(34, 20);
+            this.carryOverHours.TabIndex = 3;
+            this.carryOverHours.Text = "2";
+            this.carryOverHours.Leave += new System.EventHandler(this.carryOverHours_Leave);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(7, 102);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(207, 26);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "Carry over unused Worktimebreak-minutes\r\nfrom that many past hours";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(7, 36);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(119, 13);
+            this.label2.Size = new System.Drawing.Size(197, 26);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Count that many mins/h";
+            this.label2.Text = "Count that many Worktimebreak mins/h \r\nas regular work time";
+            // 
+            // countAsWorktime
+            // 
+            this.countAsWorktime.Location = new System.Drawing.Point(10, 65);
+            this.countAsWorktime.Name = "countAsWorktime";
+            this.countAsWorktime.Size = new System.Drawing.Size(34, 20);
+            this.countAsWorktime.TabIndex = 0;
+            this.countAsWorktime.Text = "10";
+            this.countAsWorktime.Leave += new System.EventHandler(this.countAsWorktime_Leave);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1006, 474);
+            this.ClientSize = new System.Drawing.Size(990, 474);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -306,7 +330,9 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox countAsWorktime;
+        private System.Windows.Forms.TextBox carryOverHours;
+        private System.Windows.Forms.Label label4;
     }
 }
 

@@ -44,6 +44,8 @@ namespace DexbotTimetracker2
             InitializeComponent();
 
             tracker = new Tracker(trayIcon);
+            tracker.countAsWorktimebreakMins = Int32.Parse(countAsWorktime.Text);
+            tracker.carryOverWorktimeCountHours = Int32.Parse(carryOverHours.Text);
             Thread t = new Thread(tracker.startDesktopLogging);
             t.IsBackground = true;
             t.Start();
@@ -226,6 +228,29 @@ namespace DexbotTimetracker2
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void countAsWorktime_Leave(object sender, EventArgs e)
+        {
+            try
+            {
+                tracker.countAsWorktimebreakMins = Int32.Parse(countAsWorktime.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+        private void carryOverHours_Leave(object sender, EventArgs e)
+        {
+            try
+            {
+                tracker.carryOverWorktimeCountHours = Int32.Parse(carryOverHours.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
     }
 }

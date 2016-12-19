@@ -41,6 +41,7 @@ namespace DexbotTimetracker2
         public string currentDesktop = "";
         public long lastSwitchSecs = 0;
         private string desktopBeforeLock = "";
+        private int freeWorktimeBreakSecs = 0;
 
         public void startDesktopLogging()
         {
@@ -110,8 +111,9 @@ namespace DexbotTimetracker2
             {
                 writeCSVEntry(diffSecs, currentDesktop, new DateTime(convertSecToTicks(lastSwitchSecs)), DateTime.Now, addInfos, screenTime);
 
-                var timePassed = (convertTicksToSec(DateTime.Now.Ticks) - lastSwitchSecs);
+                updateFreeWorktimeBreak();
 
+                var timePassed = (convertTicksToSec(DateTime.Now.Ticks) - lastSwitchSecs);
                 trayIcon.BalloonTipTitle = "Desktop change detected";
                 trayIcon.BalloonTipText = "Time on Desktop [" + currentDesktop + "]: " + (timePassed/60).ToString() + " mins (" + timePassed.ToString() + " secs)" ;
                 trayIcon.ShowBalloonTip(10);
@@ -244,5 +246,14 @@ namespace DexbotTimetracker2
                 lastSwitchSecs = convertTicksToSec(DateTime.Now.Ticks);
             }
         }
-	}
+
+        private void updateFreeWorktimeBreak()
+        {
+            var secsPassed = (convertTicksToSec(DateTime.Now.Ticks) - lastSwitchSecs);
+            var factor = 
+            var theoreticalSum = 
+            freeWorktimeBreakSecs += 
+        }
+
+    }
 }

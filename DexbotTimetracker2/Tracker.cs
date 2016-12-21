@@ -23,7 +23,7 @@ namespace DexbotTimetracker2
 	public class Tracker
 	{
 		private NotifyIcon trayIcon;
-		
+  	
 		public Tracker(NotifyIcon notifyIconExt)
 		{
 			trayIcon = notifyIconExt;
@@ -31,12 +31,12 @@ namespace DexbotTimetracker2
 		
         static Tracker()
         {
-            fileNameCsv = MainSettings.Default.OutputCsvFilePath;
-            fileNameLog = MainSettings.Default.DexbotLogFilePath;
+            fileNameCsv = System.Configuration.ConfigurationManager.AppSettings["OutputCsvFilePath"];
+            fileNameLog = System.Configuration.ConfigurationManager.AppSettings["DexbotLogFilePath"];
         }
 
-        private static readonly string fileNameLog;
-        private static readonly string fileNameCsv;
+        private static readonly String fileNameLog;
+        private static readonly String fileNameCsv;
 
         public string currentDesktop = "";
         public long lastSwitchPassedSecs = 0;
@@ -48,6 +48,13 @@ namespace DexbotTimetracker2
 
         public void startDesktopLogging()
         {
+            if (string.IsNullOrEmpty(fileNameCsv) || string.IsNullOrEmpty(fileNameLog))
+            {
+                MessageBox.Show("fileNameCsv or fileNameLog not defined. Please use a valid app.config");
+                //TODO programm will continue to run after this, show a wrong message bubble and do nothing. Quick fix with added a close-delegate in form.OnLoad didn't work (probably because form is already loaded?!)
+                return;
+            }
+
             Microsoft.Win32.SystemEvents.SessionSwitch += new Microsoft.Win32.SessionSwitchEventHandler(SystemEvents_SessionSwitch);
 
             using (StreamReader reader = new StreamReader(new FileStream(fileNameLog,

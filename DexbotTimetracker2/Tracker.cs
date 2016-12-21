@@ -196,6 +196,8 @@ namespace DexbotTimetracker2
             {
                 writeCSVEntry(0, "-1", new DateTime(convertSecToTicks(lastSwitchPassedSecs)), DateTime.Now, "New Day begun", false);
 
+                freeWorktimeBreakSecs = 0;
+
                 trayIcon.BalloonTipTitle = "Desktop change detected";
                 trayIcon.BalloonTipText = "Good morning";
                 trayIcon.ShowBalloonTip(10);

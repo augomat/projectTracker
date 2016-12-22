@@ -290,8 +290,7 @@ namespace DexbotTimetracker2
                 currentDesktop = "-1"; //break, no meeting - TODO make this enum
                 lastSwitchPassedSecs = convertTicksToSec(DateTime.Now.Ticks);
             }
-            else if (e.Reason == SessionSwitchReason.SessionUnlock
-                || e.Reason == SessionSwitchReason.RemoteConnect)
+            else if (e.Reason == SessionSwitchReason.SessionUnlock)
             {
                 //I returned to my desk
                 var lastSwitched = new DateTime(convertSecToTicks(lastSwitchPassedSecs));

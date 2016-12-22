@@ -281,7 +281,8 @@ namespace DexbotTimetracker2
 
         void SystemEvents_SessionSwitch(object sender, Microsoft.Win32.SessionSwitchEventArgs e)
         {
-            if (e.Reason == SessionSwitchReason.SessionLock)
+            if (e.Reason == SessionSwitchReason.SessionLock 
+                || e.Reason == SessionSwitchReason.RemoteDisconnect)
             {
                 //I left my desk
                 recordOnScreenSwitch("locked"); //TODO do not swallow return value
@@ -289,7 +290,8 @@ namespace DexbotTimetracker2
                 currentDesktop = "-1"; //break, no meeting - TODO make this enum
                 lastSwitchPassedSecs = convertTicksToSec(DateTime.Now.Ticks);
             }
-            else if (e.Reason == SessionSwitchReason.SessionUnlock)
+            else if (e.Reason == SessionSwitchReason.SessionUnlock
+                || e.Reason == SessionSwitchReason.RemoteConnect)
             {
                 //I returned to my desk
                 var lastSwitched = new DateTime(convertSecToTicks(lastSwitchPassedSecs));

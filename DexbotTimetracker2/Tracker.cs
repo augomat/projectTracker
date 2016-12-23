@@ -168,7 +168,7 @@ namespace DexbotTimetracker2
                     {
                         writeCSVEntry(diffSecs, "0", new DateTime(convertSecToTicks(lastSwitchPassedSecs)), DateTime.Now, "worktimebreak: " + addInfos, false);
 
-                        trayIcon.BalloonTipTitle = "Welcome back, workbreak left: " + (freeWorktimeBreakSecs).ToString() + " secs";
+                        trayIcon.BalloonTipTitle = "Welcome back, workbreak left: " + (freeWorktimeBreakSecs / 60).ToString() + " mins";
                         trayIcon.BalloonTipText = "Total break: " + (diffSecs / 60).ToString() + " mins (" + diffSecs.ToString() + " secs)";
                         trayIcon.ShowBalloonTip(10);
                     }
@@ -180,7 +180,7 @@ namespace DexbotTimetracker2
                     updateFreeWorktimeBreak(true);
 
                     var timePassed = (convertTicksToSec(DateTime.Now.Ticks) - lastSwitchPassedSecs);
-                    trayIcon.BalloonTipTitle = "Welcome back, workbreak left: " + (freeWorktimeBreakSecs).ToString() + " secs";
+                    trayIcon.BalloonTipTitle = "Welcome back, workbreak left: " + (freeWorktimeBreakSecs / 60).ToString() + " mins";
                     trayIcon.BalloonTipText = "Time on Desktop [" + currentDesktop + "]: " + (timePassed / 60).ToString() + " mins (" + timePassed.ToString() + " secs)";
                     trayIcon.ShowBalloonTip(10);
                 }

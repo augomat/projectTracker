@@ -18,7 +18,7 @@ namespace ProjectTracker
     public partial class Form1 : Form
     {
 
-        private NotifyIcon trayIcon;
+        public NotifyIcon trayIcon;
 
         private OutlookAppointmentRetriever outlooker;
         private Tracker tracker;
@@ -60,8 +60,9 @@ namespace ProjectTracker
             t.IsBackground = true;
             t.Start();
 
-            MainHandler mainHandler = new MainHandler();
+            MainHandler mainHandler = new MainHandler(this);
             mainHandler.addProjectChangeNotifier(dexpotNotifier);
+            mainHandler.addWorktimeRecordStorage(new WorktimeRecordStorageCSV());
       		
       		outlooker = new OutlookAppointmentRetriever(dataGridView1);
 

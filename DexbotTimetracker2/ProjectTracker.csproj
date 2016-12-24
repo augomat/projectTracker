@@ -7,8 +7,8 @@
     <ProjectGuid>{A77B4EEE-A8F8-4BE7-A6E6-EABCEAFF67C8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DexbotTimetracker2</RootNamespace>
-    <AssemblyName>DexbotTimetracker2</AssemblyName>
+    <RootNamespace>ProjectTracker</RootNamespace>
+    <AssemblyName>ProjectTracker</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -78,6 +78,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MainHandler.cs" />
+    <Compile Include="ProjectChangeEvent.cs" />
+    <Compile Include="ProjectChangeNotifierDexpot.cs" />
+    <Compile Include="ProjectChangeNotifier.cs" />
     <Compile Include="OutlookAppointmentRetriever.cs" />
     <Compile Include="Prompt.cs" />
     <Compile Include="Tracker.cs" />
@@ -89,6 +93,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WorktimeRecord.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -100,6 +105,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

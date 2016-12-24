@@ -12,7 +12,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using Microsoft.Win32;
 
-namespace DexbotTimetracker2
+namespace ProjectTracker
 {
 
     public partial class Form1 : Form
@@ -46,12 +46,22 @@ namespace DexbotTimetracker2
             countAsWorktime.Text = Properties.Settings.Default.countAsWorktimebreakMins.ToString();
             carryOverHours.Text = Properties.Settings.Default.carryOverWorktimeCountHours.ToString();
 
-            tracker = new Tracker(trayIcon);
+            /*tracker = new Tracker(trayIcon);
             tracker.countAsWorktimebreakMins = Int32.Parse(countAsWorktime.Text);
             tracker.carryOverWorktimeCountHours = Int32.Parse(carryOverHours.Text);
             Thread t = new Thread(tracker.startDesktopLogging);
             t.IsBackground = true;
             t.Start();
+            */
+
+            //RTODO
+            var dexpotNotifier = new ProjectChangeNotifierDexpot();
+            Thread t = new Thread(dexpotNotifier.start);
+            t.IsBackground = true;
+            t.Start();
+
+            MainHandler mainHandler = new MainHandler();
+            mainHandler.addProjectChangeNotifier(dexpotNotifier);
       		
       		outlooker = new OutlookAppointmentRetriever(dataGridView1);
 
@@ -65,7 +75,7 @@ namespace DexbotTimetracker2
             Application.Exit();
         }
 
-        private void ShowForm(object sender, EventArgs e)
+        private void ShowForm(object sender, EventArgs e) 
         {
             this.WindowState = FormWindowState.Normal;
             this.Activate();

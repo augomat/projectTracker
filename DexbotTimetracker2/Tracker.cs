@@ -15,7 +15,7 @@ using Microsoft.Win32;
 using System.Windows.Forms;
 using System.Configuration;
 
-namespace DexbotTimetracker2
+namespace ProjectTracker
 {
 	/// <summary>
 	/// Description of Tracker.
@@ -51,7 +51,7 @@ namespace DexbotTimetracker2
         public int carryOverWorktimeCountHours { get; set; } = 0; //todo validations
         private int freeWorktimeBreakSecs = 0;
 
-        public void startDesktopLogging()
+        /* public void startDesktopLogging()
         {
             if (string.IsNullOrEmpty(fileNameCsv) || string.IsNullOrEmpty(fileNameLog))
             {
@@ -89,6 +89,7 @@ namespace DexbotTimetracker2
                 }
             }
         }
+        */
 
         private void processLine(string line)
         {

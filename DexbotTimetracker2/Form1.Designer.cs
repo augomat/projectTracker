@@ -1,4 +1,4 @@
-﻿namespace DexbotTimetracker2
+﻿namespace ProjectTracker
 {
     partial class Form1
     {

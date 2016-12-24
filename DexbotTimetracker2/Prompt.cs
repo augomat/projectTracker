@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Text.RegularExpressions;
 
-namespace DexbotTimetracker2
+namespace ProjectTracker
 {
     public static class Prompt
     {

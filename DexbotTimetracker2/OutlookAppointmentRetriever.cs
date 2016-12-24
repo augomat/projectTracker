@@ -10,7 +10,7 @@ using System;
 using Outlook = Microsoft.Office.Interop.Outlook;
 using System.Windows.Forms;
 
-namespace DexbotTimetracker2
+namespace ProjectTracker
 {
 	/// <summary>
 	/// Description of OutlookAppointmentRetriever.

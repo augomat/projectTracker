@@ -43,6 +43,9 @@ namespace DexbotTimetracker2
 
             InitializeComponent();
 
+            countAsWorktime.Text = Properties.Settings.Default.countAsWorktimebreakMins.ToString();
+            carryOverHours.Text = Properties.Settings.Default.carryOverWorktimeCountHours.ToString();
+
             tracker = new Tracker(trayIcon);
             tracker.countAsWorktimebreakMins = Int32.Parse(countAsWorktime.Text);
             tracker.carryOverWorktimeCountHours = Int32.Parse(carryOverHours.Text);
@@ -77,6 +80,9 @@ namespace DexbotTimetracker2
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             tracker.recordAppExit();
+
+            Properties.Settings.Default.lastAppExit = DateTime.Now;
+            Properties.Settings.Default.Save();
 
             trayIcon.Visible = false;
             trayIcon.Dispose();
@@ -235,6 +241,7 @@ namespace DexbotTimetracker2
             try
             {
                 tracker.countAsWorktimebreakMins = Int32.Parse(countAsWorktime.Text);
+                Properties.Settings.Default.countAsWorktimebreakMins = Int32.Parse(countAsWorktime.Text);
             }
             catch (Exception ex)
             {
@@ -246,6 +253,7 @@ namespace DexbotTimetracker2
             try
             {
                 tracker.carryOverWorktimeCountHours = Int32.Parse(carryOverHours.Text);
+                Properties.Settings.Default.carryOverWorktimeCountHours = Int32.Parse(carryOverHours.Text);
             }
             catch (Exception ex)
             {

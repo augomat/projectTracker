@@ -27,7 +27,12 @@ namespace DexbotTimetracker2
 		public Tracker(NotifyIcon notifyIconExt)
 		{
 			trayIcon = notifyIconExt;
-		}
+
+            if (Properties.Settings.Default.lastAppExit != null && isNewDay(Properties.Settings.Default.lastAppExit))
+                freeWorktimeBreakSecs = 0;
+            else
+                freeWorktimeBreakSecs = Properties.Settings.Default.WorktimebreakLeftSecs;
+        }
 		
         static Tracker()
         {
@@ -168,7 +173,7 @@ namespace DexbotTimetracker2
                     {
                         writeCSVEntry(diffSecs, "0", new DateTime(convertSecToTicks(lastSwitchPassedSecs)), DateTime.Now, "worktimebreak: " + addInfos, false);
 
-                        trayIcon.BalloonTipTitle = "Welcome back, workbreak left: " + (freeWorktimeBreakSecs / 60).ToString() + " mins";
+                        trayIcon.BalloonTipTitle = "Welcome back, workbreak left: " + (freeWorktimeBreakSecs).ToString() + " mins";
                         trayIcon.BalloonTipText = "Total break: " + (diffSecs / 60).ToString() + " mins (" + diffSecs.ToString() + " secs)";
                         trayIcon.ShowBalloonTip(10);
                     }
@@ -180,7 +185,7 @@ namespace DexbotTimetracker2
                     updateFreeWorktimeBreak(true);
 
                     var timePassed = (convertTicksToSec(DateTime.Now.Ticks) - lastSwitchPassedSecs);
-                    trayIcon.BalloonTipTitle = "Welcome back, workbreak left: " + (freeWorktimeBreakSecs / 60).ToString() + " mins";
+                    trayIcon.BalloonTipTitle = "Welcome back, workbreak left: " + (freeWorktimeBreakSecs).ToString() + " mins";
                     trayIcon.BalloonTipText = "Time on Desktop [" + currentDesktop + "]: " + (timePassed / 60).ToString() + " mins (" + timePassed.ToString() + " secs)";
                     trayIcon.ShowBalloonTip(10);
                 }
@@ -229,6 +234,9 @@ namespace DexbotTimetracker2
             {
                 if (!string.IsNullOrEmpty(currentDesktop))
                     writeCSVEntry(diffSecs, currentDesktop, new DateTime(convertSecToTicks(lastSwitchPassedSecs)), DateTime.Now, "Project Tracker exited", true);
+
+                Properties.Settings.Default.WorktimebreakLeftSecs = freeWorktimeBreakSecs;
+                Properties.Settings.Default.Save();
 
                 return true;
             }
@@ -294,10 +302,10 @@ namespace DexbotTimetracker2
             {
                 //I returned to my desk
                 var lastSwitched = new DateTime(convertSecToTicks(lastSwitchPassedSecs));
-                var TodayAt4am = DateTime.Now.Date + new TimeSpan(4, 0, 0);
+                
 
                 //check whether todays 4am is within the locked interval and if so, do not count it as a break
-                if (lastSwitched < TodayAt4am && TodayAt4am < DateTime.Now)
+                if (isNewDay(lastSwitched))
                 {
                     recordStartOfDay(); //TODO do not swallow return value
                 }
@@ -311,10 +319,16 @@ namespace DexbotTimetracker2
 
                     recordBackFromLockscreen(promptString, (promptDesktop == "0") ? true : false); //TODO do not swallow return value
                 }
-                
+
                 currentDesktop = desktopBeforeLock;
                 lastSwitchPassedSecs = convertTicksToSec(DateTime.Now.Ticks);
             }
+        }
+
+        private static bool isNewDay(DateTime lastSwitched)
+        {
+            var TodayAt4am = DateTime.Now.Date + new TimeSpan(4, 0, 0);
+            return lastSwitched < TodayAt4am && TodayAt4am < DateTime.Now;
         }
 
         private int updateFreeWorktimeBreak(bool wasAway = false)

@@ -47,8 +47,8 @@ namespace DexbotTimetracker2
             prompt.Controls.Add(comboBox1);
             prompt.AcceptButton = confirmation;
 
-            Task.Delay(500).ContinueWith(t => { prompt.Invoke(new Action(prompt.Activate)); }); //brrrrrrrr hacky, TODO implement something so that it never looses focus (buha)
-            Task.Delay(1000).ContinueWith(t => { prompt.Invoke(new Action(prompt.Activate)); }); //BRRRRRRRRRRRRR
+            Task.Delay(500).ContinueWith(t => { try { prompt.Invoke(new Action(prompt.Activate)); } catch { } }); //brrrrrrrr hacky, TODO implement something so that it never looses focus (buha)
+            Task.Delay(1000).ContinueWith(t => { try { prompt.Invoke(new Action(prompt.Activate)); } catch { } }); //BRRRRRRRRRRRRR
             prompt.TopMost = true;
 
             //center it on main screen

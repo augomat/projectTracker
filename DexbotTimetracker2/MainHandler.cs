@@ -6,20 +6,39 @@ using System.Threading.Tasks;
 
 namespace ProjectTracker
 {
-    class MainHandler //subscriber
+    class MainHandler : IProjectChangeSubscriber
     {
-        private List<IWorktimeRecordStorage> worktimeRecordStorages;
+        private List<ProjectChangeNotifier> projectChangeNotifier = new List<ProjectChangeNotifier>();
+        private List<IProjectChangeSubscriber> projectChangeSubscriber = new List<IProjectChangeSubscriber>();
+
+        private List<IWorktimeRecordStorage> worktimeRecordStorages = new List<IWorktimeRecordStorage>();
+
         private Form1 Form; //RTODO
 
         public MainHandler(Form1 form)
         {
             Form = form;
-            worktimeRecordStorages = new List<IWorktimeRecordStorage>();
         }
 
         public void addProjectChangeNotifier(ProjectChangeNotifier notifier)
         {
             notifier.RaiseProjectChangeEvent += handleProjectChangeEvent;
+            projectChangeNotifier.Add(notifier);
+
+            foreach (var subscriber in projectChangeSubscriber)
+            {
+                notifier.RaiseProjectChangeEvent += subscriber.handleProjectChangeEvent;
+            }
+        }
+        
+        public void addProjectChangeSubscriber(IProjectChangeSubscriber subscriber)
+        {
+            projectChangeSubscriber.Add(subscriber);
+
+            foreach (var notifier in projectChangeNotifier)
+            {
+                notifier.RaiseProjectChangeEvent += subscriber.handleProjectChangeEvent;
+            }
         }
 
         public void addWorktimeRecordStorage(IWorktimeRecordStorage storage)
@@ -27,38 +46,24 @@ namespace ProjectTracker
             worktimeRecordStorages.Add(storage);
         }
 
-        void handleProjectChangeEvent(object sender, ProjectChangeEvent projectChangeEvent)
+        public void handleProjectChangeEvent(object sender, ProjectChangeEvent projectChangeEvent)
         {
             //RTODO locking?
-            //RTODO
             Console.WriteLine("Received this message: {0}", projectChangeEvent.ToString());
 
             foreach (var storage in worktimeRecordStorages)
             {
-                storage.addWorktimeRecord(projectChangeEvent.WorktimeRecord);
+                try
+                {
+                    storage.addWorktimeRecord(projectChangeEvent.WorktimeRecord);
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine("Upsi"); //RTODO
+                    throw ex;
+                }
+                
             }
-
-            //RTODO aussi
-            if (projectChangeEvent.Type == ProjectChangeEvent.Types.Init)
-            {
-                Form.trayIcon.BalloonTipTitle = "Project change detected";
-                Form.trayIcon.BalloonTipText = "Desktop initialized";
-                Form.trayIcon.ShowBalloonTip(10);
-            }
-            else if (projectChangeEvent.WorktimeRecord != null)
-            {
-                var wtr = projectChangeEvent.WorktimeRecord;
-                var project = wtr.ProjectName;
-                var timePassed = (long)System.Math.Abs((wtr.End - wtr.Start).TotalSeconds);
-                Form.trayIcon.BalloonTipTitle = "Project change";
-                Form.trayIcon.BalloonTipText = "Time on last project [" + project + "]: " + (timePassed / 60).ToString() + " mins (" + timePassed.ToString() + " secs)";
-                Form.trayIcon.ShowBalloonTip(10);
-            }
-            else
-            {
-                Console.WriteLine("Possibly wrong projectChangeEvent detected and ignored");
-            }
-            
         }
     }
 }

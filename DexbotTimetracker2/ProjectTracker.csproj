@@ -78,12 +78,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IProjectChangeSubscriber.cs" />
     <Compile Include="IWorktimeRecordStorage.cs" />
     <Compile Include="MainHandler.cs" />
     <Compile Include="ProjectChangeEvent.cs" />
     <Compile Include="ProjectChangeNotifierDexpot.cs" />
     <Compile Include="ProjectChangeNotifier.cs" />
     <Compile Include="OutlookAppointmentRetriever.cs" />
+    <Compile Include="ProjectChangeSubscriberBalloonInformant.cs" />
     <Compile Include="Prompt.cs" />
     <Compile Include="Tracker.cs" />
     <Compile Include="Form1.cs">

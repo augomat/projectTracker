@@ -18,10 +18,9 @@ namespace ProjectTracker
             fileNameLog = System.Configuration.ConfigurationManager.AppSettings["DexbotLogFilePath"];
         }
 
-        //-----------------------------------------------------
+        public ProjectChangeNotifierDexpot(ProjectChangeHandler handler) : base(handler) { }
 
-        public string currentDesktop = "";
-        public long lastSwitchPassedSecs = 0;
+        //-----------------------------------------------------
 
         public override void start()
         {
@@ -61,17 +60,17 @@ namespace ProjectTracker
                 var desktopFrom = match.Groups[1].Value;
                 var desktopTo = match.Groups[2].Value;
 
-                if (!string.IsNullOrEmpty(currentDesktop))
+                if (!string.IsNullOrEmpty(Handler.currentProject))
                 {
-                    long diffSecs = convertTicksToSec(DateTime.Now.Ticks) - lastSwitchPassedSecs;
+                    long diffSecs = convertTicksToSec(DateTime.Now.Ticks) - convertTicksToSec(Handler.currentProjectSince.Ticks);
                     OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                         ProjectChangeEvent.Types.Change,
                         "Desktop Change detected",
-                        "Time on Desktop [" + currentDesktop + "]: " + (diffSecs / 60).ToString() + " mins (" + diffSecs.ToString() + " secs)",
+                        "Time on Desktop [" + Handler.currentProject + "]: " + (diffSecs / 60).ToString() + " mins (" + diffSecs.ToString() + " secs)",
                         new WorktimeRecord(
-                            new DateTime(convertSecToTicks(lastSwitchPassedSecs)),
+                            new DateTime(Handler.currentProjectSince.Ticks),
                             DateTime.Now,
-                            currentDesktop,
+                            Handler.currentProject,
                             "")
                         )
                     );
@@ -82,13 +81,14 @@ namespace ProjectTracker
                         ProjectChangeEvent.Types.Init,
                         "Desktop Change detected",
                         "Desktop initialized",
-                        null
+                        new WorktimeRecord(
+                            new DateTime(),
+                            DateTime.Now,
+                            desktopTo,
+                            "")
                         )
                     );
                 }
-                
-                currentDesktop = desktopTo;
-                lastSwitchPassedSecs = convertTicksToSec(DateTime.Now.Ticks);
             }
         }
         

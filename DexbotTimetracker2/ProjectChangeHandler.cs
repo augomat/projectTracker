@@ -11,8 +11,10 @@ namespace ProjectTracker
     {
         private List<ProjectChangeNotifier> projectChangeNotifier = new List<ProjectChangeNotifier>();
         private List<IProjectChangeSubscriber> projectChangeSubscriber = new List<IProjectChangeSubscriber>();
-
         private List<IWorktimeRecordStorage> worktimeRecordStorages = new List<IWorktimeRecordStorage>();
+
+        public string currentProject { get; private set; }
+        public DateTime currentProjectSince { get; private set; }
 
         public void addProjectChangeNotifier(ProjectChangeNotifier notifier)
         {
@@ -49,6 +51,7 @@ namespace ProjectTracker
             //RTODO locking?
             Console.WriteLine("Received this message: {0}", projectChangeEvent.ToString());
 
+            //Invoke all storages
             foreach (var storage in worktimeRecordStorages)
             {
                 try
@@ -59,8 +62,15 @@ namespace ProjectTracker
                 {
                     Console.WriteLine("Upsi"); //RTODO
                     throw ex;
-                }
-                
+                }      
+            }
+
+            //Update fields
+            //RTODO only do this in case(?) storage was ok? or always?
+            if (projectChangeEvent.WorktimeRecord != null)
+            {
+                currentProject = projectChangeEvent.WorktimeRecord.ProjectName;
+                currentProjectSince = projectChangeEvent.WorktimeRecord.End;
             }
         }
     }

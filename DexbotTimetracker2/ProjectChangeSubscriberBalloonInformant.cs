@@ -32,10 +32,15 @@ namespace ProjectTracker
             var wtr = projectChangeEvent.WorktimeRecord;
             if (projectChangeEvent.Type == ProjectChangeEvent.Types.Change)
             {
+                //RTODO where? here or in event creation 
                 var project = wtr.ProjectName;
                 var timePassed = (long)System.Math.Abs((wtr.End - wtr.Start).TotalSeconds);
 
                 showBalloon("Project changed", "Time on last project [" + project + "]: " + (timePassed / 60).ToString() + " mins (" + timePassed.ToString() + " secs)");
+            }
+            else //if (projectChangeEvent.Type == ProjectChangeEvent.Types.Start || projectChangeEvent.Type == ProjectChangeEvent.Types.Finish)
+            {
+                showBalloon(projectChangeEvent.MessageHeader, projectChangeEvent.MessageText);
             }
         }
 

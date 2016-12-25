@@ -48,6 +48,7 @@ namespace ProjectTracker
 
             ProjectChangeHandler mainHandler = new ProjectChangeHandler();
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierDexpot(mainHandler));
+            mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierLockscreen(mainHandler));
             mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberBalloonInformant(trayIcon));
             mainHandler.addWorktimeRecordStorage(new WorktimeRecordStorageCSV());
 
@@ -77,7 +78,7 @@ namespace ProjectTracker
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            tracker.recordAppExit();
+            //tracker.recordAppExit();
 
             Properties.Settings.Default.lastAppExit = DateTime.Now;
             Properties.Settings.Default.Save();

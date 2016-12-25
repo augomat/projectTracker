@@ -1,0 +1,15 @@
+EventRefactoring  
+  Refactor Msgs so that they are only in Balloon instead of when creating the event
+  Port SaveOnExit
+  Port ExitCSV
+  Handle CSV write exceptions
+  Port Worktimebreaks
+  Abstract from form1
+  Have a look at all RTODOs
+  Kick Tracker
+  Implement InMemoryStorage
+    Implement splitting & changing of types
+    
+Master
+  Implement Rx WT Automation
+  Implement automatic export to excel

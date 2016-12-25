@@ -7,19 +7,12 @@ using System.Threading;
 
 namespace ProjectTracker
 {
-    class MainHandler : IProjectChangeSubscriber
+    class ProjectChangeHandler : IProjectChangeSubscriber
     {
         private List<ProjectChangeNotifier> projectChangeNotifier = new List<ProjectChangeNotifier>();
         private List<IProjectChangeSubscriber> projectChangeSubscriber = new List<IProjectChangeSubscriber>();
 
         private List<IWorktimeRecordStorage> worktimeRecordStorages = new List<IWorktimeRecordStorage>();
-
-        private Form1 Form; //RTODO
-
-        public MainHandler(Form1 form)
-        {
-            Form = form;
-        }
 
         public void addProjectChangeNotifier(ProjectChangeNotifier notifier)
         {

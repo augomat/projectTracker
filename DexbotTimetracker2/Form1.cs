@@ -46,7 +46,7 @@ namespace ProjectTracker
             countAsWorktime.Text = Properties.Settings.Default.countAsWorktimebreakMins.ToString();
             carryOverHours.Text = Properties.Settings.Default.carryOverWorktimeCountHours.ToString();
 
-            MainHandler mainHandler = new MainHandler(this);
+            ProjectChangeHandler mainHandler = new ProjectChangeHandler();
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierDexpot());
             mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberBalloonInformant(trayIcon));
             mainHandler.addWorktimeRecordStorage(new WorktimeRecordStorageCSV());

@@ -25,8 +25,6 @@ namespace ProjectTracker
 
         public override void start()
         {
-            //Microsoft.Win32.SystemEvents.SessionSwitch += new Microsoft.Win32.SessionSwitchEventHandler(SystemEvents_SessionSwitch); //RTODO other PjChangeNotif!
-
             using (StreamReader reader = new StreamReader(new FileStream(fileNameLog,
                      FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
             {

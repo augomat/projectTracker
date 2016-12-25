@@ -21,6 +21,7 @@ namespace ProjectTracker
             if (projectChangeEvent.Type == ProjectChangeEvent.Types.Init)
             {
                 showBalloon("Project changed", "Desktop initialized");
+                return;
             }
             if (projectChangeEvent.WorktimeRecord == null)
             {

@@ -46,26 +46,12 @@ namespace ProjectTracker
             countAsWorktime.Text = Properties.Settings.Default.countAsWorktimebreakMins.ToString();
             carryOverHours.Text = Properties.Settings.Default.carryOverWorktimeCountHours.ToString();
 
-            /*tracker = new Tracker(trayIcon);
-            tracker.countAsWorktimebreakMins = Int32.Parse(countAsWorktime.Text);
-            tracker.carryOverWorktimeCountHours = Int32.Parse(carryOverHours.Text);
-            Thread t = new Thread(tracker.startDesktopLogging);
-            t.IsBackground = true;
-            t.Start();
-            */
-
-            //RTODO
-            var dexpotNotifier = new ProjectChangeNotifierDexpot();
-            Thread t = new Thread(dexpotNotifier.start);
-            t.IsBackground = true;
-            t.Start();
-
             MainHandler mainHandler = new MainHandler(this);
-            mainHandler.addProjectChangeNotifier(dexpotNotifier);
-            mainHandler.addWorktimeRecordStorage(new WorktimeRecordStorageCSV());
+            mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierDexpot());
             mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberBalloonInformant(trayIcon));
-      		
-      		outlooker = new OutlookAppointmentRetriever(dataGridView1);
+            mainHandler.addWorktimeRecordStorage(new WorktimeRecordStorageCSV());
+
+            outlooker = new OutlookAppointmentRetriever(dataGridView1);
 
             trayIcon.BalloonTipTitle = "Change desktop";
             trayIcon.BalloonTipText = "Please change your desktop to initialize";

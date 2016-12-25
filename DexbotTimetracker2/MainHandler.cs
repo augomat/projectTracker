@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace ProjectTracker
 {
@@ -29,6 +30,10 @@ namespace ProjectTracker
             {
                 notifier.RaiseProjectChangeEvent += subscriber.handleProjectChangeEvent;
             }
+
+            Thread t = new Thread(notifier.start);
+            t.IsBackground = true;
+            t.Start();
         }
         
         public void addProjectChangeSubscriber(IProjectChangeSubscriber subscriber)

@@ -11,22 +11,20 @@ namespace ProjectTracker
         public enum Types { Init, Start, Finish, Change, GoodMorning };
 
         public Types Type { get; }
-        public string MessageHeader { get; }
-        public string MessageText { get; }
+        public string Message { get; }
         public WorktimeRecord WorktimeRecord { get; }
 
-        public ProjectChangeEvent(Types type, string messageHeader, string messageText, WorktimeRecord wtr)
+        public ProjectChangeEvent(Types type, string message, WorktimeRecord wtr)
         {
             Type = type;
-            MessageHeader = messageHeader;
-            MessageText = messageText;
+            Message = message;
             WorktimeRecord = wtr;
         }
 
         public override string ToString()
         {
-            return String.Format("Type: {0}, Header: {1}, Text: {2}, WorktimeRecord: {3}",
-                Type.ToString(), MessageHeader, MessageText, (WorktimeRecord != null) ? WorktimeRecord.ToString() : "");
+            return String.Format("Type: {0}, Message: {1}, WorktimeRecord: {2}",
+                Type.ToString(), Message, (WorktimeRecord != null) ? WorktimeRecord.ToString() : "");
         }
     }
 }

@@ -10,8 +10,6 @@ namespace ProjectTracker
 {
     class ProjectChangeNotifierLockscreen : ProjectChangeNotifier //publisher
     {
-        //string projectBeforeLock = "";
-
         public ProjectChangeNotifierLockscreen(ProjectChangeHandler handler) : base(handler) { }
 
         public override void start()
@@ -28,8 +26,7 @@ namespace ProjectTracker
                 //long diffSecs = convertTicksToSec(DateTime.Now.Ticks) - convertTicksToSec(Handler.currentProjectSince.Ticks);
                 OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                         ProjectChangeEvent.Types.Finish,
-                        "Project finished",
-                        "Computer locked", //"Time on Desktop [" + Handler.currentProject + "]: " + (diffSecs / 60).ToString() + " mins (" + diffSecs.ToString() + " secs)",
+                        "Computer locked",
                         new WorktimeRecord(
                             new DateTime(Handler.currentProjectSince.Ticks),
                             DateTime.Now,
@@ -37,10 +34,6 @@ namespace ProjectTracker
                             "locked")
                         )
                     );
-
-                //projectBeforeLock = Handler.currentProject;
-                //currentDesktop = "-1"; //break, no meeting - TODO make this enum
-                //lastSwitchPassedSecs = convertTicksToSec(DateTime.Now.Ticks); */
             }
             else if (e.Reason == SessionSwitchReason.SessionUnlock)
             {
@@ -55,8 +48,7 @@ namespace ProjectTracker
 
                     OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                        ProjectChangeEvent.Types.Start,
-                       "Project started",
-                       "Good Morning",
+                       "Computer unlocked - Good morning", //RTODO
                        new WorktimeRecord(
                            Handler.currentProjectSince,
                            DateTime.Now,
@@ -73,8 +65,7 @@ namespace ProjectTracker
 
                     OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                        ProjectChangeEvent.Types.Start,
-                       "Project started",
-                       "Computer unlocked", //"Time on Desktop [" + Handler.currentProject + "]: " + (diffSecs / 60).ToString() + " mins (" + diffSecs.ToString() + " secs)",
+                       "Computer unlocked",
                        new WorktimeRecord(
                            Handler.currentProjectSince,
                            DateTime.Now,
@@ -82,10 +73,6 @@ namespace ProjectTracker
                            "unlocked: "+ promptString)
                        )
                    );
-
-                    //currentDesktop = promptDesktop;
-
-                    //recordBackFromLockscreen(promptString, (promptDesktop == "0") ? true : false); //TODO do not swallow return value
                 }
             }
         }

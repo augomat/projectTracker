@@ -66,7 +66,6 @@ namespace ProjectTracker
                     OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                         ProjectChangeEvent.Types.Change,
                         "Desktop Change detected",
-                        "Time on Desktop [" + Handler.currentProject + "]: " + (diffSecs / 60).ToString() + " mins (" + diffSecs.ToString() + " secs)",
                         new WorktimeRecord(
                             new DateTime(Handler.currentProjectSince.Ticks),
                             DateTime.Now,
@@ -79,7 +78,6 @@ namespace ProjectTracker
                 {
                     OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                         ProjectChangeEvent.Types.Init,
-                        "Desktop Change detected",
                         "Desktop initialized",
                         new WorktimeRecord(
                             new DateTime(),

@@ -32,7 +32,6 @@ namespace ProjectTracker
             var wtr = projectChangeEvent.WorktimeRecord;
             if (projectChangeEvent.Type == ProjectChangeEvent.Types.Change)
             {
-                //RTODO where? here or in event creation 
                 var project = wtr.ProjectName;
                 var timePassed = (long)System.Math.Abs((wtr.End - wtr.Start).TotalSeconds);
 
@@ -40,7 +39,7 @@ namespace ProjectTracker
             }
             else //if (projectChangeEvent.Type == ProjectChangeEvent.Types.Start || projectChangeEvent.Type == ProjectChangeEvent.Types.Finish)
             {
-                showBalloon(projectChangeEvent.MessageHeader, projectChangeEvent.MessageText);
+                showBalloon("Something with Project happened", projectChangeEvent.Message); // :) RTODO
             }
         }
 

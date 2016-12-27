@@ -10,15 +10,24 @@ namespace ProjectTracker
 {
     class ProjectChangeHandler : ProjectChangeNotifier, IProjectChangeSubscriber
     {
-        private List<ProjectChangeNotifier> projectChangeNotifier = new List<ProjectChangeNotifier>();
-        private List<IProjectChangeSubscriber> projectChangeSubscriber = new List<IProjectChangeSubscriber>();
+        private List<ProjectChangeNotifier> projectChangeNotifiers = new List<ProjectChangeNotifier>();
+        private List<ProjectChangeProcessor> projectChangeProcessors = new List<ProjectChangeProcessor>();
+        private List<IProjectChangeSubscriber> projectChangeSubscribers = new List<IProjectChangeSubscriber>();
         private List<IWorktimeRecordStorage> worktimeRecordStorages = new List<IWorktimeRecordStorage>();
 
         public ProjectChangeHandler(ProjectChangeHandler handler = null) : base(handler)
         {
             Handler = this;
             this.RaiseProjectChangeEvent += handleProjectChangeEvent;
-            projectChangeNotifier.Add(this);
+            projectChangeNotifiers.Add(this);
+        }
+
+        public void init() //does not really help to change order of logging of processed & unprocessed //RTODO
+        {
+            this.RaiseProjectChangeEvent -= handleProjectChangeEvent;
+            this.RaiseProjectChangeEvent += handleProjectChangeEvent;
+            projectChangeNotifiers.Remove(this);
+            projectChangeNotifiers.Add(this);
         }
 
         public override void start() { } //no need to start anything as we'll just re-fire events
@@ -29,9 +38,9 @@ namespace ProjectTracker
         public void addProjectChangeNotifier(ProjectChangeNotifier notifier)
         {
             notifier.RaiseProjectChangeEvent += handleProjectChangeEvent;
-            projectChangeNotifier.Add(notifier);
+            projectChangeNotifiers.Add(notifier);
 
-            foreach (var subscriber in projectChangeSubscriber)
+            foreach (var subscriber in projectChangeSubscribers)
             {
                 notifier.RaiseProjectChangeEvent += subscriber.handleProjectChangeEvent;
             }
@@ -40,12 +49,23 @@ namespace ProjectTracker
             t.IsBackground = true;
             t.Start();
         }
-        
+
+        public void addProjectChangeProcessor(ProjectChangeProcessor processor)
+        {
+            processor.RaiseProjectChangeEvent += handleProjectChangeEvent;
+            projectChangeProcessors.Add(processor);
+
+            foreach (var subscriber in projectChangeSubscribers)
+            {
+                processor.RaiseProjectChangeEvent += subscriber.handleProjectChangeEvent;
+            }
+        }
+
         public void addProjectChangeSubscriber(IProjectChangeSubscriber subscriber)
         {
-            projectChangeSubscriber.Add(subscriber);
+            projectChangeSubscribers.Add(subscriber);
 
-            foreach (var notifier in projectChangeNotifier)
+            foreach (var notifier in projectChangeNotifiers)
             {
                 notifier.RaiseProjectChangeEvent += subscriber.handleProjectChangeEvent;
             }
@@ -63,66 +83,44 @@ namespace ProjectTracker
 
             if (!projectChangeEvent.Processed)
             {
-                processProjectChangeEvent(projectChangeEvent);
-                return;
-            }
-
-            //Invoke all storages
-            foreach (var storage in worktimeRecordStorages)
-            {
-                try
+                Boolean processed = false;
+                foreach (var processor in projectChangeProcessors)
                 {
-                    storage.addWorktimeRecord(projectChangeEvent.WorktimeRecord);
+                    processed |= processor.process(projectChangeEvent);
                 }
-                catch(Exception ex)
-                {
-                    Console.WriteLine("Upsi"); //RTODO rethrow or log
-                    throw ex;
-                }      
-            }
-
-            //Update fields
-            //RTODO only do this in case(?) storage was ok? or always?
-            if (projectChangeEvent.WorktimeRecord != null)
-            {
-                currentProject = projectChangeEvent.WorktimeRecord.ProjectName;
-                currentProjectSince = projectChangeEvent.WorktimeRecord.End;
-            }
-        }
-
-        //-------------------------------------
-
-        public void processProjectChangeEvent(ProjectChangeEvent projectChangeEvent)
-        {
-            //TODO get this out of the handler into a processer
-            Debug.Assert(projectChangeEvent.Processed == false, "Should only be called for unprocessed messages");
-            
-            if (isNewDay(currentProjectSince))
-            {
-                OnRaiseProjectChangeEvent(new ProjectChangeEvent(
-                   ProjectChangeEvent.Types.Start,
-                   "Good morning",
-                   new WorktimeRecord(
-                       currentProjectSince,
-                       DateTime.Now,
-                       currentProject,
-                       "New day begun"),
-                   true
-                   )
-               );
+                if (!processed)
+                    reRaiseEvent(projectChangeEvent);
             }
             else
             {
-                var newEvent = new ProjectChangeEvent(projectChangeEvent);
-                newEvent.Processed = true;
-                OnRaiseProjectChangeEvent(newEvent);
+                //Invoke all storages
+                foreach (var storage in worktimeRecordStorages)
+                {
+                    try
+                    {
+                        storage.addWorktimeRecord(projectChangeEvent.WorktimeRecord);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Upsi"); //RTODO rethrow or log
+                        throw ex;
+                    }
+                }
+
+                //Update fields
+                if (projectChangeEvent.WorktimeRecord != null && projectChangeEvent.WorktimeRecord.End > currentProjectSince)
+                {
+                    currentProject = projectChangeEvent.WorktimeRecord.ProjectName;
+                    currentProjectSince = projectChangeEvent.WorktimeRecord.End;
+                }
             }
         }
 
-        private static bool isNewDay(DateTime lastSwitched)
+        private void reRaiseEvent(ProjectChangeEvent projectChangeEvent)
         {
-            var TodayAt4am = DateTime.Now.Date + new TimeSpan(4, 0, 0);
-            return lastSwitched < TodayAt4am && TodayAt4am < DateTime.Now;
+            var newEvent = new ProjectChangeEvent(projectChangeEvent);
+            newEvent.Processed = true;
+            OnRaiseProjectChangeEvent(newEvent);
         }
     }
 }

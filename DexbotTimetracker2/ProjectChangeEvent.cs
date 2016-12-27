@@ -23,10 +23,16 @@ namespace ProjectTracker
             Processed = processed; 
         }
 
+        public ProjectChangeEvent(ProjectChangeEvent pce)
+            : this(pce.Type, pce.Message, new WorktimeRecord(pce.WorktimeRecord), pce.Processed) { }
+
         public override string ToString()
         {
-            return String.Format("Type: {0}, Message: {1}, WorktimeRecord: {2}",
-                Type.ToString(), Message, (WorktimeRecord != null) ? WorktimeRecord.ToString() : "");
+            return String.Format("Type: {0} ({1}), Message: {2}, WorktimeRecord: {3}",
+                Type.ToString(),
+                (Processed) ? "processed" : "not processed", 
+                Message, 
+                (WorktimeRecord != null) ? WorktimeRecord.ToString() : "");
         }
     }
 }

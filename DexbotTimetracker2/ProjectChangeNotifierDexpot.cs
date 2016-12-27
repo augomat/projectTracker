@@ -80,10 +80,10 @@ namespace ProjectTracker
                         ProjectChangeEvent.Types.Init,
                         "Desktop initialized",
                         new WorktimeRecord(
-                            new DateTime(),
+                            DateTime.Now,
                             DateTime.Now,
                             desktopTo,
-                            "")
+                            "Desktop initialized")
                         )
                     );
                 }

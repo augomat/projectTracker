@@ -50,6 +50,7 @@ namespace ProjectTracker
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierDexpot(mainHandler));
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierLockscreen(mainHandler));
             mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberBalloonInformant(trayIcon));
+            mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberLogger());
             mainHandler.addWorktimeRecordStorage(new WorktimeRecordStorageCSV());
 
             outlooker = new OutlookAppointmentRetriever(dataGridView1);

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Diagnostics;
 
 namespace ProjectTracker
 {
@@ -58,9 +59,13 @@ namespace ProjectTracker
         public void handleProjectChangeEvent(object sender, ProjectChangeEvent projectChangeEvent)
         {
             //RTODO locking?
-            Console.WriteLine("Received this message: {0}", projectChangeEvent.ToString());
+            //Console.WriteLine("Received this message: {0}", projectChangeEvent.ToString());
 
-            processProjectChangeEvent(projectChangeEvent);
+            if (!projectChangeEvent.Processed)
+            {
+                processProjectChangeEvent(projectChangeEvent);
+                return;
+            }
 
             //Invoke all storages
             foreach (var storage in worktimeRecordStorages)
@@ -71,7 +76,7 @@ namespace ProjectTracker
                 }
                 catch(Exception ex)
                 {
-                    Console.WriteLine("Upsi"); //RTODO
+                    Console.WriteLine("Upsi"); //RTODO rethrow or log
                     throw ex;
                 }      
             }
@@ -90,11 +95,7 @@ namespace ProjectTracker
         public void processProjectChangeEvent(ProjectChangeEvent projectChangeEvent)
         {
             //TODO get this out of the handler into a processer
-            //TODO a event processing chain would be cool
-            //??? Maybe make processor first in chain and then invoke the rest (ie re-refire) such that the others do not need (cannot) ignore unprocessed events
-
-            if (projectChangeEvent.Processed)
-                return;
+            Debug.Assert(projectChangeEvent.Processed == false, "Should only be called for unprocessed messages");
             
             if (isNewDay(currentProjectSince))
             {
@@ -112,8 +113,9 @@ namespace ProjectTracker
             }
             else
             {
-                projectChangeEvent.Processed = true;
-                OnRaiseProjectChangeEvent(projectChangeEvent); //re-fire
+                var newEvent = new ProjectChangeEvent(projectChangeEvent);
+                newEvent.Processed = true;
+                OnRaiseProjectChangeEvent(newEvent);
             }
         }
 

@@ -38,7 +38,7 @@ namespace ProjectTracker
 
 
             File.AppendAllLines(fileNameCsv, new String[] { output });
-            Console.WriteLine(output);
+            Console.WriteLine(output); //RTODO log
         }
     }
 }

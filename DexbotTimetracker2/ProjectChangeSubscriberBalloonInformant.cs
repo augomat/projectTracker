@@ -28,7 +28,7 @@ namespace ProjectTracker
             }
             if (projectChangeEvent.WorktimeRecord == null)
             {
-                Console.WriteLine("Possibly wrong projectChangeEvent detected and ignored"); //mmmh...
+                Console.WriteLine("Possibly wrong projectChangeEvent detected and ignored"); //mmmh... //RTODO log
                 return;
             }
 

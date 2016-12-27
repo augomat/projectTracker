@@ -21,6 +21,9 @@ namespace ProjectTracker
             Comment = comment;
         }
 
+        public WorktimeRecord(WorktimeRecord wtr)
+            : this(wtr.Start, wtr.End, wtr.ProjectName, wtr.Comment) { }
+
         public override string ToString()
         {
             return String.Format("Start: {0}, End: {1}, Project: {2}, Comment: {3}",

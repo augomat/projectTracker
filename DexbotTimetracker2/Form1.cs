@@ -49,14 +49,15 @@ namespace ProjectTracker
             ProjectChangeHandler mainHandler = new ProjectChangeHandler();
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierDexpot(mainHandler));
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierLockscreen(mainHandler));
+            mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorNewDay(mainHandler));
             mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberBalloonInformant(trayIcon));
             mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberLogger());
-            mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorNewDay(mainHandler));
             mainHandler.addWorktimeRecordStorage(new WorktimeRecordStorageCSV());
             //mainHandler.init();
 
             outlooker = new OutlookAppointmentRetriever(dataGridView1);
 
+            //RTODO
             trayIcon.BalloonTipTitle = "Change desktop";
             trayIcon.BalloonTipText = "Please change your desktop to initialize";
             trayIcon.ShowBalloonTip(10);

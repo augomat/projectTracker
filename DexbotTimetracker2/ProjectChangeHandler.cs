@@ -15,6 +15,7 @@ namespace ProjectTracker
 
         public ProjectChangeHandler(ProjectChangeHandler handler = null) : base(handler)
         {
+            Handler = this;
             this.RaiseProjectChangeEvent += handleProjectChangeEvent;
             projectChangeNotifier.Add(this);
         }
@@ -90,12 +91,12 @@ namespace ProjectTracker
         {
             //TODO get this out of the handler into a processer
             //TODO a event processing chain would be cool
+            //??? Maybe make processor first in chain and then invoke the rest (ie re-refire) such that the others do not need (cannot) ignore unprocessed events
 
             if (projectChangeEvent.Processed)
                 return;
-
-            //??? Maybe make processor first in chain and then invoke the rest (ie re-refire) such that the others do not need (cannot) ignore unprocessed events
-            //if (isNewDay(currentProjectSince))
+            
+            if (isNewDay(currentProjectSince))
             {
                 OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                    ProjectChangeEvent.Types.Start,
@@ -108,6 +109,11 @@ namespace ProjectTracker
                    true
                    )
                );
+            }
+            else
+            {
+                projectChangeEvent.Processed = true;
+                OnRaiseProjectChangeEvent(projectChangeEvent); //re-fire
             }
         }
 

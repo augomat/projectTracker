@@ -23,7 +23,6 @@ namespace ProjectTracker
                 || e.Reason == SessionSwitchReason.RemoteDisconnect)
             {
                 //I left my desk
-                //long diffSecs = convertTicksToSec(DateTime.Now.Ticks) - convertTicksToSec(Handler.currentProjectSince.Ticks);
                 OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                         ProjectChangeEvent.Types.Finish,
                         "Computer locked",
@@ -38,11 +37,6 @@ namespace ProjectTracker
             else if (e.Reason == SessionSwitchReason.SessionUnlock)
             {
                 //I returned to my desk
-
-                //var lastSwitched = new DateTime(convertSecToTicks(lastSwitchPassedSecs));
-
-                //check whether todays 4am is within the locked interval and if so, do not count it as a break
-
                 Tuple<string, string> promptValues = Prompt.ShowDialog("Computer unlocked", "What did you do in the mean time?");
                 var promptString = promptValues.Item1;
                 var promptDesktop = promptValues.Item2;

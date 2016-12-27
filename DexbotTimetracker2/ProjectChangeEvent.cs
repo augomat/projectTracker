@@ -12,7 +12,7 @@ namespace ProjectTracker
 
         public Types Type { get; }
         public string Message { get; }
-        public Boolean Processed { get; }
+        public Boolean Processed { get; set; }
         public WorktimeRecord WorktimeRecord { get; }
 
         public ProjectChangeEvent(Types type, string message, WorktimeRecord wtr, Boolean processed = false)

@@ -18,6 +18,9 @@ namespace ProjectTracker
 
         public void handleProjectChangeEvent(object sender, ProjectChangeEvent projectChangeEvent)
         {
+            if (!projectChangeEvent.Processed)
+                return;
+
             if (projectChangeEvent.Type == ProjectChangeEvent.Types.Init)
             {
                 showBalloon("Project changed", "Desktop initialized");

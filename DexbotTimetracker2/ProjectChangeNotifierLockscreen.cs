@@ -42,45 +42,22 @@ namespace ProjectTracker
                 //var lastSwitched = new DateTime(convertSecToTicks(lastSwitchPassedSecs));
 
                 //check whether todays 4am is within the locked interval and if so, do not count it as a break
-                if (isNewDay(Handler.currentProjectSince))
-                {
-                    //recordStartOfDay(); //TODO do not swallow return value
 
-                    OnRaiseProjectChangeEvent(new ProjectChangeEvent(
-                       ProjectChangeEvent.Types.Start,
-                       "Computer unlocked - Good morning", //RTODO
-                       new WorktimeRecord(
-                           Handler.currentProjectSince,
-                           DateTime.Now,
-                           Handler.currentProject,
-                           "New day begun")
-                       )
-                   );
-                }
-                else
-                {
-                    Tuple<string, string> promptValues = Prompt.ShowDialog("Computer unlocked", "What did you do in the mean time?");
-                    var promptString = promptValues.Item1;
-                    var promptDesktop = promptValues.Item2;
+                Tuple<string, string> promptValues = Prompt.ShowDialog("Computer unlocked", "What did you do in the mean time?");
+                var promptString = promptValues.Item1;
+                var promptDesktop = promptValues.Item2;
 
-                    OnRaiseProjectChangeEvent(new ProjectChangeEvent(
-                       ProjectChangeEvent.Types.Start,
-                       "Computer unlocked",
-                       new WorktimeRecord(
-                           Handler.currentProjectSince,
-                           DateTime.Now,
-                           promptDesktop,
-                           "unlocked: "+ promptString)
-                       )
-                   );
-                }
+                OnRaiseProjectChangeEvent(new ProjectChangeEvent(
+                    ProjectChangeEvent.Types.Start,
+                    "Computer unlocked",
+                    new WorktimeRecord(
+                        Handler.currentProjectSince,
+                        DateTime.Now,
+                        promptDesktop,
+                        "unlocked: "+ promptString)
+                    )
+                );
             }
-        }
-
-        private static bool isNewDay(DateTime lastSwitched)
-        {
-            var TodayAt4am = DateTime.Now.Date + new TimeSpan(4, 0, 0);
-            return lastSwitched < TodayAt4am && TodayAt4am < DateTime.Now;
         }
     }
 }

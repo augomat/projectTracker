@@ -17,10 +17,10 @@ namespace ProjectTracker
         public event EventHandler<ProjectChangeEvent> RaiseProjectChangeEvent;
         protected virtual void OnRaiseProjectChangeEvent(ProjectChangeEvent changeEvent)
         {
-            EventHandler<ProjectChangeEvent> handler = RaiseProjectChangeEvent;
-            if (handler != null)
+            EventHandler<ProjectChangeEvent> eventHandler = RaiseProjectChangeEvent;
+            if (eventHandler != null)
             {
-                handler(this, changeEvent);
+                eventHandler(this, changeEvent);
             }
         }
 

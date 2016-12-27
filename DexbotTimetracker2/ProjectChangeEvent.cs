@@ -12,13 +12,15 @@ namespace ProjectTracker
 
         public Types Type { get; }
         public string Message { get; }
+        public Boolean Processed { get; }
         public WorktimeRecord WorktimeRecord { get; }
 
-        public ProjectChangeEvent(Types type, string message, WorktimeRecord wtr)
+        public ProjectChangeEvent(Types type, string message, WorktimeRecord wtr, Boolean processed = false)
         {
             Type = type;
             Message = message;
             WorktimeRecord = wtr;
+            Processed = processed; 
         }
 
         public override string ToString()

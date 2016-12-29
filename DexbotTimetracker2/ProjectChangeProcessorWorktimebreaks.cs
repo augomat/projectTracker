@@ -39,7 +39,7 @@ namespace ProjectTracker
             }
             if (projectChangeEvent.Type == ProjectChangeEvent.Types.Change)
             {
-                updateFreeWorktimeBreak(wasAway: false);
+                updateFreeWorktimeBreakOnProjectChange();
                 return false;
             }
             return false;
@@ -51,7 +51,7 @@ namespace ProjectTracker
             bool declaredAsWorktimebreak = (wtr.ProjectName == "0") ? true : false; //RTODO auslagern
 
             //Update free Worktimebreak
-            var normalBreakSecs = updateFreeWorktimeBreak(wasAway: true);
+            var normalBreakSecs = updateFreeWorktimeBreakOnUnlock();
 
             if (declaredAsWorktimebreak)
             {
@@ -103,30 +103,29 @@ namespace ProjectTracker
             }
         }
 
-        private int updateFreeWorktimeBreak(bool wasAway = false)
+        private int updateFreeWorktimeBreakOnUnlock()
         {
             var secsPassed = (int)(DateTime.Now - Handler.currentProjectSince).TotalSeconds; //really bad, implies that lastSwitchPassedSecs is reset after calling updateFreeWorktime
+            
+            //when coming back, subtract from available worktimebreak and return secs that do not fall in worktimebreak
+            freeWorktimebreakSecs  -= (int)secsPassed;
+            var notInWorkbreakSecs = Math.Min(0, freeWorktimebreakSecs) * -1;
+            freeWorktimebreakSecs = Math.Max(0, freeWorktimebreakSecs);
+            return notInWorkbreakSecs;
+        }
 
-            if (!wasAway)
-            {
-                //when working on screen, add gained seconds to total available worktimebreak 
-                var currentWorktimebreakSecs = WorktimeSecsToWorktimebreakSecs(secsPassed);
+        private void updateFreeWorktimeBreakOnProjectChange()
+        {
+            var secsPassed = (int)(DateTime.Now - Handler.currentProjectSince).TotalSeconds; //really bad, implies that lastSwitchPassedSecs is reset after calling updateFreeWorktime
+            
+            //when working on screen, add gained seconds to total available worktimebreak 
+            var currentWorktimebreakSecs = WorktimeSecsToWorktimebreakSecs(secsPassed);
 
-                double factor = CountAsWorktimebreakMins / 60.0;
-                var maxWorktimebreakSecs = (int)System.Math.Ceiling(CarryOverWorktimeCountHours * 60.0 * 60.0 * factor); //todo round
+            double factor = CountAsWorktimebreakMins / 60.0;
+            var maxWorktimebreakSecs = (int)System.Math.Ceiling(CarryOverWorktimeCountHours * 60.0 * 60.0 * factor); //todo round
 
-                freeWorktimebreakSecs += currentWorktimebreakSecs;
-                freeWorktimebreakSecs = Math.Min(maxWorktimebreakSecs, freeWorktimebreakSecs);
-                return 0;
-            }
-            else
-            {
-                //when coming back, subtract from available worktimebreak and return secs that do not fall in worktimebreak
-                freeWorktimebreakSecs  -= (int)secsPassed;
-                var notInWorkbreakSecs = Math.Min(0, freeWorktimebreakSecs) * -1;
-                freeWorktimebreakSecs = Math.Max(0, freeWorktimebreakSecs);
-                return notInWorkbreakSecs;
-            }
+            freeWorktimebreakSecs += currentWorktimebreakSecs;
+            freeWorktimebreakSecs = Math.Min(maxWorktimebreakSecs, freeWorktimebreakSecs);
         }
 
         private int WorktimeSecsToWorktimebreakSecs(long worktime)

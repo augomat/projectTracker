@@ -65,6 +65,7 @@ namespace ProjectTracker
                     long diffSecs = convertTicksToSec(DateTime.Now.Ticks) - convertTicksToSec(Handler.currentProjectSince.Ticks);
                     OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                         ProjectChangeEvent.Types.Change,
+                        desktopTo,
                         "Desktop Change detected",
                         new WorktimeRecord(
                             new DateTime(Handler.currentProjectSince.Ticks),
@@ -78,6 +79,7 @@ namespace ProjectTracker
                 {
                     OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                         ProjectChangeEvent.Types.Init,
+                        desktopTo,
                         "Desktop initialized",
                         new WorktimeRecord(
                             DateTime.Now,

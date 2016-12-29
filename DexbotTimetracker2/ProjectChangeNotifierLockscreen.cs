@@ -10,6 +10,8 @@ namespace ProjectTracker
 {
     class ProjectChangeNotifierLockscreen : ProjectChangeNotifier //publisher
     {
+        private string lastProject = "";
+
         public ProjectChangeNotifierLockscreen(ProjectChangeHandler handler) : base(handler) { }
 
         public override void start()
@@ -22,10 +24,13 @@ namespace ProjectTracker
             if (e.Reason == SessionSwitchReason.SessionLock
                 || e.Reason == SessionSwitchReason.RemoteDisconnect)
             {
+                lastProject = Handler.currentProject;
+
                 //I left my desk
                 OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                         ProjectChangeEvent.Types.Finish,
-                        "Computer locked",
+                        "[unknown]",
+                        "Bye bye",
                         new WorktimeRecord(
                             new DateTime(Handler.currentProjectSince.Ticks),
                             DateTime.Now,
@@ -43,7 +48,8 @@ namespace ProjectTracker
 
                 OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                     ProjectChangeEvent.Types.Start,
-                    "Computer unlocked",
+                    lastProject,
+                    promptString,
                     new WorktimeRecord(
                         Handler.currentProjectSince,
                         DateTime.Now,

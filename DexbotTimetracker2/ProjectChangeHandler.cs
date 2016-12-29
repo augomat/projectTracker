@@ -86,10 +86,11 @@ namespace ProjectTracker
                 Boolean processed = false;
                 foreach (var processor in projectChangeProcessors)
                 {
-                    processed |= processor.process(projectChangeEvent);
+                    if (sender != processor)
+                        processed |= processor.process(projectChangeEvent);
                 }
                 if (!processed)
-                    reRaiseEvent(projectChangeEvent);
+                    reRaiseEventAsProcessed(projectChangeEvent);
             }
             else
             {
@@ -98,7 +99,10 @@ namespace ProjectTracker
                 {
                     try
                     {
-                        storage.addWorktimeRecord(projectChangeEvent.WorktimeRecord);
+                        foreach (var wtr in projectChangeEvent.WorktimeRecords)
+                        {
+                            storage.addWorktimeRecord(wtr);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -108,15 +112,15 @@ namespace ProjectTracker
                 }
 
                 //Update fields
-                if (projectChangeEvent.WorktimeRecord != null && projectChangeEvent.WorktimeRecord.End > currentProjectSince)
+                if (projectChangeEvent.WorktimeRecord != null && projectChangeEvent.WorktimeRecords.Last().End > currentProjectSince)
                 {
-                    currentProject = projectChangeEvent.WorktimeRecord.ProjectName;
-                    currentProjectSince = projectChangeEvent.WorktimeRecord.End;
+                    currentProject = projectChangeEvent.NewProject;
+                    currentProjectSince = projectChangeEvent.WorktimeRecords.Last().End;
                 }
             }
         }
 
-        private void reRaiseEvent(ProjectChangeEvent projectChangeEvent)
+        private void reRaiseEventAsProcessed(ProjectChangeEvent projectChangeEvent)
         {
             var newEvent = new ProjectChangeEvent(projectChangeEvent);
             newEvent.Processed = true;

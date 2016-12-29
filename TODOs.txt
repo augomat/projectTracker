@@ -9,6 +9,7 @@ EventRefactoring
   Kick Tracker
   Implement InMemoryStorage
     Implement splitting & changing of types
+  Make ProjectObject that describes itwith properties?
     
 Master
   Implement Rx WT Automation

@@ -87,7 +87,9 @@
     <Compile Include="OutlookAppointmentRetriever.cs" />
     <Compile Include="ProjectChangeNotifierLockscreen.cs" />
     <Compile Include="ProjectChangeProcessor.cs" />
+    <Compile Include="ProjectChangeProcessorLongerThan10secs.cs" />
     <Compile Include="ProjectChangeProcessorNewDay.cs" />
+    <Compile Include="ProjectChangeProcessorWorktimebreaks.cs" />
     <Compile Include="ProjectChangeSubscriberBalloonInformant.cs" />
     <Compile Include="ProjectChangeSubscriberLogger.cs" />
     <Compile Include="Prompt.cs" />

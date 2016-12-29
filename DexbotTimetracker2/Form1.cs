@@ -50,6 +50,8 @@ namespace ProjectTracker
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierDexpot(mainHandler));
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierLockscreen(mainHandler));
             mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorNewDay(mainHandler));
+            //mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorLongerThan10secs(mainHandler));
+            mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorWorktimebreaks(mainHandler, Int32.Parse(countAsWorktime.Text), Int32.Parse(carryOverHours.Text)));
             mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberBalloonInformant(trayIcon));
             mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberLogger());
             mainHandler.addWorktimeRecordStorage(new WorktimeRecordStorageCSV());

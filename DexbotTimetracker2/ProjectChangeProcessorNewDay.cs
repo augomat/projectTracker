@@ -13,17 +13,20 @@ namespace ProjectTracker
 
         public override bool process(ProjectChangeEvent projectChangeEvent)
         {
+            if (projectChangeEvent.Type == ProjectChangeEvent.Types.GoodMorning)
+                return false;
+
             if (projectChangeEvent.Type == ProjectChangeEvent.Types.Start && isNewDay(Handler.currentProjectSince))
             {
                 OnRaiseProjectChangeEvent(new ProjectChangeEvent(
-                               ProjectChangeEvent.Types.Start,
+                               ProjectChangeEvent.Types.GoodMorning,
+                               Handler.currentProject,
                                "Good morning",
-                               new WorktimeRecord( //RTODO no wtr needed
+                               new WorktimeRecord(
                                    DateTime.Now,
                                    DateTime.Now,
-                                   "",
-                                   "New day begun"),
-                               true
+                                   Handler.currentProject,
+                                   "New day begun")
                                )
                            );
                 return true;
@@ -33,7 +36,6 @@ namespace ProjectTracker
 
         private static bool isNewDay(DateTime lastSwitched)
         {
-            //return (DateTime.Now.Subtract(new TimeSpan(0, 0, 10)) > lastSwitched) ? true : false;
             var TodayAt4am = DateTime.Now.Date + new TimeSpan(4, 0, 0);
             return lastSwitched < TodayAt4am && TodayAt4am < DateTime.Now;
         }

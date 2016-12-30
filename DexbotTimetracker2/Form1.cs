@@ -18,10 +18,12 @@ namespace ProjectTracker
     public partial class Form1 : Form
     {
 
-        public NotifyIcon trayIcon;
+        public NotifyIcon TrayIcon;
 
         private OutlookAppointmentRetriever outlooker;
         private Tracker tracker;
+
+        private Presenter Presenter;
 
         //NOBODY MUST EVER SEE THIS CODE!!!!
         //I AM DEEPLY SORRY!!!
@@ -29,7 +31,7 @@ namespace ProjectTracker
         public Form1()
         {
             // Initialize Tray Icon
-            trayIcon = new NotifyIcon()
+            TrayIcon = new NotifyIcon()
             {
                 Icon = new System.Drawing.Icon(Path.GetFullPath(@"asd.ico")),
                 ContextMenu = new ContextMenu(new MenuItem[] {
@@ -39,9 +41,11 @@ namespace ProjectTracker
                 }),
                 Visible = true,
             };
-            trayIcon.DoubleClick += ShowForm;
+            TrayIcon.DoubleClick += ShowForm;
 
             InitializeComponent();
+
+            Presenter = new Presenter(this);
 
             countAsWorktime.Text = Properties.Settings.Default.countAsWorktimebreakMins.ToString();
             carryOverHours.Text = Properties.Settings.Default.carryOverWorktimeCountHours.ToString();
@@ -51,8 +55,8 @@ namespace ProjectTracker
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierLockscreen(mainHandler));
             mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorNewDay(mainHandler));
             //mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorLongerThan10secs(mainHandler));
-            mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorWorktimebreaks(mainHandler, Int32.Parse(countAsWorktime.Text), Int32.Parse(carryOverHours.Text)));
-            mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberBalloonInformant(trayIcon));
+            mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorWorktimebreaks(mainHandler));
+            mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberBalloonInformant(Presenter.showNotification));
             mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberLogger());
             mainHandler.addWorktimeRecordStorage(new WorktimeRecordStorageCSV());
             //mainHandler.init();
@@ -60,9 +64,9 @@ namespace ProjectTracker
             outlooker = new OutlookAppointmentRetriever(dataGridView1);
 
             //RTODO
-            trayIcon.BalloonTipTitle = "Change desktop";
-            trayIcon.BalloonTipText = "Please change your desktop to initialize";
-            trayIcon.ShowBalloonTip(10);
+            TrayIcon.BalloonTipTitle = "Change desktop";
+            TrayIcon.BalloonTipText = "Please change your desktop to initialize";
+            TrayIcon.ShowBalloonTip(10);
         }
 
         private void OnExit(object sender, EventArgs e)
@@ -89,8 +93,8 @@ namespace ProjectTracker
             Properties.Settings.Default.lastAppExit = DateTime.Now;
             Properties.Settings.Default.Save();
 
-            trayIcon.Visible = false;
-            trayIcon.Dispose();
+            TrayIcon.Visible = false;
+            TrayIcon.Dispose();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -241,29 +245,5 @@ namespace ProjectTracker
 
         }
 
-        private void countAsWorktime_Leave(object sender, EventArgs e)
-        {
-            try
-            {
-                tracker.countAsWorktimebreakMins = Int32.Parse(countAsWorktime.Text);
-                Properties.Settings.Default.countAsWorktimebreakMins = Int32.Parse(countAsWorktime.Text);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-        private void carryOverHours_Leave(object sender, EventArgs e)
-        {
-            try
-            {
-                tracker.carryOverWorktimeCountHours = Int32.Parse(carryOverHours.Text);
-                Properties.Settings.Default.carryOverWorktimeCountHours = Int32.Parse(carryOverHours.Text);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
     }
 }

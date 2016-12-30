@@ -9,11 +9,12 @@ namespace ProjectTracker
 {
     class ProjectChangeSubscriberBalloonInformant : IProjectChangeSubscriber
     {
-        private NotifyIcon TrayIcon;
+        public delegate void ShowNotification(string title, string text);
+        private ShowNotification showBalloon;
 
-        public ProjectChangeSubscriberBalloonInformant(NotifyIcon trayIcon)
+        public ProjectChangeSubscriberBalloonInformant(ShowNotification notificationDelegate)
         {
-            TrayIcon = trayIcon;
+            showBalloon = notificationDelegate;
         }
 
         public void handleProjectChangeEvent(object sender, ProjectChangeEvent projectChangeEvent)
@@ -40,7 +41,7 @@ namespace ProjectTracker
                 showBalloon("Project changed", "Time on last project [" + project + "]: " + (timePassed / 60).ToString() + " mins (" + timePassed.ToString() + " secs)");
             }
             else if (projectChangeEvent.Type == ProjectChangeEvent.Types.Start)
-            { 
+            {
                 if (projectChangeEvent.WorktimeRecords.Count == 1)
                 {
                     var breakName = (wtr.ProjectName == "0") ? "Worktimebreak" : "Break";
@@ -58,13 +59,6 @@ namespace ProjectTracker
             {
                 showBalloon("Something with Project happened", projectChangeEvent.Message); // :) RTODO
             }
-        }
-
-        private void showBalloon(string title, string text)
-        {
-            TrayIcon.BalloonTipTitle = (title != "") ? title : "[no title]";
-            TrayIcon.BalloonTipText = (text != "") ? text : "[no text]";
-            TrayIcon.ShowBalloonTip(10);
         }
     }
 }

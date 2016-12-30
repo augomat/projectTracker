@@ -9,18 +9,13 @@ namespace ProjectTracker
     class ProjectChangeProcessorWorktimebreaks : ProjectChangeProcessor
 
     {
-        public int CountAsWorktimebreakMins { get; set; } = 0; //todo validations
-        public int CarryOverWorktimeCountHours { get; set; } = 0; //todo validations
+        private int CountAsWorktimebreakMins { get { return Properties.Settings.Default.countAsWorktimebreakMins; } } 
+        private int CarryOverWorktimeCountHours { get { return Properties.Settings.Default.carryOverWorktimeCountHours; } } 
 
         private int freeWorktimebreakSecs = 0;
         public TimeSpan freeWorkbreaktime { get { return TimeSpan.FromSeconds(freeWorktimebreakSecs); } }
 
-        public ProjectChangeProcessorWorktimebreaks(ProjectChangeHandler handler, int countAsWorktimebreakMins, int carryOverWorktimeCountHours) 
-            : base(handler)
-        {
-            CountAsWorktimebreakMins = countAsWorktimebreakMins;
-            CarryOverWorktimeCountHours = carryOverWorktimeCountHours;
-        }
+        public ProjectChangeProcessorWorktimebreaks(ProjectChangeHandler handler)  : base(handler) { }
 
         public override bool process(ProjectChangeEvent projectChangeEvent)
         {
@@ -105,10 +100,9 @@ namespace ProjectTracker
 
         private int updateFreeWorktimeBreakOnUnlock()
         {
-            var secsPassed = (int)(DateTime.Now - Handler.currentProjectSince).TotalSeconds; //really bad, implies that lastSwitchPassedSecs is reset after calling updateFreeWorktime
-            
             //when coming back, subtract from available worktimebreak and return secs that do not fall in worktimebreak
-            freeWorktimebreakSecs  -= (int)secsPassed;
+            var secsPassed = (int)(DateTime.Now - Handler.currentProjectSince).TotalSeconds; //really bad, implies that lastSwitchPassedSecs is reset after calling updateFreeWorktime
+            freeWorktimebreakSecs -= (int)secsPassed;
             var notInWorkbreakSecs = Math.Min(0, freeWorktimebreakSecs) * -1;
             freeWorktimebreakSecs = Math.Max(0, freeWorktimebreakSecs);
             return notInWorkbreakSecs;
@@ -116,9 +110,8 @@ namespace ProjectTracker
 
         private void updateFreeWorktimeBreakOnProjectChange()
         {
-            var secsPassed = (int)(DateTime.Now - Handler.currentProjectSince).TotalSeconds; //really bad, implies that lastSwitchPassedSecs is reset after calling updateFreeWorktime
-            
             //when working on screen, add gained seconds to total available worktimebreak 
+            var secsPassed = (int)(DateTime.Now - Handler.currentProjectSince).TotalSeconds; //really bad, implies that lastSwitchPassedSecs is reset after calling updateFreeWorktime
             var currentWorktimebreakSecs = WorktimeSecsToWorktimebreakSecs(secsPassed);
 
             double factor = CountAsWorktimebreakMins / 60.0;

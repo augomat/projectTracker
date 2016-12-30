@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="IProjectChangeSubscriber.cs" />
     <Compile Include="IWorktimeRecordStorage.cs" />
+    <Compile Include="Presenter.cs" />
     <Compile Include="ProjectChangeHandler.cs" />
     <Compile Include="ProjectChangeEvent.cs" />
     <Compile Include="ProjectChangeNotifierDexpot.cs" />

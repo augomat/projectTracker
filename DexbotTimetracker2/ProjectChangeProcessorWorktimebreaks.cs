@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 
 namespace ProjectTracker
 {
-    class ProjectChangeProcessorWorktimebreaks : ProjectChangeProcessor
-
+    class ProjectChangeProcessorWorktimebreaks : ProjectChangeProcessor, IWorktimebreakHandler
     {
         private int CountAsWorktimebreakMins { get { return Properties.Settings.Default.countAsWorktimebreakMins; } } 
         private int CarryOverWorktimeCountHours { get { return Properties.Settings.Default.carryOverWorktimeCountHours; } } 
 
         private int freeWorktimebreakSecs = 0;
-        public TimeSpan freeWorkbreaktime { get { return TimeSpan.FromSeconds(freeWorktimebreakSecs); } }
+        public TimeSpan freeWorkbreaktime { get { return getCurrentFreeWorktimebreak(); } }
 
         public ProjectChangeProcessorWorktimebreaks(ProjectChangeHandler handler)  : base(handler) { }
 
@@ -119,6 +118,19 @@ namespace ProjectTracker
 
             freeWorktimebreakSecs += currentWorktimebreakSecs;
             freeWorktimebreakSecs = Math.Min(maxWorktimebreakSecs, freeWorktimebreakSecs);
+        }
+
+        private TimeSpan getCurrentFreeWorktimebreak() //TODO merge with updateFreeWorktimebreakOnProjectChange
+        {
+            var secsPassed = (int)(DateTime.Now - Handler.currentProjectSince).TotalSeconds; //really bad, implies that lastSwitchPassedSecs is reset after calling updateFreeWorktime
+            var currentWorktimebreakSecs = WorktimeSecsToWorktimebreakSecs(secsPassed);
+
+            double factor = CountAsWorktimebreakMins / 60.0;
+            var maxWorktimebreakSecs = (int)System.Math.Ceiling(CarryOverWorktimeCountHours * 60.0 * 60.0 * factor); //todo round
+
+            var currentFreeWorktimebreakSecs = freeWorktimebreakSecs + currentWorktimebreakSecs;
+            currentFreeWorktimebreakSecs = Math.Min(maxWorktimebreakSecs, currentFreeWorktimebreakSecs);
+            return TimeSpan.FromSeconds(currentFreeWorktimebreakSecs);
         }
 
         private int WorktimeSecsToWorktimebreakSecs(long worktime)

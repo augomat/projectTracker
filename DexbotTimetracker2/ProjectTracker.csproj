@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IProjectChangeSubscriber.cs" />
+    <Compile Include="IWorktimebreakHandler.cs" />
     <Compile Include="IWorktimeRecordStorage.cs" />
     <Compile Include="Presenter.cs" />
     <Compile Include="ProjectChangeHandler.cs" />

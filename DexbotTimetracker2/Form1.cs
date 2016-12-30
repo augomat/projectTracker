@@ -50,16 +50,22 @@ namespace ProjectTracker
             countAsWorktime.Text = Properties.Settings.Default.countAsWorktimebreakMins.ToString();
             carryOverHours.Text = Properties.Settings.Default.carryOverWorktimeCountHours.ToString();
 
+            
+
             ProjectChangeHandler mainHandler = new ProjectChangeHandler();
+            var worktimebreakHandler = new ProjectChangeProcessorWorktimebreaks(mainHandler);
+            
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierDexpot(mainHandler));
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierLockscreen(mainHandler));
             mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorNewDay(mainHandler));
             //mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorLongerThan10secs(mainHandler));
-            mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorWorktimebreaks(mainHandler));
+            mainHandler.addProjectChangeProcessor(worktimebreakHandler);
             mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberBalloonInformant(Presenter.showNotification));
             mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberLogger());
             mainHandler.addWorktimeRecordStorage(new WorktimeRecordStorageCSV());
             //mainHandler.init();
+
+            Presenter.WorktimebreakHandler = worktimebreakHandler;
 
             outlooker = new OutlookAppointmentRetriever(dataGridView1);
 
@@ -245,5 +251,18 @@ namespace ProjectTracker
 
         }
 
+        private void worktimebreakUpdater_Tick(object sender, EventArgs e)
+        {
+            worktimebreakLeft.Text = Presenter.getAvailableWorktimebreak().ToString();
+        }
+
+        private void countAsWorktime_Enter(object sender, EventArgs e)
+        {
+            TextBox TB = (TextBox)sender;
+            int VisibleTime = 5000;  //in milliseconds
+
+            ToolTip tt = new ToolTip();
+            tt.Show("Possible Values: 0-60\nChanging this value will result in an immediate recalculation of available worktimebreak for the current project.", TB, 0, TB.Height, VisibleTime);
+        }
     }
 }

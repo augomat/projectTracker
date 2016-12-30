@@ -51,10 +51,13 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.worktimebreakLeft = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.carryOverHours = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.countAsWorktime = new System.Windows.Forms.TextBox();
+            this.worktimebreakUpdater = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -234,6 +237,8 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.worktimebreakLeft);
+            this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Controls.Add(this.carryOverHours);
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Controls.Add(this.label2);
@@ -244,6 +249,24 @@
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Worktimebreaks";
+            // 
+            // worktimebreakLeft
+            // 
+            this.worktimebreakLeft.AutoSize = true;
+            this.worktimebreakLeft.Location = new System.Drawing.Point(23, 196);
+            this.worktimebreakLeft.Name = "worktimebreakLeft";
+            this.worktimebreakLeft.Size = new System.Drawing.Size(49, 13);
+            this.worktimebreakLeft.TabIndex = 5;
+            this.worktimebreakLeft.Text = "00:00:00";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(10, 174);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(96, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Worktimebreak left";
             // 
             // carryOverHours
             // 
@@ -278,6 +301,13 @@
             this.countAsWorktime.Size = new System.Drawing.Size(34, 20);
             this.countAsWorktime.TabIndex = 0;
             this.countAsWorktime.Text = "10";
+            this.countAsWorktime.Enter += new System.EventHandler(this.countAsWorktime_Enter);
+            // 
+            // worktimebreakUpdater
+            // 
+            this.worktimebreakUpdater.Enabled = true;
+            this.worktimebreakUpdater.Interval = 1000;
+            this.worktimebreakUpdater.Tick += new System.EventHandler(this.worktimebreakUpdater_Tick);
             // 
             // Form1
             // 
@@ -331,6 +361,9 @@
         public System.Windows.Forms.TextBox countAsWorktime;
         public System.Windows.Forms.TextBox carryOverHours;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label worktimebreakLeft;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Timer worktimebreakUpdater;
     }
 }
 

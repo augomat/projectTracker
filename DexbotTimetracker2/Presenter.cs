@@ -11,6 +11,7 @@ namespace ProjectTracker
     {
         //this should actually be an interface but that's not worth the work...
         private Form1 Form;
+        public IWorktimebreakHandler WorktimebreakHandler { get; set; }
 
         public Presenter(Form1 form)
         {
@@ -25,6 +26,11 @@ namespace ProjectTracker
             Form.TrayIcon.BalloonTipTitle = (title != "") ? title : "[no title]";
             Form.TrayIcon.BalloonTipText = (text != "") ? text : "[no text]";
             Form.TrayIcon.ShowBalloonTip(10);
+        }
+
+        public TimeSpan getAvailableWorktimebreak()
+        {
+            return WorktimebreakHandler.freeWorkbreaktime;
         }
 
         private void countAsWorktime_Leave(object sender, EventArgs e)

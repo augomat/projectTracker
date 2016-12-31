@@ -69,5 +69,27 @@ namespace ProjectTracker.Properties {
                 this["lastAppExit"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>Meeting (-2)</string>
+  <string>Pause (-1)</string>
+  <string>Arbeitspause (0)</string>
+  <string>PS customer (1)</string>
+  <string>PS admin (6)</string>
+  <string>KB (2)</string>
+  <string>AgD (4)</string>
+  <string>SalesF (5)</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection AvailableProjects {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["AvailableProjects"]));
+            }
+            set {
+                this["AvailableProjects"] = value;
+            }
+        }
     }
 }

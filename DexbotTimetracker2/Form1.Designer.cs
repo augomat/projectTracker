@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
@@ -44,12 +44,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button3 = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.worktimebreakLeft = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -58,10 +52,20 @@
             this.label2 = new System.Windows.Forms.Label();
             this.countAsWorktime = new System.Windows.Forms.TextBox();
             this.worktimebreakUpdater = new System.Windows.Forms.Timer(this.components);
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.CorrectProject = new System.Windows.Forms.Button();
+            this.trackbarLabel = new System.Windows.Forms.Label();
+            this.currentProject = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.projectTrackBar = new System.Windows.Forms.TrackBar();
+            this.correctProjectCombobox = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.projectTrackbarUpdater = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.projectTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
             // notifyIcon1
@@ -103,9 +107,9 @@
             // 
             // Date
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.WhiteSmoke;
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Gray;
-            this.Date.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.WhiteSmoke;
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Gray;
+            this.Date.DefaultCellStyle = dataGridViewCellStyle5;
             this.Date.HeaderText = "Date";
             this.Date.Name = "Date";
             this.Date.ReadOnly = true;
@@ -125,9 +129,9 @@
             // 
             // DiffSecs
             // 
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.WhiteSmoke;
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.DimGray;
-            this.DiffSecs.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.WhiteSmoke;
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.DimGray;
+            this.DiffSecs.DefaultCellStyle = dataGridViewCellStyle6;
             this.DiffSecs.HeaderText = "Diff Secs";
             this.DiffSecs.Name = "DiffSecs";
             this.DiffSecs.ReadOnly = true;
@@ -179,62 +183,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Outlook Appointments";
             // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.textBox2);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Controls.Add(this.textBox1);
-            this.groupBox2.Controls.Add(this.button3);
-            this.groupBox2.Location = new System.Drawing.Point(20, 391);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(730, 70);
-            this.groupBox2.TabIndex = 6;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Forgot to switch";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(355, 25);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(58, 20);
-            this.textBox2.TabIndex = 5;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(167, 29);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(185, 26);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "time passed after missed switch (mins)\r\n(leave empty for whole time)\r\n";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 28);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(84, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Correct Desktop";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(104, 25);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(58, 20);
-            this.textBox1.TabIndex = 1;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(423, 24);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(96, 23);
-            this.button3.TabIndex = 0;
-            this.button3.Text = "Generate switch";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.worktimebreakLeft);
@@ -245,7 +193,7 @@
             this.groupBox3.Controls.Add(this.countAsWorktime);
             this.groupBox3.Location = new System.Drawing.Point(766, 15);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(211, 447);
+            this.groupBox3.Size = new System.Drawing.Size(211, 492);
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Worktimebreaks";
@@ -309,13 +257,96 @@
             this.worktimebreakUpdater.Interval = 1000;
             this.worktimebreakUpdater.Tick += new System.EventHandler(this.worktimebreakUpdater_Tick);
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.CorrectProject);
+            this.groupBox4.Controls.Add(this.trackbarLabel);
+            this.groupBox4.Controls.Add(this.currentProject);
+            this.groupBox4.Controls.Add(this.label6);
+            this.groupBox4.Controls.Add(this.projectTrackBar);
+            this.groupBox4.Controls.Add(this.correctProjectCombobox);
+            this.groupBox4.Controls.Add(this.label7);
+            this.groupBox4.Location = new System.Drawing.Point(20, 388);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(730, 119);
+            this.groupBox4.TabIndex = 7;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Forgot to switch";
+            // 
+            // CorrectProject
+            // 
+            this.CorrectProject.Location = new System.Drawing.Point(571, 72);
+            this.CorrectProject.Name = "CorrectProject";
+            this.CorrectProject.Size = new System.Drawing.Size(75, 23);
+            this.CorrectProject.TabIndex = 8;
+            this.CorrectProject.Text = "Correct it!";
+            this.CorrectProject.UseVisualStyleBackColor = true;
+            // 
+            // trackbarLabel
+            // 
+            this.trackbarLabel.Location = new System.Drawing.Point(58, 77);
+            this.trackbarLabel.Name = "trackbarLabel";
+            this.trackbarLabel.Size = new System.Drawing.Size(100, 30);
+            this.trackbarLabel.TabIndex = 7;
+            this.trackbarLabel.Text = "00:00:00 | 00:00:00\r\n00:00:00 | 00:00:00";
+            // 
+            // currentProject
+            // 
+            this.currentProject.AutoSize = true;
+            this.currentProject.Location = new System.Drawing.Point(16, 48);
+            this.currentProject.Name = "currentProject";
+            this.currentProject.Size = new System.Drawing.Size(57, 13);
+            this.currentProject.TabIndex = 6;
+            this.currentProject.Text = "[unknown]";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(525, 28);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(77, 13);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "Correct Project";
+            // 
+            // projectTrackBar
+            // 
+            this.projectTrackBar.Location = new System.Drawing.Point(94, 45);
+            this.projectTrackBar.Maximum = 50;
+            this.projectTrackBar.Name = "projectTrackBar";
+            this.projectTrackBar.Size = new System.Drawing.Size(428, 45);
+            this.projectTrackBar.TabIndex = 4;
+            this.projectTrackBar.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            // 
+            // correctProjectCombobox
+            // 
+            this.correctProjectCombobox.FormattingEnabled = true;
+            this.correctProjectCombobox.Location = new System.Drawing.Point(528, 44);
+            this.correctProjectCombobox.Name = "correctProjectCombobox";
+            this.correctProjectCombobox.Size = new System.Drawing.Size(121, 21);
+            this.correctProjectCombobox.TabIndex = 3;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(16, 28);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(77, 13);
+            this.label7.TabIndex = 2;
+            this.label7.Text = "Current Project";
+            // 
+            // projectTrackbarUpdater
+            // 
+            this.projectTrackbarUpdater.Enabled = true;
+            this.projectTrackbarUpdater.Interval = 1000;
+            this.projectTrackbarUpdater.Tick += new System.EventHandler(this.projectTrackbarUpdater_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(990, 474);
+            this.ClientSize = new System.Drawing.Size(990, 525);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
             this.ShowInTaskbar = false;
@@ -327,10 +358,11 @@
             this.Resize += new System.EventHandler(this.Form1_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox1.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.projectTrackBar)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -350,12 +382,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn DesktopNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn Comment;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label2;
         public System.Windows.Forms.TextBox countAsWorktime;
@@ -364,6 +390,15 @@
         private System.Windows.Forms.Label worktimebreakLeft;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Timer worktimebreakUpdater;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label label7;
+        public System.Windows.Forms.ComboBox correctProjectCombobox;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TrackBar projectTrackBar;
+        private System.Windows.Forms.Label currentProject;
+        private System.Windows.Forms.Label trackbarLabel;
+        private System.Windows.Forms.Timer projectTrackbarUpdater;
+        public System.Windows.Forms.Button CorrectProject;
     }
 }
 

@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace ProjectTracker
 {
-    class ProjectChangeHandler : ProjectChangeNotifier, IProjectChangeSubscriber
+    class ProjectChangeHandler : ProjectChangeNotifier, IProjectChangeSubscriber, IProjectHandler
     {
         private List<ProjectChangeNotifier> projectChangeNotifiers = new List<ProjectChangeNotifier>();
         private List<ProjectChangeProcessor> projectChangeProcessors = new List<ProjectChangeProcessor>();

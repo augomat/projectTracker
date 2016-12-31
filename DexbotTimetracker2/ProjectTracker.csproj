@@ -79,11 +79,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IProjectChangeSubscriber.cs" />
+    <Compile Include="IProjectCorrectionHandler.cs" />
+    <Compile Include="IProjectHandler.cs" />
     <Compile Include="IWorktimebreakHandler.cs" />
     <Compile Include="IWorktimeRecordStorage.cs" />
     <Compile Include="Presenter.cs" />
     <Compile Include="ProjectChangeHandler.cs" />
     <Compile Include="ProjectChangeEvent.cs" />
+    <Compile Include="ProjectChangeNotifierCorrection.cs" />
     <Compile Include="ProjectChangeNotifierDexpot.cs" />
     <Compile Include="ProjectChangeNotifier.cs" />
     <Compile Include="OutlookAppointmentRetriever.cs" />

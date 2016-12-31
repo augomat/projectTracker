@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace ProjectTracker
 {
@@ -11,7 +12,12 @@ namespace ProjectTracker
     {
         //this should actually be an interface but that's not worth the work...
         private Form1 Form;
-        public IWorktimebreakHandler WorktimebreakHandler { get; set; }
+        public IWorktimebreakHandler WorktimebreakHandler { private get;  set; }
+        public IProjectCorrectionHandler ProjectCorrectionHandler { private get; set; }
+        public IProjectHandler ProjectHandler { private get; set; }
+
+        public string currentProject { get { return ProjectHandler.currentProject; } } //TODO errorhandling
+        public DateTime currentProjectSince { get { return ProjectHandler.currentProjectSince; } } //TODO errorhandling
 
         public Presenter(Form1 form)
         {
@@ -19,6 +25,7 @@ namespace ProjectTracker
 
             Form.countAsWorktime.Leave += countAsWorktime_Leave;
             Form.carryOverHours.Leave += carryOverHours_Leave;
+            Form.CorrectProject.Click += CorrectProject_Click;
         }
 
         public void showNotification(string title, string text)
@@ -30,7 +37,36 @@ namespace ProjectTracker
 
         public TimeSpan getAvailableWorktimebreak()
         {
+            //TODO errorhandling
             return WorktimebreakHandler.freeWorkbreaktime;
+        }
+
+        public Tuple<DateTime, DateTime> getProjectCorrections(float percentage)
+        {
+            //TODO errorhandling
+            return ProjectCorrectionHandler.getCorrectedTimes(percentage);
+        }
+
+        public string getProjectNameFromShortname(string projectShortname)
+        {
+            //this is all very very bad
+            if (projectShortname == "")
+                return "[unknown]";
+
+            foreach (var projectLongName in Properties.Settings.Default.AvailableProjects)
+            {
+                if (projectLongName.Contains("(" + projectShortname + ")"))
+                    return projectLongName;
+            }
+            return "[unknown]";
+        }
+
+        private static string getShortnameFromProjectname(string projectLongName)
+        {
+            //this is wrong on so many levels I cannot even say.
+            //additionally, copied from prompt.cs
+            var match = Regex.Match(projectLongName, @".* \((.*)\)");
+            return match.Groups[1].Value;
         }
 
         private void countAsWorktime_Leave(object sender, EventArgs e)
@@ -55,6 +91,17 @@ namespace ProjectTracker
             {
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void CorrectProject_Click(object sender, EventArgs e)
+        {
+            if (Form.correctProjectCombobox.Text == "")
+            {
+                MessageBox.Show("Correct Project must not be empty!");
+                return;
+            }
+
+            ProjectCorrectionHandler.correctProject(getShortnameFromProjectname(Form.correctProjectCombobox.Text), Form.getTrackerbarPercentage());
         }
     }
 }

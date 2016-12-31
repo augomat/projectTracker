@@ -23,15 +23,7 @@ namespace ProjectTracker
             };
             var comboBox1 = new System.Windows.Forms.ComboBox() { DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList, Left = 50, Top = 70, AutoSize = true, TabIndex = 1 };
             //this.comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] {
-            "Meeting (-2)",
-            "Pause (-1)",
-            "Arbeitspause (0)", //this will count lawful breaks (10mins/h) from screenwork as general worktime (0), and the rest as Pause (-1)
-            "PS customer (1)",
-            "PS admin (6)",
-            "KB (2)",
-            "AgD (4)",
-            "SalesF (5)"});
+            comboBox1.Items.AddRange(Properties.Settings.Default.AvailableProjects.Cast<string>().ToArray());
             comboBox1.SelectedIndex = 1;
             Label textLabel = new Label() { Left = 50, Top = 20, Text = text };
             TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 400, TabIndex = 0 };

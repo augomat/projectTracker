@@ -45,18 +45,18 @@ namespace ProjectTracker
 
             InitializeComponent();
 
-            Presenter = new Presenter(this);
-
             countAsWorktime.Text = Properties.Settings.Default.countAsWorktimebreakMins.ToString();
             carryOverHours.Text = Properties.Settings.Default.carryOverWorktimeCountHours.ToString();
+            correctProjectCombobox.Items.AddRange(Properties.Settings.Default.AvailableProjects.Cast<string>().ToArray());
 
-            
-
+            Presenter = new Presenter(this);
             ProjectChangeHandler mainHandler = new ProjectChangeHandler();
             var worktimebreakHandler = new ProjectChangeProcessorWorktimebreaks(mainHandler);
-            
+            var projectCorrectionHandler = new ProjectChangeNotifierCorrection(mainHandler);
+
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierDexpot(mainHandler));
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierLockscreen(mainHandler));
+            mainHandler.addProjectChangeNotifier(projectCorrectionHandler);
             mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorNewDay(mainHandler));
             //mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorLongerThan10secs(mainHandler));
             mainHandler.addProjectChangeProcessor(worktimebreakHandler);
@@ -66,6 +66,8 @@ namespace ProjectTracker
             //mainHandler.init();
 
             Presenter.WorktimebreakHandler = worktimebreakHandler;
+            Presenter.ProjectCorrectionHandler = projectCorrectionHandler;
+            Presenter.ProjectHandler = mainHandler;
 
             outlooker = new OutlookAppointmentRetriever(dataGridView1);
 
@@ -203,6 +205,7 @@ namespace ProjectTracker
 
         private void button3_Click(object sender, EventArgs e)
         {
+            /*
             if (textBox1.Text == "")
             {
                 MessageBox.Show("No valid DesktopNo given");
@@ -219,6 +222,7 @@ namespace ProjectTracker
             {
                 MessageBox.Show("Exception: " + ex.ToString());
             }
+            */
         }
 
         private void Form1_ResizeEnd(object sender, EventArgs e)
@@ -263,6 +267,41 @@ namespace ProjectTracker
 
             ToolTip tt = new ToolTip();
             tt.Show("Possible Values: 0-60\nChanging this value will result in an immediate recalculation of available worktimebreak for the current project.", TB, 0, TB.Height, VisibleTime);
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            const int sideOffset = 8;
+            const int dontKnowOffset = 6;
+            var posLeftTick = projectTrackBar.Location.X + sideOffset;
+            var pxPerTick = (projectTrackBar.Width - 2 * sideOffset) / (projectTrackBar.Maximum - projectTrackBar.Minimum);
+            trackbarLabel.Left = posLeftTick - (trackbarLabel.Width / 2) + (projectTrackBar.Value - projectTrackBar.Minimum)*pxPerTick + dontKnowOffset;
+
+            updateTrackbarLabel();
+        }
+
+        public float getTrackerbarPercentage()
+        {
+            return (projectTrackBar.Value - projectTrackBar.Minimum) / (float)projectTrackBar.Maximum;
+        }
+
+        private void updateTrackbarLabel()
+        {
+            var percentage = getTrackerbarPercentage();
+            var projectTimes = Presenter.getProjectCorrections(percentage);
+
+            var timeSpanBegin = TimeSpan.FromSeconds((long)(projectTimes.Item1 - Presenter.currentProjectSince).TotalSeconds);
+            var timeSpanEnd = TimeSpan.FromSeconds((long)(DateTime.Now - projectTimes.Item1).TotalSeconds);
+
+            trackbarLabel.Text = String.Format("{0} | {1}\n{2} | {3}", 
+                projectTimes.Item1.ToLongTimeString(), projectTimes.Item2.ToLongTimeString(), timeSpanBegin.ToString(), timeSpanEnd.ToString());
+        }
+
+        private void projectTrackbarUpdater_Tick(object sender, EventArgs e)
+        {
+            currentProject.Text = Presenter.getProjectNameFromShortname(Presenter.currentProject);
+
+            updateTrackbarLabel();
         }
     }
 }

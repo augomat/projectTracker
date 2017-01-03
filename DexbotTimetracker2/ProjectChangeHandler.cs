@@ -80,6 +80,16 @@ namespace ProjectTracker
             worktimeRecordStorages.Add(storage);
         }
 
+        public event EventHandler<Exception> RaiseStorageExceptionEvent;
+        protected virtual void OnRaiseStorageExceptionEvent(Exception ex)
+        {
+            var exHandler = RaiseStorageExceptionEvent;
+            if (exHandler != null)
+            {
+                exHandler(this, ex);
+            }
+        }
+
         public void handleProjectChangeEvent(object sender, ProjectChangeEvent projectChangeEvent)
         {
             //RTODO locking?
@@ -110,8 +120,7 @@ namespace ProjectTracker
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine("Upsi"); //RTODO rethrow or log
-                        throw ex;
+                        RaiseStorageExceptionEvent(this, ex);
                     }
                 }
 

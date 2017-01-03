@@ -11,25 +11,24 @@ using System.Windows.Forms;
 using System.IO;
 using System.Text.RegularExpressions;
 using Microsoft.Win32;
+using System.Configuration;
+using ProjectTracker.Util;
 
 namespace ProjectTracker
 {
-
     public partial class Form1 : Form
     {
 
         public NotifyIcon TrayIcon;
-
-        private OutlookAppointmentRetriever outlooker;
-        private Tracker tracker;
 
         private Presenter Presenter;
 
         //NOBODY MUST EVER SEE THIS CODE!!!!
         //I AM DEEPLY SORRY!!!
 
+        
         public Form1()
-        {
+        {   
             // Initialize Tray Icon
             TrayIcon = new NotifyIcon()
             {
@@ -47,8 +46,7 @@ namespace ProjectTracker
 
             countAsWorktime.Text = Properties.Settings.Default.countAsWorktimebreakMins.ToString();
             carryOverHours.Text = Properties.Settings.Default.carryOverWorktimeCountHours.ToString();
-            correctProjectCombobox.Items.AddRange(Properties.Settings.Default.AvailableProjects.Cast<string>().ToArray());
-
+            
             Presenter = new Presenter(this);
             ProjectChangeHandler mainHandler = new ProjectChangeHandler();
             var worktimebreakHandler = new ProjectChangeProcessorWorktimebreaks(mainHandler);
@@ -68,8 +66,6 @@ namespace ProjectTracker
             Presenter.WorktimebreakHandler = worktimebreakHandler;
             Presenter.ProjectCorrectionHandler = projectCorrectionHandler;
             Presenter.ProjectHandler = mainHandler;
-
-            outlooker = new OutlookAppointmentRetriever(dataGridView1);
 
             //RTODO
             TrayIcon.BalloonTipTitle = "Change desktop";
@@ -107,7 +103,7 @@ namespace ProjectTracker
 
         private void button1_Click(object sender, EventArgs e)
         {
-            outlooker.retrieveAppointments(dateTimePicker1.Value);
+            //outlooker.retrieveAppointments(dateTimePicker1.Value);
         }
 
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -192,37 +188,15 @@ namespace ProjectTracker
                     );
                 var rcomment = row.Cells["Comment"].Value.ToString();
 
-                tracker.writeCSVEntry(
+                /* tracker.writeCSVEntry(
                     rdiffSecs,
                     rdesktopNo,
                     rstartDate,
                     rendDate,
                     rcomment,
                     false
-                );
+                ); */
             }
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            /*
-            if (textBox1.Text == "")
-            {
-                MessageBox.Show("No valid DesktopNo given");
-                return;
-            }
-
-            try
-            {
-                int time = (textBox2.Text != "") ? Convert.ToInt32(textBox2.Text) : 0; 
-                tracker.doFakeSwitch(textBox1.Text, time);
-                MessageBox.Show("Desktop corrected. It will be logged correctly whenever you switch Desktop the next time");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Exception: " + ex.ToString());
-            }
-            */
         }
 
         private void Form1_ResizeEnd(object sender, EventArgs e)
@@ -299,7 +273,7 @@ namespace ProjectTracker
 
         private void projectTrackbarUpdater_Tick(object sender, EventArgs e)
         {
-            currentProject.Text = Presenter.getProjectNameFromShortname(Presenter.currentProject);
+            currentProject.Text = Presenter.currentProject ?? "[not initialized]";
 
             updateTrackbarLabel();
         }

@@ -10,6 +10,10 @@ namespace ProjectTracker
 {
     class ProjectChangeHandler : ProjectChangeNotifier, IProjectChangeSubscriber, IProjectHandler
     {
+        public const string PROJECT_MEETING = "Meeting";
+        public const string PROJECT_PAUSE = "Pause";
+        public const string PROJECT_WORKTIMEBREAK = "Worktimebreak";
+
         private List<ProjectChangeNotifier> projectChangeNotifiers = new List<ProjectChangeNotifier>();
         private List<ProjectChangeProcessor> projectChangeProcessors = new List<ProjectChangeProcessor>();
         private List<IProjectChangeSubscriber> projectChangeSubscribers = new List<IProjectChangeSubscriber>();
@@ -112,7 +116,7 @@ namespace ProjectTracker
                 }
 
                 //Update fields
-                if (projectChangeEvent.WorktimeRecord != null && projectChangeEvent.WorktimeRecords.Last().End > currentProjectSince)
+                if (projectChangeEvent.WorktimeRecord != null && projectChangeEvent.WorktimeRecords.Last().End >= currentProjectSince)
                 {
                     currentProject = projectChangeEvent.NewProject;
                     currentProjectSince = projectChangeEvent.WorktimeRecords.Last().End;
@@ -125,6 +129,16 @@ namespace ProjectTracker
             var newEvent = new ProjectChangeEvent(projectChangeEvent);
             newEvent.Processed = true;
             OnRaiseProjectChangeEvent(newEvent);
+        }
+
+        public static List<string> getAvailableProjects()
+        {
+            var list = new List<string>();
+            list.Add(PROJECT_MEETING);
+            list.Add(PROJECT_PAUSE);
+            list.Add(PROJECT_WORKTIMEBREAK);
+            list.AddRange(Properties.Settings.Default.AvailableProjects.Cast<string>().ToArray());
+            return list;
         }
     }
 }

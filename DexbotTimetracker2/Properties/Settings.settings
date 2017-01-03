@@ -14,17 +14,20 @@
     <Setting Name="lastAppExit" Type="System.DateTime" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="AvailableProjects" Type="System.Collections.Specialized.StringCollection" Scope="User">
+    <Setting Name="OutputCsvFilePath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\Users\Georg\Documents\DesktopTimes.csv</Value>
+    </Setting>
+    <Setting Name="DexbotLogFilePath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\Users\Georg\AppData\Roaming\Dexpot\dexpot.log</Value>
+    </Setting>
+    <Setting Name="AvailableProjects" Type="System.Collections.Specialized.StringCollection" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;Meeting (-2)&lt;/string&gt;
-  &lt;string&gt;Pause (-1)&lt;/string&gt;
-  &lt;string&gt;Arbeitspause (0)&lt;/string&gt;
-  &lt;string&gt;PS customer (1)&lt;/string&gt;
-  &lt;string&gt;PS admin (6)&lt;/string&gt;
-  &lt;string&gt;KB (2)&lt;/string&gt;
-  &lt;string&gt;AgD (4)&lt;/string&gt;
-  &lt;string&gt;SalesF (5)&lt;/string&gt;
+  &lt;string&gt;PS cust&lt;/string&gt;
+  &lt;string&gt;PS adm&lt;/string&gt;
+  &lt;string&gt;KB&lt;/string&gt;
+  &lt;string&gt;AgD&lt;/string&gt;
+  &lt;string&gt;SalesF&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
   </Settings>

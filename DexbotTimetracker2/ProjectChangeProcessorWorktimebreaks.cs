@@ -27,13 +27,19 @@ namespace ProjectTracker
                 freeWorktimebreakSecs = 0;
                 return false;
             }
-            if (projectChangeEvent.Type == ProjectChangeEvent.Types.Start)
+            var isBackFromLockscreen = projectChangeEvent.Type == ProjectChangeEvent.Types.Start;
+            var isChangeFromBreak = projectChangeEvent.Type == ProjectChangeEvent.Types.Change &&
+                                        (projectChangeEvent.WorktimeRecord.ProjectName == ProjectChangeHandler.PROJECT_PAUSE
+                                        || projectChangeEvent.WorktimeRecord.ProjectName == ProjectChangeHandler.PROJECT_WORKTIMEBREAK);
+             
+            if (isBackFromLockscreen || isChangeFromBreak)
             {
                 return comeBackFromOffScreen(projectChangeEvent);
             }
-            if (projectChangeEvent.Type == ProjectChangeEvent.Types.Change)
+            if ((projectChangeEvent.Type == ProjectChangeEvent.Types.Change && !isChangeFromBreak)
+                || projectChangeEvent.Type == ProjectChangeEvent.Types.Finish)
             {
-                updateFreeWorktimeBreakOnProjectChange();
+                updateFreeWorktimeBreakOnProjectChange(projectChangeEvent);
                 return false;
             }
             return false;
@@ -42,17 +48,17 @@ namespace ProjectTracker
         private bool comeBackFromOffScreen(ProjectChangeEvent projectChangeEvent)
         {
             var wtr = projectChangeEvent.WorktimeRecord;
-            bool declaredAsWorktimebreak = (wtr.ProjectName == "0") ? true : false; //RTODO auslagern
+            bool declaredAsWorktimebreak = (wtr.ProjectName == ProjectChangeHandler.PROJECT_WORKTIMEBREAK) ? true : false;
 
             //Update free Worktimebreak
-            var normalBreakSecs = updateFreeWorktimeBreakOnUnlock();
+            var normalBreakSecs = updateFreeWorktimeBreakOnUnlock(projectChangeEvent);
 
             if (declaredAsWorktimebreak)
             {
                 if (normalBreakSecs > 0)
                 {
                     //write worktimebreak
-                    var worktimebreakEnd = DateTime.Now - TimeSpan.FromSeconds(normalBreakSecs);
+                    var worktimebreakEnd = projectChangeEvent.WorktimeRecord.End - TimeSpan.FromSeconds(normalBreakSecs);
                     OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                                ProjectChangeEvent.Types.Start,
                                projectChangeEvent.NewProject,
@@ -62,13 +68,13 @@ namespace ProjectTracker
                                     new WorktimeRecord(
                                         Handler.currentProjectSince,
                                         worktimebreakEnd,
-                                        "0",
-                                        "worktimebreak: " + projectChangeEvent.Message),
+                                        ProjectChangeHandler.PROJECT_WORKTIMEBREAK,
+                                        projectChangeEvent.Message),
                                     new WorktimeRecord(
                                         worktimebreakEnd,
-                                        DateTime.Now,
-                                        "-1",
-                                        "break: " + projectChangeEvent.Message)
+                                        projectChangeEvent.WorktimeRecord.End,
+                                        ProjectChangeHandler.PROJECT_PAUSE,
+                                        projectChangeEvent.Message)
                                })
                            );
                     return true;
@@ -82,8 +88,8 @@ namespace ProjectTracker
                               "Worktimebreak",
                               new WorktimeRecord(
                                   Handler.currentProjectSince,
-                                  DateTime.Now,
-                                  "0",
+                                  projectChangeEvent.WorktimeRecord.End,
+                                  ProjectChangeHandler.PROJECT_WORKTIMEBREAK,
                                   "worktimebreak: " + projectChangeEvent.Message),
                               availableWorktimebreak: freeWorkbreaktime
                               )
@@ -92,25 +98,26 @@ namespace ProjectTracker
                 }
             }
             else
-            {
                 return false;
-            }
         }
 
-        private int updateFreeWorktimeBreakOnUnlock()
+        private int updateFreeWorktimeBreakOnUnlock(ProjectChangeEvent pce)
         {
             //when coming back, subtract from available worktimebreak and return secs that do not fall in worktimebreak
-            var secsPassed = (int)(DateTime.Now - Handler.currentProjectSince).TotalSeconds; //really bad, implies that lastSwitchPassedSecs is reset after calling updateFreeWorktime
+            var secsPassed = (int)(pce.WorktimeRecord.End - Handler.currentProjectSince).TotalSeconds; //really bad, implies that lastSwitchPassedSecs is reset after calling updateFreeWorktime
             freeWorktimebreakSecs -= (int)secsPassed;
             var notInWorkbreakSecs = Math.Min(0, freeWorktimebreakSecs) * -1;
             freeWorktimebreakSecs = Math.Max(0, freeWorktimebreakSecs);
             return notInWorkbreakSecs;
         }
 
-        private void updateFreeWorktimeBreakOnProjectChange()
+        private void updateFreeWorktimeBreakOnProjectChange(ProjectChangeEvent pce)
         {
+            if (Handler.currentProjectSince == default(DateTime))
+                return;
+
             //when working on screen, add gained seconds to total available worktimebreak 
-            var secsPassed = (int)(DateTime.Now - Handler.currentProjectSince).TotalSeconds; //really bad, implies that lastSwitchPassedSecs is reset after calling updateFreeWorktime
+            var secsPassed = (int)(pce.WorktimeRecord.End - Handler.currentProjectSince).TotalSeconds; //really bad, implies that lastSwitchPassedSecs is reset after calling updateFreeWorktime
             var currentWorktimebreakSecs = WorktimeSecsToWorktimebreakSecs(secsPassed);
 
             double factor = CountAsWorktimebreakMins / 60.0;
@@ -122,15 +129,29 @@ namespace ProjectTracker
 
         private TimeSpan getCurrentFreeWorktimebreak() //TODO merge with updateFreeWorktimebreakOnProjectChange
         {
-            var secsPassed = (int)(DateTime.Now - Handler.currentProjectSince).TotalSeconds; //really bad, implies that lastSwitchPassedSecs is reset after calling updateFreeWorktime
-            var currentWorktimebreakSecs = WorktimeSecsToWorktimebreakSecs(secsPassed);
+            if (Handler.currentProjectSince == default(DateTime))
+                return TimeSpan.FromSeconds(0);
 
-            double factor = CountAsWorktimebreakMins / 60.0;
-            var maxWorktimebreakSecs = (int)System.Math.Ceiling(CarryOverWorktimeCountHours * 60.0 * 60.0 * factor); //todo round
+            if (Handler.currentProject != ProjectChangeHandler.PROJECT_PAUSE
+                && Handler.currentProject != ProjectChangeHandler.PROJECT_WORKTIMEBREAK)
+            {
+                var secsPassed = (int)(DateTime.Now - Handler.currentProjectSince).TotalSeconds; //really bad, implies that lastSwitchPassedSecs is reset after calling updateFreeWorktime
+                var currentWorktimebreakSecs = WorktimeSecsToWorktimebreakSecs(secsPassed);
 
-            var currentFreeWorktimebreakSecs = freeWorktimebreakSecs + currentWorktimebreakSecs;
-            currentFreeWorktimebreakSecs = Math.Min(maxWorktimebreakSecs, currentFreeWorktimebreakSecs);
-            return TimeSpan.FromSeconds(currentFreeWorktimebreakSecs);
+                double factor = CountAsWorktimebreakMins / 60.0;
+                var maxWorktimebreakSecs = (int)System.Math.Ceiling(CarryOverWorktimeCountHours * 60.0 * 60.0 * factor); //todo round
+
+                var currentFreeWorktimebreakSecs = freeWorktimebreakSecs + currentWorktimebreakSecs;
+                currentFreeWorktimebreakSecs = Math.Min(maxWorktimebreakSecs, currentFreeWorktimebreakSecs);
+                return TimeSpan.FromSeconds(currentFreeWorktimebreakSecs);
+            }
+            else
+            {
+                var secsPassed = (int)(DateTime.Now - Handler.currentProjectSince).TotalSeconds; //really bad, implies that lastSwitchPassedSecs is reset after calling updateFreeWorktime
+                var currentFreeWorktimebreakSecs = freeWorktimebreakSecs - secsPassed;
+                currentFreeWorktimebreakSecs = Math.Max(0, currentFreeWorktimebreakSecs);
+                return TimeSpan.FromSeconds(currentFreeWorktimebreakSecs);
+            }
         }
 
         private int WorktimeSecsToWorktimebreakSecs(long worktime)

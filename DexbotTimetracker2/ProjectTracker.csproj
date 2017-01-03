@@ -107,6 +107,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\SerializableDictionary.cs" />
     <Compile Include="WorktimeRecord.cs" />
     <Compile Include="WorktimeRecordStorageCSV.cs" />
     <EmbeddedResource Include="Form1.resx">

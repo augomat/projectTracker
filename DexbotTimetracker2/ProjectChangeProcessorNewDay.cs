@@ -13,9 +13,6 @@ namespace ProjectTracker
 
         public override bool process(ProjectChangeEvent projectChangeEvent)
         {
-            if (projectChangeEvent.Type == ProjectChangeEvent.Types.GoodMorning)
-                return false;
-
             if (projectChangeEvent.Type == ProjectChangeEvent.Types.Start && isNewDay(Handler.currentProjectSince))
             {
                 OnRaiseProjectChangeEvent(new ProjectChangeEvent(

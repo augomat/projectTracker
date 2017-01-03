@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Configuration;
+using ProjectTracker.Util;
 using System.IO;
 using System.Text.RegularExpressions;
 
@@ -13,9 +14,11 @@ namespace ProjectTracker
     {
         private static readonly String fileNameLog;
 
+        private DexpotSettings DexpotSettings = new DexpotSettings();
+
         static ProjectChangeNotifierDexpot()
         {
-            fileNameLog = System.Configuration.ConfigurationManager.AppSettings["DexbotLogFilePath"];
+            fileNameLog = Properties.Settings.Default.DexbotLogFilePath;
         }
 
         public ProjectChangeNotifierDexpot(ProjectChangeHandler handler) : base(handler) { }
@@ -65,7 +68,7 @@ namespace ProjectTracker
                     long diffSecs = convertTicksToSec(DateTime.Now.Ticks) - convertTicksToSec(Handler.currentProjectSince.Ticks);
                     OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                         ProjectChangeEvent.Types.Change,
-                        desktopTo,
+                        desktopToProjectName(desktopTo),
                         "Desktop Change detected",
                         new WorktimeRecord(
                             new DateTime(Handler.currentProjectSince.Ticks),
@@ -79,7 +82,7 @@ namespace ProjectTracker
                 {
                     OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                         ProjectChangeEvent.Types.Init,
-                        desktopTo,
+                        desktopToProjectName(desktopTo),
                         "Desktop initialized",
                         new WorktimeRecord(
                             DateTime.Now,
@@ -100,6 +103,29 @@ namespace ProjectTracker
         private static long convertSecToTicks(long seconds)
         {
             return (long)(seconds * TimeSpan.TicksPerMillisecond * 1000);
+        }
+
+        private string desktopToProjectName(string desktopName)
+        {
+            try
+            {
+                return DexpotSettings.desktopToProjectName[desktopName];
+            }
+            catch
+            {
+                return desktopName;
+            }
+            
+        }
+    }
+
+    public class DexpotSettings : ApplicationSettingsBase
+    {
+        [UserScopedSetting()]
+        public SerializableDictionary<string, string> desktopToProjectName
+        {
+            get { return (SerializableDictionary<string, string>)this["desktopToProjectName"]; }
+            set { }
         }
     }
 }

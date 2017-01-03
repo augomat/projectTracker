@@ -13,7 +13,7 @@ namespace ProjectTracker
         private static readonly String fileNameCsv;
         static WorktimeRecordStorageCSV()
         {
-            fileNameCsv = System.Configuration.ConfigurationManager.AppSettings["OutputCsvFilePath"];
+            fileNameCsv = Properties.Settings.Default.OutputCsvFilePath;
         }
 
         //--------------------------

@@ -38,13 +38,13 @@ namespace ProjectTracker
             if (projectChangeEvent.Type == ProjectChangeEvent.Types.Change)
             {
                 var project = wtr.ProjectName;
-                showBalloon("Project changed", "Time on last project [" + project + "]: " + (timePassed / 60).ToString() + " mins (" + timePassed.ToString() + " secs)");
+                showBalloon("Project changed to [" + projectChangeEvent.NewProject + "]", "Time on last project [" + project + "]: " + (timePassed / 60).ToString() + " mins (" + timePassed.ToString() + " secs)");
             }
             else if (projectChangeEvent.Type == ProjectChangeEvent.Types.Start)
             {
                 if (projectChangeEvent.WorktimeRecords.Count == 1)
                 {
-                    var breakName = (wtr.ProjectName == "0") ? "Worktimebreak" : "Break";
+                    var breakName = (wtr.ProjectName == ProjectChangeHandler.PROJECT_WORKTIMEBREAK) ? "Worktimebreak" : "Break";
                     showBalloon("Welcome back", String.Format("{0}: {1}min, Worktimebreak left: {2}sec", breakName, (timePassed / 60).ToString(), projectChangeEvent.AvailableWorktimebreak.TotalSeconds));
                 }
                 else

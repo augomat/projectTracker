@@ -23,6 +23,8 @@ namespace ProjectTracker
         {
             Form = form;
 
+            Form.correctProjectCombobox.Items.AddRange(ProjectChangeHandler.getAvailableProjects().Cast<string>().ToArray());
+
             Form.countAsWorktime.Leave += countAsWorktime_Leave;
             Form.carryOverHours.Leave += carryOverHours_Leave;
             Form.CorrectProject.Click += CorrectProject_Click;
@@ -45,28 +47,6 @@ namespace ProjectTracker
         {
             //TODO errorhandling
             return ProjectCorrectionHandler.getCorrectedTimes(percentage);
-        }
-
-        public string getProjectNameFromShortname(string projectShortname)
-        {
-            //this is all very very bad
-            if (projectShortname == "")
-                return "[unknown]";
-
-            foreach (var projectLongName in Properties.Settings.Default.AvailableProjects)
-            {
-                if (projectLongName.Contains("(" + projectShortname + ")"))
-                    return projectLongName;
-            }
-            return "[unknown]";
-        }
-
-        private static string getShortnameFromProjectname(string projectLongName)
-        {
-            //this is wrong on so many levels I cannot even say.
-            //additionally, copied from prompt.cs
-            var match = Regex.Match(projectLongName, @".* \((.*)\)");
-            return match.Groups[1].Value;
         }
 
         private void countAsWorktime_Leave(object sender, EventArgs e)
@@ -101,7 +81,7 @@ namespace ProjectTracker
                 return;
             }
 
-            ProjectCorrectionHandler.correctProject(getShortnameFromProjectname(Form.correctProjectCombobox.Text), Form.getTrackerbarPercentage());
+            ProjectCorrectionHandler.correctProject(Form.correctProjectCombobox.Text, Form.getTrackerbarPercentage());
         }
     }
 }

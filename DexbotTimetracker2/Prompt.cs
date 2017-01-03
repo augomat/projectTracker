@@ -23,8 +23,8 @@ namespace ProjectTracker
             };
             var comboBox1 = new System.Windows.Forms.ComboBox() { DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList, Left = 50, Top = 70, AutoSize = true, TabIndex = 1 };
             //this.comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(Properties.Settings.Default.AvailableProjects.Cast<string>().ToArray());
-            comboBox1.SelectedIndex = 1;
+            comboBox1.Items.AddRange(ProjectChangeHandler.getAvailableProjects().Cast<string>().ToArray());
+            comboBox1.SelectedIndex = 2;
             Label textLabel = new Label() { Left = 50, Top = 20, Text = text };
             TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 400, TabIndex = 0 };
             Button confirmation = new Button() { Text = "Ok", Left = 350, Width = 100, Top = 70, TabIndex = 3, DialogResult = DialogResult.OK };
@@ -65,16 +65,9 @@ namespace ProjectTracker
             var result = prompt.ShowDialog();
 
             if (result == DialogResult.OK)
-                return new Tuple<String, String>(textBox.Text, convertDesktopNameToNumber(comboBox1.Text));
+                return new Tuple<String, String>(textBox.Text, comboBox1.Text);
             else
                 return new Tuple<String, String>("", "");
-        }
-
-        //this is wrong on so many levels I cannot even say.
-        private static string convertDesktopNameToNumber(string desktopName)
-        {
-            var match = Regex.Match(desktopName, @".* \((.*)\)");
-            return match.Groups[1].Value;
         }
     }
 }

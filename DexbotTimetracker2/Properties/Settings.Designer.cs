@@ -70,25 +70,37 @@ namespace ProjectTracker.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\Georg\\Documents\\DesktopTimes.csv")]
+        public string OutputCsvFilePath {
+            get {
+                return ((string)(this["OutputCsvFilePath"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\Georg\\AppData\\Roaming\\Dexpot\\dexpot.log")]
+        public string DexbotLogFilePath {
+            get {
+                return ((string)(this["DexbotLogFilePath"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
 <ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>Meeting (-2)</string>
-  <string>Pause (-1)</string>
-  <string>Arbeitspause (0)</string>
-  <string>PS customer (1)</string>
-  <string>PS admin (6)</string>
-  <string>KB (2)</string>
-  <string>AgD (4)</string>
-  <string>SalesF (5)</string>
+  <string>PS cust</string>
+  <string>PS adm</string>
+  <string>KB</string>
+  <string>AgD</string>
+  <string>SalesF</string>
 </ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection AvailableProjects {
             get {
                 return ((global::System.Collections.Specialized.StringCollection)(this["AvailableProjects"]));
-            }
-            set {
-                this["AvailableProjects"] = value;
             }
         }
     }

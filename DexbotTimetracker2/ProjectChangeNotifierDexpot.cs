@@ -63,7 +63,7 @@ namespace ProjectTracker
                 var desktopFrom = match.Groups[1].Value;
                 var desktopTo = match.Groups[2].Value;
 
-                if (!string.IsNullOrEmpty(Handler.currentProject))
+                if (!string.IsNullOrEmpty(Handler.currentProject)) //TODO - should that really be decided here?
                 {
                     long diffSecs = convertTicksToSec(DateTime.Now.Ticks) - convertTicksToSec(Handler.currentProjectSince.Ticks);
                     OnRaiseProjectChangeEvent(new ProjectChangeEvent(

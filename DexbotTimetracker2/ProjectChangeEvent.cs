@@ -8,7 +8,7 @@ namespace ProjectTracker
 {
     class ProjectChangeEvent : EventArgs
     {
-        public enum Types { Test, Init, Start, Finish, Change, GoodMorning };
+        public enum Types { Test, Init, Exit, Start, Finish, Change, GoodMorning };
 
         public Types Type { get; }
         public string NewProject { get; }

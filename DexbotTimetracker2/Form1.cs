@@ -54,6 +54,7 @@ namespace ProjectTracker
 
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierDexpot(mainHandler));
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierLockscreen(mainHandler));
+            mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierAppExit(mainHandler));
             mainHandler.addProjectChangeNotifier(projectCorrectionHandler);
             mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorNewDay(mainHandler));
             //mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorLongerThan10secs(mainHandler));

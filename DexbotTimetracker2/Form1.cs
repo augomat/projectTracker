@@ -51,6 +51,7 @@ namespace ProjectTracker
             ProjectChangeHandler mainHandler = new ProjectChangeHandler();
             var worktimebreakHandler = new ProjectChangeProcessorWorktimebreaks(mainHandler);
             var projectCorrectionHandler = new ProjectChangeNotifierCorrection(mainHandler);
+            var inMemoryRecordStorage = new WorktimeRecordStorageInMemory();
 
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierDexpot(mainHandler));
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierLockscreen(mainHandler));
@@ -62,10 +63,11 @@ namespace ProjectTracker
             mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberBalloonInformant(Presenter.showNotification));
             mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberLogger());
             mainHandler.addWorktimeRecordStorage(new WorktimeRecordStorageCSV());
-
+            mainHandler.addWorktimeRecordStorage(inMemoryRecordStorage);
             mainHandler.RaiseStorageExceptionEvent += new StorageExceptionBalloonInformant(Presenter.showNotification).handleStorageException;
             //mainHandler.init();
 
+            Presenter.WorktimeAnalyzer = new WorktimeAnalyzer(inMemoryRecordStorage);
             Presenter.WorktimebreakHandler = worktimebreakHandler;
             Presenter.ProjectCorrectionHandler = projectCorrectionHandler;
             Presenter.ProjectHandler = mainHandler;
@@ -95,8 +97,6 @@ namespace ProjectTracker
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            //tracker.recordAppExit();
-
             Properties.Settings.Default.lastAppExit = DateTime.Now;
             Properties.Settings.Default.Save();
 

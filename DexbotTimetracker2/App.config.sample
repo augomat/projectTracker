@@ -1,11 +1,104 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <configuration>
+  <configSections>
+    <sectionGroup name="userSettings" type="System.Configuration.UserSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" >
+      <section name="ProjectTracker.Properties.Settings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" allowExeDefinition="MachineToLocalUser" requirePermission="false" />
+      <section name="ProjectTracker.DexpotSettings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" allowExeDefinition="MachineToLocalUser" requirePermission="false" />
+    </sectionGroup>
+    <sectionGroup name="applicationSettings" type="System.Configuration.ApplicationSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" >
+      <section name="ProjectTracker.Properties.Settings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
+    </sectionGroup>
+  </configSections>
   <startup>
     <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5.2" />
   </startup>
   <appSettings>
     <add key="ClientSettingsProvider.ServiceUri" value="" />
-    <add key="OutputCsvFilePath" value="C:\Users\Georg\Documents\DesktopTimes.csv"/>
-    <add key="DexbotLogFilePath" value="C:\Users\Georg\AppData\Roaming\Dexpot\dexpot.log"/>
   </appSettings>
+  <userSettings>
+    <ProjectTracker.DexpotSettings>
+      <setting name="desktopToProjectName" serializeAs="Xml">
+        <value>
+          <Dictionary>
+            <item>
+              <key>
+                <string>1</string>
+              </key>
+              <value>
+                <string>PS cust</string>
+              </value>
+            </item>
+            <item>
+              <key>
+                <string>6</string>
+              </key>
+              <value>
+                <string>PS adm</string>
+              </value>
+            </item>
+            <item>
+              <key>
+                <string>2</string>
+              </key>
+              <value>
+                <string>KB</string>
+              </value>
+            </item>
+            <item>
+              <key>
+                <string>4</string>
+              </key>
+              <value>
+                <string>AgD</string>
+              </value>
+            </item>
+            <item>
+              <key>
+                <string>5</string>
+              </key>
+              <value>
+                <string>CRM</string>
+              </value>
+            </item>
+          </Dictionary>
+        </value>
+      </setting>
+    </ProjectTracker.DexpotSettings>
+    <ProjectTracker.Properties.Settings>
+      <setting name="WorktimebreakLeftSecs" serializeAs="String">
+        <value>0</value>
+      </setting>
+      <setting name="countAsWorktimebreakMins" serializeAs="String">
+        <value>10</value>
+      </setting>
+      <setting name="carryOverWorktimeCountHours" serializeAs="String">
+        <value>2</value>
+      </setting>
+      <setting name="lastAppExit" serializeAs="String">
+        <value />
+      </setting>
+    </ProjectTracker.Properties.Settings>
+  </userSettings>
+  <applicationSettings>
+    <ProjectTracker.Properties.Settings>
+      <setting name="OutputCsvFilePath" serializeAs="String">
+        <value>C:\Users\Georg\Documents\DesktopTimes.csv</value>
+      </setting>
+      <setting name="DexbotLogFilePath" serializeAs="String">
+        <value>C:\Users\Georg\AppData\Roaming\Dexpot\dexpot.log</value>
+      </setting>
+      <setting name="AvailableProjects" serializeAs="Xml">
+        <value>
+          <ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <string>PS cust</string>
+            <string>PS adm</string>
+            <string>KB</string>
+            <string>AgD</string>
+            <string>SalesF</string>
+          </ArrayOfString>
+        </value>
+      </setting>
+    </ProjectTracker.Properties.Settings>
+  </applicationSettings>
 </configuration>

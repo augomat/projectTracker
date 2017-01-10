@@ -87,7 +87,7 @@ namespace ProjectTracker
                         new WorktimeRecord(
                             DateTime.Now,
                             DateTime.Now,
-                            desktopTo,
+                            desktopToProjectName(desktopTo),
                             "Desktop initialized")
                         )
                     );

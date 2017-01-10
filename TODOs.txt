@@ -2,14 +2,16 @@ EventRefactoring
   Refactor Msgs so that they are only in Balloon instead of when creating the event
   Port SaveOnExit
   Port ExitCSV
-  Handle CSV write exceptions
-  Port Worktimebreaks
-  Abstract from form1
+D Handle CSV write exceptions
+D Port Worktimebreaks
+D Abstract from form1
   Have a look at all RTODOs
   Kick Tracker
-  Implement InMemoryStorage
-    Implement splitting & changing of types
+D Implement InMemoryStorage
+D   Implement splitting & changing of types
   Make ProjectObject that describes itwith properties?
+  Locking?!
+  Analysis should not throw 'Project corrected'
     
 Master
   Implement Rx WT Automation

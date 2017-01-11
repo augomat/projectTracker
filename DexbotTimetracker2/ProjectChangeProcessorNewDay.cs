@@ -15,7 +15,7 @@ namespace ProjectTracker
         {
             if (projectChangeEvent.Type == ProjectChangeEvent.Types.Start && isNewDay(Handler.currentProjectSince))
             {
-                OnRaiseProjectChangeEvent(new ProjectChangeEvent(
+                /*OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                                ProjectChangeEvent.Types.GoodMorning,
                                Handler.currentProject,
                                "Good morning",
@@ -26,7 +26,20 @@ namespace ProjectTracker
                                    "New day begun")
                                )
                            );
-                return true;
+                return true;*/
+
+                //Tryout: Just replace event instead of refiring, because the old event is per definition invalid
+                projectChangeEvent = new ProjectChangeEvent(
+                               ProjectChangeEvent.Types.GoodMorning,
+                               Handler.currentProject,
+                               "Good morning",
+                               new WorktimeRecord(
+                                   DateTime.Now,
+                                   DateTime.Now,
+                                   Handler.currentProject,
+                                   "New day begun")
+                               );
+                return false;
             }
             return false;
         }

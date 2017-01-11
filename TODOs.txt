@@ -12,6 +12,14 @@ D   Implement splitting & changing of types
   Make ProjectObject that describes itwith properties?
   Locking?!
   Analysis should not throw 'Project corrected'
+  Refactor Prompt out of NotifierLockscreen into Processor/Subscriber such that it can react to GoodMorning differently
+    Therefor I probably need to introduce IDs into the Events so that I can react to the GoodMorning but not the the original Start
+      That makes an explicit assumption about the order of processing of the events
+      Or I just let GoodMorning change/set (and not refire) the event
+  When coming back from a meeting, Bubble shouldn't Show 'Break: 88min'
+  Fix 'Somethinig happened with project'
+  Where does Project [unknown] come frome (11.01.)
+  Show Mins instead of secs in chart
     
 Master
   Implement Rx WT Automation

@@ -20,7 +20,12 @@ D   Implement splitting & changing of types
   Fix 'Somethinig happened with project'
   Where does Project [unknown] come frome (11.01.)
   Show Mins instead of secs in chart
+  Worktimebreak left bubble should be in mins instead of secs
+  Retrieve Outlook Appointments, check whether they fall into a Break and offer correction in case they do
+  Workstore Errors are not Shown in Bubbles on Win 8?!?!
     
 Master
   Implement Rx WT Automation
   Implement automatic export to excel
+  Implement Webservice/Webserver to provide actions such as 'Mittagspause now' to go into Mittagspause right after a Meeting
+  Extend Propmt dialog in a way such that you can already define at least 2 projects

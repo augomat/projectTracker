@@ -19,13 +19,21 @@ D   Implement splitting & changing of types
   When coming back from a meeting, Bubble shouldn't Show 'Break: 88min'
   Fix 'Somethinig happened with project'
   Where does Project [unknown] come frome (11.01.)
+    SessionSwitchReason.SessionUnlock is not (always?) triggered when logging in with RDP, thus project is still [unknown] from Finish
   Show Mins instead of secs in chart
   Worktimebreak left bubble should be in mins instead of secs
   Retrieve Outlook Appointments, check whether they fall into a Break and offer correction in case they do
   Workstore Errors are not Shown in Bubbles on Win 8?!?!
+  Why is there a SalesF Pj in Pj corrected list if the real Pj-name is 'CRM'?
+  Refactor ProjectChangeEvent to not include WorktimeRec but make it separate & and then pass PjChEvent to Storages so they can decide to write out FALSE for screentime and create their own WorktimeRecs
     
 Master
   Implement Rx WT Automation
   Implement automatic export to excel
   Implement Webservice/Webserver to provide actions such as 'Mittagspause now' to go into Mittagspause right after a Meeting
   Extend Propmt dialog in a way such that you can already define at least 2 projects
+  Privat must be counted as Break
+  Include "I did something else for 10mins but I am now continuing to work at the current Pj/Desktop"
+  Always track Pause as Worktimebreaks and ajust to minimal Pause needed at the end of the day
+    But that would mean that we kind of enforce this legal workbreaktime shit that actually nobody cares about#
+  Implement global shortcut for "I was just x mins on a different project"

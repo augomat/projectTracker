@@ -14,7 +14,7 @@ namespace ProjectTracker
         //this should actually be an interface but that's not worth the work...
         private Form1 Form;
         public IWorktimebreakHandler WorktimebreakHandler { private get;  set; }
-        public IProjectCorrectionHandler ProjectCorrectionHandler { private get; set; }
+        public IProjectCorrectionHandler ProjectCorrectionHandler { private get; set; } //TODO still needed?
         public IProjectHandler ProjectHandler { private get; set; }
         public WorktimeAnalyzer WorktimeAnalyzer;
 
@@ -60,7 +60,7 @@ namespace ProjectTracker
             try
             {
                 //inform storage of the latest state so that analysis also considers currently running project
-                ProjectCorrectionHandler.correctProject(currentProject, 1);
+                //ProjectCorrectionHandler.correctProject(currentProject, 1); -- now done in the analyzer
 
                 var projectStatistics = WorktimeAnalyzer.Analyze(DateTime.Now);
   
@@ -75,7 +75,7 @@ namespace ProjectTracker
 
                 foreach (var project in projectStatistics.projectTimes)
                 {
-                    series.Points.Add(project.Value.TotalSeconds);
+                    series.Points.Add(project.Value.TotalMinutes);
                     var p = series.Points.Last();
                     p.AxisLabel = project.Key;
                     p.Label = Math.Round(projectStatistics.relativeProjectTimes[project.Key]).ToString() + "%";

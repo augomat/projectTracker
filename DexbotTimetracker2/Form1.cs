@@ -53,24 +53,33 @@ namespace ProjectTracker
             var projectCorrectionHandler = new ProjectChangeNotifierCorrection(mainHandler);
             var inMemoryRecordStorage = new WorktimeRecordStorageInMemory();
 
+            //Change notifiers
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierDexpot(mainHandler));
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierLockscreen(mainHandler));
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierAppExit(mainHandler));
             mainHandler.addProjectChangeNotifier(projectCorrectionHandler);
+
+            //Change processors
             mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorNewDay(mainHandler));
-            //mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorLongerThan10secs(mainHandler));
             mainHandler.addProjectChangeProcessor(worktimebreakHandler);
+            //mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorLongerThan10secs(mainHandler));
+
+            //Change subscribers
             mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberBalloonInformant(Presenter.showNotification));
             mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberLogger());
+
+            //Storages
             mainHandler.addWorktimeRecordStorage(new WorktimeRecordStorageCSV());
             mainHandler.addWorktimeRecordStorage(inMemoryRecordStorage);
             mainHandler.RaiseStorageExceptionEvent += new StorageExceptionBalloonInformant(Presenter.showNotification).handleStorageException;
-            //mainHandler.init();
-
-            Presenter.WorktimeAnalyzer = new WorktimeAnalyzer(inMemoryRecordStorage);
+            
+            //Presenter
+            Presenter.WorktimeAnalyzer = new WorktimeAnalyzer(inMemoryRecordStorage, mainHandler, projectCorrectionHandler);
             Presenter.WorktimebreakHandler = worktimebreakHandler;
             Presenter.ProjectCorrectionHandler = projectCorrectionHandler;
             Presenter.ProjectHandler = mainHandler;
+
+            //mainHandler.init();
 
             //RTODO
             TrayIcon.BalloonTipTitle = "Change desktop";

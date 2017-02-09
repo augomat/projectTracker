@@ -29,7 +29,7 @@ namespace ProjectTracker
             }
             if (projectChangeEvent.WorktimeRecord == null)
             {
-                Console.WriteLine("Possibly wrong projectChangeEvent detected and ignored"); //mmmh... //RTODO log
+                Console.WriteLine("Possibly wrong projectChangeEvent detected and ignored - Worktimerecord was empty"); //mmmh... //RTODO log
                 return;
             }
 
@@ -45,19 +45,29 @@ namespace ProjectTracker
                 if (projectChangeEvent.WorktimeRecords.Count == 1)
                 {
                     var breakName = (wtr.ProjectName == ProjectChangeHandler.PROJECT_WORKTIMEBREAK) ? "Worktimebreak" : "Break";
-                    showBalloon("Welcome back", String.Format("{0}: {1}min, Worktimebreak left: {2}sec", breakName, (timePassed / 60).ToString(), projectChangeEvent.AvailableWorktimebreak.TotalSeconds));
+                    showBalloon("Welcome back", String.Format("{0}: {1}min, Worktimebreak left: {2}mins", breakName, (timePassed / 60).ToString(), (projectChangeEvent.AvailableWorktimebreak.TotalSeconds / 60).ToString()));
                 }
                 else
                 {
-                    //var timePassedWtb = (long)System.Math.Abs((projectChangeEvent.WorktimeRecords.First().End - projectChangeEvent.WorktimeRecords.First().Start).TotalSeconds);
-                    //var timePassedBreak = (long)System.Math.Abs((projectChangeEvent.WorktimeRecords.Last().End - projectChangeEvent.WorktimeRecords.Last().Start).TotalSeconds);
                     var timePassedTotal = (long)System.Math.Abs((projectChangeEvent.WorktimeRecords.Last().End - projectChangeEvent.WorktimeRecords.First().Start).TotalSeconds);
                     showBalloon("Welcome back", String.Format("Total break: {0}min, no Worktimebreak left", (timePassedTotal / 60).ToString()));
                 }
             }
-            else //if (projectChangeEvent.Type == ProjectChangeEvent.Types.Start || projectChangeEvent.Type == ProjectChangeEvent.Types.Finish)
+            else if (projectChangeEvent.Type == ProjectChangeEvent.Types.Finish)
             {
-                showBalloon("Something with Project happened", projectChangeEvent.Message); // :) RTODO
+                //ignore this message for now as this only happens when you logout
+            }
+            else if (projectChangeEvent.Type == ProjectChangeEvent.Types.GoodMorning)
+            {
+                showBalloon("Good Morning Sir", projectChangeEvent.Message);
+            }
+            else if (projectChangeEvent.Type == ProjectChangeEvent.Types.Exit)
+            {
+                //nothing to do here either as we do not need to inform the user that we are exiting the application :)
+            }
+            else if (projectChangeEvent.Type == ProjectChangeEvent.Types.Test)
+            {
+                showBalloon("Testmessage captured", projectChangeEvent.Message);
             }
         }
     }

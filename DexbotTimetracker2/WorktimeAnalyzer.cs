@@ -9,14 +9,20 @@ namespace ProjectTracker
     class WorktimeAnalyzer
     {
         private IWorktimeRecordStorage Storage;
+        private IProjectHandler ProjectHandler;
+        private IProjectCorrectionHandler ProjectCorrectionHandler;
 
-        public WorktimeAnalyzer(IWorktimeRecordStorage storage)
+        public WorktimeAnalyzer(IWorktimeRecordStorage storage, IProjectHandler projectHandler, IProjectCorrectionHandler projectCorrectionHandler)
         {
             Storage = storage;
+            ProjectCorrectionHandler = projectCorrectionHandler;
+            ProjectHandler = projectHandler;
         }
 
         public WorktimeStatistics Analyze(DateTime day)
         {
+            ProjectCorrectionHandler.correctProject(ProjectHandler.currentProject, 1);
+
             var items = Storage.getAllWorktimeRecords(day);
             return generateStatistics(items);
         }

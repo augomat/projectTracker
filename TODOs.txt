@@ -17,15 +17,17 @@ D   Implement splitting & changing of types
       That makes an explicit assumption about the order of processing of the events
       Or I just let GoodMorning change/set (and not refire) the event
   When coming back from a meeting, Bubble shouldn't Show 'Break: 88min'
-  Fix 'Somethinig happened with project'
+T Fix 'Somethinig happened with project'
   Where does Project [unknown] come frome (11.01.)
     SessionSwitchReason.SessionUnlock is not (always?) triggered when logging in with RDP, thus project is still [unknown] from Finish
-  Show Mins instead of secs in chart
-  Worktimebreak left bubble should be in mins instead of secs
+T Show Mins instead of secs in chart
+T Worktimebreak left bubble should be in mins instead of secs
   Retrieve Outlook Appointments, check whether they fall into a Break and offer correction in case they do
   Workstore Errors are not Shown in Bubbles on Win 8?!?!
-  Why is there a SalesF Pj in Pj corrected list if the real Pj-name is 'CRM'?
+_ Why is there a SalesF Pj in Pj corrected list if the real Pj-name is 'CRM'?
+    -> Has to be corrected manually in app.config
   Refactor ProjectChangeEvent to not include WorktimeRec but make it separate & and then pass PjChEvent to Storages so they can decide to write out FALSE for screentime and create their own WorktimeRecs
+  Refactor BalloonInformant to have internal delegates in a hashmap <ChangeEventType, Delegate> to get rid of the if/else
     
 Master
   Implement Rx WT Automation

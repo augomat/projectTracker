@@ -20,12 +20,27 @@ namespace ProjectTracker
 
         private Queue<string> pendingCSVEntries = new Queue<string>();
 
+        [Obsolete("addWorktimeRecord is deprecated, please use addProjectEvent instead.")]
         public void addWorktimeRecord(WorktimeRecord wtr)
         {
             if (wtr != null)
             {
                 var csv = generateCSVEntry((long)System.Math.Abs((wtr.End - wtr.Start).TotalSeconds), wtr.ProjectName, wtr.Start, wtr.End, wtr.Comment, true);
                 pendingCSVEntries.Enqueue(csv);
+            }
+
+            writeOutAllPendingCSVEntries();
+        }
+
+        public void addProjectChangeEvent(ProjectChangeEvent projectChangeEvent)
+        {
+            if (projectChangeEvent != null)
+            {
+                foreach (var wtr in projectChangeEvent.WorktimeRecords)
+                {
+                    var csv = generateCSVEntry((long)System.Math.Abs((wtr.End - wtr.Start).TotalSeconds), wtr.ProjectName, wtr.Start, wtr.End, wtr.Comment, true);
+                    pendingCSVEntries.Enqueue(csv);
+                }
             }
 
             writeOutAllPendingCSVEntries();
@@ -56,5 +71,7 @@ namespace ProjectTracker
             return String.Format("{2:d};{4:HH:mm:ss};{2:HH:mm:ss};{5};{0};{1};{3}",
                                                       diffSecs, currentD, end, addInfos, start, screenTime.ToString());
         }
+
+        
     }
 }

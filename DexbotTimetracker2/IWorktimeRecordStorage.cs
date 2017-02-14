@@ -9,6 +9,7 @@ namespace ProjectTracker
     interface IWorktimeRecordStorage
     {
         void addWorktimeRecord(WorktimeRecord worktimeRecord);
+        void addProjectChangeEvent(ProjectChangeEvent projectChangeEvent);
         List<WorktimeRecord> getAllWorktimeRecords(DateTime day);
     }
 }

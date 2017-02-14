@@ -10,6 +10,14 @@ namespace ProjectTracker
     {
         List<WorktimeRecord> wtrs = new List<WorktimeRecord>();
 
+        public void addProjectChangeEvent(ProjectChangeEvent projectChangeEvent)
+        {
+            foreach (var wtr in projectChangeEvent.WorktimeRecords)
+            {
+                wtrs.Add(wtr);
+            }
+        }
+
         public void addWorktimeRecord(WorktimeRecord worktimeRecord)
         {
             wtrs.Add(worktimeRecord);

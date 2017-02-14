@@ -113,10 +113,7 @@ namespace ProjectTracker
                 {
                     try
                     {
-                        foreach (var wtr in projectChangeEvent.WorktimeRecords)
-                        {
-                            storage.addWorktimeRecord(wtr);
-                        }
+                        storage.addProjectChangeEvent(projectChangeEvent);
                     }
                     catch (Exception ex)
                     {

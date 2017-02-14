@@ -12,6 +12,9 @@ namespace ProjectTracker
 
         public void addProjectChangeEvent(ProjectChangeEvent projectChangeEvent)
         {
+            if (projectChangeEvent == null)
+                return;
+
             foreach (var wtr in projectChangeEvent.WorktimeRecords)
             {
                 wtrs.Add(wtr);
@@ -20,6 +23,9 @@ namespace ProjectTracker
 
         public void addWorktimeRecord(WorktimeRecord worktimeRecord)
         {
+            if (worktimeRecord == null)
+                return;
+
             wtrs.Add(worktimeRecord);
         }
 

@@ -59,11 +59,15 @@ namespace ProjectTracker
         {
             try
             {
-                //inform storage of the latest state so that analysis also considers currently running project
-                //ProjectCorrectionHandler.correctProject(currentProject, 1); -- now done in the analyzer
+                DateTime BeginDate;
+                if (DateTime.Now.Hour >= 4 ) 
+                    BeginDate = DateTime.Now.Date + new TimeSpan(4, 0, 0);
+                else //if were are between 12am and 4am, we still count it as the day before
+                    BeginDate = DateTime.Now.Date.AddDays(-1) + new TimeSpan(4, 0, 0);
+                var EndDate = BeginDate.AddDays(1);
 
-                var projectStatistics = WorktimeAnalyzer.Analyze(DateTime.Now);
-  
+                var projectStatistics = WorktimeAnalyzer.Analyze(BeginDate, EndDate);
+
                 Form.ProjectTimesSummary.Series.Clear();
                 Series series = new Series
                 {

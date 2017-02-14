@@ -64,6 +64,11 @@ namespace ProjectTracker
             throw new NotImplementedException();
         }
 
+        public List<WorktimeRecord> getAllWorktimeRecords(DateTime from, DateTime to)
+        {
+            throw new NotImplementedException();
+        }
+
         /*
          * very hacky implementation to determine whether something should be marked as Screentime t/f which is solely important for the CSV export/analysis spreadsheet
          * e.g. does not account for times on private screen, should be declared in settings

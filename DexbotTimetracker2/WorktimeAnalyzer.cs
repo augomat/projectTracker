@@ -27,6 +27,14 @@ namespace ProjectTracker
             return generateStatistics(items);
         }
 
+        public WorktimeStatistics Analyze(DateTime from, DateTime to)
+        {
+            ProjectCorrectionHandler.correctProject(ProjectHandler.currentProject, 1);
+
+            var items = Storage.getAllWorktimeRecords(from, to);
+            return generateStatistics(items);
+        }
+
         private WorktimeStatistics generateStatistics(List<WorktimeRecord> worktimeRecords)
         {
             //TODO write current desktop to storage

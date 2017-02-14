@@ -25,7 +25,7 @@ namespace ProjectTracker
         {
             if (wtr != null)
             {
-                var csv = generateCSVEntry((long)System.Math.Abs((wtr.End - wtr.Start).TotalSeconds), wtr.ProjectName, wtr.Start, wtr.End, wtr.Comment, true);
+                var csv = generateCSVEntry((long)System.Math.Abs((wtr.End - wtr.Start).TotalSeconds), wtr.ProjectName, wtr.Start, wtr.End, wtr.Comment, isScreentime(wtr));
                 pendingCSVEntries.Enqueue(csv);
             }
 
@@ -38,7 +38,7 @@ namespace ProjectTracker
             {
                 foreach (var wtr in projectChangeEvent.WorktimeRecords)
                 {
-                    var csv = generateCSVEntry((long)System.Math.Abs((wtr.End - wtr.Start).TotalSeconds), wtr.ProjectName, wtr.Start, wtr.End, wtr.Comment, true);
+                    var csv = generateCSVEntry((long)System.Math.Abs((wtr.End - wtr.Start).TotalSeconds), wtr.ProjectName, wtr.Start, wtr.End, wtr.Comment, isScreentime(wtr));
                     pendingCSVEntries.Enqueue(csv);
                 }
             }
@@ -62,6 +62,18 @@ namespace ProjectTracker
         public List<WorktimeRecord> getAllWorktimeRecords(DateTime day)
         {
             throw new NotImplementedException();
+        }
+
+        /*
+         * very hacky implementation to determine whether something should be marked as Screentime t/f which is solely important for the CSV export/analysis spreadsheet
+         * e.g. does not account for times on private screen, should be declared in settings
+         * */
+        private bool isScreentime(WorktimeRecord wtr)
+        {
+            if (wtr.ProjectName == ProjectChangeHandler.PROJECT_PAUSE || wtr.ProjectName == ProjectChangeHandler.PROJECT_WORKTIMEBREAK)
+                return false;
+            else
+                return true;
         }
 
         //--------------------------

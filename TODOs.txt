@@ -40,3 +40,4 @@ Master
     But that would mean that we kind of enforce this legal workbreaktime shit that actually nobody cares about#
   Implement global shortcut for "I was just x mins on a different project"
   Implement something that learns to infer your project from current windows or other stuff
+  Ask for current screen instead(?) of initialization required

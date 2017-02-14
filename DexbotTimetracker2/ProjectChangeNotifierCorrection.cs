@@ -33,9 +33,14 @@ namespace ProjectTracker
 
         public void correctProject(string projectShortname, float percentage)
         {
+            OnRaiseProjectChangeEvent(getCorrectProjectEvent(projectShortname, percentage));
+        }
+
+        public ProjectChangeEvent getCorrectProjectEvent(string projectShortname, float percentage)
+        {
             var correctedTimes = getCorrectedTimes(percentage);
 
-            OnRaiseProjectChangeEvent(new ProjectChangeEvent(
+            return new ProjectChangeEvent(
                         ProjectChangeEvent.Types.Change,
                         projectShortname,
                         "Project corrected",
@@ -44,8 +49,7 @@ namespace ProjectTracker
                             correctedTimes.Item1,
                             Handler.currentProject,
                             "Project corrected")
-                        )
-                    );
+                        );
         }
     }
 }

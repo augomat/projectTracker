@@ -44,14 +44,19 @@ namespace ProjectTracker
 
             InitializeComponent();
 
+#if DEBUG
+            WindowState = FormWindowState.Normal;
+#endif
+
             countAsWorktime.Text = Properties.Settings.Default.countAsWorktimebreakMins.ToString();
             carryOverHours.Text = Properties.Settings.Default.carryOverWorktimeCountHours.ToString();
-            
+
             Presenter = new Presenter(this);
+            BindingList<WorktimeRecord> workrecordList = new BindingList<WorktimeRecord>();
             ProjectChangeHandler mainHandler = new ProjectChangeHandler();
             var worktimebreakHandler = new ProjectChangeProcessorWorktimebreaks(mainHandler);
             var projectCorrectionHandler = new ProjectChangeNotifierCorrection(mainHandler);
-            var inMemoryRecordStorage = new WorktimeRecordStorageInMemory();
+            var inMemoryRecordStorage = new WorktimeRecordStorageInMemory(workrecordList);
 
             //Change notifiers
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierDexpot(mainHandler));
@@ -78,6 +83,10 @@ namespace ProjectTracker
             Presenter.WorktimebreakHandler = worktimebreakHandler;
             Presenter.ProjectCorrectionHandler = projectCorrectionHandler;
             Presenter.ProjectHandler = mainHandler;
+            
+            Presenter.ProjectList = workrecordList;
+            //Presenter.bindingList.Add(new WorktimeRecord(DateTime.Now, DateTime.Now.AddHours(2), "Test", "comment222"));
+            //Presenter.bindingList.Add(new WorktimeRecord(DateTime.Now, DateTime.Now.AddHours(2), "Test", "comment222"));
 
             //mainHandler.init();
 
@@ -118,104 +127,6 @@ namespace ProjectTracker
             //outlooker.retrieveAppointments(dateTimePicker1.Value);
         }
 
-        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-           // updateDiffSecs();
-        }
-
-        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            updateDiffSecs();
-        }
-
-        //----------------------------------
-
-        private void updateDiffSecs()
-        {
-            try
-            {
-                for (var counter = 0; counter < dataGridView1.Rows.Count; counter++)
-                {
-                    var start = DateTime.Parse(dataGridView1.Rows[counter].Cells["StartTime"].Value.ToString());
-                    var end = DateTime.Parse(dataGridView1.Rows[counter].Cells["EndTime"].Value.ToString());
-
-                    dataGridView1.Rows[counter].Cells["DiffSecs"].Value = (end - start).TotalSeconds.ToString();
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Exception: " + e.ToString());
-            }
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                var isSane = CheckGridSanity();
-
-                if (isSane)
-                    WriteGridToCSV();
-
-                MessageBox.Show("Written to CSV");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Exception: " + ex.ToString());
-            }
-        }
-
-        private bool CheckGridSanity()
-        {
-            for (var counter = 0; counter < dataGridView1.Rows.Count; counter++)
-            {
-                var row = dataGridView1.Rows[counter];
-
-                if (row.Cells["DesktopNo"].Value == null)
-                {
-                    MessageBox.Show("DesktopNo of row " + (counter + 1) + " is not valid");
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        private void WriteGridToCSV()
-        {
-            for (var counter = 0; counter < dataGridView1.Rows.Count; counter++)
-            {
-                var row = dataGridView1.Rows[counter];
-
-                var rdiffSecs = Convert.ToInt64(row.Cells["DiffSecs"].Value);
-                var rdesktopNo = row.Cells["DesktopNo"].Value.ToString();
-                var rstartDate = DateTime.ParseExact(
-                        row.Cells["Date"].Value.ToString() + " " + row.Cells["StartTime"].Value.ToString(),
-                        "dd.MM.yyyy HH:mm",
-                        System.Globalization.CultureInfo.InvariantCulture
-                    );
-                var rendDate = DateTime.ParseExact(
-                        row.Cells["Date"].Value.ToString() + " " + row.Cells["EndTime"].Value.ToString(),
-                        "dd.MM.yyyy HH:mm",
-                        System.Globalization.CultureInfo.InvariantCulture
-                    );
-                var rcomment = row.Cells["Comment"].Value.ToString();
-
-                /* tracker.writeCSVEntry(
-                    rdiffSecs,
-                    rdesktopNo,
-                    rstartDate,
-                    rendDate,
-                    rcomment,
-                    false
-                ); */
-            }
-        }
-
-        private void Form1_ResizeEnd(object sender, EventArgs e)
-        {
-
-        }
-
         private void Form1_Resize(object sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Minimized)
@@ -234,11 +145,6 @@ namespace ProjectTracker
             {
                 e.Cancel = true;
             }
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void worktimebreakUpdater_Tick(object sender, EventArgs e)
@@ -288,6 +194,11 @@ namespace ProjectTracker
             currentProject.Text = Presenter.currentProject ?? "[not initialized]";
 
             updateTrackbarLabel();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            //Presenter.bindingList.Add(new WorktimeRecord(DateTime.Now, DateTime.Now.AddHours(2), "Test", "comment222"));
         }
     }
 }

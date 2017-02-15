@@ -8,7 +8,15 @@ namespace ProjectTracker
 {
     class WorktimeRecordStorageInMemory : IWorktimeRecordStorage
     {
-        List<WorktimeRecord> wtrs = new List<WorktimeRecord>();
+        IList<WorktimeRecord> wtrs;
+        public IList<WorktimeRecord> worktimeRecords { get { return wtrs; } }
+
+        public WorktimeRecordStorageInMemory(IList<WorktimeRecord> worktimeRecordList)
+        {
+            //This is actually really ugly, why does my db-class need to retrieve the stupid list from outside????
+            //But it appears to be that this is the easiest way to bring an IBindingList into the storage
+            wtrs = worktimeRecordList;
+        }
 
         public void addProjectChangeEvent(ProjectChangeEvent projectChangeEvent)
         {

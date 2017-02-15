@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
@@ -68,10 +68,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.ProjectTimesSummary = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.AnalyzeWorktimes = new System.Windows.Forms.Button();
-            this.StartTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EndTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Project = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -101,23 +98,16 @@
             // 
             // dataGridView1
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.StartTime,
-            this.EndTime,
-            this.Project,
-            this.Comment});
             this.dataGridView1.Location = new System.Drawing.Point(16, 56);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(691, 204);
             this.dataGridView1.TabIndex = 2;
-            this.dataGridView1.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEndEdit);
-            this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.dateTimePicker1);
             this.groupBox1.Controls.Add(this.dataGridView1);
             this.groupBox1.Location = new System.Drawing.Point(20, 15);
@@ -418,13 +408,13 @@
             // ProjectTimesSummary
             // 
             this.ProjectTimesSummary.BackColor = System.Drawing.SystemColors.Control;
-            chartArea1.Name = "ChartArea1";
-            this.ProjectTimesSummary.ChartAreas.Add(chartArea1);
+            chartArea5.Name = "ChartArea1";
+            this.ProjectTimesSummary.ChartAreas.Add(chartArea5);
             this.ProjectTimesSummary.Location = new System.Drawing.Point(167, 27);
             this.ProjectTimesSummary.Name = "ProjectTimesSummary";
-            series1.ChartArea = "ChartArea1";
-            series1.Name = "Series1";
-            this.ProjectTimesSummary.Series.Add(series1);
+            series5.ChartArea = "ChartArea1";
+            series5.Name = "Series1";
+            this.ProjectTimesSummary.Series.Add(series5);
             this.ProjectTimesSummary.Size = new System.Drawing.Size(340, 180);
             this.ProjectTimesSummary.TabIndex = 1;
             this.ProjectTimesSummary.Text = "chart1";
@@ -439,29 +429,15 @@
             this.AnalyzeWorktimes.Text = "Analyze";
             this.AnalyzeWorktimes.UseVisualStyleBackColor = true;
             // 
-            // StartTime
+            // button1
             // 
-            this.StartTime.HeaderText = "Start Time";
-            this.StartTime.Name = "StartTime";
-            this.StartTime.Width = 80;
-            // 
-            // EndTime
-            // 
-            this.EndTime.HeaderText = "End Time";
-            this.EndTime.Name = "EndTime";
-            this.EndTime.Width = 80;
-            // 
-            // Project
-            // 
-            this.Project.HeaderText = "Desktop";
-            this.Project.Name = "Project";
-            this.Project.Width = 80;
-            // 
-            // Comment
-            // 
-            this.Comment.HeaderText = "Comment";
-            this.Comment.Name = "Comment";
-            this.Comment.Width = 250;
+            this.button1.Location = new System.Drawing.Point(571, 26);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // Form1
             // 
@@ -479,7 +455,6 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
-            this.ResizeEnd += new System.EventHandler(this.Form1_ResizeEnd);
             this.Resize += new System.EventHandler(this.Form1_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox1.ResumeLayout(false);
@@ -500,7 +475,7 @@
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        public System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label2;
@@ -534,10 +509,7 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.DataGridViewTextBoxColumn StartTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn EndTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Project;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Comment;
+        private System.Windows.Forms.Button button1;
     }
 }
 

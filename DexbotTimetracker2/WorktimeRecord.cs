@@ -8,10 +8,10 @@ namespace ProjectTracker
 {
     class WorktimeRecord
     {
-        public DateTime Start { get; }
-        public DateTime End { get; }
-        public string ProjectName { get; }
-        public string Comment { get; }
+        public DateTime Start { get; set; }
+        public DateTime End { get; set; }
+        public string ProjectName { get; set; }
+        public string Comment { get; set;  }
 
         public WorktimeRecord(DateTime start, DateTime end, string projectName, string comment)
         {

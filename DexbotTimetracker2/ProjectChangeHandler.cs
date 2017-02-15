@@ -50,6 +50,7 @@ namespace ProjectTracker
             }
 
             Thread t = new Thread(notifier.start);
+            t.Name = notifier.GetType().ToString();
             t.IsBackground = true;
             t.Start();
         }

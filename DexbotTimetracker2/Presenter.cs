@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Windows.Forms.DataVisualization.Charting;
+using System.ComponentModel;
 
 namespace ProjectTracker
 {
@@ -17,6 +18,17 @@ namespace ProjectTracker
         public IProjectCorrectionHandler ProjectCorrectionHandler { private get; set; } //TODO still needed?
         public IProjectHandler ProjectHandler { private get; set; }
         public WorktimeAnalyzer WorktimeAnalyzer;
+
+        private BindingList<WorktimeRecord> bindingList;
+        public BindingList<WorktimeRecord> ProjectList {
+            private get { return bindingList; }
+            set
+            {
+                bindingList = value;
+                var source = new BindingSource(bindingList, null);
+                Form.dataGridView1.DataSource = source;
+            }
+        }
 
         public string currentProject { get { return ProjectHandler.currentProject; } } //TODO errorhandling
         public DateTime currentProjectSince { get { return ProjectHandler.currentProjectSince; } } //TODO errorhandling

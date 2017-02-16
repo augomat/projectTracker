@@ -29,13 +29,16 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ButtonUpdate = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.worktimebreakLeft = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -68,8 +71,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.ProjectTimesSummary = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.AnalyzeWorktimes = new System.Windows.Forms.Button();
+            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StartTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EndTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Minutes = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Project = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -101,11 +106,12 @@
             // 
             // dataGridView1
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Date,
             this.StartTime,
             this.EndTime,
+            this.Minutes,
             this.Project,
             this.Comment});
             this.dataGridView1.Location = new System.Drawing.Point(16, 56);
@@ -113,11 +119,10 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(691, 204);
             this.dataGridView1.TabIndex = 2;
-            this.dataGridView1.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEndEdit);
-            this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.ButtonUpdate);
             this.groupBox1.Controls.Add(this.dateTimePicker1);
             this.groupBox1.Controls.Add(this.dataGridView1);
             this.groupBox1.Location = new System.Drawing.Point(20, 15);
@@ -126,6 +131,15 @@
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Project history";
+            // 
+            // ButtonUpdate
+            // 
+            this.ButtonUpdate.Location = new System.Drawing.Point(632, 27);
+            this.ButtonUpdate.Name = "ButtonUpdate";
+            this.ButtonUpdate.Size = new System.Drawing.Size(75, 23);
+            this.ButtonUpdate.TabIndex = 3;
+            this.ButtonUpdate.Text = "Update";
+            this.ButtonUpdate.UseVisualStyleBackColor = true;
             // 
             // groupBox3
             // 
@@ -418,14 +432,14 @@
             // ProjectTimesSummary
             // 
             this.ProjectTimesSummary.BackColor = System.Drawing.SystemColors.Control;
-            chartArea1.Name = "ChartArea1";
-            this.ProjectTimesSummary.ChartAreas.Add(chartArea1);
-            this.ProjectTimesSummary.Location = new System.Drawing.Point(167, 27);
+            chartArea2.Name = "ChartArea1";
+            this.ProjectTimesSummary.ChartAreas.Add(chartArea2);
+            this.ProjectTimesSummary.Location = new System.Drawing.Point(161, 27);
             this.ProjectTimesSummary.Name = "ProjectTimesSummary";
-            series1.ChartArea = "ChartArea1";
-            series1.Name = "Series1";
-            this.ProjectTimesSummary.Series.Add(series1);
-            this.ProjectTimesSummary.Size = new System.Drawing.Size(340, 180);
+            series2.ChartArea = "ChartArea1";
+            series2.Name = "Series1";
+            this.ProjectTimesSummary.Series.Add(series2);
+            this.ProjectTimesSummary.Size = new System.Drawing.Size(346, 180);
             this.ProjectTimesSummary.TabIndex = 1;
             this.ProjectTimesSummary.Text = "chart1";
             this.ProjectTimesSummary.Visible = false;
@@ -439,6 +453,18 @@
             this.AnalyzeWorktimes.Text = "Analyze";
             this.AnalyzeWorktimes.UseVisualStyleBackColor = true;
             // 
+            // Date
+            // 
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Gray;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Gray;
+            this.Date.DefaultCellStyle = dataGridViewCellStyle3;
+            this.Date.HeaderText = "Date";
+            this.Date.Name = "Date";
+            this.Date.ReadOnly = true;
+            this.Date.Width = 70;
+            // 
             // StartTime
             // 
             this.StartTime.HeaderText = "Start Time";
@@ -451,9 +477,21 @@
             this.EndTime.Name = "EndTime";
             this.EndTime.Width = 80;
             // 
+            // Minutes
+            // 
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Gray;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Gray;
+            this.Minutes.DefaultCellStyle = dataGridViewCellStyle4;
+            this.Minutes.HeaderText = "Mins";
+            this.Minutes.Name = "Minutes";
+            this.Minutes.ReadOnly = true;
+            this.Minutes.Width = 50;
+            // 
             // Project
             // 
-            this.Project.HeaderText = "Desktop";
+            this.Project.HeaderText = "Project";
             this.Project.Name = "Project";
             this.Project.Width = 80;
             // 
@@ -461,7 +499,7 @@
             // 
             this.Comment.HeaderText = "Comment";
             this.Comment.Name = "Comment";
-            this.Comment.Width = 250;
+            this.Comment.Width = 270;
             // 
             // Form1
             // 
@@ -500,7 +538,7 @@
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        public System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label2;
@@ -534,8 +572,11 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
+        public System.Windows.Forms.Button ButtonUpdate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Date;
         private System.Windows.Forms.DataGridViewTextBoxColumn StartTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn EndTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Minutes;
         private System.Windows.Forms.DataGridViewTextBoxColumn Project;
         private System.Windows.Forms.DataGridViewTextBoxColumn Comment;
     }

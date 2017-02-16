@@ -8,8 +8,8 @@ namespace ProjectTracker
 {
     interface IProjectCorrectionHandler
     {
-        Tuple<DateTime, DateTime> getCorrectedTimes(float percentage);
-        ProjectChangeEvent getCorrectProjectEvent(string projectShortname, float percentage);
-        void correctProject(string projectShortname, float percentage);
+        Tuple<DateTime, DateTime> getCurrentProjectCorrectedTimes(float percentage);
+        ProjectChangeEvent getCorrectCurrentProjectEvent(string projectShortname, float percentage);
+        void correctCurrentProject(string projectShortname, float percentage);
     }
 }

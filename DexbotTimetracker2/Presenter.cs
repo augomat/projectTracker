@@ -52,7 +52,7 @@ namespace ProjectTracker
         public Tuple<DateTime, DateTime> getProjectCorrections(float percentage)
         {
             //TODO errorhandling
-            return ProjectCorrectionHandler.getCorrectedTimes(percentage);
+            return ProjectCorrectionHandler.getCurrentProjectCorrectedTimes(percentage);
         }
 
         //------------------------------------------------
@@ -140,7 +140,7 @@ namespace ProjectTracker
                 return;
             }
 
-            ProjectCorrectionHandler.correctProject(Form.correctProjectCombobox.Text, Form.getTrackerbarPercentage());
+            ProjectCorrectionHandler.correctCurrentProject(Form.correctProjectCombobox.Text, Form.getTrackerbarPercentage());
         }
 
         private void updateButton_Click(object sender, EventArgs e)

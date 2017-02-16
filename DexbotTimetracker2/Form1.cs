@@ -44,6 +44,10 @@ namespace ProjectTracker
 
             InitializeComponent();
 
+#if DEBUG
+            WindowState = FormWindowState.Normal;
+#endif
+
             countAsWorktime.Text = Properties.Settings.Default.countAsWorktimebreakMins.ToString();
             carryOverHours.Text = Properties.Settings.Default.carryOverWorktimeCountHours.ToString();
             

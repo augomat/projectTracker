@@ -16,7 +16,8 @@ namespace ProjectTracker
         public IWorktimebreakHandler WorktimebreakHandler { private get;  set; }
         public IProjectCorrectionHandler ProjectCorrectionHandler { private get; set; } //TODO still needed?
         public IProjectHandler ProjectHandler { private get; set; }
-        public WorktimeAnalyzer WorktimeAnalyzer;
+        public WorktimeAnalyzer WorktimeAnalyzer { private get; set; }
+        public IList<WorktimeRecord> WorktimeRecords { private get; set; }
 
         public string currentProject { get { return ProjectHandler.currentProject; } } //TODO errorhandling
         public DateTime currentProjectSince { get { return ProjectHandler.currentProjectSince; } } //TODO errorhandling
@@ -31,6 +32,8 @@ namespace ProjectTracker
             Form.carryOverHours.Leave += carryOverHours_Leave;
             Form.CorrectProject.Click += CorrectProject_Click;
             Form.AnalyzeWorktimes.Click += AnalyzeWorktimes_Click;
+            Form.ButtonUpdate.Click += updateButton_Click;
+            Form.Activated += (o, i) => { refreshGrid(); };
         }
 
         public void showNotification(string title, string text)
@@ -138,6 +141,28 @@ namespace ProjectTracker
             }
 
             ProjectCorrectionHandler.correctProject(Form.correctProjectCombobox.Text, Form.getTrackerbarPercentage());
+        }
+
+        private void updateButton_Click(object sender, EventArgs e)
+        {
+            refreshGrid();
+        }
+
+        public void refreshGrid()
+        {
+            Form.dataGridView1.Rows.Clear();
+            foreach (var wtr in WorktimeRecords)
+            {
+                //TODO overnighters
+                Form.dataGridView1.Rows.Add(
+                    wtr.Start.Date.ToShortDateString(),
+                    wtr.Start.ToLongTimeString(),
+                    wtr.End.ToLongTimeString(),
+                    Math.Round((wtr.End - wtr.Start).TotalMinutes, 1),
+                    wtr.ProjectName,
+                    wtr.Comment);
+            }
+            Form.dataGridView1.Refresh();
         }
     }
 }

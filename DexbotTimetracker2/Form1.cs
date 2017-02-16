@@ -82,6 +82,7 @@ namespace ProjectTracker
             Presenter.WorktimebreakHandler = worktimebreakHandler;
             Presenter.ProjectCorrectionHandler = projectCorrectionHandler;
             Presenter.ProjectHandler = mainHandler;
+            Presenter.WorktimeRecords = inMemoryRecordStorage.worktimeRecords;
 
             //mainHandler.init();
 

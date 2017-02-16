@@ -114,7 +114,7 @@ namespace ProjectTracker
                 {
                     try
                     {
-                        storage.addProjectChangeEvent(projectChangeEvent);
+                        storage.handleProjectChangeEvent(projectChangeEvent);
                     }
                     catch (Exception ex)
                     {

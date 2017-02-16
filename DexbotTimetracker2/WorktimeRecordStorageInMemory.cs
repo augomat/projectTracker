@@ -12,7 +12,7 @@ namespace ProjectTracker
 
         public IList<WorktimeRecord> worktimeRecords { get {return wtrs; } }
 
-        public void addProjectChangeEvent(ProjectChangeEvent projectChangeEvent)
+        public void handleProjectChangeEvent(ProjectChangeEvent projectChangeEvent)
         {
             if (projectChangeEvent == null)
                 return;

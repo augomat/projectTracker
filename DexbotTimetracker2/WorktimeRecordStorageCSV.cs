@@ -32,7 +32,7 @@ namespace ProjectTracker
             writeOutAllPendingCSVEntries();
         }
 
-        public void addProjectChangeEvent(ProjectChangeEvent projectChangeEvent)
+        public void handleProjectChangeEvent(ProjectChangeEvent projectChangeEvent)
         {
             if (projectChangeEvent != null)
             {

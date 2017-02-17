@@ -40,5 +40,59 @@ namespace ProjectTracker
         {
             return wtrs.Where(wtr => (wtr.Start >= from && wtr.End <= to)).ToList();
         }
+
+        public void ChangeStartTime(int index, DateTime newStartDate)
+        {
+            if (index >= wtrs.Count)
+                throw new Exception("This WorktimeRecord does not exist: Index out of bounds");
+
+            var current = wtrs[index];
+
+            if (current.Start.Date != newStartDate.Date)
+                throw new Exception("Only times (not dates) can be changed");
+
+            if (newStartDate > current.Start)
+                throw new Exception("Begin time cannot be greater than end time");
+
+            if (newStartDate.TimeOfDay > current.Start.TimeOfDay) //shortening
+            {
+                if (current != wtrs.First()) //in the middle
+                {
+                    wtrs.Insert(index, new WorktimeRecord(current.Start, newStartDate, "undefined", "Next project shortened"));
+                }
+                current.Start = newStartDate;
+            }
+            else //lengthening
+            {
+                if (current != wtrs.First()) //in the middle
+                    throw new Exception("Lengthening in the middle not implemented");
+                current.Start = newStartDate;
+            }
+        }
+
+        public void ChangeEndTime(int index, DateTime newStartDate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ChangeProjectName(int index, string newProjectName)
+        {
+            if (index >= wtrs.Count)
+                throw new Exception("This WorktimeRecord does not exist: Index out of bounds");
+
+            var current = wtrs[index];
+
+            current.ProjectName = newProjectName;
+        }
+
+        public void ChangeProjectComment(int index, string newProjectComment)
+        {
+            if (index >= wtrs.Count)
+                throw new Exception("This WorktimeRecord does not exist: Index out of bounds");
+
+            var current = wtrs[index];
+
+            current.Comment = newProjectComment;
+        }
     }
 }

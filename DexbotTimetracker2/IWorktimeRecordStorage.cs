@@ -12,5 +12,9 @@ namespace ProjectTracker
         void handleProjectChangeEvent(ProjectChangeEvent projectChangeEvent);
         List<WorktimeRecord> getAllWorktimeRecords(DateTime day);
         List<WorktimeRecord> getAllWorktimeRecords(DateTime from, DateTime to);
+        void ChangeStartTime(int index, DateTime newStartDate);
+        void ChangeEndTime(int index, DateTime newStartDate);
+        void ChangeProjectName(int index, string newProjectName);
+        void ChangeProjectComment(int index, string newProjectComment);
     }
 }

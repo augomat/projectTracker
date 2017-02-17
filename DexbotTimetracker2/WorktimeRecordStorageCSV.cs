@@ -59,16 +59,6 @@ namespace ProjectTracker
             }
         }
 
-        public List<WorktimeRecord> getAllWorktimeRecords(DateTime day)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<WorktimeRecord> getAllWorktimeRecords(DateTime from, DateTime to)
-        {
-            throw new NotImplementedException();
-        }
-
         /*
          * very hacky implementation to determine whether something should be marked as Screentime t/f which is solely important for the CSV export/analysis spreadsheet
          * e.g. does not account for times on private screen, should be declared in settings
@@ -81,14 +71,42 @@ namespace ProjectTracker
                 return true;
         }
 
-        //--------------------------
-
         public string generateCSVEntry(long diffSecs, string currentD, DateTime start, DateTime end, string addInfos, bool screenTime)
         {
             return String.Format("{2:d};{4:HH:mm:ss};{2:HH:mm:ss};{5};{0};{1};{3}",
                                                       diffSecs, currentD, end, addInfos, start, screenTime.ToString());
         }
 
-        
+        //-----------------
+
+        public List<WorktimeRecord> getAllWorktimeRecords(DateTime day)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<WorktimeRecord> getAllWorktimeRecords(DateTime from, DateTime to)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ChangeStartTime(int index, DateTime newStartDate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ChangeEndTime(int index, DateTime newStartDate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ChangeProjectName(int index, string newProjectName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ChangeProjectComment(int index, string newProjectComment)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -17,7 +17,8 @@ namespace ProjectTracker
         public IProjectCorrectionHandler ProjectCorrectionHandler { private get; set; } //TODO still needed?
         public IProjectHandler ProjectHandler { private get; set; }
         public WorktimeAnalyzer WorktimeAnalyzer { private get; set; }
-        public IList<WorktimeRecord> WorktimeRecords { private get; set; }
+        public IList<WorktimeRecord> WorktimeRecords { private get; set; } //TODO redundant with storage
+        public IWorktimeRecordStorage storage { private get; set;  }
 
         public string currentProject { get { return ProjectHandler.currentProject; } } //TODO errorhandling
         public DateTime currentProjectSince { get { return ProjectHandler.currentProjectSince; } } //TODO errorhandling
@@ -33,6 +34,8 @@ namespace ProjectTracker
             Form.CorrectProject.Click += CorrectProject_Click;
             Form.AnalyzeWorktimes.Click += AnalyzeWorktimes_Click;
             Form.ButtonUpdate.Click += updateButton_Click;
+            Form.dataGridView1.CellValueChanged += grid_CellValueChanged;
+            Form.dataGridView1.CellValidating += dataGridView1_CellValidating;
             Form.Activated += (o, i) => { refreshGrid(); };
         }
 
@@ -148,21 +151,62 @@ namespace ProjectTracker
             refreshGrid();
         }
 
+        private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            if (Form.dataGridView1.Rows[e.RowIndex].Cells["Project"].Value.ToString() == "")
+            {
+                e.Cancel = true;
+                Form.dataGridView1.Rows[e.RowIndex].ErrorText ="Company Name must not be empty";
+                //TODO does not work (Exception, ...)
+            }
+        }
+
+        private void grid_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            var grid = Form.dataGridView1;
+
+            try
+            {
+                if (grid.Columns[e.ColumnIndex].Name == "StartTime") //TODO consts oder so
+                    storage.ChangeStartTime(e.RowIndex, DateTime.Parse(grid.Rows[e.RowIndex].Cells["StartTime"].Value.ToString()));
+                if (grid.Columns[e.ColumnIndex].Name == "EndTime")
+                    storage.ChangeEndTime(e.RowIndex, DateTime.Parse(grid.Rows[e.RowIndex].Cells["EndTime"].Value.ToString()));
+                if (grid.Columns[e.ColumnIndex].Name == "Project")
+                    storage.ChangeProjectName(e.RowIndex, grid.Rows[e.RowIndex].Cells["Project"].Value.ToString());
+                if (grid.Columns[e.ColumnIndex].Name == "Comment")
+                    storage.ChangeProjectComment(e.RowIndex, grid.Rows[e.RowIndex].Cells["Comment"].Value.ToString());
+            } catch (Exception ex)
+            {
+                //swallow?!
+                //grid.CancelEdit();
+            }
+
+            //refreshGrid();
+        }
+
+
         public void refreshGrid()
         {
-            Form.dataGridView1.Rows.Clear();
-            foreach (var wtr in WorktimeRecords)
+            try
             {
-                //TODO overnighters
-                Form.dataGridView1.Rows.Add(
-                    wtr.Start.Date.ToShortDateString(),
-                    wtr.Start.ToLongTimeString(),
-                    wtr.End.ToLongTimeString(),
-                    Math.Round((wtr.End - wtr.Start).TotalMinutes, 1),
-                    wtr.ProjectName,
-                    wtr.Comment);
+                Form.dataGridView1.Rows.Clear();
+                foreach (var wtr in WorktimeRecords)
+                {
+                    //TODO overnighters
+                    Form.dataGridView1.Rows.Add(
+                        wtr.Start.Date.ToShortDateString(),
+                        wtr.Start.ToLongTimeString(),
+                        wtr.End.ToLongTimeString(),
+                        Math.Round((wtr.End - wtr.Start).TotalMinutes, 1),
+                        wtr.ProjectName,
+                        wtr.Comment);
+                }
+                Form.dataGridView1.Refresh();
             }
-            Form.dataGridView1.Refresh();
+            catch (Exception)
+            {
+                //swallow TODO
+            }
         }
     }
 }

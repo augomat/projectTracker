@@ -49,7 +49,7 @@ namespace ProjectTracker
             var current = wtrs[index];
 
             if (current.Start.Date != newStartDate.Date)
-                throw new Exception("Only times (not dates) can be changed");
+                throw new Exception("Only times (not dates, i.e. overnighters) can be changed");
 
             if (newStartDate > current.End)
                 throw new Exception("Begin time cannot be greater than end time");
@@ -70,9 +70,33 @@ namespace ProjectTracker
             }
         }
 
-        public void ChangeEndTime(int index, DateTime newStartDate)
+        public void ChangeEndTime(int index, DateTime newEndDate)
         {
-            throw new NotImplementedException();
+            if (index >= wtrs.Count)
+                throw new Exception("This WorktimeRecord does not exist: Index out of bounds");
+
+            var current = wtrs[index];
+
+            if (current.End.Date != newEndDate.Date)
+                throw new Exception("Only times (not dates, i.e. overnighters) can be changed");
+
+            if (newEndDate < current.Start)
+                throw new Exception("Begin time cannot be greater than end time");
+
+            if (newEndDate.TimeOfDay < current.End.TimeOfDay) //shortening
+            {
+                if (current != wtrs.Last()) //in the middle
+                {
+                    wtrs.Insert(index+1, new WorktimeRecord(newEndDate, current.End, "undefined", "Previous project shortened"));
+                }
+                current.End = newEndDate;
+            }
+            else //lengthening
+            {
+                if (current != wtrs.Last()) //in the middle
+                    throw new Exception("Lengthening in the middle not implemented");
+                current.End = newEndDate;
+            }
         }
 
         public void ChangeProjectName(int index, string newProjectName)

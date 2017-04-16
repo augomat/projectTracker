@@ -93,6 +93,7 @@
     <Compile Include="ProjectChangeNotifier.cs" />
     <Compile Include="ProjectChangeProcessorLockscreen.cs" />
     <Compile Include="ProjectChangeProcessorNewDay.cs" />
+    <Compile Include="ProjectChangeSubscriberFormUpdater.cs" />
     <Compile Include="StorageExceptionBalloonInformant.cs" />
     <Compile Include="Util\OutlookAppointmentRetriever.cs" />
     <Compile Include="ProjectChangeNotifierLockscreen.cs" />

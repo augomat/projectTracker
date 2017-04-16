@@ -70,9 +70,10 @@ namespace ProjectTracker
             //mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorLongerThan10secs(mainHandler));
 
             //Change subscribers
+            mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberFormUpdater(Presenter));
             mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberBalloonInformant(Presenter.showNotification));
             mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberLogger());
-
+            
             //Storages
             mainHandler.addWorktimeRecordStorage(new WorktimeRecordStorageCSV());
             mainHandler.addWorktimeRecordStorage(inMemoryRecordStorage);
@@ -83,7 +84,6 @@ namespace ProjectTracker
             Presenter.WorktimebreakHandler = worktimebreakHandler;
             Presenter.ProjectCorrectionHandler = projectCorrectionHandler;
             Presenter.ProjectHandler = mainHandler;
-            Presenter.WorktimeRecords = inMemoryRecordStorage.worktimeRecords;
             Presenter.storage = inMemoryRecordStorage;
 
             //mainHandler.init();

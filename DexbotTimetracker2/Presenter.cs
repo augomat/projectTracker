@@ -17,7 +17,6 @@ namespace ProjectTracker
         public IProjectCorrectionHandler ProjectCorrectionHandler { private get; set; } //TODO still needed?
         public IProjectHandler ProjectHandler { private get; set; }
         public WorktimeAnalyzer WorktimeAnalyzer { private get; set; }
-        public IList<WorktimeRecord> WorktimeRecords { private get; set; } //TODO redundant with storage
         public IWorktimeRecordStorage storage { private get; set;  }
 
         public string currentProject { get { return ProjectHandler.currentProject; } } //TODO errorhandling
@@ -37,6 +36,7 @@ namespace ProjectTracker
             Form.dataGridView1.CellValueChanged += grid_CellValueChanged;
             Form.dataGridView1.CellValidating += dataGridView1_CellValidating;
             Form.dataGridView1.CellEndEdit += dataGridView1_CellEndEdit;
+            Form.dateTimePicker1.ValueChanged += updateButton_Click; // hack...
             Form.Activated += (o, i) => { refreshGrid(); };
         }
 
@@ -207,7 +207,7 @@ namespace ProjectTracker
             try
             {
                 Form.dataGridView1.Rows.Clear();
-                foreach (var wtr in WorktimeRecords)
+                foreach (var wtr in storage.getAllWorktimeRecords(Form.dateTimePicker1.Value))
                 {
                     //TODO overnighters
                     Form.dataGridView1.Rows.Add(
@@ -224,6 +224,13 @@ namespace ProjectTracker
             {
                 //swallow TODO
             }
+        }
+
+        public void setDate(DateTime date)
+        {
+            Form.Invoke(new MethodInvoker(delegate () {
+                Form.dateTimePicker1.Value = date;
+            }));
         }
     }
 }

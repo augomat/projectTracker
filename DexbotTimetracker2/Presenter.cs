@@ -163,7 +163,7 @@ namespace ProjectTracker
             // Confirm that the cell is not empty.
             if (string.IsNullOrEmpty(e.FormattedValue.ToString()))
             {
-                grid.Rows[e.RowIndex].ErrorText = "Company Name must not be empty";
+                grid.Rows[e.RowIndex].ErrorText = "Project name must not be empty";
                 e.Cancel = true;
             }
         }

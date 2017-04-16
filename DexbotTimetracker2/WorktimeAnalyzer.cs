@@ -19,11 +19,16 @@ namespace ProjectTracker
             ProjectHandler = projectHandler;
         }
 
-        public WorktimeStatistics Analyze(DateTime day)
+        public WorktimeStatistics AnalyzeWorkday(DateTime day)
         {
-            ProjectCorrectionHandler.correctCurrentProject(ProjectHandler.currentProject, 1);
+            DateTime to;
+            DateTime from;
+            getWorkDay(day, out from, out to);
 
-            var items = Storage.getAllWorktimeRecords(day);
+            if (DateTime.Now >= from && DateTime.Now <= to) //needed to have current project in analysis
+                ProjectCorrectionHandler.correctCurrentProject(ProjectHandler.currentProject, 1);
+
+            var items = Storage.getAllWorktimeRecords(from, to);
             return generateStatistics(items);
         }
 
@@ -74,6 +79,13 @@ namespace ProjectTracker
 
             //currentStats.totalTime.Milliseconds = 0;
             return currentStats;
+        }
+
+        // Returns the workday which actually starts at 4am (per my definition)
+        private void getWorkDay(DateTime day, out DateTime from, out DateTime to)
+        {
+            from = day.Date + new TimeSpan(4, 0, 0);
+            to = day.Date.AddDays(1) + new TimeSpan(4, 0, 0);
         }
 
         public class WorktimeStatistics

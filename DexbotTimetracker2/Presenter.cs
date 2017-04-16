@@ -66,14 +66,7 @@ namespace ProjectTracker
         {
             try
             {
-                DateTime BeginDate;
-                if (DateTime.Now.Hour >= 4 ) 
-                    BeginDate = DateTime.Now.Date + new TimeSpan(4, 0, 0);
-                else //if were are between 12am and 4am, we still count it as the day before
-                    BeginDate = DateTime.Now.Date.AddDays(-1) + new TimeSpan(4, 0, 0);
-                var EndDate = BeginDate.AddDays(1);
-
-                var projectStatistics = WorktimeAnalyzer.Analyze(BeginDate, EndDate);
+                var projectStatistics = WorktimeAnalyzer.AnalyzeWorkday(Form.dateTimePicker1.Value);
 
                 Form.ProjectTimesSummary.Series.Clear();
                 Series series = new Series
@@ -104,6 +97,8 @@ namespace ProjectTracker
                 Form.Worktime.Text = projectStatistics.totalWorktime.ToString(@"hh\:mm\:ss");
                 Form.ProjectTime.Text = projectStatistics.totalProjectTime.ToString(@"hh\:mm\:ss");
                 Form.Workbreaktime.Text = projectStatistics.totalWorkbreaktime.ToString(@"hh\:mm\:ss");
+
+                refreshGrid();
 
             }
             catch (Exception ex)

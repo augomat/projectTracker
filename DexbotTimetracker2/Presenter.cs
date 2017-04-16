@@ -36,6 +36,7 @@ namespace ProjectTracker
             Form.ButtonUpdate.Click += updateButton_Click;
             Form.dataGridView1.CellValueChanged += grid_CellValueChanged;
             Form.dataGridView1.CellValidating += dataGridView1_CellValidating;
+            Form.dataGridView1.CellEndEdit += dataGridView1_CellEndEdit;
             Form.Activated += (o, i) => { refreshGrid(); };
         }
 
@@ -153,12 +154,24 @@ namespace ProjectTracker
 
         private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
-            if (Form.dataGridView1.Rows[e.RowIndex].Cells["Project"].Value.ToString() == "")
+            var grid = Form.dataGridView1;
+            string headerText = grid.Columns[e.ColumnIndex].HeaderText;
+
+            // Abort validation if cell is not in the Project column or in last/new row.
+            if (!headerText.Equals("Project")) return;
+
+            // Confirm that the cell is not empty.
+            if (string.IsNullOrEmpty(e.FormattedValue.ToString()))
             {
+                grid.Rows[e.RowIndex].ErrorText = "Company Name must not be empty";
                 e.Cancel = true;
-                Form.dataGridView1.Rows[e.RowIndex].ErrorText ="Company Name must not be empty";
-                //TODO does not work (Exception, ...)
             }
+        }
+
+        void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            // Clear the row error in case the user presses ESC.   
+            Form.dataGridView1.Rows[e.RowIndex].ErrorText = String.Empty;
         }
 
         private void grid_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -177,11 +190,15 @@ namespace ProjectTracker
                     storage.ChangeProjectComment(e.RowIndex, grid.Rows[e.RowIndex].Cells["Comment"].Value.ToString());
             } catch (Exception ex)
             {
-                //swallow?!
-                //grid.CancelEdit();
+                //We basically have 2 different forms of validation with this (see CellValidating), but it is apparently not possible 
+                //to trigger any e.Cancel in CellValueChanged and there appears to be no really pretty way to uncouple the validation logic
+                //in the data storage from the actually storing the value - I decided that, until there is no better implementation with
+                //a data binding, that i don't care
+
+                MessageBox.Show(ex.Message, "Validation Error");
             }
 
-            //refreshGrid();
+            refreshGrid();
         }
 
 

@@ -51,7 +51,7 @@ namespace ProjectTracker
             if (current.Start.Date != newStartDate.Date)
                 throw new Exception("Only times (not dates) can be changed");
 
-            if (newStartDate > current.Start)
+            if (newStartDate > current.End)
                 throw new Exception("Begin time cannot be greater than end time");
 
             if (newStartDate.TimeOfDay > current.Start.TimeOfDay) //shortening

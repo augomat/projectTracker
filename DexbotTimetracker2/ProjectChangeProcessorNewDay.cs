@@ -13,32 +13,16 @@ namespace ProjectTracker
 
         public override bool process(ProjectChangeEvent projectChangeEvent)
         {
-            if (projectChangeEvent.Type == ProjectChangeEvent.Types.Start && isNewDay(Handler.currentProjectSince))
-            {
-                /*OnRaiseProjectChangeEvent(new ProjectChangeEvent(
-                               ProjectChangeEvent.Types.GoodMorning,
-                               Handler.currentProject,
-                               "Good morning",
-                               new WorktimeRecord(
+            if (projectChangeEvent.Type == ProjectChangeEvent.Types.Unlock && isNewDay(Handler.currentProjectSince))
+            {   
+                //Hack: Just replace event data instead of refiring, because the old event is per definition invalid
+                projectChangeEvent.Type = ProjectChangeEvent.Types.GoodMorning;
+                projectChangeEvent.Message = "Good Morning";
+                projectChangeEvent.WorktimeRecord = new WorktimeRecord(
                                    DateTime.Now,
                                    DateTime.Now,
-                                   Handler.currentProject,
-                                   "New day begun")
-                               )
-                           );
-                return true;*/
-
-                //Tryout: Just replace event instead of refiring, because the old event is per definition invalid
-                projectChangeEvent = new ProjectChangeEvent(
-                               ProjectChangeEvent.Types.GoodMorning,
-                               Handler.currentProject,
-                               "Good morning",
-                               new WorktimeRecord(
-                                   DateTime.Now,
-                                   DateTime.Now,
-                                   Handler.currentProject,
-                                   "New day begun")
-                               );
+                                   projectChangeEvent.NewProject,
+                                   "New day begun");
                 return false;
             }
             return false;

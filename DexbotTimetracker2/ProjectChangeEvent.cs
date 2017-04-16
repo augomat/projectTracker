@@ -8,15 +8,15 @@ namespace ProjectTracker
 {
     class ProjectChangeEvent : EventArgs
     {
-        public enum Types { Test, Init, Exit, Start, Finish, Change, GoodMorning };
+        public enum Types { Test, Init, Exit, Start, Finish, Change, GoodMorning, Lock, Unlock };
 
-        public Types Type { get; }
-        public string NewProject { get; }
-        public string Message { get; }
+        public Types Type { get; set; }
+        public string NewProject { get; set; }
+        public string Message { get; set; }
         public TimeSpan AvailableWorktimebreak { get; set; }
         public Boolean Processed { get; set; }
-        public List<WorktimeRecord> WorktimeRecords { get; } = new List<WorktimeRecord>(); //RTODO this list should be ordered according to .end
-        public WorktimeRecord WorktimeRecord { get { return WorktimeRecords.ElementAt(0); } }
+        public List<WorktimeRecord> WorktimeRecords { get; set; } = new List<WorktimeRecord>(); //RTODO this list should be ordered according to .end
+        public WorktimeRecord WorktimeRecord { get { return WorktimeRecords.ElementAt(0); } set { WorktimeRecords[0] = value; } }
         
         public ProjectChangeEvent(Types type, string newProject, string message, List<WorktimeRecord> wtrs, Boolean processed = false, TimeSpan availableWorktimebreak = new TimeSpan())
         {

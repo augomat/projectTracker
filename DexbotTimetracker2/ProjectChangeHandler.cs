@@ -99,7 +99,7 @@ namespace ProjectTracker
             if (!projectChangeEvent.Processed)
             {
                 Boolean processed = false;
-                foreach (var processor in projectChangeProcessors)
+                foreach (var processor in projectChangeProcessors) //RTODO, may we should either refire or return an object to have something more like a chain-semantic?!
                 {
                     if (sender != processor)
                         processed |= processor.process(projectChangeEvent);

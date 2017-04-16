@@ -28,7 +28,7 @@ namespace ProjectTracker
 
                 //I left my desk
                 OnRaiseProjectChangeEvent(new ProjectChangeEvent(
-                        ProjectChangeEvent.Types.Finish,
+                        ProjectChangeEvent.Types.Lock,
                         "[unknown]",
                         "Bye bye",
                         new WorktimeRecord(
@@ -42,19 +42,15 @@ namespace ProjectTracker
             else if (e.Reason == SessionSwitchReason.SessionUnlock)
             {
                 //I returned to my desk
-                Tuple<string, string> promptValues = Prompt.ShowDialog("Computer unlocked", "What did you do in the mean time?");
-                var promptString = promptValues.Item1;
-                var promptDesktop = promptValues.Item2;
-
                 OnRaiseProjectChangeEvent(new ProjectChangeEvent(
-                    ProjectChangeEvent.Types.Start,
+                    ProjectChangeEvent.Types.Unlock,
                     lastProject,
-                    promptString,
+                    "",
                     new WorktimeRecord(
                         Handler.currentProjectSince,
                         DateTime.Now,
-                        promptDesktop,
-                        "unlocked: "+ promptString)
+                        "[unknown]",
+                        "unlocked")
                     )
                 );
             }

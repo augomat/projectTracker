@@ -91,12 +91,13 @@
     <Compile Include="ProjectChangeNotifierCorrection.cs" />
     <Compile Include="ProjectChangeNotifierDexpot.cs" />
     <Compile Include="ProjectChangeNotifier.cs" />
+    <Compile Include="ProjectChangeProcessorLockscreen.cs" />
+    <Compile Include="ProjectChangeProcessorNewDay.cs" />
     <Compile Include="StorageExceptionBalloonInformant.cs" />
     <Compile Include="Util\OutlookAppointmentRetriever.cs" />
     <Compile Include="ProjectChangeNotifierLockscreen.cs" />
     <Compile Include="ProjectChangeProcessor.cs" />
     <Compile Include="ProjectChangeProcessorLongerThan10secs.cs" />
-    <Compile Include="ProjectChangeProcessorNewDay.cs" />
     <Compile Include="ProjectChangeProcessorWorktimebreaks.cs" />
     <Compile Include="ProjectChangeSubscriberBalloonInformant.cs" />
     <Compile Include="ProjectChangeSubscriberLogger.cs" />

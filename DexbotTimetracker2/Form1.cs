@@ -65,6 +65,7 @@ namespace ProjectTracker
 
             //Change processors
             mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorNewDay(mainHandler));
+            mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorLockscreen(mainHandler));
             mainHandler.addProjectChangeProcessor(worktimebreakHandler);
             //mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorLongerThan10secs(mainHandler));
 

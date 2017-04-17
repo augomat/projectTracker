@@ -30,10 +30,16 @@ namespace ProjectTracker
         private int lastTabIndex = 0;
 
         private int MinutesBreak;
+        private DateTime From;
+        private DateTime To;
+        private List<WorktimeRecord> Suggestions;
 
-        public List<WorktimeRecord> ShowDialog(DateTime from, DateTime to)
+        public List<WorktimeRecord> ShowDialog(DateTime from, DateTime to, List<WorktimeRecord> suggestions = null)
         {
             MinutesBreak = (int)(Math.Floor((to - from).TotalMinutes));
+            From = from;
+            To = to;
+            Suggestions = suggestions;
 
             prompt = new Form()
             {
@@ -66,7 +72,10 @@ namespace ProjectTracker
             prompt.Controls.Add(OkButton);
             prompt.Controls.Add(AddRowButton);
 
-            createRow();
+            if (suggestions != null)
+                processSuggestions();
+            else
+                createRow();
 
             Task.Delay(500).ContinueWith(t => { try { prompt.Invoke(new Action(prompt.Activate)); } catch { } }); //brrrrrrrr hacky, TODO implement something so that it never looses focus (buha)
             Task.Delay(1000).ContinueWith(t => { try { prompt.Invoke(new Action(prompt.Activate)); } catch { } }); //BRRRRRRRRRRRRR
@@ -174,7 +183,7 @@ namespace ProjectTracker
         {
             var combobox = new System.Windows.Forms.ComboBox() { Left = 333, Top = lastLineHeight, Width = 121 };
             combobox.Items.AddRange(ProjectChangeHandler.getAvailableProjects().Cast<string>().ToArray());
-            combobox.SelectedIndex = 2;
+            combobox.SelectedIndex = 2; //Hack... We know this must be worktimebreaks because we added them in code...
             return combobox;
         }
 
@@ -187,6 +196,47 @@ namespace ProjectTracker
                     sum += Convert.ToInt32(brk.Text);
             }
             return MinutesBreak - sum;
+        }
+
+        private void processSuggestions()
+        {
+            var fullList = calculateFullSuggestionList();
+
+            foreach (var wtr in fullList)
+            {
+                createRow();
+                breaks.Last().Text = ((int)Math.Floor((wtr.End - wtr.Start).TotalMinutes)).ToString();
+                comments.Last().Text = wtr.Comment;
+                projects.Last().SelectedIndex = 3; //Hack... first customer project
+            }
+        }
+
+        private List<WorktimeRecord> calculateFullSuggestionList()
+        {
+            DateTime currentEnd = From;
+            int currentIndex = 0;
+
+            //TODO sort suggestions
+
+            var ret = new List<WorktimeRecord>();
+            while(currentIndex < Suggestions.Count)
+            {
+                if (Suggestions[currentIndex].End < From)
+                    continue;
+                if (Suggestions[currentIndex].Start > To)
+                    continue;
+
+                if (Suggestions[currentIndex].Start > currentEnd)
+                    ret.Add(new WorktimeRecord(currentEnd, Suggestions[currentIndex].Start, "[unknown]", ""));
+                ret.Add(Suggestions[currentIndex]);
+                currentEnd = Suggestions[currentIndex].End;
+                currentIndex++;
+            }
+            if (currentEnd < To)
+                ret.Add(new WorktimeRecord(currentEnd, To, "[unknown]", ""));
+            ret.First().Start = From;
+            ret.Last().End = To;
+            return ret;
         }
     }
 }

@@ -21,7 +21,16 @@ namespace ProjectTracker
             }
             if (projectChangeEvent.Type == ProjectChangeEvent.Types.Unlock)
             {
-                List<WorktimeRecord> breakTimes = new Prompt().ShowDialog(projectChangeEvent.WorktimeRecord.Start, projectChangeEvent.WorktimeRecord.End);
+                //TODOOOOOOOOOO delete
+                //projectChangeEvent.WorktimeRecord.Start = new DateTime(2017, 4, 17, 17, 0, 0);
+                //projectChangeEvent.WorktimeRecord.End = new DateTime(2017, 4, 17, 20, 0, 0);
+
+                var outlookAppointments = Util.OutlookAppointmentRetriever.retrieveAppointments(
+                    projectChangeEvent.WorktimeRecord.Start, projectChangeEvent.WorktimeRecord.End);
+
+                List<WorktimeRecord> breakTimes = new Prompt().ShowDialog(
+                    projectChangeEvent.WorktimeRecord.Start, projectChangeEvent.WorktimeRecord.End,
+                    outlookAppointments);
 
                 foreach (var brk in breakTimes)
                 {

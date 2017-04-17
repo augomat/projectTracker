@@ -87,17 +87,17 @@ namespace ProjectTracker
             from = day.Date + new TimeSpan(4, 0, 0);
             to = day.Date.AddDays(1) + new TimeSpan(4, 0, 0);
         }
+    }
 
-        public class WorktimeStatistics
-        {
-            public Dictionary<string, TimeSpan> projectTimes = new Dictionary<string, TimeSpan>();
-            public Dictionary<string, float> relativeProjectTimes = new Dictionary<string, float>();
-            public TimeSpan totalTime = new TimeSpan(0, 0, 0);
-            public TimeSpan totalProjectTime = new TimeSpan(0, 0, 0);
-            public TimeSpan totalWorktime = new TimeSpan(0, 0, 0);
-            public TimeSpan totalPausetime = new TimeSpan(0, 0, 0);
-            public TimeSpan totalWorkbreaktime = new TimeSpan(0, 0, 0);
-            public TimeSpan totalUndefinedTime = new TimeSpan(0, 0, 0);
-        }
+    public class WorktimeStatistics
+    {
+        public Dictionary<string, TimeSpan> projectTimes = new Dictionary<string, TimeSpan>();
+        public Dictionary<string, float> relativeProjectTimes = new Dictionary<string, float>();
+        public TimeSpan totalTime = new TimeSpan(0, 0, 0);
+        public TimeSpan totalProjectTime = new TimeSpan(0, 0, 0);
+        public TimeSpan totalWorktime = new TimeSpan(0, 0, 0);
+        public TimeSpan totalPausetime = new TimeSpan(0, 0, 0);
+        public TimeSpan totalWorkbreaktime = new TimeSpan(0, 0, 0);
+        public TimeSpan totalUndefinedTime = new TimeSpan(0, 0, 0);
     }
 }

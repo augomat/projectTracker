@@ -19,8 +19,12 @@ namespace ProjectTracker
         public WorktimeAnalyzer WorktimeAnalyzer { private get; set; }
         public IWorktimeRecordStorage storage { private get; set;  }
 
+        private WorktimeStatistics ProjectStatistics;
+        private WorktrackerUpdater wtUpdater = new WorktrackerUpdater();
+
         public string currentProject { get { return ProjectHandler.currentProject; } } //TODO errorhandling
         public DateTime currentProjectSince { get { return ProjectHandler.currentProjectSince; } } //TODO errorhandling
+
 
         public Presenter(Form1 form)
         {
@@ -32,6 +36,7 @@ namespace ProjectTracker
             Form.carryOverHours.Leave += carryOverHours_Leave;
             Form.CorrectProject.Click += CorrectProject_Click;
             Form.AnalyzeWorktimes.Click += AnalyzeWorktimes_Click;
+            Form.SetInWorkT.Click += SetInWT_Click;
             Form.ButtonUpdate.Click += updateButton_Click;
             Form.dataGridView1.CellValueChanged += grid_CellValueChanged;
             Form.dataGridView1.CellValidating += dataGridView1_CellValidating;
@@ -99,12 +104,31 @@ namespace ProjectTracker
                 Form.Workbreaktime.Text = projectStatistics.totalWorkbreaktime.ToString(@"hh\:mm\:ss");
 
                 refreshGrid();
-
+                ProjectStatistics = projectStatistics;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void SetInWT_Click(object sender, EventArgs e)
+        {
+            if (ProjectStatistics == null)
+            {
+                MessageBox.Show("Period must be analyzed first.");
+                return;
+            }
+
+            try
+            {
+                wtUpdater.updateProjectEntries(Form.dateTimePicker1.Value, ProjectStatistics);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+            }
+
         }
 
         private void countAsWorktime_Leave(object sender, EventArgs e)

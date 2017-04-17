@@ -107,6 +107,7 @@
     <Compile Include="ProjectChangeSubscriberBalloonInformant.cs" />
     <Compile Include="ProjectChangeSubscriberLogger.cs" />
     <Compile Include="Prompt.cs" />
+    <Compile Include="Util\ProjectUtilities.cs" />
     <Compile Include="Util\Tracker.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

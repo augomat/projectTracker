@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Windows.Forms.DataVisualization.Charting;
+using ProjectTracker.Util;
 
 namespace ProjectTracker
 {
@@ -43,6 +44,10 @@ namespace ProjectTracker
             Form.dataGridView1.CellEndEdit += dataGridView1_CellEndEdit;
             Form.dateTimePicker1.ValueChanged += updateButton_Click; // hack...
             Form.Activated += (o, i) => { refreshGrid(); };
+
+            DateTime from, to;
+            ProjectUtilities.getWorkDayByDateTime(DateTime.Now, out from, out to);
+            Form.dateTimePicker1.Value = from;
         }
 
         public void showNotification(string title, string text)
@@ -126,7 +131,7 @@ namespace ProjectTracker
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error");
+                MessageBox.Show(ex.Message, "Worktracker-Error");
             }
 
         }
@@ -226,7 +231,10 @@ namespace ProjectTracker
             try
             {
                 Form.dataGridView1.Rows.Clear();
-                foreach (var wtr in storage.getAllWorktimeRecords(Form.dateTimePicker1.Value))
+
+                DateTime from, to;
+                ProjectUtilities.getWorkDayByDate(Form.dateTimePicker1.Value, out from, out to);
+                foreach (var wtr in storage.getAllWorktimeRecords(from, to))
                 {
                     //TODO overnighters
                     Form.dataGridView1.Rows.Add(

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProjectTracker.Util;
 
 namespace ProjectTracker
 {
@@ -21,9 +22,8 @@ namespace ProjectTracker
 
         public WorktimeStatistics AnalyzeWorkday(DateTime day)
         {
-            DateTime to;
-            DateTime from;
-            getWorkDay(day, out from, out to);
+            DateTime from, to;
+            ProjectUtilities.getWorkDayByDate(day, out from, out to);
 
             if (DateTime.Now >= from && DateTime.Now <= to) //needed to have current project in analysis
                 ProjectCorrectionHandler.correctCurrentProject(ProjectHandler.currentProject, 1);
@@ -79,13 +79,6 @@ namespace ProjectTracker
 
             //currentStats.totalTime.Milliseconds = 0;
             return currentStats;
-        }
-
-        // Returns the workday which actually starts at 4am (per my definition)
-        private void getWorkDay(DateTime day, out DateTime from, out DateTime to)
-        {
-            from = day.Date + new TimeSpan(4, 0, 0);
-            to = day.Date.AddDays(1) + new TimeSpan(4, 0, 0);
         }
     }
 

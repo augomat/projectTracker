@@ -78,7 +78,7 @@ namespace ProjectTracker
 
         private void addProjectEntriesToWorktracker(DateTime day, Dictionary<Project, int> pes)
         {
-            var workEntries = worktracker.QueryWorkEntries(currentUser, day.AddDays(-3), new TimeSpan(1, 0, 0, 0)); //TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+            var workEntries = worktracker.QueryWorkEntries(currentUser, day, new TimeSpan(1, 0, 0, 0));
             var workEntry = workEntries[0];
 
             if (!workEntry.IsComplete)

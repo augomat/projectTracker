@@ -22,13 +22,12 @@ namespace ProjectTracker
         public NotifyIcon TrayIcon;
 
         private Presenter Presenter;
-
-        //NOBODY MUST EVER SEE THIS CODE!!!!
-        //I AM DEEPLY SORRY!!!
-
         
         public Form1()
-        {   
+        {
+            //new Prompt().ShowDialog(new DateTime(2017, 4, 17, 15, 0, 0), new DateTime(2017, 4, 17, 15, 30, 59));
+            //return;
+
             // Initialize Tray Icon
             TrayIcon = new NotifyIcon()
             {
@@ -47,6 +46,8 @@ namespace ProjectTracker
 #if DEBUG
             WindowState = FormWindowState.Normal;
 #endif
+
+            // TODO all of this should not be done in the form...
 
             countAsWorktime.Text = Properties.Settings.Default.countAsWorktimebreakMins.ToString();
             carryOverHours.Text = Properties.Settings.Default.carryOverWorktimeCountHours.ToString();

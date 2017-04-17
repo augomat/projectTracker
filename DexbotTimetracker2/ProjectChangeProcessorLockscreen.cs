@@ -33,7 +33,6 @@ namespace ProjectTracker
                 }
                 return true;
             }
-            return false;
         }
     }
 }

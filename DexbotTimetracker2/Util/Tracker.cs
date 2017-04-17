@@ -312,7 +312,7 @@ namespace ProjectTracker
                 }
                 else
                 {
-                    Tuple<string, string> promptValues = Prompt.ShowDialog("Computer unlocked", "What did you do in the mean time?");
+                    Tuple<string, string> promptValues = new Prompt().ShowDialog("Computer unlocked", "What did you do in the mean time?");
                     var promptString = promptValues.Item1;
                     var promptDesktop = promptValues.Item2;
 

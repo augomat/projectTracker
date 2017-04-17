@@ -17,21 +17,22 @@ namespace ProjectTracker
             {
                 //Hack: Just replace event data instead of refiring, because the old event is per definition invalid
                 projectChangeEvent.Type = ProjectChangeEvent.Types.Start;
+                return false;
             }
             if (projectChangeEvent.Type == ProjectChangeEvent.Types.Unlock)
             {
-                Tuple<string, string> promptValues = Prompt.ShowDialog("Computer unlocked", "What did you do in the mean time?");
-                var promptString = promptValues.Item1;
-                var promptDesktop = promptValues.Item2;
+                List<WorktimeRecord> breakTimes = new Prompt().ShowDialog(projectChangeEvent.WorktimeRecord.Start, projectChangeEvent.WorktimeRecord.End);
 
-                //Hack: Just replace event data instead of refiring, because the old event is per definition invalid
-                projectChangeEvent.Type = ProjectChangeEvent.Types.Finish;
-                projectChangeEvent.Message = promptString;
-                //projectChangeEvent.NewProject = promptDesktop;
-                projectChangeEvent.WorktimeRecord.Comment = "unlocked: " + promptString;
-                projectChangeEvent.WorktimeRecord.ProjectName = promptDesktop;
+                foreach (var brk in breakTimes)
+                {
+                    OnRaiseProjectChangeEvent(new ProjectChangeEvent(
+                        ProjectChangeEvent.Types.Change,
+                        brk.ProjectName,
+                        brk.Comment,
+                        brk));
+                }
+                return true;
             }
-            return false;
         }
     }
 }

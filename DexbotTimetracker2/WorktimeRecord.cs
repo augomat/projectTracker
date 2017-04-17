@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectTracker
 {
-    class WorktimeRecord
+    public class WorktimeRecord
     {
         public DateTime Start { get; set; }
         public DateTime End { get; set; }

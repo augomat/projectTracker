@@ -40,7 +40,7 @@ namespace ProjectTracker
                 var wtprojectname = getWTProjectname(pjs.Key);
                 var wtproject = projects.FirstOrDefault(x => x.Value.UniqueName == wtprojectname).Value; //todo auslagern
                 if (wtproject == null)
-                    throw new Exception("WtProject name not found in Worktracker unique project Names");
+                    throw new Exception($"WtProject name {wtprojectname} not found in Worktracker unique project Names");
 
                 if (!wtprojects.ContainsKey(wtproject))
                     wtprojects[wtproject] = 0;
@@ -78,7 +78,7 @@ namespace ProjectTracker
 
         private void addProjectEntriesToWorktracker(DateTime day, Dictionary<Project, int> pes)
         {
-            var workEntries = worktracker.QueryWorkEntries(currentUser, day, new TimeSpan(1, 0, 0, 0)); //TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+            var workEntries = worktracker.QueryWorkEntries(currentUser, day.AddDays(-3), new TimeSpan(1, 0, 0, 0)); //TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
             var workEntry = workEntries[0];
 
             if (!workEntry.IsComplete)
@@ -109,7 +109,7 @@ namespace ProjectTracker
             }
             catch
             {
-                throw new Exception("Project name not found in projectToWorktrackerProject in app.config");
+                throw new Exception($"Project name {project} not found in projectToWorktrackerProject in app.config");
             }
         }
     }

@@ -128,10 +128,14 @@ namespace ProjectTracker
             try
             {
                 wtUpdater.updateProjectEntries(Form.dateTimePicker1.Value, ProjectStatistics);
+                MessageBox.Show("Project entries were successfully set",
+                    "Worktracker",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Worktracker-Error");
+                MessageBox.Show(ex.Message, "Worktracker-Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }

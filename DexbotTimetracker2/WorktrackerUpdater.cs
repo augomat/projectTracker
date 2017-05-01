@@ -72,8 +72,8 @@ namespace ProjectTracker
             if (countPercentage == 100)
                 return wtprojectsq;
 
-            //second round: make adaptions so we fit 100% by adapting the most sensible projects
-            throw new Exception("Auto-adaptions for non-fitting quantization not yet implemented");
+            //second round: make adaptions so we fit 100% by adapting the most sensible projects (i.e. the ones with the biggest deviations)
+            throw new NotImplementedException("Auto-adaptions for non-fitting quantization not yet implemented");
         }
 
         private void addProjectEntriesToWorktracker(DateTime day, Dictionary<Project, int> pes)

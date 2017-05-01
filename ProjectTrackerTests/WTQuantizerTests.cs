@@ -84,7 +84,7 @@ namespace ProjectTrackerTests
                 ret = (Dictionary<Project, int>)obj.Invoke("quantizeProjectsTo5", wtprojects);
 
             }
-            catch (Exception)
+            catch (NotImplementedException)
             {
                 return;
             }

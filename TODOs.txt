@@ -41,3 +41,15 @@ Master
   Implement global shortcut for "I was just x mins on a different project"
   Implement something that learns to infer your project from current windows or other stuff
   Ask for current screen instead(?) of initialization required
+
+Bug/Features in New Implementation
+  If workbreaktime is in unlock-events, it gets splitted up but no workbreaktime is deducted
+  if workbreaktime is the last event of the unlock event, the current event also is workbreaktime (is probably true for all events)
+  Do not set 0% entries in WT
+  Guten Morgen does not work?
+  Renaming does not work?
+  Autoscroll of list to bottom or reverse sort
+  Auto-adaption if != 100% implement, even if it's a crappy solution (e.g. just adapting a random workentry)
+  2% other, 96% SalesF 1% AgD 1% PS adm -> 5% PS Adm & 95% SalesF ??!?
+  Rename Solution
+  Zeiten beim welcome back können zu lang sein bei langem übern ganzen tag termin (27.4)

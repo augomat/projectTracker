@@ -9,7 +9,7 @@ using WorkTracker;
 
 namespace ProjectTracker
 {
-    class WorktrackerUpdater
+    public class WorktrackerUpdater
     {
         private WorktrackerSettings WtSettings = new WorktrackerSettings();
         private ITaskMaster worktracker;

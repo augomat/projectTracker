@@ -36,7 +36,7 @@ namespace ProjectTracker
                 {
                     OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                         ProjectChangeEvent.Types.Change,
-                        brk.ProjectName,
+                        projectChangeEvent.NewProject,
                         brk.Comment,
                         brk));
                 }

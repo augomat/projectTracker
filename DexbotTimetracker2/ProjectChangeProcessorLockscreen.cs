@@ -16,7 +16,7 @@ namespace ProjectTracker
             if (projectChangeEvent.Type == ProjectChangeEvent.Types.Lock)
             {
                 //Hack: Just replace event data instead of refiring, because the old event is per definition invalid
-                projectChangeEvent.Type = ProjectChangeEvent.Types.Start;
+                projectChangeEvent.Type = ProjectChangeEvent.Types.Exit;
                 return false;
             }
             if (projectChangeEvent.Type == ProjectChangeEvent.Types.Unlock)

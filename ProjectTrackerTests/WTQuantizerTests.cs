@@ -77,18 +77,16 @@ namespace ProjectTrackerTests
                 { pj3, 1f },
                 { pj4, 1f },
             };
-
-            Dictionary<Project, int> ret = null;
-            try
+            Dictionary<Project, int> wtresults = new Dictionary<Project, int>
             {
-                ret = (Dictionary<Project, int>)obj.Invoke("quantizeProjectsTo5", wtprojects);
+                { pj1, 5 },
+                { pj2, 95 },
+                { pj3, 0 },
+                { pj4, 0 },
+            };
 
-            }
-            catch (NotImplementedException)
-            {
-                return;
-            }
-            Assert.Fail("Expected exception not thrown");
+            var ret = (Dictionary<Project, int>)obj.Invoke("quantizeProjectsTo5", wtprojects);
+            DictionaryComparer.AssertEqual(ret, wtresults);
         }
     }
 }

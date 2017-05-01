@@ -73,7 +73,22 @@ namespace ProjectTracker
                 return wtprojectsq;
 
             //second round: make adaptions so we fit 100% by adapting the most sensible projects (i.e. the ones with the biggest deviations)
-            throw new NotImplementedException("Auto-adaptions for non-fitting quantization not yet implemented");
+            var errorList = new List<Tuple<Project, float>>();
+            foreach (var pq in wtprojectsq)
+                errorList.Add(Tuple.Create(pq.Key, wtprojects[pq.Key] - pq.Value));
+            errorList = errorList.OrderByDescending(x => x.Item2).ToList();
+
+            foreach (var pql in errorList)
+            {
+                if (countPercentage > 100)
+                    wtprojectsq[pql.Item1] -= 5;
+                else
+                    wtprojectsq[pql.Item1] += 5;
+
+                if (wtprojectsq.Values.Sum() == 100)
+                    return wtprojectsq;
+            }
+            throw new Exception("Adaption algorithm was not able to find a sensible percentage-distribution");
         }
 
         private void addProjectEntriesToWorktracker(DateTime day, Dictionary<Project, int> pes)

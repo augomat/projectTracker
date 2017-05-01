@@ -234,6 +234,13 @@ namespace ProjectTracker
         {
             try
             {
+                int firstDisplayed = Form.dataGridView1.FirstDisplayedScrollingRowIndex;
+                int displayed = Form.dataGridView1.DisplayedRowCount(true);
+                int lastVisible = (firstDisplayed + displayed) - 1;
+                int lastIndex = Form.dataGridView1.RowCount - 1;
+                bool shouldAutoscroll = lastVisible == lastIndex;
+
+                Form.dataGridView1.SuspendLayout();
                 Form.dataGridView1.Rows.Clear();
 
                 DateTime from, to;
@@ -249,7 +256,13 @@ namespace ProjectTracker
                         wtr.ProjectName,
                         wtr.Comment);
                 }
-                Form.dataGridView1.Refresh();
+
+                if (shouldAutoscroll)
+                    Form.dataGridView1.FirstDisplayedScrollingRowIndex = Form.dataGridView1.RowCount - displayed;
+                else
+                    Form.dataGridView1.FirstDisplayedScrollingRowIndex = firstDisplayed;
+
+                Form.dataGridView1.ResumeLayout();
             }
             catch (Exception)
             {

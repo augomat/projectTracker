@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Windows.Forms.DataVisualization.Charting;
 using ProjectTracker.Util;
+using System.Drawing;
 
 namespace ProjectTracker
 {
@@ -206,6 +207,9 @@ namespace ProjectTracker
         {
             var grid = Form.dataGridView1;
 
+            if (e.RowIndex == Form.dataGridView1.Rows.Count - 1) //this is the row with the current project
+                return;
+
             try
             {
                 if (grid.Columns[e.ColumnIndex].Name == "StartTime") //TODO consts oder so
@@ -245,7 +249,8 @@ namespace ProjectTracker
 
                 DateTime from, to;
                 ProjectUtilities.getWorkDayByDate(Form.dateTimePicker1.Value, out from, out to);
-                foreach (var wtr in storage.getAllWorktimeRecords(from, to))
+                var wtrs = storage.getAllWorktimeRecords(from, to);
+                foreach (var wtr in wtrs)
                 {
                     //TODO overnighters
                     Form.dataGridView1.Rows.Add(
@@ -256,6 +261,20 @@ namespace ProjectTracker
                         wtr.ProjectName,
                         wtr.Comment);
                 }
+
+                //Add current project
+                Form.dataGridView1.Rows.Add(
+                    wtrs.Last().Start.Date.ToShortDateString(),
+                    wtrs.Last().End.ToLongTimeString(),
+                    "",
+                    "",
+                    currentProject,
+                    "[current Project]");
+                Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].ReadOnly = true;
+                Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.Gold;
+                Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].DefaultCellStyle.SelectionBackColor = Color.Gold;
+                Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].DefaultCellStyle.ForeColor = Color.Gray;
+                Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].DefaultCellStyle.SelectionForeColor = Color.Gray;
 
                 if (shouldAutoscroll)
                     Form.dataGridView1.FirstDisplayedScrollingRowIndex = Form.dataGridView1.RowCount - displayed;

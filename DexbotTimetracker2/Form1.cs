@@ -212,11 +212,23 @@ namespace ProjectTracker
                 projectTimes.Item1.ToLongTimeString(), projectTimes.Item2.ToLongTimeString(), timeSpanBegin.ToString(), timeSpanEnd.ToString());
         }
 
+        private void updateCurrentProject()
+        {
+            //Hacky - this assumes that Presenter takes care of creating the last row
+            if (dataGridView1.Rows.Count > 0)
+            {
+                dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells["EndTime"].Value = DateTime.Now.ToLongTimeString();
+                dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells["Mins"].Value = Math.Round((DateTime.Now - Presenter.currentProjectSince).TotalMinutes, 1).ToString();
+            }
+        }
+
         private void projectTrackbarUpdater_Tick(object sender, EventArgs e)
         {
             currentProject.Text = Presenter.currentProject ?? "[not initialized]";
 
             updateTrackbarLabel();
+
+            updateCurrentProject();
         }
     }
 }

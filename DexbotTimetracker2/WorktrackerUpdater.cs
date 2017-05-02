@@ -104,7 +104,8 @@ namespace ProjectTracker
 
             foreach (var pe in pes)
             {
-                worktracker.InsertProjectEntry(new ProjectEntry(pe.Key.Key, workEntry.Key, pe.Value, ""));
+                if (pe.Value > 0)
+                    worktracker.InsertProjectEntry(new ProjectEntry(pe.Key.Key, workEntry.Key, pe.Value, ""));
             }
 
             //TODO tracken auch von der pause & überschüssigen zeit

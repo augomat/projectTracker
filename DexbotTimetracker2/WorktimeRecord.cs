@@ -29,5 +29,20 @@ namespace ProjectTracker
             return String.Format("Start: {0}, End: {1}, Project: {2}, Comment: {3}",
                 Start.ToString(), End.ToString(), ProjectName, Comment);
         }
+
+        public override bool Equals(object obj)
+        {
+            var cmp = (WorktimeRecord)obj;
+
+            return (cmp.Start == this.Start
+                && cmp.End == this.End
+                && cmp.ProjectName == this.ProjectName
+                && cmp.Comment == this.Comment);
+        }
+
+        public override int GetHashCode()
+        {
+            return Start.GetHashCode() ^ End.GetHashCode() ^ ProjectName.GetHashCode() ^ Comment.GetHashCode();
+        }
     }
 }

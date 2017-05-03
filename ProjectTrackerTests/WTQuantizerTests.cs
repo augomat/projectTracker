@@ -36,7 +36,7 @@ namespace ProjectTrackerTests
             };
 
             var ret = (Dictionary<Project, int>)obj.Invoke("quantizeProjectsTo5", wtprojects);
-            DictionaryComparer.AssertEqual(ret, wtresults);
+            CollectionComparer.AssertDictionaryEqual(ret, wtresults);
         }
 
         [TestMethod]
@@ -61,7 +61,7 @@ namespace ProjectTrackerTests
             };
 
             var ret = (Dictionary<Project, int>)obj.Invoke("quantizeProjectsTo5", wtprojects);
-            DictionaryComparer.AssertEqual(ret, wtresults);
+            CollectionComparer.AssertDictionaryEqual(ret, wtresults);
         }
 
         [TestMethod]
@@ -86,7 +86,7 @@ namespace ProjectTrackerTests
             };
 
             var ret = (Dictionary<Project, int>)obj.Invoke("quantizeProjectsTo5", wtprojects);
-            DictionaryComparer.AssertEqual(ret, wtresults);
+            CollectionComparer.AssertDictionaryEqual(ret, wtresults);
         }
     }
 }

@@ -221,19 +221,38 @@ namespace ProjectTracker
             var ret = new List<WorktimeRecord>();
             while(currentIndex < Suggestions.Count)
             {
-                if (Suggestions[currentIndex].End < From)
+                var currentSugg = Suggestions[currentIndex];
+
+                //Discard all suggestions not between From and To
+                if (currentSugg.End < From)
                     continue;
-                if (Suggestions[currentIndex].Start > To)
+                if (currentSugg.Start > To)
                     continue;
 
-                if (Suggestions[currentIndex].Start > currentEnd)
-                    ret.Add(new WorktimeRecord(currentEnd, Suggestions[currentIndex].Start, "[unknown]", ""));
-                ret.Add(Suggestions[currentIndex]);
-                currentEnd = Suggestions[currentIndex].End;
+                //Add unknown period if there is a gap
+                if (currentSugg.Start > currentEnd)
+                    ret.Add(new WorktimeRecord(currentEnd, currentSugg.Start, "[unknown]", ""));
+
+                //Add original suggestion but taking care of overlapping suggestions
+                if (currentIndex + 1 < Suggestions.Count 
+                    && Suggestions[currentIndex+1].Start < currentSugg.End)
+                {
+                    ret.Add(new WorktimeRecord(currentSugg.Start, Suggestions[currentIndex + 1].Start, currentSugg.ProjectName, currentSugg.Comment));
+                    currentEnd = Suggestions[currentIndex + 1].Start;
+                }  
+                else
+                {
+                    ret.Add(currentSugg);
+                    currentEnd = currentSugg.End;
+                }
+
                 currentIndex++;
             }
+
+            //Add unknown period if there is a remaining gap at the end
             if (currentEnd < To)
                 ret.Add(new WorktimeRecord(currentEnd, To, "[unknown]", ""));
+
             ret.First().Start = From;
             ret.Last().End = To;
             return ret;

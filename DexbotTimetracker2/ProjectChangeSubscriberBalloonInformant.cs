@@ -45,12 +45,12 @@ namespace ProjectTracker
                 if (projectChangeEvent.WorktimeRecords.Count == 1)
                 {
                     var breakName = (wtr.ProjectName == ProjectChangeHandler.PROJECT_WORKTIMEBREAK) ? "Worktimebreak" : "Break";
-                    showBalloon("Welcome back", String.Format("{0}: {1}min, Worktimebreak left: {2}mins", breakName, (timePassed / 60).ToString(), (projectChangeEvent.AvailableWorktimebreak.TotalSeconds / 60).ToString()));
+                    showBalloon("Welcome back", String.Format("{0}: {1}min, Worktimebreak left: {2}mins", breakName, (timePassed / 60).ToString(), ((long)projectChangeEvent.AvailableWorktimebreak.TotalSeconds / 60).ToString()));
                 }
                 else
                 {
                     var timePassedTotal = (long)System.Math.Abs((projectChangeEvent.WorktimeRecords.Last().End - projectChangeEvent.WorktimeRecords.First().Start).TotalSeconds);
-                    showBalloon("Welcome back", String.Format("Total break: {0}min, no Worktimebreak left", (timePassedTotal / 60).ToString()));
+                    showBalloon("Welcome back", String.Format("Total break: {0}min, no Worktimebreak left", ((long)timePassedTotal / 60).ToString()));
                 }
             }
             else if (projectChangeEvent.Type == ProjectChangeEvent.Types.Finish)

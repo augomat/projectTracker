@@ -14,7 +14,7 @@ namespace ProjectTracker
     class Presenter
     {
         //this should actually be an interface but that's not worth the work...
-        private Form1 Form;
+        public Form1 Form;
         public IWorktimebreakHandler WorktimebreakHandler { private get;  set; }
         public IProjectCorrectionHandler ProjectCorrectionHandler { private get; set; } //TODO still needed?
         public IProjectHandler ProjectHandler { private get; set; }

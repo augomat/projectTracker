@@ -56,10 +56,7 @@ namespace ProjectTracker
 
             if (newStartDate.TimeOfDay > current.Start.TimeOfDay) //shortening
             {
-                if (current != wtrs.First()) //in the middle
-                {
-                    wtrs.Insert(index, new WorktimeRecord(current.Start, newStartDate, "undefined", "Next project shortened"));
-                }
+                wtrs.Insert(index, new WorktimeRecord(current.Start, newStartDate, "undefined", "Next project shortened"));
                 current.Start = newStartDate;
             }
             else //lengthening
@@ -85,17 +82,12 @@ namespace ProjectTracker
 
             if (newEndDate.TimeOfDay < current.End.TimeOfDay) //shortening
             {
-                if (current != wtrs.Last()) //in the middle
-                {
-                    wtrs.Insert(index+1, new WorktimeRecord(newEndDate, current.End, "undefined", "Previous project shortened"));
-                }
+                wtrs.Insert(index+1, new WorktimeRecord(newEndDate, current.End, "undefined", "Previous project shortened"));
                 current.End = newEndDate;
             }
             else //lengthening
             {
-                if (current != wtrs.Last()) //in the middle
-                    throw new Exception("Lengthening in the middle not implemented");
-                current.End = newEndDate;
+                throw new Exception("Lengthening not implemented");
             }
         }
 

@@ -207,7 +207,8 @@ namespace ProjectTracker
         {
             var grid = Form.dataGridView1;
 
-            if (e.RowIndex == Form.dataGridView1.Rows.Count - 1) //this is the row with the current project
+            if (e.RowIndex == Form.dataGridView1.Rows.Count - 1
+                && Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].ReadOnly) //this is the row with the current project
                 return;
 
             try
@@ -275,6 +276,7 @@ namespace ProjectTracker
                 Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].DefaultCellStyle.SelectionBackColor = Color.Gold;
                 Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].DefaultCellStyle.ForeColor = Color.Gray;
                 Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].DefaultCellStyle.SelectionForeColor = Color.Gray;
+                
 
                 if (shouldAutoscroll)
                     Form.dataGridView1.FirstDisplayedScrollingRowIndex = Form.dataGridView1.RowCount - displayed;

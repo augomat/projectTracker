@@ -214,8 +214,8 @@ namespace ProjectTracker
 
         private void updateCurrentProject()
         {
-            //Hacky - this assumes that Presenter takes care of creating the last row
-            if (dataGridView1.Rows.Count > 0)
+            if (dataGridView1.Rows.Count > 0
+                && dataGridView1.Rows[dataGridView1.Rows.Count - 1].ReadOnly)
             {
                 dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells["EndTime"].Value = DateTime.Now.ToLongTimeString();
                 dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells["Mins"].Value = Math.Round((DateTime.Now - Presenter.currentProjectSince).TotalMinutes, 1).ToString();

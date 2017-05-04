@@ -16,15 +16,11 @@ namespace ProjectTracker
             if (projectChangeEvent.Type == ProjectChangeEvent.Types.Lock)
             {
                 //Hack: Just replace event data instead of refiring, because the old event is per definition invalid
-                projectChangeEvent.Type = ProjectChangeEvent.Types.Exit;
+                projectChangeEvent.Type = ProjectChangeEvent.Types.Finish;
                 return false;
             }
             if (projectChangeEvent.Type == ProjectChangeEvent.Types.Unlock)
             {
-                //TODOOOOOOOOOO delete
-                //projectChangeEvent.WorktimeRecord.Start = new DateTime(2017, 4, 17, 17, 0, 0);
-                //projectChangeEvent.WorktimeRecord.End = new DateTime(2017, 4, 17, 20, 0, 0);
-
                 var outlookAppointments = Util.OutlookAppointmentRetriever.retrieveAppointments(
                     projectChangeEvent.WorktimeRecord.Start, projectChangeEvent.WorktimeRecord.End);
 
@@ -35,7 +31,7 @@ namespace ProjectTracker
                 foreach (var brk in breakTimes)
                 {
                     OnRaiseProjectChangeEvent(new ProjectChangeEvent(
-                        ProjectChangeEvent.Types.Change,
+                        ProjectChangeEvent.Types.Start,
                         projectChangeEvent.NewProject,
                         brk.Comment,
                         brk));

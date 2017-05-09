@@ -225,9 +225,15 @@ namespace ProjectTracker
 
                 //Discard all suggestions not between From and To
                 if (currentSugg.End < From)
+                {
+                    currentIndex++;
                     continue;
+                }
                 if (currentSugg.Start > To)
+                {
+                    currentIndex++;
                     continue;
+                }
 
                 //Add unknown period if there is a gap
                 if (currentSugg.Start > currentEnd)

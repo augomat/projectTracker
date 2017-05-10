@@ -13,6 +13,7 @@ namespace ProjectTracker
     class ProjectChangeNotifierDexpot : ProjectChangeNotifier //publisher
     {
         private static readonly String fileNameLog;
+        private Presenter Presenter;
 
         private DexpotSettings DexpotSettings = new DexpotSettings();
 
@@ -21,12 +22,22 @@ namespace ProjectTracker
             fileNameLog = Properties.Settings.Default.DexbotLogFilePath;
         }
 
-        public ProjectChangeNotifierDexpot(ProjectChangeHandler handler) : base(handler) { }
+        public ProjectChangeNotifierDexpot(ProjectChangeHandler handler, Presenter presenter) : base(handler)
+        {
+            Presenter = presenter;
+        }
 
         //-----------------------------------------------------
 
         public override void start()
         {
+            if (!File.Exists(fileNameLog))
+            {
+                System.Threading.Thread.Sleep(1000); //HACKXXXXXXXX This is the worst ever! PLS refactor - waits for form to initialize as otherwise showError will fail
+                Presenter.showError("Dexpot Thread Error", "No Dexpot .log-file found - please enable it under Settings | Plugins & Extras | Enable log File");
+                return;
+            }
+
             using (StreamReader reader = new StreamReader(new FileStream(fileNameLog,
                      FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
             {

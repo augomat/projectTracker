@@ -58,6 +58,15 @@ namespace ProjectTracker
             Form.TrayIcon.ShowBalloonTip(10);
         }
 
+        public void showError(string title, string text)
+        {
+            //TODO check whether Form is already created
+            Form.Invoke(new MethodInvoker(delegate () {
+                MessageBox.Show(text, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }));
+            
+        }
+
         public TimeSpan getAvailableWorktimebreak()
         {
             //TODO errorhandling

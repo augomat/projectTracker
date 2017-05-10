@@ -59,7 +59,7 @@ namespace ProjectTracker
             var inMemoryRecordStorage = new WorktimeRecordStorageInMemory();
 
             //Change notifiers
-            mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierDexpot(mainHandler));
+            mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierDexpot(mainHandler, Presenter));
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierLockscreen(mainHandler));
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierAppExit(mainHandler));
             mainHandler.addProjectChangeNotifier(projectCorrectionHandler);

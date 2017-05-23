@@ -93,7 +93,7 @@ namespace ProjectTracker
 
         private void addProjectEntriesToWorktracker(DateTime day, Dictionary<Project, int> pes)
         {
-            var workEntries = worktracker.QueryWorkEntries(currentUser, day, new TimeSpan(1, 0, 0, 0));
+            var workEntries = worktracker.QueryWorkEntries(currentUser, day.Date, new TimeSpan(1, 0, 0, 0));
 
             if (workEntries.Count == 0)
                 throw new Exception("No Workentry found");

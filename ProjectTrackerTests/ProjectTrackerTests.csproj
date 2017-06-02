@@ -63,7 +63,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DexbotTimetracker2\ProjectTracker.csproj">
+    <ProjectReference Include="..\ProjectTracker\ProjectTracker.csproj">
       <Project>{a77b4eee-a8f8-4be7-a6e6-eabceaff67c8}</Project>
       <Name>ProjectTracker</Name>
     </ProjectReference>

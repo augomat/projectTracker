@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectTracker", "DexbotTimetracker2\ProjectTracker.csproj", "{A77B4EEE-A8F8-4BE7-A6E6-EABCEAFF67C8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectTracker", "ProjectTracker\ProjectTracker.csproj", "{A77B4EEE-A8F8-4BE7-A6E6-EABCEAFF67C8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectTrackerTests", "ProjectTrackerTests\ProjectTrackerTests.csproj", "{02D5254C-3615-4188-B27F-D86F66DF6F9F}"
 EndProject

@@ -83,6 +83,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IStorageClass.cs" />
     <Compile Include="IProjectChangeSubscriber.cs" />
     <Compile Include="IProjectCorrectionHandler.cs" />
     <Compile Include="IProjectHandler.cs" />

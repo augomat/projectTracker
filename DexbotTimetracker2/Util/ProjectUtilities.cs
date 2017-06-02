@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectTracker.Util
 {
-    class ProjectUtilities
+    static class ProjectUtilities
     {
         // Returns the workday which actually starts at 4am (per my definition)
         public static void getWorkDayByDate(DateTime day, out DateTime from, out DateTime to)
@@ -23,6 +23,16 @@ namespace ProjectTracker.Util
             else //if were are between 12am and 4am, we still count it as the day before
                 from = DateTime.Now.Date.AddDays(-1) + new TimeSpan(4, 0, 0);
             to = from.AddDays(1);
+        }
+
+        public static DateTime TrimMilliseconds(this DateTime dt)
+        {
+            return new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second, 0);
+        }
+
+        public static TimeSpan TrimMilliseconds(this TimeSpan ts)
+        {
+            return new TimeSpan(ts.Days, ts.Hours, ts.Minutes, ts.Seconds, 0);
         }
     }
 }

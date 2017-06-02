@@ -222,14 +222,22 @@ namespace ProjectTracker
 
             try
             {
+                
+                var date = DateTime.Parse(grid.Rows[e.RowIndex].Cells["Date"].Value.ToString());
+                var startTime = DateTime.Parse(grid.Rows[e.RowIndex].Cells["StartTime"].Value.ToString());
+                var startDateTime = date.Date.Add(startTime.TimeOfDay);
+                var endTime = DateTime.Parse(grid.Rows[e.RowIndex].Cells["EndTime"].Value.ToString());
+                var endDateTime = date.Date.Add(endTime.TimeOfDay); //TODO compensate date for overnighters
+                var index = Convert.ToInt32(grid.Rows[e.RowIndex].Cells["Index"].Value);
+
                 if (grid.Columns[e.ColumnIndex].Name == "StartTime") //TODO consts oder so
-                    storage.ChangeStartTime(e.RowIndex, DateTime.Parse(grid.Rows[e.RowIndex].Cells["StartTime"].Value.ToString()));
+                    storage.ChangeStartTime(index, startTime);
                 if (grid.Columns[e.ColumnIndex].Name == "EndTime")
-                    storage.ChangeEndTime(e.RowIndex, DateTime.Parse(grid.Rows[e.RowIndex].Cells["EndTime"].Value.ToString()));
+                    storage.ChangeEndTime(index, endTime);
                 if (grid.Columns[e.ColumnIndex].Name == "Project")
-                    storage.ChangeProjectName(e.RowIndex, grid.Rows[e.RowIndex].Cells["Project"].Value.ToString());
+                    storage.ChangeProjectName(index, grid.Rows[e.RowIndex].Cells["Project"].Value.ToString());
                 if (grid.Columns[e.ColumnIndex].Name == "Comment")
-                    storage.ChangeProjectComment(e.RowIndex, grid.Rows[e.RowIndex].Cells["Comment"].Value.ToString());
+                    storage.ChangeProjectComment(index, grid.Rows[e.RowIndex].Cells["Comment"].Value.ToString());
             } catch (Exception ex)
             {
                 //We basically have 2 different forms of validation with this (see CellValidating), but it is apparently not possible 
@@ -269,7 +277,8 @@ namespace ProjectTracker
                         wtr.End.ToLongTimeString(),
                         Math.Round((wtr.End - wtr.Start).TotalMinutes, 1),
                         wtr.ProjectName,
-                        wtr.Comment);
+                        wtr.Comment,
+                        wtr.storageID);
                 }
 
                 //Add current project
@@ -279,7 +288,8 @@ namespace ProjectTracker
                     "",
                     "",
                     currentProject,
-                    "[current Project]");
+                    "[current Project]",
+                    "");
                 Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].ReadOnly = true;
                 Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.Gold;
                 Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].DefaultCellStyle.SelectionBackColor = Color.Gold;

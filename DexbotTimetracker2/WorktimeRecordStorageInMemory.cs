@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProjectTracker.Util;
 
 namespace ProjectTracker
 {
@@ -19,7 +20,7 @@ namespace ProjectTracker
 
             foreach (var wtr in projectChangeEvent.WorktimeRecords)
             {
-                wtrs.Add(wtr);
+                addWorktimeRecord(wtr);
             }
         }
 
@@ -29,6 +30,7 @@ namespace ProjectTracker
                 return;
 
             wtrs.Add(worktimeRecord);
+            wtrs.Last().storageID = wtrs.Count - 1;
         }
 
         public List<WorktimeRecord> getAllWorktimeRecords(DateTime day)
@@ -110,5 +112,7 @@ namespace ProjectTracker
 
             current.Comment = newProjectComment;
         }
+
+        
     }
 }

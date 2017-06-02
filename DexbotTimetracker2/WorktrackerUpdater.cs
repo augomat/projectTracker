@@ -22,7 +22,19 @@ namespace ProjectTracker
         {
             try
             {
-                worktracker = WorkTrackerConnection.GetRemoteService();
+                var task = Task.Factory.StartNew(() =>
+                {
+                    try { return WorkTrackerConnection.GetRemoteService(); }
+                    catch { return null; }
+                });
+                task.Wait(new TimeSpan(0, 0, 2));
+                if (!task.IsCompleted)
+                    throw new Exception("Could not establish connection to WT in time");
+
+                worktracker = task.Result;
+                if (worktracker == null)
+                    return false;
+
                 if (currentUser == null)
                     currentUser = worktracker.GetEmployeeForAuthenticatedUser();
                 return true;
@@ -36,11 +48,13 @@ namespace ProjectTracker
         public void WorktrackerDisonnect()
         {
             worktracker = null;
-            currentUser = null;
         }
         
         public void updateProjectEntries(DateTime day, WorktimeStatistics wtstats)
         {
+            if (worktracker == null)
+                return;
+
             updateWtProjects();
 
             var wtprojects = joinToWtProjects(wtstats);

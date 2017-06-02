@@ -46,7 +46,7 @@ namespace ProjectTracker
             Form.dataGridView1.CellEndEdit += dataGridView1_CellEndEdit;
             Form.dateTimePicker1.ValueChanged += updateButton_Click; // hack...
             Form.Activated += (o, i) => { refreshGrid(); };
-
+          
             DateTime from, to;
             ProjectUtilities.getWorkDayByDateTime(DateTime.Now, out from, out to);
             Form.dateTimePicker1.Value = from;
@@ -138,6 +138,9 @@ namespace ProjectTracker
 
             try
             {
+                if (!wtUpdater.WorktrackerConnect())
+                    throw new Exception("Could not connect to Worktracker");
+
                 wtUpdater.updateProjectEntries(Form.dateTimePicker1.Value, ProjectStatistics);
                 MessageBox.Show("Project entries were successfully set",
                     "Worktracker",

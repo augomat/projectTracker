@@ -63,6 +63,24 @@ namespace ProjectTracker
             addProjectEntriesToWorktracker(day, quantizedProjects);
         }
 
+        public void finishDay(DateTime day, TimeSpan breakTime)
+        {
+            if (worktracker == null)
+                return;
+
+            var workEntries = worktracker.QueryWorkEntries(currentUser, day.Date, new TimeSpan(1, 0, 0, 0));
+
+            if (workEntries.Count == 0)
+                throw new Exception("No Workentry found");
+
+            var workEntry = workEntries[0];
+
+            workEntry.BreakDuration = breakTime;
+            workEntry.StopTime = DateTime.Now;
+
+            worktracker.UpdateWorkEntry(workEntry);
+        }
+
         private Dictionary<Project, float> joinToWtProjects(WorktimeStatistics wtstats)
         {
             var wtprojects = new Dictionary<Project, float>();

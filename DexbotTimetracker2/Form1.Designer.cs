@@ -79,6 +79,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.ProjectTimesSummary = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.AnalyzeWorktimes = new System.Windows.Forms.Button();
+            this.finishWTday = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -359,6 +360,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.finishWTday);
             this.groupBox2.Controls.Add(this.SetInWorkT);
             this.groupBox2.Controls.Add(this.Workbreaktime);
             this.groupBox2.Controls.Add(this.ProjectTime);
@@ -503,12 +505,12 @@
             this.ProjectTimesSummary.BackColor = System.Drawing.SystemColors.Control;
             chartArea1.Name = "ChartArea1";
             this.ProjectTimesSummary.ChartAreas.Add(chartArea1);
-            this.ProjectTimesSummary.Location = new System.Drawing.Point(161, 27);
+            this.ProjectTimesSummary.Location = new System.Drawing.Point(161, 41);
             this.ProjectTimesSummary.Name = "ProjectTimesSummary";
             series1.ChartArea = "ChartArea1";
             series1.Name = "Series1";
             this.ProjectTimesSummary.Series.Add(series1);
-            this.ProjectTimesSummary.Size = new System.Drawing.Size(346, 180);
+            this.ProjectTimesSummary.Size = new System.Drawing.Size(346, 166);
             this.ProjectTimesSummary.TabIndex = 1;
             this.ProjectTimesSummary.Text = "chart1";
             this.ProjectTimesSummary.Visible = false;
@@ -521,6 +523,18 @@
             this.AnalyzeWorktimes.TabIndex = 0;
             this.AnalyzeWorktimes.Text = "Analyze";
             this.AnalyzeWorktimes.UseVisualStyleBackColor = true;
+            // 
+            // finishWTday
+            // 
+            this.finishWTday.AutoSize = true;
+            this.finishWTday.Checked = true;
+            this.finishWTday.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.finishWTday.Location = new System.Drawing.Point(173, 20);
+            this.finishWTday.Name = "finishWTday";
+            this.finishWTday.Size = new System.Drawing.Size(102, 17);
+            this.finishWTday.TabIndex = 17;
+            this.finishWTday.Text = "finish day in WT";
+            this.finishWTday.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -602,6 +616,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Project;
         private System.Windows.Forms.DataGridViewTextBoxColumn Comment;
         private System.Windows.Forms.DataGridViewTextBoxColumn Index;
+        public System.Windows.Forms.CheckBox finishWTday;
     }
 }
 

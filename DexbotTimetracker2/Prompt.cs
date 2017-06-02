@@ -216,7 +216,7 @@ namespace ProjectTracker
             DateTime currentEnd = From;
             int currentIndex = 0;
 
-            //TODO sort suggestions
+            Suggestions.Sort((x, y) => x.Start.CompareTo(y.Start));
 
             var ret = new List<WorktimeRecord>();
             while(currentIndex < Suggestions.Count)
@@ -237,19 +237,35 @@ namespace ProjectTracker
 
                 //Add unknown period if there is a gap
                 if (currentSugg.Start > currentEnd)
+                {
                     ret.Add(new WorktimeRecord(currentEnd, currentSugg.Start, "[unknown]", ""));
+                    currentEnd = currentSugg.Start;
+                }     
 
-                //Add original suggestion but taking care of overlapping suggestions
+                //In case the next suggestions overlaps
                 if (currentIndex + 1 < Suggestions.Count 
                     && Suggestions[currentIndex+1].Start < currentSugg.End)
                 {
-                    ret.Add(new WorktimeRecord(currentSugg.Start, Suggestions[currentIndex + 1].Start, currentSugg.ProjectName, currentSugg.Comment));
-                    currentEnd = Suggestions[currentIndex + 1].Start;
+                    var nextSuggestion = Suggestions[currentIndex + 1];
+
+                    if (nextSuggestion.Start >= currentEnd) //In case currentEnd starts before overlap
+                    {
+                        ret.Add(new WorktimeRecord(currentEnd, Suggestions[currentIndex + 1].Start, currentSugg.ProjectName, currentSugg.Comment));
+                        currentEnd = Suggestions[currentIndex + 1].Start;
+                    }
+                    else //currentEnd starts within overlap -> skip to next element
+                    {
+                        currentIndex++;
+                        continue;
+                    }
                 }  
-                else
+                else //no overlaps
                 {
-                    ret.Add(currentSugg);
-                    currentEnd = currentSugg.End;
+                    var start = (currentSugg.Start > From) ? currentSugg.Start : From;
+                    var end = (currentSugg.End < To) ? currentSugg.End : To;
+
+                    ret.Add(new WorktimeRecord(start, end, currentSugg.ProjectName, currentSugg.Comment));
+                    currentEnd = end;
                 }
 
                 currentIndex++;
@@ -259,8 +275,8 @@ namespace ProjectTracker
             if (currentEnd < To)
                 ret.Add(new WorktimeRecord(currentEnd, To, "[unknown]", ""));
 
-            ret.First().Start = From;
-            ret.Last().End = To;
+            ret.First().Start.AddSeconds(From.Second);
+            ret.Last().End.AddSeconds(To.Second);
             return ret;
         }
     }

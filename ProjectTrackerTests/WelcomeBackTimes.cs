@@ -128,5 +128,48 @@ namespace ProjectTrackerTests
                 Assert.Inconclusive("This is not implemented right now");
             }
         }
+
+        [TestMethod]
+        public void WelcomeBackApointmentOverlap2()
+        {
+            var prompt = new Prompt();
+            var obj = new PrivateObject(prompt);
+
+            obj.SetFieldOrProperty("Suggestions", new List<WorktimeRecord>()
+                { new WorktimeRecord(DateTime.Parse("01.01.2017 14:30:00"), DateTime.Parse("01.01.2017 15:30:00"), "Pj1", ""),
+                  new WorktimeRecord(DateTime.Parse("01.01.2017 15:00:00"), DateTime.Parse("01.01.2017 16:00:00"), "Pj2", "") }
+            );
+            obj.SetFieldOrProperty("From", DateTime.Parse("01.01.2017 14:40:00"));
+            obj.SetFieldOrProperty("To", DateTime.Parse("01.01.2017 15:20:00"));
+
+            var res = new List<WorktimeRecord>()
+                { new WorktimeRecord(DateTime.Parse("01.01.2017 14:40:00"), DateTime.Parse("01.01.2017 15:00:00"), "Pj1", ""),
+                  new WorktimeRecord(DateTime.Parse("01.01.2017 15:00:00"), DateTime.Parse("01.01.2017 15:20:00"), "Pj2", "") };
+
+            var ret = (List<WorktimeRecord>)obj.Invoke("calculateFullSuggestionList");
+
+            CollectionAssert.AreEqual(res, ret);
+        }
+
+        [TestMethod]
+        public void WelcomeBackApointmentOverlap3()
+        {
+            var prompt = new Prompt();
+            var obj = new PrivateObject(prompt);
+
+            obj.SetFieldOrProperty("Suggestions", new List<WorktimeRecord>()
+                { new WorktimeRecord(DateTime.Parse("01.01.2017 14:30:00"), DateTime.Parse("01.01.2017 15:30:00"), "Pj1", ""),
+                  new WorktimeRecord(DateTime.Parse("01.01.2017 15:00:00"), DateTime.Parse("01.01.2017 16:00:00"), "Pj2", "") }
+            );
+            obj.SetFieldOrProperty("From", DateTime.Parse("01.01.2017 15:20:00"));
+            obj.SetFieldOrProperty("To", DateTime.Parse("01.01.2017 15:40:00"));
+
+            var res = new List<WorktimeRecord>()
+                { new WorktimeRecord(DateTime.Parse("01.01.2017 15:20:00"), DateTime.Parse("01.01.2017 15:40:00"), "Pj2", "") };
+
+            var ret = (List<WorktimeRecord>)obj.Invoke("calculateFullSuggestionList");
+
+            CollectionAssert.AreEqual(res, ret);
+        }
     }
 }

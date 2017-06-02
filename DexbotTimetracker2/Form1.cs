@@ -87,7 +87,8 @@ namespace ProjectTracker
             Presenter.ProjectHandler = mainHandler;
             Presenter.storage = inMemoryRecordStorage;
 
-            //mainHandler.init();
+            Presenter.wtUpdater = new WorktrackerUpdater();
+            Presenter.wtUpdater.WorktrackerConnect();
 
             //RTODO
             TrayIcon.BalloonTipTitle = "Change desktop";

@@ -20,9 +20,10 @@ namespace ProjectTracker
         public IProjectHandler ProjectHandler { private get; set; }
         public WorktimeAnalyzer WorktimeAnalyzer { private get; set; }
         public IWorktimeRecordStorage storage { private get; set;  }
+        public WorktrackerUpdater wtUpdater;
 
         private WorktimeStatistics ProjectStatistics;
-        private WorktrackerUpdater wtUpdater = new WorktrackerUpdater();
+        
 
         public string currentProject { get { return ProjectHandler.currentProject; } } //TODO errorhandling
         public DateTime currentProjectSince { get { return ProjectHandler.currentProjectSince; } } //TODO errorhandling

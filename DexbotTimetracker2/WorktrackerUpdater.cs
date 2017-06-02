@@ -12,14 +12,31 @@ namespace ProjectTracker
     public class WorktrackerUpdater
     {
         private WorktrackerSettings WtSettings = new WorktrackerSettings();
-        private ITaskMaster worktracker;
-        private Employee currentUser;
+        private ITaskMaster worktracker = null;
+        private Employee currentUser = null;
         private Dictionary<string, Project> projects = new Dictionary<string, Project>(); //key: UniqueName
 
-        public WorktrackerUpdater()
+        public WorktrackerUpdater() { }
+
+        public bool WorktrackerConnect()
         {
-            worktracker = WorkTrackerConnection.GetRemoteService();
-            currentUser = worktracker.GetEmployeeForAuthenticatedUser();
+            try
+            {
+                worktracker = WorkTrackerConnection.GetRemoteService();
+                if (currentUser == null)
+                    currentUser = worktracker.GetEmployeeForAuthenticatedUser();
+                return true;
+            }
+            catch
+            {
+                return false;
+            } 
+        }
+
+        public void WorktrackerDisonnect()
+        {
+            worktracker = null;
+            currentUser = null;
         }
         
         public void updateProjectEntries(DateTime day, WorktimeStatistics wtstats)

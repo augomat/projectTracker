@@ -205,7 +205,7 @@ namespace ProjectTracker
             foreach (var wtr in fullList)
             {
                 createRow();
-                breaks.Last().Text = ((int)Math.Floor((wtr.End - wtr.Start).TotalMinutes)).ToString();
+                breaks.Last().Text = ((int)Math.Round((wtr.End - wtr.Start).TotalMinutes)).ToString(); //TODO it is not guaranteed that sum of mins of floor(from-to) == rounded sum of suggestions
                 comments.Last().Text = wtr.Comment;
                 projects.Last().SelectedIndex = 3; //Hack... first customer project
             }

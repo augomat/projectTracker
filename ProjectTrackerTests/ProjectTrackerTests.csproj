@@ -36,10 +36,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FpMem">
+      <HintPath>..\Resources\FpMem.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="WorkTracker, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DexbotTimetracker2\bin\Debug\WorkTracker.dll</HintPath>
+    <Reference Include="WorkTracker">
+      <HintPath>..\Resources\WorkTracker.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Choose>

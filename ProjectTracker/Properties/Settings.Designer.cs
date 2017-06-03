@@ -70,25 +70,31 @@ namespace ProjectTracker.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\Georg\\Documents\\DesktopTimes.csv")]
         public string OutputCsvFilePath {
             get {
                 return ((string)(this["OutputCsvFilePath"]));
             }
+            set {
+                this["OutputCsvFilePath"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\Georg\\AppData\\Roaming\\Dexpot\\dexpot.log")]
         public string DexbotLogFilePath {
             get {
                 return ((string)(this["DexbotLogFilePath"]));
             }
+            set {
+                this["DexbotLogFilePath"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
 <ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
@@ -101,6 +107,9 @@ namespace ProjectTracker.Properties {
         public global::System.Collections.Specialized.StringCollection AvailableProjects {
             get {
                 return ((global::System.Collections.Specialized.StringCollection)(this["AvailableProjects"]));
+            }
+            set {
+                this["AvailableProjects"] = value;
             }
         }
     }

@@ -51,7 +51,9 @@ namespace ProjectTracker
 
             countAsWorktime.Text = Properties.Settings.Default.countAsWorktimebreakMins.ToString();
             carryOverHours.Text = Properties.Settings.Default.carryOverWorktimeCountHours.ToString();
-            
+            finishWTday.Checked = Properties.Settings.Default.flagFinishWTDay;
+            autoFinish.Checked = Properties.Settings.Default.flagAutoFinishWT;
+
             Presenter = new Presenter(this);
             ProjectChangeHandler mainHandler = new ProjectChangeHandler();
             var worktimebreakHandler = new ProjectChangeProcessorWorktimebreaks(mainHandler);

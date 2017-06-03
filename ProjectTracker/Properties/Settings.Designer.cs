@@ -112,5 +112,29 @@ namespace ProjectTracker.Properties {
                 this["AvailableProjects"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool flagFinishWTDay {
+            get {
+                return ((bool)(this["flagFinishWTDay"]));
+            }
+            set {
+                this["flagFinishWTDay"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool flagAutoFinishWT {
+            get {
+                return ((bool)(this["flagAutoFinishWT"]));
+            }
+            set {
+                this["flagAutoFinishWT"] = value;
+            }
+        }
     }
 }

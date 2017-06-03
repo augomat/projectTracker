@@ -37,6 +37,8 @@ namespace ProjectTracker
 
             Form.countAsWorktime.Leave += countAsWorktime_Leave;
             Form.carryOverHours.Leave += carryOverHours_Leave;
+            Form.finishWTday.CheckedChanged += FinishWTday_Leave;
+            Form.autoFinish.CheckedChanged += AutoFinish_Leave;
             Form.CorrectProject.Click += CorrectProject_Click;
             Form.AnalyzeWorktimes.Click += AnalyzeWorktimes_Click;
             Form.SetInWorkT.Click += SetInWT_Click;
@@ -51,6 +53,8 @@ namespace ProjectTracker
             ProjectUtilities.getWorkDayByDateTime(DateTime.Now, out from, out to);
             Form.dateTimePicker1.Value = from;
         }
+
+        
 
         public void showNotification(string title, string text)
         {
@@ -174,6 +178,30 @@ namespace ProjectTracker
             try
             {
                 Properties.Settings.Default.carryOverWorktimeCountHours = Int32.Parse(Form.carryOverHours.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void FinishWTday_Leave(object sender, EventArgs e)
+        {
+            try
+            {
+                Properties.Settings.Default.flagFinishWTDay = Form.finishWTday.Checked;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void AutoFinish_Leave(object sender, EventArgs e)
+        {
+            try
+            {
+                Properties.Settings.Default.flagAutoFinishWT = Form.autoFinish.Checked;
             }
             catch (Exception ex)
             {

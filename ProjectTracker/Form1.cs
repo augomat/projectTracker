@@ -59,6 +59,8 @@ namespace ProjectTracker
             var worktimebreakHandler = new ProjectChangeProcessorWorktimebreaks(mainHandler);
             var projectCorrectionHandler = new ProjectChangeNotifierCorrection(mainHandler);
             var inMemoryRecordStorage = new WorktimeRecordStorageInMemory();
+            var worktimeAnalyzer = new WorktimeAnalyzer(inMemoryRecordStorage, mainHandler, projectCorrectionHandler);
+            var worktrackerUpdater = new WorktrackerUpdater();
 
             //Change notifiers
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierDexpot(mainHandler, Presenter));
@@ -67,7 +69,7 @@ namespace ProjectTracker
             mainHandler.addProjectChangeNotifier(projectCorrectionHandler);
 
             //Change processors
-            mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorNewDay(mainHandler));
+            mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorNewDay(mainHandler, worktimeAnalyzer, worktrackerUpdater));
             mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorLockscreen(mainHandler));
             mainHandler.addProjectChangeProcessor(worktimebreakHandler);
             //mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorLongerThan10secs(mainHandler));
@@ -83,12 +85,12 @@ namespace ProjectTracker
             mainHandler.RaiseStorageExceptionEvent += new StorageExceptionBalloonInformant(Presenter.showNotification).handleStorageException;
             
             //Presenter
-            Presenter.WorktimeAnalyzer = new WorktimeAnalyzer(inMemoryRecordStorage, mainHandler, projectCorrectionHandler);
+            Presenter.WorktimeAnalyzer = worktimeAnalyzer;
             Presenter.WorktimebreakHandler = worktimebreakHandler;
             Presenter.ProjectCorrectionHandler = projectCorrectionHandler;
             Presenter.ProjectHandler = mainHandler;
             Presenter.storage = inMemoryRecordStorage;
-            Presenter.wtUpdater = new WorktrackerUpdater();
+            Presenter.wtUpdater = worktrackerUpdater;
 
             //RTODO
             TrayIcon.BalloonTipTitle = "Change desktop";

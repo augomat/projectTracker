@@ -45,6 +45,11 @@ namespace ProjectTracker
             } 
         }
 
+        private bool WorktrackerConnectInternal()
+        {
+            return (worktracker == null) ? WorktrackerConnect() : true;
+        }
+
         public void WorktrackerDisonnect()
         {
             worktracker = null;
@@ -52,7 +57,7 @@ namespace ProjectTracker
         
         public void updateProjectEntries(DateTime day, WorktimeStatistics wtstats)
         {
-            if (worktracker == null)
+            if (!WorktrackerConnectInternal())
                 return;
 
             updateWtProjects();
@@ -65,7 +70,7 @@ namespace ProjectTracker
 
         public void finishDay(DateTime day, TimeSpan breakTime)
         {
-            if (worktracker == null)
+            if (!WorktrackerConnectInternal())
                 return;
 
             var workEntries = worktracker.QueryWorkEntries(currentUser, day.Date, new TimeSpan(1, 0, 0, 0));
@@ -74,6 +79,11 @@ namespace ProjectTracker
                 throw new Exception("No Workentry found");
 
             var workEntry = workEntries[0];
+
+            if (workEntry.StartTime.Date != DateTime.Now.Date)
+                throw new Exception("Only finishing the current day can be done automatically");
+
+            //TODO only finish unfinished day
 
             workEntry.BreakDuration = breakTime;
             workEntry.StopTime = DateTime.Now;

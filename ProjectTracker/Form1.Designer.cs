@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
@@ -64,6 +64,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.projectTrackbarUpdater = new System.Windows.Forms.Timer(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.autoFinish = new System.Windows.Forms.CheckBox();
             this.finishWTday = new System.Windows.Forms.CheckBox();
             this.SetInWorkT = new System.Windows.Forms.Button();
             this.Workbreaktime = new System.Windows.Forms.Label();
@@ -80,7 +81,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.ProjectTimesSummary = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.AnalyzeWorktimes = new System.Windows.Forms.Button();
-            this.autoFinish = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -128,11 +128,11 @@
             // 
             // Date
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Gray;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Gray;
-            this.Date.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Gray;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Gray;
+            this.Date.DefaultCellStyle = dataGridViewCellStyle3;
             this.Date.HeaderText = "Date";
             this.Date.Name = "Date";
             this.Date.ReadOnly = true;
@@ -152,11 +152,11 @@
             // 
             // Mins
             // 
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Gray;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Gray;
-            this.Mins.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Gray;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Gray;
+            this.Mins.DefaultCellStyle = dataGridViewCellStyle4;
             this.Mins.HeaderText = "Mins";
             this.Mins.Name = "Mins";
             this.Mins.ReadOnly = true;
@@ -385,6 +385,19 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Analysis";
             // 
+            // autoFinish
+            // 
+            this.autoFinish.AutoSize = true;
+            this.autoFinish.Checked = true;
+            this.autoFinish.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.autoFinish.Location = new System.Drawing.Point(352, 20);
+            this.autoFinish.Name = "autoFinish";
+            this.autoFinish.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.autoFinish.Size = new System.Drawing.Size(146, 17);
+            this.autoFinish.TabIndex = 18;
+            this.autoFinish.Text = "auto-update previous day";
+            this.autoFinish.UseVisualStyleBackColor = true;
+            // 
             // finishWTday
             // 
             this.finishWTday.AutoSize = true;
@@ -517,13 +530,13 @@
             // ProjectTimesSummary
             // 
             this.ProjectTimesSummary.BackColor = System.Drawing.SystemColors.Control;
-            chartArea1.Name = "ChartArea1";
-            this.ProjectTimesSummary.ChartAreas.Add(chartArea1);
+            chartArea2.Name = "ChartArea1";
+            this.ProjectTimesSummary.ChartAreas.Add(chartArea2);
             this.ProjectTimesSummary.Location = new System.Drawing.Point(161, 41);
             this.ProjectTimesSummary.Name = "ProjectTimesSummary";
-            series1.ChartArea = "ChartArea1";
-            series1.Name = "Series1";
-            this.ProjectTimesSummary.Series.Add(series1);
+            series2.ChartArea = "ChartArea1";
+            series2.Name = "Series1";
+            this.ProjectTimesSummary.Series.Add(series2);
             this.ProjectTimesSummary.Size = new System.Drawing.Size(346, 166);
             this.ProjectTimesSummary.TabIndex = 1;
             this.ProjectTimesSummary.Text = "chart1";
@@ -537,18 +550,6 @@
             this.AnalyzeWorktimes.TabIndex = 0;
             this.AnalyzeWorktimes.Text = "Analyze";
             this.AnalyzeWorktimes.UseVisualStyleBackColor = true;
-            // 
-            // autoFinish
-            // 
-            this.autoFinish.AutoSize = true;
-            this.autoFinish.Checked = true;
-            this.autoFinish.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.autoFinish.Location = new System.Drawing.Point(281, 20);
-            this.autoFinish.Name = "autoFinish";
-            this.autoFinish.Size = new System.Drawing.Size(137, 17);
-            this.autoFinish.TabIndex = 18;
-            this.autoFinish.Text = "auto-finish previous day";
-            this.autoFinish.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 

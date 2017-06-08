@@ -14,11 +14,17 @@
     <Setting Name="lastAppExit" Type="System.DateTime" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="flagFinishWTDay" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="flagAutoFinishWT" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
     <Setting Name="OutputCsvFilePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Users\Georg\Documents\DesktopTimes.csv</Value>
+      <Value Profile="(Default)">C:\Users\gkapeller\Documents\DesktopTimes.csv</Value>
     </Setting>
     <Setting Name="DexbotLogFilePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Users\Georg\AppData\Roaming\Dexpot\dexpot.log</Value>
+      <Value Profile="(Default)">C:\Users\gkapeller\AppData\Roaming\Dexpot\dexpot.log</Value>
     </Setting>
     <Setting Name="AvailableProjects" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
@@ -29,12 +35,6 @@
   &lt;string&gt;AgD&lt;/string&gt;
   &lt;string&gt;SalesF&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
-    </Setting>
-    <Setting Name="flagFinishWTDay" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="flagAutoFinishWT" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

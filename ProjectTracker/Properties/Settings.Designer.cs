@@ -72,7 +72,31 @@ namespace ProjectTracker.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\Georg\\Documents\\DesktopTimes.csv")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool flagFinishWTDay {
+            get {
+                return ((bool)(this["flagFinishWTDay"]));
+            }
+            set {
+                this["flagFinishWTDay"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool flagAutoFinishWT {
+            get {
+                return ((bool)(this["flagAutoFinishWT"]));
+            }
+            set {
+                this["flagAutoFinishWT"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\gkapeller\\Documents\\DesktopTimes.csv")]
         public string OutputCsvFilePath {
             get {
                 return ((string)(this["OutputCsvFilePath"]));
@@ -84,7 +108,7 @@ namespace ProjectTracker.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\Georg\\AppData\\Roaming\\Dexpot\\dexpot.log")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\gkapeller\\AppData\\Roaming\\Dexpot\\dexpot.log")]
         public string DexbotLogFilePath {
             get {
                 return ((string)(this["DexbotLogFilePath"]));
@@ -110,30 +134,6 @@ namespace ProjectTracker.Properties {
             }
             set {
                 this["AvailableProjects"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool flagFinishWTDay {
-            get {
-                return ((bool)(this["flagFinishWTDay"]));
-            }
-            set {
-                this["flagFinishWTDay"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool flagAutoFinishWT {
-            get {
-                return ((bool)(this["flagAutoFinishWT"]));
-            }
-            set {
-                this["flagAutoFinishWT"] = value;
             }
         }
     }

@@ -83,10 +83,12 @@ namespace ProjectTracker
             if (workEntry.StartTime.Date != DateTime.Now.Date)
                 throw new Exception("Only finishing the current day can be done automatically");
 
-            //TODO only finish unfinished day
-
+            if (workEntry.IsComplete)
+                throw new Exception("Workentry is already complete and cannot be finished");
+            
             workEntry.BreakDuration = breakTime;
             workEntry.StopTime = DateTime.Now;
+            workEntry.IsComplete = true;
 
             worktracker.UpdateWorkEntry(workEntry);
         }

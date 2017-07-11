@@ -205,10 +205,14 @@ namespace ProjectTracker
             foreach (var wtr in fullList)
             {
                 createRow();
-                breaks.Last().Text = ((int)Math.Round((wtr.End - wtr.Start).TotalMinutes)).ToString(); //TODO it is not guaranteed that sum of mins of floor(from-to) == rounded sum of suggestions
+                breaks.Last().Text = ((int)Math.Floor((wtr.End - wtr.Start).TotalMinutes)).ToString();
                 comments.Last().Text = wtr.Comment;
                 projects.Last().SelectedIndex = 3; //Hack... first customer project
             }
+
+            //Hacky the hack, adjust last value if we floored too much
+            var breakLeft = getBreakMinutesLeft();
+            breaks.Last().Text = (Convert.ToInt32(breaks.Last().Text) + breakLeft).ToString();
         }
 
         private List<WorktimeRecord> calculateFullSuggestionList()

@@ -41,12 +41,13 @@ namespace ProjectTracker
             return false;
         }
 
-        private void AutoUpdateDay(DateTime dayToFinish)
+        private void AutoUpdateDay(DateTime day)
         {
             try
             {
-                var projectStatistics = WorktimeAnalyzer.AnalyzeWorkday(dayToFinish);
-                WorktrackerUpdater.updateProjectEntries(dayToFinish, projectStatistics);
+                var projectStatistics = WorktimeAnalyzer.AnalyzeWorkday(day);
+                WorktrackerUpdater.updateProjectEntries(day, projectStatistics);
+                WorktrackerUpdater.updateBreak(day, projectStatistics.totalPausetime);
             }
             catch (Exception)
             {

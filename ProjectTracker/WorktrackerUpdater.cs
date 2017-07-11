@@ -68,6 +68,23 @@ namespace ProjectTracker
             addProjectEntriesToWorktracker(day, quantizedProjects);
         }
 
+        public void updateBreak(DateTime day, TimeSpan breakTime)
+        {
+            if (!WorktrackerConnectInternal())
+                return;
+
+            var workEntries = worktracker.QueryWorkEntries(currentUser, day.Date, new TimeSpan(1, 0, 0, 0));
+
+            if (workEntries.Count == 0)
+                throw new Exception("No Workentry found");
+
+            var workEntry = workEntries[0];
+
+            workEntry.BreakDuration = breakTime;
+
+            worktracker.UpdateWorkEntry(workEntry);
+        }
+
         public void finishDay(DateTime day, TimeSpan breakTime)
         {
             if (!WorktrackerConnectInternal())

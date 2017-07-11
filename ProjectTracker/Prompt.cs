@@ -156,7 +156,7 @@ namespace ProjectTracker
             prompt.Height += lineHeightAdd;
 
             breaks.Last().Text = getBreakMinutesLeft().ToString();
-            breaks.Last().Validating += Break_Validating;
+            //breaks.Last().Validating += Break_Validating;
             breaks.Last().SelectAll();
             breaks.Last().Focus();
         }

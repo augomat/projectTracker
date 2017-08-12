@@ -58,7 +58,9 @@ namespace ProjectTracker
 
             if (newStartDate.TimeOfDay > current.Start.TimeOfDay) //shortening
             {
-                wtrs.Insert(index, new WorktimeRecord(current.Start, newStartDate, "undefined", "Next project shortened"));
+                var newWtr = new WorktimeRecord(current.Start, newStartDate, "undefined", "Next project shortened");
+                newWtr.storageID = wtrs.Count;
+                wtrs.Insert(index, newWtr);
                 current.Start = newStartDate;
             }
             else //lengthening
@@ -84,7 +86,9 @@ namespace ProjectTracker
 
             if (newEndDate.TimeOfDay < current.End.TimeOfDay) //shortening
             {
-                wtrs.Insert(index+1, new WorktimeRecord(newEndDate, current.End, "undefined", "Previous project shortened"));
+                var newWtr = new WorktimeRecord(newEndDate, current.End, "undefined", "Previous project shortened");
+                newWtr.storageID = wtrs.Count;
+                wtrs.Insert(index+1, newWtr);
                 current.End = newEndDate;
             }
             else //lengthening
@@ -98,7 +102,7 @@ namespace ProjectTracker
             if (index >= wtrs.Count)
                 throw new Exception("This WorktimeRecord does not exist: Index out of bounds");
 
-            var current = wtrs[index];
+            var current = wtrs.Where(wtr => wtr.storageID == index).FirstOrDefault();
 
             current.ProjectName = newProjectName;
         }
@@ -108,7 +112,7 @@ namespace ProjectTracker
             if (index >= wtrs.Count)
                 throw new Exception("This WorktimeRecord does not exist: Index out of bounds");
 
-            var current = wtrs[index];
+            var current = wtrs.Where(wtr => wtr.storageID == index).FirstOrDefault();
 
             current.Comment = newProjectComment;
         }

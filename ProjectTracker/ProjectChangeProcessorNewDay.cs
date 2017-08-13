@@ -47,7 +47,7 @@ namespace ProjectTracker
             {
                 var projectStatistics = WorktimeAnalyzer.AnalyzeWorkday(day);
                 //in case the user forgot to log out
-                try { WorktrackerUpdater.finishDay(day, Handler.currentProjectSince, projectStatistics.totalPausetime) } catch { }
+                try { WorktrackerUpdater.finishDay(day, Handler.currentProjectSince, projectStatistics.totalPausetime); } catch { }
                 WorktrackerUpdater.updateProjectEntries(day, projectStatistics);
                 WorktrackerUpdater.updateBreak(day, projectStatistics.totalPausetime);
             }

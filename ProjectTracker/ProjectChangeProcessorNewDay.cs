@@ -26,7 +26,7 @@ namespace ProjectTracker
             if (projectChangeEvent.Type == ProjectChangeEvent.Types.Unlock && isNewDay(Handler.currentProjectSince))
             {
                 if (flagAutoFinishPreviousDay)
-                    AutoUpdateDay(DateTime.Now.Date.AddDays(-1));
+                    AutoUpdateDay(Handler.currentProjectSince.Date);
 
                 //Hack: Just replace event data instead of refiring, because the old event is per definition invalid
                 projectChangeEvent.Type = ProjectChangeEvent.Types.GoodMorning;
@@ -46,6 +46,8 @@ namespace ProjectTracker
             try
             {
                 var projectStatistics = WorktimeAnalyzer.AnalyzeWorkday(day);
+                //in case the user forgot to log out
+                try { WorktrackerUpdater.finishDay(day, Handler.currentProjectSince, projectStatistics.totalPausetime) } catch { }
                 WorktrackerUpdater.updateProjectEntries(day, projectStatistics);
                 WorktrackerUpdater.updateBreak(day, projectStatistics.totalPausetime);
             }

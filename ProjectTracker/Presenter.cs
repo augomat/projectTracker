@@ -146,7 +146,7 @@ namespace ProjectTracker
                     throw new Exception("Could not connect to Worktracker");
 
                 if (Form.finishWTday.Checked)
-                    wtUpdater.finishDay(Form.dateTimePicker1.Value, ProjectStatistics.totalPausetime);
+                    wtUpdater.finishDayNow(Form.dateTimePicker1.Value, ProjectStatistics.totalPausetime);
 
                 wtUpdater.updateProjectEntries(Form.dateTimePicker1.Value, ProjectStatistics);
                 MessageBox.Show("Project entries were successfully set",

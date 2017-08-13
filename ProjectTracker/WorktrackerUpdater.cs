@@ -85,7 +85,15 @@ namespace ProjectTracker
             worktracker.UpdateWorkEntry(workEntry);
         }
 
-        public void finishDay(DateTime day, TimeSpan breakTime)
+        public void finishDayNow(DateTime day, TimeSpan breakTime)
+        {
+            if (day.Date != DateTime.Now.Date)
+                throw new Exception("Only finishing the current day can be done automatically");
+
+            finishDay(day, DateTime.Now, breakTime);
+        }
+
+        public void finishDay(DateTime day, DateTime end, TimeSpan breakTime)
         {
             if (!WorktrackerConnectInternal())
                 return;
@@ -96,9 +104,6 @@ namespace ProjectTracker
                 throw new Exception("No Workentry found");
 
             var workEntry = workEntries[0];
-
-            if (workEntry.StartTime.Date != DateTime.Now.Date)
-                throw new Exception("Only finishing the current day can be done automatically");
 
             if (workEntry.IsComplete)
                 throw new Exception("Workentry is already complete and cannot be finished");

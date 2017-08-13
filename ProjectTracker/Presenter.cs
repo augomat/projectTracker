@@ -316,21 +316,24 @@ namespace ProjectTracker
                         wtr.storageID);
                 }
 
-                //Add current project
-                Form.dataGridView1.Rows.Add(
-                    wtrs.Last().Start.Date.ToShortDateString(),
-                    wtrs.Last().End.ToLongTimeString(),
-                    "",
-                    "",
-                    currentProject,
-                    "[current Project]",
-                    "");
-                Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].ReadOnly = true;
-                Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.Gold;
-                Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].DefaultCellStyle.SelectionBackColor = Color.Gold;
-                Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].DefaultCellStyle.ForeColor = Color.Gray;
-                Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].DefaultCellStyle.SelectionForeColor = Color.Gray;
-                
+                if (DateTime.Now >= from && DateTime.Now <= to)
+                {
+                    //Add current project
+                    Form.dataGridView1.Rows.Add(
+                        wtrs.Last().Start.Date.ToShortDateString(),
+                        wtrs.Last().End.ToLongTimeString(),
+                        "",
+                        "",
+                        currentProject,
+                        "[current Project]",
+                        "");
+                    Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].ReadOnly = true;
+                    Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.Gold;
+                    Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].DefaultCellStyle.SelectionBackColor = Color.Gold;
+                    Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].DefaultCellStyle.ForeColor = Color.Gray;
+                    Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].DefaultCellStyle.SelectionForeColor = Color.Gray;
+                }
+
 
                 if (shouldAutoscroll)
                     Form.dataGridView1.FirstDisplayedScrollingRowIndex = Form.dataGridView1.RowCount - displayed;

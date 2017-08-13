@@ -43,12 +43,12 @@ namespace ProjectTracker
             return wtrs.Where(wtr => (wtr.Start >= from && wtr.End <= to)).ToList();
         }
 
-        public void ChangeStartTime(int index, DateTime newStartDate)
+        public void ChangeStartTime(int id, DateTime newStartDate)
         {
-            if (index >= wtrs.Count)
+            if (id >= wtrs.Count)
                 throw new Exception("This WorktimeRecord does not exist: Index out of bounds");
 
-            var current = wtrs[index];
+            var current = wtrs.Where(wtr => wtr.storageID == id).FirstOrDefault();
 
             if (current.Start.Date != newStartDate.Date)
                 throw new Exception("Only times (not dates, i.e. overnighters) can be changed");
@@ -60,6 +60,7 @@ namespace ProjectTracker
             {
                 var newWtr = new WorktimeRecord(current.Start, newStartDate, "undefined", "Next project shortened");
                 newWtr.storageID = wtrs.Count;
+                var index = wtrs.FindIndex(wtr => wtr.storageID == id);
                 wtrs.Insert(index, newWtr);
                 current.Start = newStartDate;
             }
@@ -71,12 +72,12 @@ namespace ProjectTracker
             }
         }
 
-        public void ChangeEndTime(int index, DateTime newEndDate)
+        public void ChangeEndTime(int id, DateTime newEndDate)
         {
-            if (index >= wtrs.Count)
+            if (id >= wtrs.Count)
                 throw new Exception("This WorktimeRecord does not exist: Index out of bounds");
 
-            var current = wtrs[index];
+            var current = wtrs.Where(wtr => wtr.storageID == id).FirstOrDefault();
 
             if (current.End.Date != newEndDate.Date)
                 throw new Exception("Only times (not dates, i.e. overnighters) can be changed");
@@ -88,6 +89,7 @@ namespace ProjectTracker
             {
                 var newWtr = new WorktimeRecord(newEndDate, current.End, "undefined", "Previous project shortened");
                 newWtr.storageID = wtrs.Count;
+                var index = wtrs.FindIndex(wtr => wtr.storageID == id);
                 wtrs.Insert(index+1, newWtr);
                 current.End = newEndDate;
             }
@@ -107,12 +109,12 @@ namespace ProjectTracker
             current.ProjectName = newProjectName;
         }
 
-        public void ChangeProjectComment(int index, string newProjectComment)
+        public void ChangeProjectComment(int id, string newProjectComment)
         {
-            if (index >= wtrs.Count)
+            if (id >= wtrs.Count)
                 throw new Exception("This WorktimeRecord does not exist: Index out of bounds");
 
-            var current = wtrs.Where(wtr => wtr.storageID == index).FirstOrDefault();
+            var current = wtrs.Where(wtr => wtr.storageID == id).FirstOrDefault();
 
             current.Comment = newProjectComment;
         }

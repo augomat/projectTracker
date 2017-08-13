@@ -66,7 +66,9 @@ namespace ProjectTracker
             }
             else //lengthening
             {
-                if (current != wtrs.First()) //in the middle
+                var minTimeOfDay = wtrs.Where(wtr => wtr.Start.Date == newStartDate.Date).Min(wtr => wtr.Start);
+                var firstOfDay = wtrs.Where(wtr => wtr.Start == minTimeOfDay).FirstOrDefault();
+                if (current !=  firstOfDay) //in the middle
                     throw new Exception("Lengthening in the middle not implemented");
                 current.Start = newStartDate;
             }

@@ -66,10 +66,14 @@ namespace ProjectTracker
             }
             else //lengthening
             {
-                var minTimeOfDay = wtrs.Where(wtr => wtr.Start.Date == newStartDate.Date).Min(wtr => wtr.Start);
+                var minTimeOfDay = wtrs.Where(wtr => wtr.Start.Date == newStartDate.Date && wtr.Start.Hour >= 4).Min(wtr => wtr.Start);
                 var firstOfDay = wtrs.Where(wtr => wtr.Start == minTimeOfDay).FirstOrDefault();
+
                 if (current !=  firstOfDay) //in the middle
                     throw new Exception("Lengthening in the middle not implemented");
+                if (newStartDate.Hour < 4)
+                    throw new Exception("Day must not start before 4am");
+
                 current.Start = newStartDate;
             }
         }

@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LiteDB;
 
 namespace ProjectTracker
 {
     public class WorktimeRecord : IStorageClass
     {
+        [BsonId]
         public int storageID { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public string ProjectName { get; set; }
         public string Comment { get; set; }
 
+        public WorktimeRecord() { } //needed for LiteDB
         public WorktimeRecord(DateTime start, DateTime end, string projectName, string comment)
         {
             Start = start;

@@ -131,6 +131,7 @@
     <Compile Include="WorktimeRecord.cs" />
     <Compile Include="WorktimeRecordStorageCSV.cs" />
     <Compile Include="WorktimeRecordStorageInMemory.cs" />
+    <Compile Include="WorktimeRecordStorageNoSQL.cs" />
     <Compile Include="WorktrackerUpdater.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

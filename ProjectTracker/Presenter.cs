@@ -316,7 +316,7 @@ namespace ProjectTracker
                         wtr.storageID);
                 }
 
-                if (DateTime.Now >= from && DateTime.Now <= to)
+                if (currentProject != null && DateTime.Now >= from && DateTime.Now <= to)
                 {
                     //Add current project
                     Form.dataGridView1.Rows.Add(

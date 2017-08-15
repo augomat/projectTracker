@@ -58,8 +58,8 @@ namespace ProjectTracker
             ProjectChangeHandler mainHandler = new ProjectChangeHandler();
             var worktimebreakHandler = new ProjectChangeProcessorWorktimebreaks(mainHandler);
             var projectCorrectionHandler = new ProjectChangeNotifierCorrection(mainHandler);
-            var inMemoryRecordStorage = new WorktimeRecordStorageInMemory();
-            var worktimeAnalyzer = new WorktimeAnalyzer(inMemoryRecordStorage, mainHandler, projectCorrectionHandler);
+            var storageEngine = new WorktimeRecordStorageNoSQL();
+            var worktimeAnalyzer = new WorktimeAnalyzer(storageEngine, mainHandler, projectCorrectionHandler);
             var worktrackerUpdater = new WorktrackerUpdater();
 
             //Change notifiers
@@ -81,7 +81,7 @@ namespace ProjectTracker
             
             //Storages
             mainHandler.addWorktimeRecordStorage(new WorktimeRecordStorageCSV());
-            mainHandler.addWorktimeRecordStorage(inMemoryRecordStorage);
+            mainHandler.addWorktimeRecordStorage(storageEngine);
             mainHandler.RaiseStorageExceptionEvent += new StorageExceptionBalloonInformant(Presenter.showNotification).handleStorageException;
             
             //Presenter
@@ -89,7 +89,7 @@ namespace ProjectTracker
             Presenter.WorktimebreakHandler = worktimebreakHandler;
             Presenter.ProjectCorrectionHandler = projectCorrectionHandler;
             Presenter.ProjectHandler = mainHandler;
-            Presenter.storage = inMemoryRecordStorage;
+            Presenter.storage = storageEngine;
             Presenter.wtUpdater = worktrackerUpdater;
 
             //RTODO

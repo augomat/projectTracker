@@ -44,8 +44,11 @@ namespace ProjectTracker
             {
                 if (projectChangeEvent.WorktimeRecords.Count == 1)
                 {
-                    var breakName = (wtr.ProjectName == ProjectChangeHandler.PROJECT_WORKTIMEBREAK) ? "Worktimebreak" : "Break";
-                    showBalloon("Welcome back", String.Format("{0}: {1}min, Worktimebreak left: {2}mins", breakName, (timePassed / 60).ToString(), ((long)projectChangeEvent.AvailableWorktimebreak.TotalSeconds / 60).ToString()));
+                    if (wtr.ProjectName == ProjectChangeHandler.PROJECT_WORKTIMEBREAK)
+                        showBalloon("Welcome back", String.Format("{0}: {1}min, Worktimebreak left: {2}mins", "Worktimebreak", (timePassed / 60).ToString(), ((long)projectChangeEvent.AvailableWorktimebreak.TotalSeconds / 60).ToString()));
+                    else
+                        //if not processed via the wtb-handler, we do not have any wtb-left information
+                        showBalloon("Welcome back", String.Format("{0}: {1}min", "Break", (timePassed / 60).ToString(), ((long)projectChangeEvent.AvailableWorktimebreak.TotalSeconds / 60).ToString()));
                 }
                 else
                 {

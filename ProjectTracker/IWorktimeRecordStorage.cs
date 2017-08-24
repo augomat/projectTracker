@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectTracker
 {
-    interface IWorktimeRecordStorage
+    public interface IWorktimeRecordStorage
     {
         void addWorktimeRecord(WorktimeRecord worktimeRecord);
         void handleProjectChangeEvent(ProjectChangeEvent projectChangeEvent);

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectTracker
 {
-    interface IProjectChangeSubscriber
+    public interface IProjectChangeSubscriber
     {
         void handleProjectChangeEvent(object sender, ProjectChangeEvent projectChangeEvent);
     }

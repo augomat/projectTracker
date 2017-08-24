@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectTracker
 {
-    interface IProjectCorrectionHandler
+    public interface IProjectCorrectionHandler
     {
         Tuple<DateTime, DateTime> getCurrentProjectCorrectedTimes(float percentage);
         ProjectChangeEvent getCorrectCurrentProjectEvent(string projectShortname, float percentage);

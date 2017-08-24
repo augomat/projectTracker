@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace ProjectTracker
 {
-    class ProjectChangeHandler : ProjectChangeNotifier, IProjectChangeSubscriber, IProjectHandler
+    public class ProjectChangeHandler : ProjectChangeNotifier, IProjectChangeSubscriber, IProjectHandler
     {
         public const string PROJECT_MEETING = "Meeting";
         public const string PROJECT_PAUSE = "Pause";

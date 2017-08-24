@@ -7,7 +7,7 @@ using ProjectTracker.Util;
 
 namespace ProjectTracker
 {
-    class WorktimeRecordStorageInMemory : IWorktimeRecordStorage
+    public class WorktimeRecordStorageInMemory : IWorktimeRecordStorage
     {
         List<WorktimeRecord> wtrs = new List<WorktimeRecord>();
 

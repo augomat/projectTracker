@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectTracker
 {
-    class ProjectChangeEvent : EventArgs
+    public class ProjectChangeEvent : EventArgs
     {
         public enum Types { Test, Init, Exit, Start, Finish, Change, GoodMorning, Lock, Unlock };
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectTracker
 {
-    interface IProjectHandler
+    public interface IProjectHandler
     {
         string currentProject { get; }
         DateTime currentProjectSince { get; }

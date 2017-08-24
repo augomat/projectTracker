@@ -37,6 +37,7 @@ namespace ProjectTracker
 
             Form.countAsWorktime.Leave += countAsWorktime_Leave;
             Form.carryOverHours.Leave += carryOverHours_Leave;
+            Form.maxWorktime.Leave += maxWorktime_Leave;
             Form.finishWTday.CheckedChanged += FinishWTday_Leave;
             Form.autoFinish.CheckedChanged += AutoFinish_Leave;
             Form.CorrectProject.Click += CorrectProject_Click;
@@ -178,6 +179,19 @@ namespace ProjectTracker
             try
             {
                 Properties.Settings.Default.carryOverWorktimeCountHours = Int32.Parse(Form.carryOverHours.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void maxWorktime_Leave(object sender, EventArgs e)
+        {
+            try
+            {
+                TimeSpan.Parse(Form.maxWorktime.Text);
+                Properties.Settings.Default.maxWorktime = Form.maxWorktime.Text;
             }
             catch (Exception ex)
             {

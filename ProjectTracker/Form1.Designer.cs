@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
@@ -81,6 +81,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.ProjectTimesSummary = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.AnalyzeWorktimes = new System.Windows.Forms.Button();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.maxWorktime = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.currentOvertime = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -88,6 +93,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.projectTrackBar)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ProjectTimesSummary)).BeginInit();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // notifyIcon1
@@ -128,11 +134,11 @@
             // 
             // Date
             // 
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Gray;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Gray;
-            this.Date.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Gray;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Gray;
+            this.Date.DefaultCellStyle = dataGridViewCellStyle1;
             this.Date.HeaderText = "Date";
             this.Date.Name = "Date";
             this.Date.ReadOnly = true;
@@ -152,11 +158,11 @@
             // 
             // Mins
             // 
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Gray;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Gray;
-            this.Mins.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Gray;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Gray;
+            this.Mins.DefaultCellStyle = dataGridViewCellStyle2;
             this.Mins.HeaderText = "Mins";
             this.Mins.Name = "Mins";
             this.Mins.ReadOnly = true;
@@ -287,14 +293,14 @@
             this.groupBox4.Controls.Add(this.label7);
             this.groupBox4.Location = new System.Drawing.Point(20, 313);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(730, 119);
+            this.groupBox4.Size = new System.Drawing.Size(513, 119);
             this.groupBox4.TabIndex = 7;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Forgot to switch";
             // 
             // CorrectProject
             // 
-            this.CorrectProject.Location = new System.Drawing.Point(571, 72);
+            this.CorrectProject.Location = new System.Drawing.Point(424, 72);
             this.CorrectProject.Name = "CorrectProject";
             this.CorrectProject.Size = new System.Drawing.Size(75, 23);
             this.CorrectProject.TabIndex = 8;
@@ -321,7 +327,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(525, 28);
+            this.label6.Location = new System.Drawing.Point(378, 28);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(77, 13);
             this.label6.TabIndex = 5;
@@ -332,14 +338,14 @@
             this.projectTrackBar.Location = new System.Drawing.Point(94, 45);
             this.projectTrackBar.Maximum = 50;
             this.projectTrackBar.Name = "projectTrackBar";
-            this.projectTrackBar.Size = new System.Drawing.Size(428, 45);
+            this.projectTrackBar.Size = new System.Drawing.Size(272, 45);
             this.projectTrackBar.TabIndex = 4;
             this.projectTrackBar.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
             // correctProjectCombobox
             // 
             this.correctProjectCombobox.FormattingEnabled = true;
-            this.correctProjectCombobox.Location = new System.Drawing.Point(528, 44);
+            this.correctProjectCombobox.Location = new System.Drawing.Point(381, 44);
             this.correctProjectCombobox.Name = "correctProjectCombobox";
             this.correctProjectCombobox.Size = new System.Drawing.Size(121, 21);
             this.correctProjectCombobox.TabIndex = 3;
@@ -530,13 +536,13 @@
             // ProjectTimesSummary
             // 
             this.ProjectTimesSummary.BackColor = System.Drawing.SystemColors.Control;
-            chartArea2.Name = "ChartArea1";
-            this.ProjectTimesSummary.ChartAreas.Add(chartArea2);
+            chartArea1.Name = "ChartArea1";
+            this.ProjectTimesSummary.ChartAreas.Add(chartArea1);
             this.ProjectTimesSummary.Location = new System.Drawing.Point(161, 41);
             this.ProjectTimesSummary.Name = "ProjectTimesSummary";
-            series2.ChartArea = "ChartArea1";
-            series2.Name = "Series1";
-            this.ProjectTimesSummary.Series.Add(series2);
+            series1.ChartArea = "ChartArea1";
+            series1.Name = "Series1";
+            this.ProjectTimesSummary.Series.Add(series1);
             this.ProjectTimesSummary.Size = new System.Drawing.Size(346, 166);
             this.ProjectTimesSummary.TabIndex = 1;
             this.ProjectTimesSummary.Text = "chart1";
@@ -551,11 +557,60 @@
             this.AnalyzeWorktimes.Text = "Analyze";
             this.AnalyzeWorktimes.UseVisualStyleBackColor = true;
             // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.currentOvertime);
+            this.groupBox5.Controls.Add(this.label13);
+            this.groupBox5.Controls.Add(this.maxWorktime);
+            this.groupBox5.Controls.Add(this.label12);
+            this.groupBox5.Location = new System.Drawing.Point(540, 313);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(210, 119);
+            this.groupBox5.TabIndex = 9;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Max Worktime";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(12, 20);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(157, 13);
+            this.label12.TabIndex = 0;
+            this.label12.Text = "Maximum permitted time per day";
+            // 
+            // maxWorktime
+            // 
+            this.maxWorktime.Location = new System.Drawing.Point(15, 38);
+            this.maxWorktime.Name = "maxWorktime";
+            this.maxWorktime.Size = new System.Drawing.Size(43, 20);
+            this.maxWorktime.TabIndex = 6;
+            this.maxWorktime.Text = "07:38";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(12, 72);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(86, 13);
+            this.label13.TabIndex = 7;
+            this.label13.Text = "Current Overtime";
+            // 
+            // currentOvertime
+            // 
+            this.currentOvertime.AutoSize = true;
+            this.currentOvertime.Location = new System.Drawing.Point(25, 92);
+            this.currentOvertime.Name = "currentOvertime";
+            this.currentOvertime.Size = new System.Drawing.Size(49, 13);
+            this.currentOvertime.TabIndex = 6;
+            this.currentOvertime.Text = "00:00:00";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(766, 661);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -579,6 +634,8 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ProjectTimesSummary)).EndInit();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -633,6 +690,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Index;
         public System.Windows.Forms.CheckBox finishWTday;
         public System.Windows.Forms.CheckBox autoFinish;
+        private System.Windows.Forms.GroupBox groupBox5;
+        public System.Windows.Forms.Label currentOvertime;
+        private System.Windows.Forms.Label label13;
+        public System.Windows.Forms.TextBox maxWorktime;
+        private System.Windows.Forms.Label label12;
     }
 }
 

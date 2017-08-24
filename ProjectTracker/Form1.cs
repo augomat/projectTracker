@@ -51,6 +51,7 @@ namespace ProjectTracker
 
             countAsWorktime.Text = Properties.Settings.Default.countAsWorktimebreakMins.ToString();
             carryOverHours.Text = Properties.Settings.Default.carryOverWorktimeCountHours.ToString();
+            maxWorktime.Text = Properties.Settings.Default.maxWorktime;
             finishWTday.Checked = Properties.Settings.Default.flagFinishWTDay;
             autoFinish.Checked = Properties.Settings.Default.flagAutoFinishWT;
 

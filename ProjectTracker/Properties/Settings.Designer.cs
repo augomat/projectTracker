@@ -96,30 +96,6 @@ namespace ProjectTracker.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\gkapeller\\Documents\\DesktopTimes.csv")]
-        public string OutputCsvFilePath {
-            get {
-                return ((string)(this["OutputCsvFilePath"]));
-            }
-            set {
-                this["OutputCsvFilePath"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\gkapeller\\AppData\\Roaming\\Dexpot\\dexpot.log")]
-        public string DexbotLogFilePath {
-            get {
-                return ((string)(this["DexbotLogFilePath"]));
-            }
-            set {
-                this["DexbotLogFilePath"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
 <ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
   <string>PS cust</string>
@@ -134,6 +110,42 @@ namespace ProjectTracker.Properties {
             }
             set {
                 this["AvailableProjects"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\Georg\\Documents\\DesktopTimes.csv")]
+        public string OutputCsvFilePath {
+            get {
+                return ((string)(this["OutputCsvFilePath"]));
+            }
+            set {
+                this["OutputCsvFilePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\Georg\\AppData\\Roaming\\Dexpot\\dexpot.log")]
+        public string DexbotLogFilePath {
+            get {
+                return ((string)(this["DexbotLogFilePath"]));
+            }
+            set {
+                this["DexbotLogFilePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10:00")]
+        public string maxWorktime {
+            get {
+                return ((string)(this["maxWorktime"]));
+            }
+            set {
+                this["maxWorktime"] = value;
             }
         }
     }

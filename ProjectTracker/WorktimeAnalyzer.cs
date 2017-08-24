@@ -7,11 +7,13 @@ using ProjectTracker.Util;
 
 namespace ProjectTracker
 {
-    class WorktimeAnalyzer
+    public class WorktimeAnalyzer
     {
         private IWorktimeRecordStorage Storage;
         private IProjectHandler ProjectHandler;
         private IProjectCorrectionHandler ProjectCorrectionHandler;
+
+        private TimeSpan maxWorktime { get { return TimeSpan.Parse(Properties.Settings.Default.maxWorktime); } }
 
         public WorktimeAnalyzer(IWorktimeRecordStorage storage, IProjectHandler projectHandler, IProjectCorrectionHandler projectCorrectionHandler)
         {
@@ -79,6 +81,80 @@ namespace ProjectTracker
 
             //currentStats.totalTime.Milliseconds = 0;
             return currentStats;
+        }
+
+        public WorktimeStatistics considerOvertime(WorktimeStatistics originalWts)
+        {
+            var newWts = new WorktimeStatistics();
+            var overtimes = new Dictionary<string, TimeSpan>();
+
+            calculateOvertime(originalWts, out newWts, out overtimes);
+
+            //TODO make db-entry
+
+            return newWts;
+        }
+
+
+
+        private void calculateOvertime(WorktimeStatistics originalWts, out WorktimeStatistics newWts, out Dictionary<string, TimeSpan> overtimes)
+        {
+            newWts = originalWts;
+            overtimes = new Dictionary<string, TimeSpan>();
+
+            if (originalWts.totalWorktime > maxWorktime) //we worked overtime
+            {
+                TimeSpan diff = originalWts.totalWorktime - maxWorktime;
+
+                var projectIndex = 0;
+                while (diff > new TimeSpan(0, 0, 0))
+                {
+                    var project = originalWts.projectTimes.Keys.ToList().ElementAt(projectIndex);
+                    var time = originalWts.projectTimes.Values.ToList().ElementAt(projectIndex);
+
+                    //TODO if project not in official list, then ignore (and hope the other projects make up for enough overtime)
+
+                    var timeToSubtract = new TimeSpan(0, 0, 0);
+                    if (time <= diff) //whole project time is consumed
+                    {
+                        overtimes[project] = time;
+                        newWts.projectTimes[project] = new TimeSpan(0, 0, 0);
+                        timeToSubtract = time;
+                        diff -= time;
+                    }
+                    else //project time is only partially consumed
+                    {
+                        overtimes[project] = diff;
+                        newWts.projectTimes[project] -= diff;
+                        timeToSubtract = diff;
+                        diff = new TimeSpan(0, 0, 0);
+                    }
+
+                    newWts.totalTime -= timeToSubtract;
+                    newWts.totalProjectTime -= timeToSubtract;
+                    newWts.totalWorktime -= timeToSubtract;
+
+                    projectIndex++;
+                }
+
+                foreach (var project in newWts.projectTimes)
+                    newWts.relativeProjectTimes[project.Key] = (float)(project.Value.TotalSeconds / newWts.totalProjectTime.TotalSeconds) * 100;
+            }
+            else
+            {
+                newWts = originalWts;
+            }
+        }
+
+        //This method is just for testing as I had troubles with invoking the method with out-params
+        private Tuple<WorktimeStatistics, Dictionary<string, TimeSpan>> calculateOvertimeForTesting(WorktimeStatistics originalWts)
+        {
+            WorktimeStatistics newWts = null;
+            Dictionary<string, TimeSpan> overtimes = null;
+
+            calculateOvertime(originalWts, out newWts, out overtimes);
+
+            return new Tuple<WorktimeStatistics, Dictionary<string, TimeSpan>>(newWts, overtimes);
         }
     }
 

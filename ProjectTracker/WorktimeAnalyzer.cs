@@ -88,16 +88,16 @@ namespace ProjectTracker
             var newWts = new WorktimeStatistics();
             var newOvertimes = new Dictionary<string, TimeSpan>();
 
-            calculateOvertimeUndertime(originalWts, new Dictionary<string, TimeSpan>() , out newWts, out newOvertimes);
+            calculateOvertimeUndertime(originalWts, Storage.getOvertimes() , out newWts, out newOvertimes);
 
-            //Storage.updateOvertimes(newOvertimes);
+            Storage.updateOvertimes(newOvertimes);
 
             return newWts;
         }
 
 
 
-        private void calculateOvertimeUndertime(WorktimeStatistics originalWts, Dictionary<string, TimeSpan> originalOvertimes, out WorktimeStatistics newWts, out Dictionary<string, TimeSpan> newOvertimes)
+        public void calculateOvertimeUndertime(WorktimeStatistics originalWts, Dictionary<string, TimeSpan> originalOvertimes, out WorktimeStatistics newWts, out Dictionary<string, TimeSpan> newOvertimes)
         {
             newWts = originalWts;
             newOvertimes = originalOvertimes;
@@ -152,6 +152,8 @@ namespace ProjectTracker
                     {
                         timeToAdd = time;
                         newOvertimes[project] = new TimeSpan(0, 0, 0);
+                        if (!newWts.projectTimes.ContainsKey(project))
+                            newWts.projectTimes[project] = new TimeSpan(0, 0, 0);
                         newWts.projectTimes[project] += time;
                         diff -= time;
                     }
@@ -178,7 +180,7 @@ namespace ProjectTracker
     
         }
 
-        private TimeSpan sumTimespans(List<TimeSpan> spans)
+        static public TimeSpan sumTimespans(List<TimeSpan> spans)
         {
             var sum = new TimeSpan(0, 0, 0);
             foreach (var span in spans)

@@ -94,6 +94,16 @@ namespace ProjectTracker
             {
                 var projectStatistics = WorktimeAnalyzer.AnalyzeWorkday(Form.dateTimePicker1.Value);
 
+                WorktimeStatistics projectStatisticsReal = null; 
+                if (Form.flagConsiderOvertime.Checked)
+                {
+                    Dictionary<string, TimeSpan> newOvertimes = null;
+                    WorktimeAnalyzer.calculateOvertimeUndertime(projectStatistics, storage.getOvertimes(), out projectStatisticsReal, out newOvertimes);
+                    Form.currentOvertime.Text = WorktimeAnalyzer.sumTimespans(storage.getOvertimes().Values.ToList()).ToString();
+                }
+                else
+                    projectStatisticsReal = projectStatistics;
+
                 Form.ProjectTimesSummary.Series.Clear();
                 Series series = new Series
                 {
@@ -103,12 +113,12 @@ namespace ProjectTracker
                 };
                 Form.ProjectTimesSummary.Series.Add(series);
 
-                foreach (var project in projectStatistics.projectTimes)
+                foreach (var project in projectStatisticsReal.projectTimes)
                 {
                     series.Points.Add(project.Value.TotalMinutes);
                     var p = series.Points.Last();
                     p.AxisLabel = project.Key;
-                    p.Label = Math.Round(projectStatistics.relativeProjectTimes[project.Key]).ToString() + "%";
+                    p.Label = Math.Round(projectStatisticsReal.relativeProjectTimes[project.Key]).ToString() + "%";
                 }
                 Form.ProjectTimesSummary.ChartAreas[0].AxisX.MajorGrid.LineWidth = 0;
                 Form.ProjectTimesSummary.ChartAreas[0].AxisY.MajorGrid.LineWidth = 0;
@@ -117,15 +127,15 @@ namespace ProjectTracker
                 Form.ProjectTimesSummary.Invalidate();
                 Form.ProjectTimesSummary.Visible = true;
 
-                Form.totalTime.Text = projectStatistics.totalTime.ToString(@"hh\:mm\:ss");
-                Form.UndefinedTime.Text = projectStatistics.totalUndefinedTime.ToString(@"hh\:mm\:ss");
-                Form.PauseTime.Text = projectStatistics.totalPausetime.ToString(@"hh\:mm\:ss");
-                Form.Worktime.Text = projectStatistics.totalWorktime.ToString(@"hh\:mm\:ss");
-                Form.ProjectTime.Text = projectStatistics.totalProjectTime.ToString(@"hh\:mm\:ss");
-                Form.Workbreaktime.Text = projectStatistics.totalWorkbreaktime.ToString(@"hh\:mm\:ss");
+                Form.totalTime.Text = projectStatisticsReal.totalTime.ToString(@"hh\:mm\:ss");
+                Form.UndefinedTime.Text = projectStatisticsReal.totalUndefinedTime.ToString(@"hh\:mm\:ss");
+                Form.PauseTime.Text = projectStatisticsReal.totalPausetime.ToString(@"hh\:mm\:ss");
+                Form.Worktime.Text = projectStatisticsReal.totalWorktime.ToString(@"hh\:mm\:ss");
+                Form.ProjectTime.Text = projectStatisticsReal.totalProjectTime.ToString(@"hh\:mm\:ss");
+                Form.Workbreaktime.Text = projectStatisticsReal.totalWorkbreaktime.ToString(@"hh\:mm\:ss");
 
                 refreshGrid();
-                ProjectStatistics = projectStatistics;
+                ProjectStatistics = projectStatistics; //these are the statistics without overtime
             }
             catch (Exception ex)
             {
@@ -149,7 +159,16 @@ namespace ProjectTracker
                 if (Form.finishWTday.Checked)
                     wtUpdater.finishDayNow(Form.dateTimePicker1.Value, ProjectStatistics.totalPausetime);
 
-                wtUpdater.updateProjectEntries(Form.dateTimePicker1.Value, ProjectStatistics);
+                WorktimeStatistics projectStatisticsReal = null;
+                if (Form.flagConsiderOvertime.Checked)
+                {
+                    projectStatisticsReal = WorktimeAnalyzer.considerOvertimeUndertime(ProjectStatistics);
+                    Form.currentOvertime.Text = WorktimeAnalyzer.sumTimespans(storage.getOvertimes().Values.ToList()).ToString();
+                }
+                else
+                    projectStatisticsReal = ProjectStatistics;
+
+                wtUpdater.updateProjectEntries(Form.dateTimePicker1.Value, projectStatisticsReal);
                 MessageBox.Show("Project entries were successfully set",
                     "Worktracker",
                     MessageBoxButtons.OK,

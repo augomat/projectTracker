@@ -148,5 +148,17 @@ namespace ProjectTracker.Properties {
                 this["maxWorktime"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool flagConsiderOvertime {
+            get {
+                return ((bool)(this["flagConsiderOvertime"]));
+            }
+            set {
+                this["flagConsiderOvertime"] = value;
+            }
+        }
     }
 }

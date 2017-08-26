@@ -39,5 +39,8 @@
     <Setting Name="maxWorktime" Type="System.String" Scope="User">
       <Value Profile="(Default)">10:00</Value>
     </Setting>
+    <Setting Name="flagConsiderOvertime" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

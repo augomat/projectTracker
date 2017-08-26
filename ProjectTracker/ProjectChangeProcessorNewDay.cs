@@ -12,6 +12,7 @@ namespace ProjectTracker
         private WorktrackerUpdater WorktrackerUpdater;
 
         private bool flagAutoFinishPreviousDay { get { return Properties.Settings.Default.flagAutoFinishWT; } }
+        private bool flagConsiderOvertime { get { return Properties.Settings.Default.flagConsiderOvertime;  } }
 
         public ProjectChangeProcessorNewDay(ProjectChangeHandler handler, 
             WorktimeAnalyzer worktimeAnalyzer,
@@ -46,6 +47,10 @@ namespace ProjectTracker
             try
             {
                 var projectStatistics = WorktimeAnalyzer.AnalyzeWorkday(day);
+
+                if (flagConsiderOvertime)
+                    projectStatistics = WorktimeAnalyzer.considerOvertimeUndertime(projectStatistics);
+
                 //in case the user forgot to log out
                 try { WorktrackerUpdater.finishDay(day, Handler.currentProjectSince, projectStatistics.totalPausetime); } catch { }
                 WorktrackerUpdater.updateProjectEntries(day, projectStatistics);

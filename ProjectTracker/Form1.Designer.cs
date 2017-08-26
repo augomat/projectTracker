@@ -64,6 +64,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.projectTrackbarUpdater = new System.Windows.Forms.Timer(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.flagConsiderOvertime = new System.Windows.Forms.CheckBox();
             this.autoFinish = new System.Windows.Forms.CheckBox();
             this.finishWTday = new System.Windows.Forms.CheckBox();
             this.SetInWorkT = new System.Windows.Forms.Button();
@@ -82,10 +83,10 @@
             this.ProjectTimesSummary = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.AnalyzeWorktimes = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.maxWorktime = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
             this.currentOvertime = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.maxWorktime = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -367,6 +368,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.flagConsiderOvertime);
             this.groupBox2.Controls.Add(this.autoFinish);
             this.groupBox2.Controls.Add(this.finishWTday);
             this.groupBox2.Controls.Add(this.SetInWorkT);
@@ -391,17 +393,29 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Analysis";
             // 
+            // flagConsiderOvertime
+            // 
+            this.flagConsiderOvertime.AutoSize = true;
+            this.flagConsiderOvertime.Checked = true;
+            this.flagConsiderOvertime.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.flagConsiderOvertime.Location = new System.Drawing.Point(385, 20);
+            this.flagConsiderOvertime.Name = "flagConsiderOvertime";
+            this.flagConsiderOvertime.Size = new System.Drawing.Size(111, 17);
+            this.flagConsiderOvertime.TabIndex = 19;
+            this.flagConsiderOvertime.Text = "consider Overtime";
+            this.flagConsiderOvertime.UseVisualStyleBackColor = true;
+            // 
             // autoFinish
             // 
             this.autoFinish.AutoSize = true;
             this.autoFinish.Checked = true;
             this.autoFinish.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.autoFinish.Location = new System.Drawing.Point(352, 20);
+            this.autoFinish.Location = new System.Drawing.Point(263, 20);
             this.autoFinish.Name = "autoFinish";
-            this.autoFinish.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.autoFinish.Size = new System.Drawing.Size(146, 17);
+            this.autoFinish.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.autoFinish.Size = new System.Drawing.Size(122, 17);
             this.autoFinish.TabIndex = 18;
-            this.autoFinish.Text = "auto-update previous day";
+            this.autoFinish.Text = "auto-update last day";
             this.autoFinish.UseVisualStyleBackColor = true;
             // 
             // finishWTday
@@ -409,7 +423,7 @@
             this.finishWTday.AutoSize = true;
             this.finishWTday.Checked = true;
             this.finishWTday.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.finishWTday.Location = new System.Drawing.Point(173, 20);
+            this.finishWTday.Location = new System.Drawing.Point(160, 20);
             this.finishWTday.Name = "finishWTday";
             this.finishWTday.Size = new System.Drawing.Size(102, 17);
             this.finishWTday.TabIndex = 17;
@@ -418,7 +432,7 @@
             // 
             // SetInWorkT
             // 
-            this.SetInWorkT.Location = new System.Drawing.Point(88, 20);
+            this.SetInWorkT.Location = new System.Drawing.Point(74, 20);
             this.SetInWorkT.Name = "SetInWorkT";
             this.SetInWorkT.Size = new System.Drawing.Size(78, 23);
             this.SetInWorkT.TabIndex = 16;
@@ -552,7 +566,7 @@
             // 
             this.AnalyzeWorktimes.Location = new System.Drawing.Point(7, 20);
             this.AnalyzeWorktimes.Name = "AnalyzeWorktimes";
-            this.AnalyzeWorktimes.Size = new System.Drawing.Size(75, 23);
+            this.AnalyzeWorktimes.Size = new System.Drawing.Size(65, 23);
             this.AnalyzeWorktimes.TabIndex = 0;
             this.AnalyzeWorktimes.Text = "Analyze";
             this.AnalyzeWorktimes.UseVisualStyleBackColor = true;
@@ -570,14 +584,23 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Max Worktime";
             // 
-            // label12
+            // currentOvertime
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(12, 20);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(157, 13);
-            this.label12.TabIndex = 0;
-            this.label12.Text = "Maximum permitted time per day";
+            this.currentOvertime.AutoSize = true;
+            this.currentOvertime.Location = new System.Drawing.Point(25, 92);
+            this.currentOvertime.Name = "currentOvertime";
+            this.currentOvertime.Size = new System.Drawing.Size(49, 13);
+            this.currentOvertime.TabIndex = 6;
+            this.currentOvertime.Text = "00:00:00";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(12, 72);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(135, 13);
+            this.label13.TabIndex = 7;
+            this.label13.Text = "Overtime (according to DB)";
             // 
             // maxWorktime
             // 
@@ -587,23 +610,14 @@
             this.maxWorktime.TabIndex = 6;
             this.maxWorktime.Text = "07:38";
             // 
-            // label13
+            // label12
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(12, 72);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(86, 13);
-            this.label13.TabIndex = 7;
-            this.label13.Text = "Current Overtime";
-            // 
-            // currentOvertime
-            // 
-            this.currentOvertime.AutoSize = true;
-            this.currentOvertime.Location = new System.Drawing.Point(25, 92);
-            this.currentOvertime.Name = "currentOvertime";
-            this.currentOvertime.Size = new System.Drawing.Size(49, 13);
-            this.currentOvertime.TabIndex = 6;
-            this.currentOvertime.Text = "00:00:00";
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(12, 20);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(157, 13);
+            this.label12.TabIndex = 0;
+            this.label12.Text = "Maximum permitted time per day";
             // 
             // Form1
             // 
@@ -695,6 +709,7 @@
         private System.Windows.Forms.Label label13;
         public System.Windows.Forms.TextBox maxWorktime;
         private System.Windows.Forms.Label label12;
+        public System.Windows.Forms.CheckBox flagConsiderOvertime;
     }
 }
 

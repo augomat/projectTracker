@@ -87,6 +87,12 @@
       <setting name="DexbotLogFilePath" serializeAs="String">
         <value>C:\Users\Georg\AppData\Roaming\Dexpot\dexpot.log</value>
       </setting>
+	  <setting name="maxWorktime" serializeAs="String">
+        <value>10:00</value>
+      </setting>
+      <setting name="flagConsiderOvertime" serializeAs="String">
+        <value>True</value>
+      </setting>
       <setting name="AvailableProjects" serializeAs="Xml">
         <value>
           <ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

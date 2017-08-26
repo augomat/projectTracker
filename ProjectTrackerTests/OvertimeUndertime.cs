@@ -532,7 +532,6 @@ namespace ProjectTrackerTests
                     db.DropCollection("overtimes");
                 }
             }
-
             CollectionComparer.AssertDictionaryEqual(overtimes, ret);            
         }
 

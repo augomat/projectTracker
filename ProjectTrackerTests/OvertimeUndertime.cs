@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Reflection;
 using ProjectTracker;
+using LiteDB;
 
 namespace ProjectTrackerTests
 {
@@ -495,6 +496,94 @@ namespace ProjectTrackerTests
             {
                 ProjectTracker.Properties.Settings.Default.maxWorktime = origOvertime;
             }
+        }
+
+        [TestMethod]
+        public void DbOvertimeInsert()
+        {
+            const string UNITTEST_DB = "test.db";
+
+            var storage = new WorktimeRecordStorageNoSQL();
+            typeof(WorktimeRecordStorageNoSQL)
+                .GetField("DATABASE_FILE", BindingFlags.Instance | BindingFlags.NonPublic)
+                .SetValue(storage, UNITTEST_DB); //actually this is not even necessary as unit tests run in another dir anyways
+
+            var availableProject = ProjectTracker.Properties.Settings.Default.AvailableProjects;
+
+            if (availableProject.Count < 2)
+                throw new Exception("Project must have at least 2 available projects for this test to run");
+
+            var overtimes = new Dictionary<string, TimeSpan>
+            {
+                { availableProject[0], new TimeSpan(1,0,0) },
+                { availableProject[1], new TimeSpan(1,0,0) }
+            };
+
+            Dictionary<string, TimeSpan> ret = null;
+            try
+            {
+                storage.updateOvertimes(overtimes);
+                ret = storage.getOvertimes();
+            }
+            finally
+            {
+                using (var db = new LiteDatabase(UNITTEST_DB))
+                {
+                    db.DropCollection("overtimes");
+                }
+            }
+
+            CollectionComparer.AssertDictionaryEqual(overtimes, ret);            
+        }
+
+        [TestMethod]
+        public void DbOvertimeUpdate()
+        {
+            const string UNITTEST_DB = "test.db";
+
+            var storage = new WorktimeRecordStorageNoSQL();
+            typeof(WorktimeRecordStorageNoSQL)
+                .GetField("DATABASE_FILE", BindingFlags.Instance | BindingFlags.NonPublic)
+                .SetValue(storage, UNITTEST_DB); //actually this is not even necessary as unit tests run in another dir anyways
+
+            var availableProject = ProjectTracker.Properties.Settings.Default.AvailableProjects;
+
+            if (availableProject.Count < 3)
+                throw new Exception("Project must have at least 3 available projects for this test to run");
+
+            var overtimes = new Dictionary<string, TimeSpan>
+            {
+                { availableProject[0], new TimeSpan(1,0,0) },
+                { availableProject[1], new TimeSpan(1,0,0) }
+            };
+            var overtimes2 = new Dictionary<string, TimeSpan>
+            {
+                { availableProject[1], new TimeSpan(1,0,0) },
+                { availableProject[2], new TimeSpan(3,0,0) }
+            };
+
+            var expectedOvertimes = new Dictionary<string, TimeSpan>
+            {
+                { availableProject[0], new TimeSpan(1,0,0) },
+                { availableProject[1], new TimeSpan(2,0,0) },
+                { availableProject[2], new TimeSpan(3,0,0) }
+            };
+
+            Dictionary<string, TimeSpan> ret = null;
+            try
+            {
+                storage.updateOvertimes(overtimes);
+                storage.updateOvertimes(overtimes2);
+                ret = storage.getOvertimes();
+            }
+            finally
+            {
+                using (var db = new LiteDatabase(UNITTEST_DB))
+                {
+                    db.DropCollection("overtimes");
+                }
+            }
+            CollectionComparer.AssertDictionaryEqual(expectedOvertimes, ret);
         }
     }
 }

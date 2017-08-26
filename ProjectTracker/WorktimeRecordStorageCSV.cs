@@ -108,5 +108,15 @@ namespace ProjectTracker
         {
             throw new NotImplementedException();
         }
+
+        public void updateOvertimes(Dictionary<string, TimeSpan> overtimes)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Dictionary<string, TimeSpan> getOvertimes()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

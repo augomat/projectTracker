@@ -16,5 +16,7 @@ namespace ProjectTracker
         void ChangeEndTime(int index, DateTime newStartDate);
         void ChangeProjectName(int index, string newProjectName);
         void ChangeProjectComment(int index, string newProjectComment);
+        void updateOvertimes(Dictionary<string, TimeSpan> overtimes);
+        Dictionary<string, TimeSpan> getOvertimes();
     }
 }

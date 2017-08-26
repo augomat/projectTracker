@@ -7,9 +7,9 @@ using LiteDB;
 
 namespace ProjectTracker
 {
-    class WorktimeRecordStorageNoSQL : IWorktimeRecordStorage
+    public class WorktimeRecordStorageNoSQL : IWorktimeRecordStorage
     {
-        const string DATABASE_FILE = @"data.db";
+        private readonly string DATABASE_FILE = @"data.db";
 
         public void handleProjectChangeEvent(ProjectChangeEvent projectChangeEvent)
         {
@@ -151,6 +151,55 @@ namespace ProjectTracker
                     throw new Exception("Lengthening not implemented");
                 }
             }          
+        }
+
+        public Dictionary<string, TimeSpan> getOvertimes()
+        {
+            Dictionary<string, TimeSpan> overtimeDict = new Dictionary<string, TimeSpan>();
+            using (var db = new LiteDatabase(DATABASE_FILE))
+            {
+                var currentOvertimes = db.GetCollection<OvertimeEntity>("overtimes");
+                foreach(var ov in currentOvertimes.Find(ovl => 1 == 1).ToList())
+                {
+                    overtimeDict[ov.Id] = ov.Time;
+                }
+            }
+            return overtimeDict;
+        }
+
+        public void updateOvertimes(Dictionary<string, TimeSpan> overtimes)
+        {
+            using (var db = new LiteDatabase(DATABASE_FILE))
+            {
+                var currentOvertimes = db.GetCollection<OvertimeEntity>("overtimes");
+
+                for (var overtimeIndex = 0; overtimeIndex < overtimes.Keys.Count; overtimeIndex++)
+                {
+                    var overtimePjName = overtimes.Keys.ToArray().ElementAt(overtimeIndex);
+                    var overtimePjTime = overtimes.Values.ToArray().ElementAt(overtimeIndex);
+
+                    var currentOv = currentOvertimes.Find(ov => ov.Id == overtimePjName).FirstOrDefault();
+                    if (currentOv != null)
+                    {
+                        currentOv.Time += overtimePjTime;
+                        currentOvertimes.Update(currentOv);
+                    }
+                    else
+                    {
+                        var newOv = new OvertimeEntity();
+                        newOv.Id = overtimePjName;
+                        newOv.Time = overtimePjTime;
+                        currentOvertimes.Insert(newOv);
+                    }
+                }
+            }
         }    
+    }
+
+    public class OvertimeEntity
+    {
+        [BsonId]
+        public string Id { get; set; }
+        public TimeSpan Time { get; set; }
     }
 }

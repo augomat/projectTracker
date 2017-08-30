@@ -22,9 +22,6 @@ namespace ProjectTracker
         public IWorktimeRecordStorage storage { private get; set;  }
         public WorktrackerUpdater wtUpdater;
 
-        private WorktimeStatistics ProjectStatistics;
-        
-
         public string currentProject { get { return ProjectHandler.currentProject; } } //TODO errorhandling
         public DateTime currentProjectSince { get { return ProjectHandler.currentProjectSince; } } //TODO errorhandling
 
@@ -145,9 +142,14 @@ namespace ProjectTracker
 
         private void SetInWT_Click(object sender, EventArgs e)
         {
-            if (ProjectStatistics == null)
+            WorktimeStatistics projectStatistics;
+            try
             {
-                MessageBox.Show("Period must be analyzed first.");
+                projectStatistics = WorktimeAnalyzer.AnalyzeWorkday(Form.dateTimePicker1.Value);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
                 return;
             }
 
@@ -157,22 +159,29 @@ namespace ProjectTracker
                     throw new Exception("Could not connect to Worktracker");
 
                 if (Form.finishWTday.Checked)
-                    wtUpdater.finishDayNow(Form.dateTimePicker1.Value, ProjectStatistics.totalPausetime);
+                    wtUpdater.finishDayNow(Form.dateTimePicker1.Value, projectStatistics.totalPausetime);
 
-                WorktimeStatistics projectStatisticsReal = null;
                 if (Form.flagConsiderOvertime.Checked)
                 {
-                    projectStatisticsReal = WorktimeAnalyzer.considerOvertimeUndertime(ProjectStatistics);
+                    var projectStatisticsAdapted = WorktimeAnalyzer.considerOvertimeUndertime(projectStatistics);
+                    wtUpdater.updateFullDay(Form.dateTimePicker1.Value, projectStatisticsAdapted); //unfortunately if something fails here, the overtime-db was updated anyways
+                    wtUpdater.updateProjectEntries(Form.dateTimePicker1.Value, projectStatisticsAdapted);
+
                     Form.currentOvertime.Text = WorktimeAnalyzer.sumTimespans(storage.getOvertimes().Values.ToList()).ToString();
+                    MessageBox.Show("Day with under-/overtime and project entries were successfully set",
+                        "Worktracker",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
                 }
                 else
-                    projectStatisticsReal = ProjectStatistics;
+                {
+                    wtUpdater.updateProjectEntries(Form.dateTimePicker1.Value, projectStatistics);
 
-                wtUpdater.updateProjectEntries(Form.dateTimePicker1.Value, projectStatisticsReal);
-                MessageBox.Show("Project entries were successfully set",
-                    "Worktracker",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+                    MessageBox.Show("Project entries were successfully set",
+                        "Worktracker",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }             
             }
             catch (Exception ex)
             {

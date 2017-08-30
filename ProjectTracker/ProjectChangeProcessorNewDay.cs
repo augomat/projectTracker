@@ -48,13 +48,20 @@ namespace ProjectTracker
             {
                 var projectStatistics = WorktimeAnalyzer.AnalyzeWorkday(day);
 
-                if (flagConsiderOvertime)
-                    projectStatistics = WorktimeAnalyzer.considerOvertimeUndertime(projectStatistics);
-
                 //in case the user forgot to log out
                 try { WorktrackerUpdater.finishDay(day, Handler.currentProjectSince, projectStatistics.totalPausetime); } catch { }
-                WorktrackerUpdater.updateProjectEntries(day, projectStatistics);
-                WorktrackerUpdater.updateBreak(day, projectStatistics.totalPausetime);
+
+                if (flagConsiderOvertime)
+                {
+                    var projectStatisticsAdapted = WorktimeAnalyzer.considerOvertimeUndertime(projectStatistics);
+                    WorktrackerUpdater.updateFullDay(day, projectStatisticsAdapted); //unfortunately if something fails here, the overtime-db was updated anyways
+                    WorktrackerUpdater.updateProjectEntries(day, projectStatisticsAdapted);
+                }
+                else
+                {
+                    WorktrackerUpdater.updateProjectEntries(day, projectStatistics);
+                    WorktrackerUpdater.updateBreak(day, projectStatistics.totalPausetime);
+                }  
             }
             catch (Exception)
             {

@@ -68,6 +68,34 @@ namespace ProjectTracker
             addProjectEntriesToWorktracker(day, quantizedProjects);
         }
 
+        //adjusts start/endtime such that a possible overtime can be billed
+        public void updateFullDay(DateTime day, WorktimeStatistics wtstats)
+        {
+            if (!WorktrackerConnectInternal())
+                return;
+
+            var workEntries = worktracker.QueryWorkEntries(currentUser, day.Date, new TimeSpan(1, 0, 0, 0));
+
+            if (workEntries.Count == 0)
+                throw new Exception("No Workentry found");
+
+            var workEntry = workEntries[0];
+
+            Tuple<DateTime, DateTime> newTimes = calcAdaptedStartEndTimes(day, wtstats, workEntry.StartTime, workEntry.StopTime);
+            workEntry.BreakDuration = wtstats.totalPausetime;
+            workEntry.StartTime = newTimes.Item1;
+            workEntry.StopTime = newTimes.Item2;
+
+            worktracker.UpdateWorkEntry(workEntry);
+        }
+
+        public Tuple<DateTime, DateTime> calcAdaptedStartEndTimes(DateTime day, WorktimeStatistics wtstats, DateTime origStart, DateTime origEnd)
+        {
+            var newStart = origEnd - wtstats.totalWorktime;
+            var newEnd = origEnd;
+            return new Tuple<DateTime, DateTime>(newStart, newEnd);
+        }
+
         public void updateBreak(DateTime day, TimeSpan breakTime)
         {
             if (!WorktrackerConnectInternal())

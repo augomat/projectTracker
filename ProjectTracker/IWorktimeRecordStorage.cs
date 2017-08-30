@@ -12,10 +12,10 @@ namespace ProjectTracker
         void handleProjectChangeEvent(ProjectChangeEvent projectChangeEvent);
         List<WorktimeRecord> getAllWorktimeRecords(DateTime day);
         List<WorktimeRecord> getAllWorktimeRecords(DateTime from, DateTime to);
-        void ChangeStartTime(int index, DateTime newStartDate);
-        void ChangeEndTime(int index, DateTime newStartDate);
-        void ChangeProjectName(int index, string newProjectName);
-        void ChangeProjectComment(int index, string newProjectComment);
+        void ChangeStartTime(int id, DateTime newStartDate);
+        void ChangeEndTime(int id, DateTime newStartDate);
+        void ChangeProjectName(int id, string newProjectName);
+        void ChangeProjectComment(int id, string newProjectComment);
         void updateOvertimes(Dictionary<string, TimeSpan> overtimes);
         Dictionary<string, TimeSpan> getOvertimes();
     }

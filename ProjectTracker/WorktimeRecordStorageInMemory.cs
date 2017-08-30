@@ -105,12 +105,12 @@ namespace ProjectTracker
             }
         }
 
-        public void ChangeProjectName(int index, string newProjectName)
+        public void ChangeProjectName(int id, string newProjectName)
         {
-            if (index >= wtrs.Count)
+            if (id >= wtrs.Count)
                 throw new Exception("This WorktimeRecord does not exist: Index out of bounds");
 
-            var current = wtrs.Where(wtr => wtr.storageID == index).FirstOrDefault();
+            var current = wtrs.Where(wtr => wtr.storageID == id).FirstOrDefault();
 
             current.ProjectName = newProjectName;
         }

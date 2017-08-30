@@ -91,7 +91,7 @@ namespace ProjectTracker
 
         public Tuple<DateTime, DateTime> calcAdaptedStartEndTimes(DateTime day, WorktimeStatistics wtstats, DateTime origStart, DateTime origEnd)
         {
-            var newStart = origEnd - wtstats.totalWorktime;
+            var newStart = origEnd - wtstats.totalTime;
             var newEnd = origEnd;
             return new Tuple<DateTime, DateTime>(newStart, newEnd);
         }

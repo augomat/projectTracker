@@ -156,6 +156,7 @@ namespace ProjectTracker
                             newWts.projectTimes[project] = new TimeSpan(0, 0, 0);
                         newWts.projectTimes[project] += time;
                         diff -= time;
+                        originalOvertimes[project] -= time;
                     }
                     else //an overtime is partially consumed
                     {
@@ -219,7 +220,7 @@ namespace ProjectTracker
             relativeProjectTimes = wts.relativeProjectTimes.ToDictionary(e => e.Key, e => e.Value);
             totalTime = wts.totalTime;
             totalProjectTime = wts.totalProjectTime;
-            totalWorkbreaktime = wts.totalWorkbreaktime;
+            totalWorktime = wts.totalWorktime;
             totalPausetime = wts.totalPausetime;
             totalWorkbreaktime = wts.totalWorkbreaktime;
             totalUndefinedTime = wts.totalUndefinedTime;

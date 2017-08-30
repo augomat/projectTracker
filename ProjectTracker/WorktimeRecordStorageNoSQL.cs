@@ -181,7 +181,7 @@ namespace ProjectTracker
                     var currentOv = currentOvertimes.Find(ov => ov.Id == overtimePjName).FirstOrDefault();
                     if (currentOv != null)
                     {
-                        currentOv.Time += overtimePjTime;
+                        currentOv.Time = overtimePjTime;
                         currentOvertimes.Update(currentOv);
                     }
                     else

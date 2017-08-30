@@ -96,7 +96,7 @@ namespace ProjectTracker
                 {
                     Dictionary<string, TimeSpan> newOvertimes = null;
                     WorktimeAnalyzer.calculateOvertimeUndertime(projectStatistics, storage.getOvertimes(), out projectStatisticsReal, out newOvertimes);
-                    Form.currentOvertime.Text = WorktimeAnalyzer.sumTimespans(storage.getOvertimes().Values.ToList()).ToString();
+                    Form.currentOvertime.Text = WorktimeAnalyzer.sumTimespans(storage.getOvertimes().Values.ToList()).FormatForOvertime();
                 }
                 else
                     projectStatisticsReal = projectStatistics;
@@ -132,7 +132,6 @@ namespace ProjectTracker
                 Form.Workbreaktime.Text = projectStatisticsReal.totalWorkbreaktime.ToString(@"hh\:mm\:ss");
 
                 refreshGrid();
-                ProjectStatistics = projectStatistics; //these are the statistics without overtime
             }
             catch (Exception ex)
             {
@@ -167,7 +166,7 @@ namespace ProjectTracker
                     wtUpdater.updateFullDay(Form.dateTimePicker1.Value, projectStatisticsAdapted); //unfortunately if something fails here, the overtime-db was updated anyways
                     wtUpdater.updateProjectEntries(Form.dateTimePicker1.Value, projectStatisticsAdapted);
 
-                    Form.currentOvertime.Text = WorktimeAnalyzer.sumTimespans(storage.getOvertimes().Values.ToList()).ToString();
+                    //Form.currentOvertime.Text = WorktimeAnalyzer.sumTimespans(storage.getOvertimes().Values.ToList()).FormatForOvertime();
                     MessageBox.Show("Day with under-/overtime and project entries were successfully set",
                         "Worktracker",
                         MessageBoxButtons.OK,

@@ -92,6 +92,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions.cs" />
     <Compile Include="IStorageClass.cs" />
     <Compile Include="IProjectChangeSubscriber.cs" />
     <Compile Include="IProjectCorrectionHandler.cs" />

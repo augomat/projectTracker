@@ -99,8 +99,8 @@ namespace ProjectTracker
 
         public void calculateOvertimeUndertime(WorktimeStatistics originalWts, Dictionary<string, TimeSpan> originalOvertimes, out WorktimeStatistics newWts, out Dictionary<string, TimeSpan> newOvertimes)
         {
-            newWts = originalWts;
-            newOvertimes = originalOvertimes;
+            newWts = new WorktimeStatistics(originalWts);
+            newOvertimes = originalOvertimes.ToDictionary(e => e.Key, e => e.Value); //clone
 
             if (originalWts.totalWorktime > maxWorktime) //we worked overtime
             {
@@ -210,5 +210,19 @@ namespace ProjectTracker
         public TimeSpan totalPausetime = new TimeSpan(0, 0, 0);
         public TimeSpan totalWorkbreaktime = new TimeSpan(0, 0, 0);
         public TimeSpan totalUndefinedTime = new TimeSpan(0, 0, 0);
+
+        public WorktimeStatistics() { }
+
+        public WorktimeStatistics(WorktimeStatistics wts)
+        {
+            projectTimes = wts.projectTimes.ToDictionary(e => e.Key, e => e.Value);
+            relativeProjectTimes = wts.relativeProjectTimes.ToDictionary(e => e.Key, e => e.Value);
+            totalTime = wts.totalTime;
+            totalProjectTime = wts.totalProjectTime;
+            totalWorkbreaktime = wts.totalWorkbreaktime;
+            totalPausetime = wts.totalPausetime;
+            totalWorkbreaktime = wts.totalWorkbreaktime;
+            totalUndefinedTime = wts.totalUndefinedTime;
+        }
     }
 }

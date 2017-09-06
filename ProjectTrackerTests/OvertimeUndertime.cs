@@ -38,6 +38,8 @@ namespace ProjectTrackerTests
                 data.totalWorktime = new TimeSpan(10, 0, 0);
                 data.totalProjectTime = new TimeSpan(10, 0, 0);
 
+                var originalOvertime = new Dictionary<string, TimeSpan> { { availableProject[0], new TimeSpan(1, 0, 0) } };
+
                 var expectedStats = new WorktimeStatistics();
                 expectedStats.projectTimes = new System.Collections.Generic.Dictionary<string, TimeSpan>
                 {
@@ -53,9 +55,9 @@ namespace ProjectTrackerTests
                 expectedStats.totalWorktime = new TimeSpan(8, 0, 0);
                 expectedStats.totalProjectTime = new TimeSpan(8, 0, 0);
 
-                var expectedOvertime = new Dictionary<string, TimeSpan> { { availableProject[0], new TimeSpan(2, 0, 0) } };
+                var expectedOvertime = new Dictionary<string, TimeSpan> { { availableProject[0], new TimeSpan(3, 0, 0) } };
 
-                object[] args = new object[] { data, new Dictionary<string, TimeSpan>() };
+                object[] args = new object[] { data, originalOvertime };
                 var ret = (Tuple<WorktimeStatistics, Dictionary<string, TimeSpan>>)obj.Invoke("calculateOvertimeUndertimeForTesting", args);
                 var retStats = ret.Item1;
                 var retOvertime = ret.Item2;
@@ -116,12 +118,17 @@ namespace ProjectTrackerTests
                 expectedStats.totalWorktime = new TimeSpan(4, 0, 0);
                 expectedStats.totalProjectTime = new TimeSpan(4, 0, 0);
 
-                var expectedOvertime = new Dictionary<string, TimeSpan> {
-                    { availableProject[0], new TimeSpan(2, 0, 0) },
-                    { availableProject[1], new TimeSpan(2, 0, 0) }
+                var originalOvertime = new Dictionary<string, TimeSpan> {
+                    { availableProject[0], new TimeSpan(1, 0, 0) },
+                    { availableProject[1], new TimeSpan(1, 0, 0) }
                 };
 
-                object[] args = new object[] { originalWts, new Dictionary<string, TimeSpan>() };
+                var expectedOvertime = new Dictionary<string, TimeSpan> {
+                    { availableProject[0], new TimeSpan(3, 0, 0) },
+                    { availableProject[1], new TimeSpan(3, 0, 0) }
+                };
+
+                object[] args = new object[] { originalWts, originalOvertime };
                 var ret = (Tuple<WorktimeStatistics, Dictionary<string, TimeSpan>>)obj.Invoke("calculateOvertimeUndertimeForTesting", args);
                 var retStats = ret.Item1;
                 var retOvertime = ret.Item2;
@@ -564,7 +571,7 @@ namespace ProjectTrackerTests
             var expectedOvertimes = new Dictionary<string, TimeSpan>
             {
                 { availableProject[0], new TimeSpan(1,0,0) },
-                { availableProject[1], new TimeSpan(2,0,0) },
+                { availableProject[1], new TimeSpan(1,0,0) },
                 { availableProject[2], new TimeSpan(3,0,0) }
             };
 

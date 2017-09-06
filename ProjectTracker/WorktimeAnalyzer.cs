@@ -117,14 +117,18 @@ namespace ProjectTracker
                     var timeToSubtract = new TimeSpan(0, 0, 0);
                     if (time <= diff) //whole project time is consumed
                     {
-                        newOvertimes[project] = time;
+                        if (!newOvertimes.ContainsKey(project))
+                            newOvertimes[project] = new TimeSpan(0, 0, 0);
+                        newOvertimes[project] += time;
                         newWts.projectTimes[project] = new TimeSpan(0, 0, 0);
                         timeToSubtract = time;
                         diff -= time;
                     }
                     else //project time is only partially consumed
                     {
-                        newOvertimes[project] = diff;
+                        if (!newOvertimes.ContainsKey(project))
+                            newOvertimes[project] = new TimeSpan(0, 0, 0);
+                        newOvertimes[project] += diff;
                         newWts.projectTimes[project] -= diff;
                         timeToSubtract = diff;
                         diff = new TimeSpan(0, 0, 0);

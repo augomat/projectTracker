@@ -166,7 +166,7 @@ namespace ProjectTracker
                     wtUpdater.updateFullDay(Form.dateTimePicker1.Value, projectStatisticsAdapted); //unfortunately if something fails here, the overtime-db was updated anyways
                     wtUpdater.updateProjectEntries(Form.dateTimePicker1.Value, projectStatisticsAdapted);
 
-                    //Form.currentOvertime.Text = WorktimeAnalyzer.sumTimespans(storage.getOvertimes().Values.ToList()).FormatForOvertime();
+                    Form.currentOvertime.Text = WorktimeAnalyzer.sumTimespans(storage.getOvertimes().Values.ToList()).FormatForOvertime();
                     MessageBox.Show("Day with under-/overtime and project entries were successfully set",
                         "Worktracker",
                         MessageBoxButtons.OK,

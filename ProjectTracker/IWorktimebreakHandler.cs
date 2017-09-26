@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectTracker
 {
-    interface IWorktimebreakHandler
+    public interface IWorktimebreakHandler
     {
         TimeSpan freeWorkbreaktime { get; }
     }

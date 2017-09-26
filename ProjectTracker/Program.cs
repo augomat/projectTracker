@@ -21,7 +21,51 @@ namespace ProjectTracker
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+
+            Form1 form = new Form1();
+            var presenter = new Presenter(form);
+            form.Presenter = presenter;
+
+            ProjectChangeHandler mainHandler = new ProjectChangeHandler();
+            var worktimebreakHandler = new ProjectChangeProcessorWorktimebreaks(mainHandler);
+            var projectCorrectionHandler = new ProjectChangeNotifierCorrection(mainHandler);
+            var storageEngine = new WorktimeRecordStorageNoSQL();
+            var worktimeAnalyzer = new WorktimeAnalyzer(storageEngine, mainHandler, projectCorrectionHandler);
+            var worktrackerUpdater = new WorktrackerUpdater();
+
+            //Change notifiers
+            mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierDexpot(mainHandler, presenter));
+            mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierLockscreen(mainHandler));
+            mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierAppExit(mainHandler));
+            mainHandler.addProjectChangeNotifier(projectCorrectionHandler);
+
+            //Change processors
+            mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorNewDay(mainHandler, worktimeAnalyzer, worktrackerUpdater));
+            mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorLockscreen(mainHandler));
+            mainHandler.addProjectChangeProcessor(worktimebreakHandler);
+            //mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorLongerThan10secs(mainHandler));
+
+            //Change subscribers
+            mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberFormUpdater(presenter));
+            mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberBalloonInformant(presenter.showNotification));
+            mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberLogger());
+
+            //Storages
+            mainHandler.addWorktimeRecordStorage(new WorktimeRecordStorageCSV());
+            mainHandler.addWorktimeRecordStorage(storageEngine);
+            mainHandler.RaiseStorageExceptionEvent += new StorageExceptionBalloonInformant(presenter.showNotification).handleStorageException;
+
+            //Presenter
+            presenter.WorktimeAnalyzer = worktimeAnalyzer;
+            presenter.WorktimebreakHandler = worktimebreakHandler;
+            presenter.ProjectCorrectionHandler = projectCorrectionHandler;
+            presenter.ProjectHandler = mainHandler;
+            presenter.storage = storageEngine;
+            presenter.wtUpdater = worktrackerUpdater;
+
+            presenter.onInitCompleted();
+
+            Application.Run(form);
         }
     }
 

@@ -21,13 +21,10 @@ namespace ProjectTracker
 
         public NotifyIcon TrayIcon;
 
-        private Presenter Presenter;
+        public Presenter Presenter { get;  set; }
         
         public Form1()
         {
-            //new Prompt().ShowDialog(new DateTime(2017, 4, 17, 15, 0, 0), new DateTime(2017, 4, 17, 15, 30, 59));
-            //return;
-
             // Initialize Tray Icon
             TrayIcon = new NotifyIcon()
             {
@@ -54,44 +51,6 @@ namespace ProjectTracker
             maxWorktime.Text = Properties.Settings.Default.maxWorktime;
             finishWTday.Checked = Properties.Settings.Default.flagFinishWTDay;
             autoFinish.Checked = Properties.Settings.Default.flagAutoFinishWT;
-
-            Presenter = new Presenter(this);
-            ProjectChangeHandler mainHandler = new ProjectChangeHandler();
-            var worktimebreakHandler = new ProjectChangeProcessorWorktimebreaks(mainHandler);
-            var projectCorrectionHandler = new ProjectChangeNotifierCorrection(mainHandler);
-            var storageEngine = new WorktimeRecordStorageNoSQL();
-            var worktimeAnalyzer = new WorktimeAnalyzer(storageEngine, mainHandler, projectCorrectionHandler);
-            var worktrackerUpdater = new WorktrackerUpdater();
-
-            //Change notifiers
-            mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierDexpot(mainHandler, Presenter));
-            mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierLockscreen(mainHandler));
-            mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierAppExit(mainHandler));
-            mainHandler.addProjectChangeNotifier(projectCorrectionHandler);
-
-            //Change processors
-            mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorNewDay(mainHandler, worktimeAnalyzer, worktrackerUpdater));
-            mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorLockscreen(mainHandler));
-            mainHandler.addProjectChangeProcessor(worktimebreakHandler);
-            //mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorLongerThan10secs(mainHandler));
-
-            //Change subscribers
-            mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberFormUpdater(Presenter));
-            mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberBalloonInformant(Presenter.showNotification));
-            mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberLogger());
-            
-            //Storages
-            mainHandler.addWorktimeRecordStorage(new WorktimeRecordStorageCSV());
-            mainHandler.addWorktimeRecordStorage(storageEngine);
-            mainHandler.RaiseStorageExceptionEvent += new StorageExceptionBalloonInformant(Presenter.showNotification).handleStorageException;
-            
-            //Presenter
-            Presenter.WorktimeAnalyzer = worktimeAnalyzer;
-            Presenter.WorktimebreakHandler = worktimebreakHandler;
-            Presenter.ProjectCorrectionHandler = projectCorrectionHandler;
-            Presenter.ProjectHandler = mainHandler;
-            Presenter.storage = storageEngine;
-            Presenter.wtUpdater = worktrackerUpdater;
 
             //RTODO
             TrayIcon.BalloonTipTitle = "Change desktop";

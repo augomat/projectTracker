@@ -11,7 +11,7 @@ using System.Drawing;
 
 namespace ProjectTracker
 {
-    class Presenter
+    public class Presenter
     {
         //this should actually be an interface but that's not worth the work...
         public Form1 Form;
@@ -50,6 +50,11 @@ namespace ProjectTracker
             DateTime from, to;
             ProjectUtilities.getWorkDayByDateTime(DateTime.Now, out from, out to);
             Form.dateTimePicker1.Value = from;
+        }
+
+        public void onInitCompleted()
+        {
+            Form.currentOvertime.Text = WorktimeAnalyzer.sumTimespans(storage.getOvertimes().Values.ToList()).FormatForOvertime();
         }
 
         

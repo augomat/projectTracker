@@ -152,7 +152,25 @@ namespace ProjectTracker
                 return;
             }
 
-            try
+            if (isHoliday(DateTime.Now))
+            {
+                var dialogResult = MessageBox.Show("You should only do this at the end of the day! When done multiple times, overtimes will be wrong.\nAre you sure you want to log the worktime now?",
+                        "ProjectTracker",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Exclamation);
+                WorktimeAnalyzer.takeAllProjectimeAsOvertime(projectStatistics);
+                if (dialogResult == DialogResult.No)
+                    return;
+
+                Form.currentOvertime.Text = WorktimeAnalyzer.sumTimespans(storage.getOvertimes().Values.ToList()).FormatForOvertime();
+                MessageBox.Show("As it is a holiday, all project time was considered as overtime",
+                        "ProjectTracker",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                return;
+            }
+            
+            try //it's a normal workday (and not a weekend/holiday)
             {
                 if (!wtUpdater.WorktrackerConnect())
                     throw new Exception("Could not connect to Worktracker");
@@ -187,6 +205,11 @@ namespace ProjectTracker
                 MessageBox.Show(ex.Message, "Worktracker-Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+        }
+
+        private bool isHoliday(DateTime date)
+        {
+            return (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday) ? true : false;
         }
 
         private void countAsWorktime_Leave(object sender, EventArgs e)

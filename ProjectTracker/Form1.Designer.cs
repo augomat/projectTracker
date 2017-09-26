@@ -436,7 +436,7 @@
             this.SetInWorkT.Name = "SetInWorkT";
             this.SetInWorkT.Size = new System.Drawing.Size(78, 23);
             this.SetInWorkT.TabIndex = 16;
-            this.SetInWorkT.Text = "Set in WorkT";
+            this.SetInWorkT.Text = "Log projects";
             this.SetInWorkT.UseVisualStyleBackColor = true;
             // 
             // Workbreaktime

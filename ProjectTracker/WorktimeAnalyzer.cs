@@ -185,6 +185,25 @@ namespace ProjectTracker
     
         }
 
+        public void takeAllProjectimeAsOvertime(WorktimeStatistics wts)
+        {
+            var newOvertimes = calcAllProjectimeAsOvertime(wts, Storage.getOvertimes());
+            Storage.updateOvertimes(newOvertimes);
+        }
+
+        public Dictionary<string, TimeSpan> calcAllProjectimeAsOvertime(WorktimeStatistics wts, Dictionary<string, TimeSpan> originalOvertimes)
+        {
+            var newOvertimes = originalOvertimes.ToDictionary(e => e.Key, e => e.Value); //clone
+
+            foreach (var pj in wts.projectTimes)
+            {
+                if (!newOvertimes.ContainsKey(pj.Key))
+                    newOvertimes[pj.Key] = new TimeSpan(0, 0, 0);
+                newOvertimes[pj.Key] += pj.Value; 
+            }
+            return newOvertimes;
+        }
+
         static public TimeSpan sumTimespans(List<TimeSpan> spans)
         {
             var sum = new TimeSpan(0, 0, 0);

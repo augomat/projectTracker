@@ -50,7 +50,7 @@ namespace ProjectTracker
                         //if not processed via the wtb-handler, we do not have any wtb-left information
                         showBalloon("Welcome back", String.Format("{0}: {1}min", "Break", (timePassed / 60).ToString(), ((long)projectChangeEvent.AvailableWorktimebreak.TotalSeconds / 60).ToString()));
                 }
-                else
+                else //there is a wtb und a pause entry
                 {
                     var timePassedTotal = (long)System.Math.Abs((projectChangeEvent.WorktimeRecords.Last().End - projectChangeEvent.WorktimeRecords.First().Start).TotalSeconds);
                     showBalloon("Welcome back", String.Format("Total break: {0}min, no Worktimebreak left", ((long)timePassedTotal / 60).ToString()));

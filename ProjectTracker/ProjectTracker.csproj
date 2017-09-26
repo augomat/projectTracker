@@ -102,6 +102,7 @@
     <Compile Include="Presenter.cs" />
     <Compile Include="ProjectChangeHandler.cs" />
     <Compile Include="ProjectChangeEvent.cs" />
+    <Compile Include="ProjectChangeNotifierAnalysis.cs" />
     <Compile Include="ProjectChangeNotifierAppExit.cs" />
     <Compile Include="ProjectChangeNotifierCorrection.cs" />
     <Compile Include="ProjectChangeNotifierDexpot.cs" />

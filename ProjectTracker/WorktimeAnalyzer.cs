@@ -11,14 +11,14 @@ namespace ProjectTracker
     {
         private IWorktimeRecordStorage Storage;
         private IProjectHandler ProjectHandler;
-        private IProjectCorrectionHandler ProjectCorrectionHandler;
+        private ProjectChangeNotifierAnalysis ProjectAnalysisHandler;
 
         private TimeSpan maxWorktime { get { return TimeSpan.Parse(Properties.Settings.Default.maxWorktime); } }
 
-        public WorktimeAnalyzer(IWorktimeRecordStorage storage, IProjectHandler projectHandler, IProjectCorrectionHandler projectCorrectionHandler)
+        public WorktimeAnalyzer(IWorktimeRecordStorage storage, IProjectHandler projectHandler, ProjectChangeNotifierAnalysis projectAnalysisHandler)
         {
             Storage = storage;
-            ProjectCorrectionHandler = projectCorrectionHandler;
+            ProjectAnalysisHandler = projectAnalysisHandler;
             ProjectHandler = projectHandler;
         }
 
@@ -28,7 +28,7 @@ namespace ProjectTracker
             ProjectUtilities.getWorkDayByDate(day, out from, out to);
 
             if (DateTime.Now >= from && DateTime.Now <= to) //needed to have current project in analysis
-                ProjectCorrectionHandler.correctCurrentProject(ProjectHandler.currentProject, 1);
+                ProjectAnalysisHandler.logCurrentProject();
 
             var items = Storage.getAllWorktimeRecords(from, to);
             return generateStatistics(items);
@@ -36,7 +36,7 @@ namespace ProjectTracker
 
         public WorktimeStatistics Analyze(DateTime from, DateTime to)
         {
-            ProjectCorrectionHandler.correctCurrentProject(ProjectHandler.currentProject, 1);
+            ProjectAnalysisHandler.logCurrentProject();
 
             var items = Storage.getAllWorktimeRecords(from, to);
             return generateStatistics(items);

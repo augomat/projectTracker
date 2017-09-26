@@ -29,14 +29,16 @@ namespace ProjectTracker
             ProjectChangeHandler mainHandler = new ProjectChangeHandler();
             var worktimebreakHandler = new ProjectChangeProcessorWorktimebreaks(mainHandler);
             var projectCorrectionHandler = new ProjectChangeNotifierCorrection(mainHandler);
+            var projectAnalysisHandler = new ProjectChangeNotifierAnalysis(mainHandler);
             var storageEngine = new WorktimeRecordStorageNoSQL();
-            var worktimeAnalyzer = new WorktimeAnalyzer(storageEngine, mainHandler, projectCorrectionHandler);
+            var worktimeAnalyzer = new WorktimeAnalyzer(storageEngine, mainHandler, projectAnalysisHandler);
             var worktrackerUpdater = new WorktrackerUpdater();
 
             //Change notifiers
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierDexpot(mainHandler, presenter));
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierLockscreen(mainHandler));
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierAppExit(mainHandler));
+            mainHandler.addProjectChangeNotifier(projectAnalysisHandler);
             mainHandler.addProjectChangeNotifier(projectCorrectionHandler);
 
             //Change processors

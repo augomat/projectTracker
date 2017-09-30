@@ -58,7 +58,7 @@ namespace ProjectTracker
                     var currentTracking = data.currentTracking;
 
                     if (currentTracking == null)
-                        break;
+                        continue;
 
                     if (currentTracking.activity.name != Handler.currentProject)
                     {
@@ -86,7 +86,7 @@ namespace ProjectTracker
                                     DateTime.Now,
                                     DateTime.Now,
                                     currentTracking.activity.name,
-                                    "")
+                                    "Application started")
                                 )
                             );
                         }
@@ -94,7 +94,7 @@ namespace ProjectTracker
                     }
                         
                 }
-                System.Threading.Thread.Sleep(10000);
+                System.Threading.Thread.Sleep(5000);
             }
         }
     }

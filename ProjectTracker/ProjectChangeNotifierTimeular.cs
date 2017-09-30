@@ -11,9 +11,11 @@ namespace ProjectTracker
     class ProjectChangeNotifierTimeular : ProjectChangeNotifier
     {
         private const string URL = "https://api.timeular.com/api/v1/";
-        private string currentToken = "eyJhbGciOiJIUzUxMiJ9.eyJ0eXBlIjoidXNlciIsInN1YiI6Ijc0MDcifQ.RJft2lh4LJTMz7xuX5fdg3CbxsYF_dvn76AMyIE4uaPlvUHXV-LJ3bF6Blfndes_ZKx7SJFpTMcLD5bINmWaDQ";
-
+        private string apiKey = "NzQwN182ZjI4ZDc4ZmRiMWU0ODRiYjVkY2M5MDdjOWViY2I3ZA==";
+        private string apiSecret = "MGVlMmJjMzhjNDFmNDRhZmJjMjkyNzUzZjJkODk1MjY=";
+        
         private Presenter Presenter;
+        private HttpClient httpClient;
 
         private class Activity
         {
@@ -35,6 +37,17 @@ namespace ProjectTracker
             public CurrentTracking currentTracking { get; set; }
         }
 
+        private class Credentials
+        {
+            public string apiKey { get; set; }
+            public string apiSecret { get; set; }
+        }
+
+        private class Token
+        {
+            public string token { get; set; }
+        }
+
         public ProjectChangeNotifierTimeular(ProjectChangeHandler handler, Presenter presenter) : base(handler)
         {
             Presenter = presenter;
@@ -42,16 +55,16 @@ namespace ProjectTracker
 
         public override void start()
         {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(URL + "tracking");
+            httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri(URL);
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + currentToken);
-
+            getToken();
+            
             while (true)
             {
-                var response = client.GetAsync("").Result;
+                var response = httpClient.GetAsync("tracking").Result;
                 if (response.IsSuccessStatusCode)
                 {
                     var data = response.Content.ReadAsAsync<RootObject>().Result;
@@ -73,10 +86,29 @@ namespace ProjectTracker
                                 "")
                             )
                         );
-                    }
-                        
+                    }     
+                }
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    getToken();
                 }
                 System.Threading.Thread.Sleep(5000);
+            }
+        }
+
+        private void getToken()
+        {
+            var credentials = new Credentials();
+            credentials.apiKey = apiKey;
+            credentials.apiSecret = apiSecret;
+
+            var response = httpClient.PostAsJsonAsync<Credentials>("developer/sign-in", credentials).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                var data = response.Content.ReadAsAsync<Token>().Result;
+                httpClient.DefaultRequestHeaders.Remove("Authorization");
+                httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + data.token);
             }
         }
     }

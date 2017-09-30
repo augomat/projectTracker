@@ -73,7 +73,6 @@ namespace ProjectTracker
                                 "")
                             )
                         );
-                        Presenter.refreshGridExternal(); //TODO - should that really happen here???
                     }
                         
                 }

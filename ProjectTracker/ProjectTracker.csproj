@@ -116,6 +116,7 @@
     <Compile Include="ProjectChangeNotifierDexpot.cs" />
     <Compile Include="ProjectChangeNotifier.cs" />
     <Compile Include="ProjectChangeNotifierTimeular.cs" />
+    <Compile Include="ProjectChangeProcessorAppStart.cs" />
     <Compile Include="ProjectChangeProcessorLockscreen.cs" />
     <Compile Include="ProjectChangeProcessorNewDay.cs" />
     <Compile Include="ProjectChangeSubscriberFormUpdater.cs" />

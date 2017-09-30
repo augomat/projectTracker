@@ -74,35 +74,18 @@ namespace ProjectTracker
                 var desktopFrom = match.Groups[1].Value;
                 var desktopTo = match.Groups[2].Value;
 
-                if (!string.IsNullOrEmpty(Handler.currentProject)) //TODO - should that really be decided here?
-                {
-                    long diffSecs = convertTicksToSec(DateTime.Now.Ticks) - convertTicksToSec(Handler.currentProjectSince.Ticks);
-                    OnRaiseProjectChangeEvent(new ProjectChangeEvent(
-                        ProjectChangeEvent.Types.Change,
-                        desktopToProjectName(desktopTo),
-                        "Desktop Change detected",
-                        new WorktimeRecord(
-                            new DateTime(Handler.currentProjectSince.Ticks),
-                            DateTime.Now,
-                            Handler.currentProject,
-                            "")
-                        )
-                    );
-                }
-                else
-                {
-                    OnRaiseProjectChangeEvent(new ProjectChangeEvent(
-                        ProjectChangeEvent.Types.Init,
-                        desktopToProjectName(desktopTo),
-                        "Desktop initialized",
-                        new WorktimeRecord(
-                            DateTime.Now,
-                            DateTime.Now,
-                            desktopToProjectName(desktopTo),
-                            "Desktop initialized")
-                        )
-                    );
-                }
+                long diffSecs = convertTicksToSec(DateTime.Now.Ticks) - convertTicksToSec(Handler.currentProjectSince.Ticks);
+                OnRaiseProjectChangeEvent(new ProjectChangeEvent(
+                    ProjectChangeEvent.Types.Change,
+                    desktopToProjectName(desktopTo),
+                    "Desktop Change detected",
+                    new WorktimeRecord(
+                        new DateTime(Handler.currentProjectSince.Ticks),
+                        DateTime.Now,
+                        Handler.currentProject,
+                        "")
+                    )
+                );
             }
         }
         

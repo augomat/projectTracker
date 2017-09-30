@@ -62,34 +62,17 @@ namespace ProjectTracker
 
                     if (currentTracking.activity.name != Handler.currentProject)
                     {
-                        if (!string.IsNullOrEmpty(Handler.currentProject)) //TODO - should that really be decided here?
-                        {
-                            OnRaiseProjectChangeEvent(new ProjectChangeEvent(
-                                ProjectChangeEvent.Types.Change,
-                                currentTracking.activity.name,
-                                "Tracking Change detected",
-                                new WorktimeRecord(
-                                    new DateTime(Handler.currentProjectSince.Ticks),
-                                    DateTime.Now,
-                                    Handler.currentProject,
-                                    "")
-                                )
-                            );
-                        }
-                        else
-                        {
-                            OnRaiseProjectChangeEvent(new ProjectChangeEvent(
-                                ProjectChangeEvent.Types.Init,
-                                currentTracking.activity.name,
-                                "Tracking Change detected",
-                                new WorktimeRecord(
-                                    DateTime.Now,
-                                    DateTime.Now,
-                                    currentTracking.activity.name,
-                                    "Application started")
-                                )
-                            );
-                        }
+                        OnRaiseProjectChangeEvent(new ProjectChangeEvent(
+                            ProjectChangeEvent.Types.Change,
+                            currentTracking.activity.name,
+                            "Tracking Change detected",
+                            new WorktimeRecord(
+                                new DateTime(Handler.currentProjectSince.Ticks),
+                                DateTime.Now,
+                                Handler.currentProject,
+                                "")
+                            )
+                        );
                         Presenter.refreshGridExternal(); //TODO - should that really happen here???
                     }
                         

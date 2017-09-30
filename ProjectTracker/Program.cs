@@ -43,6 +43,7 @@ namespace ProjectTracker
             mainHandler.addProjectChangeNotifier(projectCorrectionHandler);
 
             //Change processors
+            mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorAppStart(mainHandler));
             mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorNewDay(mainHandler, worktimeAnalyzer, worktrackerUpdater));
             mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorLockscreen(mainHandler));
             mainHandler.addProjectChangeProcessor(worktimebreakHandler);

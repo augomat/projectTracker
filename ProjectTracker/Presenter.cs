@@ -75,6 +75,15 @@ namespace ProjectTracker
             
         }
 
+        public void refreshGridExternal()
+        {
+            //TODO check whether Form is already created
+            Form.Invoke(new MethodInvoker(delegate () {
+                this.refreshGrid();
+            }));
+
+        }
+
         public TimeSpan getAvailableWorktimebreak()
         {
             //TODO errorhandling

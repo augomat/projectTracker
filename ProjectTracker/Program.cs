@@ -35,7 +35,8 @@ namespace ProjectTracker
             var worktrackerUpdater = new WorktrackerUpdater();
 
             //Change notifiers
-            mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierDexpot(mainHandler, presenter));
+            //mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierDexpot(mainHandler, presenter));
+            mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierTimeular(mainHandler));
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierLockscreen(mainHandler));
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierAppExit(mainHandler));
             mainHandler.addProjectChangeNotifier(projectAnalysisHandler);

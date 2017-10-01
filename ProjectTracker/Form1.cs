@@ -44,13 +44,14 @@ namespace ProjectTracker
             WindowState = FormWindowState.Normal;
 #endif
 
-            // TODO all of this should not be done in the form...
-
             countAsWorktime.Text = Properties.Settings.Default.countAsWorktimebreakMins.ToString();
             carryOverHours.Text = Properties.Settings.Default.carryOverWorktimeCountHours.ToString();
             maxWorktime.Text = Properties.Settings.Default.maxWorktime;
             finishWTday.Checked = Properties.Settings.Default.flagFinishWTDay;
             autoFinish.Checked = Properties.Settings.Default.flagAutoFinishWT;
+            dexbotFilepath.Text = Properties.Settings.Default.DexbotLogFilePath;
+            timeularAPIkey.Text = Properties.Settings.Default.timeularAPIkey;
+            timeularAPIsecret.Text = Properties.Settings.Default.timeularAPIsecret;
 
             //RTODO
             TrayIcon.BalloonTipTitle = "Change desktop";

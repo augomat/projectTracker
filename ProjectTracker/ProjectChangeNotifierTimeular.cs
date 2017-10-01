@@ -11,9 +11,11 @@ namespace ProjectTracker
     class ProjectChangeNotifierTimeular : ProjectChangeNotifier
     {
         private const string URL = "https://api.timeular.com/api/v1/";
-        private string apiKey = "NzQwN182ZjI4ZDc4ZmRiMWU0ODRiYjVkY2M5MDdjOWViY2I3ZA==";
-        private string apiSecret = "MGVlMmJjMzhjNDFmNDRhZmJjMjkyNzUzZjJkODk1MjY=";
-        
+        //private string apiKey = "NzQwN182ZjI4ZDc4ZmRiMWU0ODRiYjVkY2M5MDdjOWViY2I3ZA==";
+        //private string apiSecret = "MGVlMmJjMzhjNDFmNDRhZmJjMjkyNzUzZjJkODk1MjY=";
+        private string apiKey { get { return Properties.Settings.Default.timeularAPIkey; } }
+        private string apiSecret { get { return Properties.Settings.Default.timeularAPIsecret; } }
+
         private Presenter Presenter;
         private HttpClient httpClient;
 
@@ -109,7 +111,10 @@ namespace ProjectTracker
                 var data = response.Content.ReadAsAsync<Token>().Result;
                 httpClient.DefaultRequestHeaders.Remove("Authorization");
                 httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + data.token);
+                Presenter.setNotifierState("Timeular", true);
             }
+            else
+                Presenter.setNotifierState("Timeular", false);
         }
     }
 }

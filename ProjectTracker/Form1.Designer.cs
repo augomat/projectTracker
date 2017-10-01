@@ -87,6 +87,18 @@
             this.label13 = new System.Windows.Forms.Label();
             this.maxWorktime = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.dexbotFilepath = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.dexbotStatus = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.timeularAPIsecret = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.timeularAPIkey = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.timeularStatus = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -95,6 +107,8 @@
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ProjectTimesSummary)).BeginInit();
             this.groupBox5.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.SuspendLayout();
             // 
             // notifyIcon1
@@ -619,11 +633,127 @@
             this.label12.TabIndex = 0;
             this.label12.Text = "Maximum permitted time per day";
             // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.dexbotFilepath);
+            this.groupBox6.Controls.Add(this.label16);
+            this.groupBox6.Controls.Add(this.dexbotStatus);
+            this.groupBox6.Controls.Add(this.label14);
+            this.groupBox6.Location = new System.Drawing.Point(20, 655);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(353, 51);
+            this.groupBox6.TabIndex = 10;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Dexbot";
+            // 
+            // dexbotFilepath
+            // 
+            this.dexbotFilepath.Location = new System.Drawing.Point(169, 17);
+            this.dexbotFilepath.Name = "dexbotFilepath";
+            this.dexbotFilepath.Size = new System.Drawing.Size(178, 20);
+            this.dexbotFilepath.TabIndex = 3;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(109, 21);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(59, 13);
+            this.label16.TabIndex = 2;
+            this.label16.Text = "Path logfile";
+            // 
+            // dexbotStatus
+            // 
+            this.dexbotStatus.AutoSize = true;
+            this.dexbotStatus.BackColor = System.Drawing.Color.Red;
+            this.dexbotStatus.Location = new System.Drawing.Point(46, 21);
+            this.dexbotStatus.Name = "dexbotStatus";
+            this.dexbotStatus.Size = new System.Drawing.Size(46, 13);
+            this.dexbotStatus.TabIndex = 1;
+            this.dexbotStatus.Text = "disabled";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(6, 21);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(37, 13);
+            this.label14.TabIndex = 0;
+            this.label14.Text = "Status";
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.timeularAPIsecret);
+            this.groupBox7.Controls.Add(this.label20);
+            this.groupBox7.Controls.Add(this.timeularAPIkey);
+            this.groupBox7.Controls.Add(this.label19);
+            this.groupBox7.Controls.Add(this.timeularStatus);
+            this.groupBox7.Controls.Add(this.label18);
+            this.groupBox7.Location = new System.Drawing.Point(379, 655);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(371, 51);
+            this.groupBox7.TabIndex = 11;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Timeular";
+            // 
+            // timeularAPIsecret
+            // 
+            this.timeularAPIsecret.Location = new System.Drawing.Point(285, 16);
+            this.timeularAPIsecret.Name = "timeularAPIsecret";
+            this.timeularAPIsecret.Size = new System.Drawing.Size(75, 20);
+            this.timeularAPIsecret.TabIndex = 7;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(227, 20);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(56, 13);
+            this.label20.TabIndex = 6;
+            this.label20.Text = "API secret";
+            // 
+            // timeularAPIkey
+            // 
+            this.timeularAPIkey.Location = new System.Drawing.Point(144, 16);
+            this.timeularAPIkey.Name = "timeularAPIkey";
+            this.timeularAPIkey.Size = new System.Drawing.Size(75, 20);
+            this.timeularAPIkey.TabIndex = 5;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(96, 20);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(44, 13);
+            this.label19.TabIndex = 4;
+            this.label19.Text = "API key";
+            // 
+            // timeularStatus
+            // 
+            this.timeularStatus.AutoSize = true;
+            this.timeularStatus.BackColor = System.Drawing.Color.Red;
+            this.timeularStatus.Location = new System.Drawing.Point(46, 20);
+            this.timeularStatus.Name = "timeularStatus";
+            this.timeularStatus.Size = new System.Drawing.Size(46, 13);
+            this.timeularStatus.TabIndex = 3;
+            this.timeularStatus.Text = "disabled";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(6, 20);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(37, 13);
+            this.label18.TabIndex = 2;
+            this.label18.Text = "Status";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(766, 661);
+            this.ClientSize = new System.Drawing.Size(766, 721);
+            this.Controls.Add(this.groupBox7);
+            this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox4);
@@ -650,6 +780,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.ProjectTimesSummary)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -710,6 +844,18 @@
         public System.Windows.Forms.TextBox maxWorktime;
         private System.Windows.Forms.Label label12;
         public System.Windows.Forms.CheckBox flagConsiderOvertime;
+        private System.Windows.Forms.GroupBox groupBox6;
+        public System.Windows.Forms.TextBox dexbotFilepath;
+        private System.Windows.Forms.Label label16;
+        public System.Windows.Forms.Label dexbotStatus;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.GroupBox groupBox7;
+        public System.Windows.Forms.TextBox timeularAPIsecret;
+        private System.Windows.Forms.Label label20;
+        public System.Windows.Forms.TextBox timeularAPIkey;
+        private System.Windows.Forms.Label label19;
+        public System.Windows.Forms.Label timeularStatus;
+        private System.Windows.Forms.Label label18;
     }
 }
 

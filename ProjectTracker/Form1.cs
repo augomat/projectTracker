@@ -52,11 +52,6 @@ namespace ProjectTracker
             dexbotFilepath.Text = Properties.Settings.Default.DexbotLogFilePath;
             timeularAPIkey.Text = Properties.Settings.Default.timeularAPIkey;
             timeularAPIsecret.Text = Properties.Settings.Default.timeularAPIsecret;
-
-            //RTODO
-            TrayIcon.BalloonTipTitle = "Change desktop";
-            TrayIcon.BalloonTipText = "Please change your desktop to initialize";
-            TrayIcon.ShowBalloonTip(10);
         }
 
         private void OnExit(object sender, EventArgs e)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
@@ -59,6 +60,23 @@ namespace ProjectTracker
         public void onInitCompleted()
         {
             Form.currentOvertime.Text = WorktimeAnalyzer.sumTimespans(storage.getOvertimes().Values.ToList()).FormatForOvertime();
+
+            var t = new Thread(() => {
+                var waitingTime = 5;
+                while (String.IsNullOrEmpty(ProjectHandler.currentProject))
+                {
+                    System.Threading.Thread.Sleep(1000*waitingTime);
+                    waitingTime *= 10;
+
+                    if (String.IsNullOrEmpty(ProjectHandler.currentProject))
+                        Form.Invoke(new MethodInvoker(delegate () {
+                            showNotification("Initialize project", "ProjectTracker is not yet initialized with a project");
+                        }));
+                }
+                
+            });
+            t.Name = "ProjectInitializedChecker";
+            t.Start();
         }
 
         

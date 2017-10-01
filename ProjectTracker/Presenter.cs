@@ -62,16 +62,20 @@ namespace ProjectTracker
             Form.currentOvertime.Text = WorktimeAnalyzer.sumTimespans(storage.getOvertimes().Values.ToList()).FormatForOvertime();
 
             var t = new Thread(() => {
-                var waitingTime = 5;
+                var waitingTime = 3;
                 while (String.IsNullOrEmpty(ProjectHandler.currentProject))
                 {
                     System.Threading.Thread.Sleep(1000*waitingTime);
                     waitingTime *= 10;
 
                     if (String.IsNullOrEmpty(ProjectHandler.currentProject))
+                    {
+                        waitForHandleCreated(Form);
                         Form.Invoke(new MethodInvoker(delegate () {
                             showNotification("Initialize project", "ProjectTracker is not yet initialized with a project");
                         }));
+                    }
+                        
                 }
                 
             });

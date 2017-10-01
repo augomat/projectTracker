@@ -20,7 +20,9 @@ namespace ProjectTracker
             {
                 Presenter.setDate(DateTime.Now);
             }
-            if (projectChangeEvent.Type == ProjectChangeEvent.Types.Start || projectChangeEvent.Type == ProjectChangeEvent.Types.Change)
+            if (projectChangeEvent.Type == ProjectChangeEvent.Types.Start 
+                || projectChangeEvent.Type == ProjectChangeEvent.Types.Change
+                || projectChangeEvent.Type == ProjectChangeEvent.Types.Init)
             {
                 //Hack: There is no hook after the storage engines get called, thus let's just wait a bit and then refresh
                 Task.Delay(200).ContinueWith(t => { try { Presenter.Form.Invoke(new Action(Presenter.refreshGrid)); } catch { } });

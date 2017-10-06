@@ -115,30 +115,6 @@ namespace ProjectTracker.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\Georg\\Documents\\DesktopTimes.csv")]
-        public string OutputCsvFilePath {
-            get {
-                return ((string)(this["OutputCsvFilePath"]));
-            }
-            set {
-                this["OutputCsvFilePath"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\Georg\\AppData\\Roaming\\Dexpot\\dexpot.log")]
-        public string DexbotLogFilePath {
-            get {
-                return ((string)(this["DexbotLogFilePath"]));
-            }
-            set {
-                this["DexbotLogFilePath"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("10:00")]
         public string maxWorktime {
             get {
@@ -182,6 +158,30 @@ namespace ProjectTracker.Properties {
             }
             set {
                 this["timeularAPIsecret"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\gkapeller\\Documents\\DesktopTimes.csv")]
+        public string OutputCsvFilePath {
+            get {
+                return ((string)(this["OutputCsvFilePath"]));
+            }
+            set {
+                this["OutputCsvFilePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\gkapeller\\AppData\\Roaming\\Dexpot\\dexpot.log")]
+        public string DexbotLogFilePath {
+            get {
+                return ((string)(this["DexbotLogFilePath"]));
+            }
+            set {
+                this["DexbotLogFilePath"] = value;
             }
         }
     }

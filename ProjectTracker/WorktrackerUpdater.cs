@@ -22,6 +22,7 @@ namespace ProjectTracker
         {
             try
             {
+                /*
                 var task = Task.Factory.StartNew(() =>
                 {
                     try { return WorkTrackerConnection.GetRemoteService(); }
@@ -32,6 +33,8 @@ namespace ProjectTracker
                     throw new Exception("Could not establish connection to WT in time");
 
                 worktracker = task.Result;
+                */
+                worktracker = WorkTrackerConnection.GetRemoteService();
                 if (worktracker == null)
                     return false;
 
@@ -39,8 +42,9 @@ namespace ProjectTracker
                     currentUser = worktracker.GetEmployeeForAuthenticatedUser();
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine(e.ToString());
                 return false;
             } 
         }

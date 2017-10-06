@@ -30,12 +30,6 @@
   &lt;string&gt;SalesF&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
-    <Setting Name="OutputCsvFilePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Users\Georg\Documents\DesktopTimes.csv</Value>
-    </Setting>
-    <Setting Name="DexbotLogFilePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Users\Georg\AppData\Roaming\Dexpot\dexpot.log</Value>
-    </Setting>
     <Setting Name="maxWorktime" Type="System.String" Scope="User">
       <Value Profile="(Default)">10:00</Value>
     </Setting>
@@ -47,6 +41,12 @@
     </Setting>
     <Setting Name="timeularAPIsecret" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="OutputCsvFilePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\gkapeller\Documents\DesktopTimes.csv</Value>
+    </Setting>
+    <Setting Name="DexbotLogFilePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\gkapeller\AppData\Roaming\Dexpot\dexpot.log</Value>
     </Setting>
   </Settings>
 </SettingsFile>

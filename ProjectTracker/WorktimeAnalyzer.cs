@@ -48,6 +48,9 @@ namespace ProjectTracker
             var currentStats = new WorktimeStatistics();
             foreach (var wtr in worktimeRecords)
             {
+                if (String.IsNullOrEmpty(wtr.ProjectName))
+                    continue; //that happens e.g. for Init project rows
+
                 var currentInterval = TimeSpan.FromSeconds((wtr.End - wtr.Start).TotalSeconds);
 
                 if (wtr.ProjectName == ProjectChangeHandler.PROJECT_WORKTIMEBREAK)

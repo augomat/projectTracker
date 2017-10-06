@@ -33,10 +33,10 @@ namespace ProjectTracker
         {
             if (!File.Exists(fileNameLog))
             {
-                System.Threading.Thread.Sleep(1000); //HACKXXXXXXXX This is the worst ever! PLS refactor - waits for form to initialize as otherwise showError will fail
                 Presenter.showError("Dexpot Thread Error", "No Dexpot .log-file found - please enable it under Settings | Plugins & Extras | Enable log File");
                 return;
             }
+            Presenter.setNotifierState("Dexbot", true);
 
             using (StreamReader reader = new StreamReader(new FileStream(fileNameLog,
                      FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
@@ -74,35 +74,18 @@ namespace ProjectTracker
                 var desktopFrom = match.Groups[1].Value;
                 var desktopTo = match.Groups[2].Value;
 
-                if (!string.IsNullOrEmpty(Handler.currentProject)) //TODO - should that really be decided here?
-                {
-                    long diffSecs = convertTicksToSec(DateTime.Now.Ticks) - convertTicksToSec(Handler.currentProjectSince.Ticks);
-                    OnRaiseProjectChangeEvent(new ProjectChangeEvent(
-                        ProjectChangeEvent.Types.Change,
-                        desktopToProjectName(desktopTo),
-                        "Desktop Change detected",
-                        new WorktimeRecord(
-                            new DateTime(Handler.currentProjectSince.Ticks),
-                            DateTime.Now,
-                            Handler.currentProject,
-                            "")
-                        )
-                    );
-                }
-                else
-                {
-                    OnRaiseProjectChangeEvent(new ProjectChangeEvent(
-                        ProjectChangeEvent.Types.Init,
-                        desktopToProjectName(desktopTo),
-                        "Desktop initialized",
-                        new WorktimeRecord(
-                            DateTime.Now,
-                            DateTime.Now,
-                            desktopToProjectName(desktopTo),
-                            "Desktop initialized")
-                        )
-                    );
-                }
+                long diffSecs = convertTicksToSec(DateTime.Now.Ticks) - convertTicksToSec(Handler.currentProjectSince.Ticks);
+                OnRaiseProjectChangeEvent(new ProjectChangeEvent(
+                    ProjectChangeEvent.Types.Change,
+                    desktopToProjectName(desktopTo),
+                    "Desktop Change detected",
+                    new WorktimeRecord(
+                        new DateTime(Handler.currentProjectSince.Ticks),
+                        DateTime.Now,
+                        Handler.currentProject,
+                        "")
+                    )
+                );
             }
         }
         

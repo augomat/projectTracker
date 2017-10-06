@@ -36,12 +36,14 @@ namespace ProjectTracker
 
             //Change notifiers
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierDexpot(mainHandler, presenter));
+            mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierTimeular(mainHandler, presenter));
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierLockscreen(mainHandler));
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierAppExit(mainHandler));
             mainHandler.addProjectChangeNotifier(projectAnalysisHandler);
             mainHandler.addProjectChangeNotifier(projectCorrectionHandler);
 
             //Change processors
+            mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorAppStart(mainHandler));
             mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorNewDay(mainHandler, worktimeAnalyzer, worktrackerUpdater));
             mainHandler.addProjectChangeProcessor(new ProjectChangeProcessorLockscreen(mainHandler));
             mainHandler.addProjectChangeProcessor(worktimebreakHandler);

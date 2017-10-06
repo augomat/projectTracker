@@ -160,5 +160,29 @@ namespace ProjectTracker.Properties {
                 this["flagConsiderOvertime"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string timeularAPIkey {
+            get {
+                return ((string)(this["timeularAPIkey"]));
+            }
+            set {
+                this["timeularAPIkey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string timeularAPIsecret {
+            get {
+                return ((string)(this["timeularAPIsecret"]));
+            }
+            set {
+                this["timeularAPIsecret"] = value;
+            }
+        }
     }
 }

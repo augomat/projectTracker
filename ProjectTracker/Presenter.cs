@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
@@ -37,6 +38,10 @@ namespace ProjectTracker
             Form.maxWorktime.Leave += maxWorktime_Leave;
             Form.finishWTday.CheckedChanged += FinishWTday_Leave;
             Form.autoFinish.CheckedChanged += AutoFinish_Leave;
+            Form.timeularAPIkey.Leave += apiKey_Leave;
+            Form.timeularAPIsecret.Leave += apiSecret_Leave;
+            Form.dexbotFilepath.Leave += dexbotLog_Leave;
+
             Form.CorrectProject.Click += CorrectProject_Click;
             Form.AnalyzeWorktimes.Click += AnalyzeWorktimes_Click;
             Form.SetInWorkT.Click += SetInWT_Click;
@@ -55,6 +60,27 @@ namespace ProjectTracker
         public void onInitCompleted()
         {
             Form.currentOvertime.Text = WorktimeAnalyzer.sumTimespans(storage.getOvertimes().Values.ToList()).FormatForOvertime();
+
+            var t = new Thread(() => {
+                var waitingTime = 3;
+                while (String.IsNullOrEmpty(ProjectHandler.currentProject))
+                {
+                    System.Threading.Thread.Sleep(1000*waitingTime);
+                    waitingTime *= 10;
+
+                    if (String.IsNullOrEmpty(ProjectHandler.currentProject))
+                    {
+                        waitForHandleCreated(Form);
+                        Form.Invoke(new MethodInvoker(delegate () {
+                            showNotification("Initialize project", "ProjectTracker is not yet initialized with a project");
+                        }));
+                    }
+                        
+                }
+                
+            });
+            t.Name = "ProjectInitializedChecker";
+            t.Start();
         }
 
         
@@ -68,7 +94,7 @@ namespace ProjectTracker
 
         public void showError(string title, string text)
         {
-            //TODO check whether Form is already created
+            waitForHandleCreated(Form);
             Form.Invoke(new MethodInvoker(delegate () {
                 MessageBox.Show(text, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }));
@@ -217,67 +243,6 @@ namespace ProjectTracker
             return (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday) ? true : false;
         }
 
-        private void countAsWorktime_Leave(object sender, EventArgs e)
-        {
-            try
-            {
-                Properties.Settings.Default.countAsWorktimebreakMins = Int32.Parse(Form.countAsWorktime.Text);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-        
-        private void carryOverHours_Leave(object sender, EventArgs e)
-        {
-            try
-            {
-                Properties.Settings.Default.carryOverWorktimeCountHours = Int32.Parse(Form.carryOverHours.Text);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-
-        private void maxWorktime_Leave(object sender, EventArgs e)
-        {
-            try
-            {
-                TimeSpan.Parse(Form.maxWorktime.Text);
-                Properties.Settings.Default.maxWorktime = Form.maxWorktime.Text;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-
-        private void FinishWTday_Leave(object sender, EventArgs e)
-        {
-            try
-            {
-                Properties.Settings.Default.flagFinishWTDay = Form.finishWTday.Checked;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-
-        private void AutoFinish_Leave(object sender, EventArgs e)
-        {
-            try
-            {
-                Properties.Settings.Default.flagAutoFinishWT = Form.autoFinish.Checked;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-
         private void CorrectProject_Click(object sender, EventArgs e)
         {
             if (Form.correctProjectCombobox.Text == "")
@@ -419,9 +384,127 @@ namespace ProjectTracker
 
         public void setDate(DateTime date)
         {
+            waitForHandleCreated(Form);
             Form.Invoke(new MethodInvoker(delegate () {
                 Form.dateTimePicker1.Value = date;
             }));
+        }
+
+        public void setNotifierState(string notifierName, bool enabled)
+        {
+            Label label = null;
+            if (notifierName == "Dexbot")
+                label = Form.dexbotStatus;
+            if (notifierName == "Timeular")
+                label = Form.timeularStatus;
+
+            if (label != null)
+            {
+                waitForHandleCreated(Form);
+                if (enabled)
+                {
+                    Form.Invoke(new MethodInvoker(delegate () {
+                        label.Text = "enabled";
+                        label.BackColor = Color.Green;
+                        label.ForeColor = Color.White;
+                    }));   
+                }
+                else
+                {
+                    Form.Invoke(new MethodInvoker(delegate () {
+                        label.Text = "disabled";
+                        label.BackColor = Color.Red;
+                        label.ForeColor = Color.Black;
+                    }));
+                }
+            }
+        }
+
+        private void waitForHandleCreated(Form form)
+        {
+            while(form.IsHandleCreated == false)
+                System.Threading.Thread.Sleep(100);
+        }
+
+        //-----------------------------------------------------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------------------------------------------------
+
+
+        private void countAsWorktime_Leave(object sender, EventArgs e)
+        {
+            try
+            {
+                Properties.Settings.Default.countAsWorktimebreakMins = Int32.Parse(Form.countAsWorktime.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void carryOverHours_Leave(object sender, EventArgs e)
+        {
+            try
+            {
+                Properties.Settings.Default.carryOverWorktimeCountHours = Int32.Parse(Form.carryOverHours.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void maxWorktime_Leave(object sender, EventArgs e)
+        {
+            try
+            {
+                TimeSpan.Parse(Form.maxWorktime.Text);
+                Properties.Settings.Default.maxWorktime = Form.maxWorktime.Text;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void FinishWTday_Leave(object sender, EventArgs e)
+        {
+            try
+            {
+                Properties.Settings.Default.flagFinishWTDay = Form.finishWTday.Checked;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void AutoFinish_Leave(object sender, EventArgs e)
+        {
+            try
+            {
+                Properties.Settings.Default.flagAutoFinishWT = Form.autoFinish.Checked;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void apiKey_Leave(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.timeularAPIkey = Form.timeularAPIkey.Text;
+        }
+
+        private void apiSecret_Leave(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.timeularAPIsecret = Form.timeularAPIsecret.Text;
+        }
+
+        private void dexbotLog_Leave(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.DexbotLogFilePath = Form.dexbotFilepath.Text;
         }
     }
 }

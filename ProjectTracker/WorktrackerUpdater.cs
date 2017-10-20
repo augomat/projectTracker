@@ -190,7 +190,7 @@ namespace ProjectTracker
             //second round: make adaptions so we fit 100% by adapting the most sensible projects (i.e. the ones with the biggest deviations)
             var errorList = new List<Tuple<Project, float>>();
             foreach (var pq in wtprojectsq)
-                errorList.Add(Tuple.Create(pq.Key, wtprojects[pq.Key] - pq.Value));
+                errorList.Add(Tuple.Create(pq.Key, Math.Abs(wtprojects[pq.Key] - pq.Value)));
             errorList = errorList.OrderByDescending(x => x.Item2).ToList();
 
             foreach (var pql in errorList)

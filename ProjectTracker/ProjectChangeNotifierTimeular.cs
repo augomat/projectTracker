@@ -66,35 +66,42 @@ namespace ProjectTracker
             
             while (true)
             {
-                var response = httpClient.GetAsync("tracking").Result;
-                if (response.IsSuccessStatusCode)
+                try
                 {
-                    var data = response.Content.ReadAsAsync<RootObject>().Result;
-                    var currentTracking = data.currentTracking;
-
-                    if (currentTracking == null)
-                        continue;
-
-                    if (currentTracking.activity.name != Handler.currentProject
-                        && Handler.currentProject != "[unknown]") //a bit hacky: don't fire if screen is e.g. locked
+                    var response = httpClient.GetAsync("tracking").Result;
+                    if (response.IsSuccessStatusCode)
                     {
-                        OnRaiseProjectChangeEvent(new ProjectChangeEvent(
-                            ProjectChangeEvent.Types.Change,
-                            currentTracking.activity.name,
-                            "Tracking Change detected",
-                            new WorktimeRecord(
-                                new DateTime(Handler.currentProjectSince.Ticks),
-                                DateTime.Now,
-                                Handler.currentProject,
-                                "")
-                            )
-                        );
-                    }     
+                        var data = response.Content.ReadAsAsync<RootObject>().Result;
+                        var currentTracking = data.currentTracking;
+
+                        if (currentTracking == null)
+                        {
+                            System.Threading.Thread.Sleep(5000);
+                            continue;
+                        }
+                           
+                        if (currentTracking.activity.name != Handler.currentProject
+                            && Handler.currentProject != "[unknown]") //a bit hacky: don't fire if screen is e.g. locked
+                        {
+                            OnRaiseProjectChangeEvent(new ProjectChangeEvent(
+                                ProjectChangeEvent.Types.Change,
+                                currentTracking.activity.name,
+                                "Tracking Change detected",
+                                new WorktimeRecord(
+                                    new DateTime(Handler.currentProjectSince.Ticks),
+                                    DateTime.Now,
+                                    Handler.currentProject,
+                                    "")
+                                )
+                            );
+                        }
+                    }
+                    if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                    {
+                        getToken();
+                    }
                 }
-                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-                {
-                    getToken();
-                }
+                catch { } 
                 System.Threading.Thread.Sleep(5000);
             }
         }

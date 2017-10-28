@@ -15,6 +15,7 @@ namespace ProjectTracker
         //private string apiSecret = "MGVlMmJjMzhjNDFmNDRhZmJjMjkyNzUzZjJkODk1MjY=";
         private string apiKey { get { return Properties.Settings.Default.timeularAPIkey; } }
         private string apiSecret { get { return Properties.Settings.Default.timeularAPIsecret; } }
+        private const int WAIT_TIME = 5000;
 
         private Presenter Presenter;
         private HttpClient httpClient;
@@ -76,7 +77,7 @@ namespace ProjectTracker
 
                         if (currentTracking == null)
                         {
-                            System.Threading.Thread.Sleep(5000);
+                            System.Threading.Thread.Sleep(WAIT_TIME);
                             continue;
                         }
                            
@@ -102,7 +103,7 @@ namespace ProjectTracker
                     }
                 }
                 catch { } 
-                System.Threading.Thread.Sleep(5000);
+                System.Threading.Thread.Sleep(WAIT_TIME);
             }
         }
 

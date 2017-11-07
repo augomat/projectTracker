@@ -127,11 +127,12 @@ namespace ProjectTracker
                 {
                     Dictionary<string, TimeSpan> newOvertimes = null;
                     WorktimeAnalyzer.calculateOvertimeUndertime(projectStatistics, storage.getOvertimes(), out projectStatisticsReal, out newOvertimes);
-                    Form.currentOvertime.Text = WorktimeAnalyzer.sumTimespans(storage.getOvertimes().Values.ToList()).FormatForOvertime();
+                    
                 }
                 else
                     projectStatisticsReal = projectStatistics;
 
+                Form.currentOvertime.Text = WorktimeAnalyzer.sumTimespans(storage.getOvertimes().Values.ToList()).FormatForOvertime();
                 Form.ProjectTimesSummary.Series.Clear();
                 Series series = new Series
                 {

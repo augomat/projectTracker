@@ -82,7 +82,7 @@ namespace ProjectTracker
                         }
                            
                         if (currentTracking.activity.name != Handler.currentProject
-                            && Handler.currentProject != "[unknown]") //a bit hacky: don't fire if screen is e.g. locked
+                            && !Handler.currentProject.Contains("[unknown")) //a bit hacky: don't fire if screen is e.g. locked
                         {
                             OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                                 ProjectChangeEvent.Types.Change,

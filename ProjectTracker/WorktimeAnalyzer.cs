@@ -48,7 +48,7 @@ namespace ProjectTracker
             var currentStats = new WorktimeStatistics();
             foreach (var wtr in worktimeRecords)
             {
-                if (String.IsNullOrEmpty(wtr.ProjectName) || wtr.ProjectName == "[unknown]")
+                if (String.IsNullOrEmpty(wtr.ProjectName) || wtr.ProjectName.Contains("[unknown"))
                     continue; //that happens e.g. for Init project rows
 
                 var currentInterval = TimeSpan.FromSeconds((wtr.End - wtr.Start).TotalSeconds);

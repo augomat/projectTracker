@@ -22,7 +22,7 @@ namespace ProjectTracker
         {
             OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                         ProjectChangeEvent.Types.Exit,
-                        "[unknown]",
+                        "[unknown-exit]",
                         "",
                         new WorktimeRecord(
                             Handler.currentProjectSince,

@@ -25,7 +25,7 @@ namespace ProjectTracker.Util
 		        foreach (Outlook.AppointmentItem appt in rangeAppts)
 		        {
                     //MessageBox.Show("Subject: " + appt.Subject + " Start: " + appt.Start.ToString("g"));
-                    ret.Add(new WorktimeRecord(appt.Start, appt.End, "[unknown]", appt.Subject));
+                    ret.Add(new WorktimeRecord(appt.Start, appt.End, "[unknown-outl]", appt.Subject));
                 }
 		    }
             return ret;

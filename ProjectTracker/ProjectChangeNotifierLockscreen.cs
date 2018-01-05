@@ -29,7 +29,7 @@ namespace ProjectTracker
                 //I left my desk
                 OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                         ProjectChangeEvent.Types.Lock,
-                        "[unknown]",
+                        "[unknown-lock1]",
                         "Bye bye",
                         new WorktimeRecord(
                             new DateTime(Handler.currentProjectSince.Ticks),
@@ -49,7 +49,7 @@ namespace ProjectTracker
                     new WorktimeRecord(
                         Handler.currentProjectSince,
                         DateTime.Now,
-                        "[unknown]",
+                        "[unknown-lock2]",
                         "unlocked")
                     )
                 );

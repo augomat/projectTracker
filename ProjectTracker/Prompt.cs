@@ -242,7 +242,7 @@ namespace ProjectTracker
                 //Add unknown period if there is a gap
                 if (currentSugg.Start > currentEnd)
                 {
-                    ret.Add(new WorktimeRecord(currentEnd, currentSugg.Start, "[unknown]", ""));
+                    ret.Add(new WorktimeRecord(currentEnd, currentSugg.Start, "[unknown-gap1]", ""));
                     currentEnd = currentSugg.Start;
                 }     
 
@@ -277,7 +277,7 @@ namespace ProjectTracker
 
             //Add unknown period if there is a remaining gap at the end
             if (currentEnd < To)
-                ret.Add(new WorktimeRecord(currentEnd, To, "[unknown]", ""));
+                ret.Add(new WorktimeRecord(currentEnd, To, "[unknown-gap2]", ""));
 
             ret.First().Start.AddSeconds(From.Second);
             ret.Last().End.AddSeconds(To.Second);

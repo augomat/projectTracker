@@ -184,7 +184,7 @@ namespace ProjectTracker
                 return;
             }
 
-            if (isHoliday(DateTime.Now))
+            if (isHoliday(Form.dateTimePicker1.Value))
             {
                 var dialogResult = MessageBox.Show("You should only do this at the end of the day! When done multiple times, overtimes will be wrong.\nAre you sure you want to log the worktime now?",
                         "ProjectTracker",

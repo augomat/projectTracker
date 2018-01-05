@@ -31,18 +31,6 @@ namespace ProjectTracker
             }
         }
 
-        public List<WorktimeRecord> getAllWorktimeRecords(DateTime day)
-        {
-            using (var db = new LiteDatabase(DATABASE_FILE))
-            {
-                var wtrs = db.GetCollection<WorktimeRecord>("worktimeRecords");
-                return wtrs.Find(wtr => (wtr.Start.Date == day.Date))
-                            .OrderBy(wtr => wtr.Start)
-                            .OrderBy(wtr => wtr.End)
-                            .ToList();
-            }
-        }
-
         public List<WorktimeRecord> getAllWorktimeRecords(DateTime from, DateTime to)
         {
             using (var db = new LiteDatabase(DATABASE_FILE))

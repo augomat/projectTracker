@@ -79,11 +79,6 @@ namespace ProjectTracker
 
         //-----------------
 
-        public List<WorktimeRecord> getAllWorktimeRecords(DateTime day)
-        {
-            throw new NotImplementedException();
-        }
-
         public List<WorktimeRecord> getAllWorktimeRecords(DateTime from, DateTime to)
         {
             throw new NotImplementedException();

@@ -10,7 +10,6 @@ namespace ProjectTracker
     {
         void addWorktimeRecord(WorktimeRecord worktimeRecord);
         void handleProjectChangeEvent(ProjectChangeEvent projectChangeEvent);
-        List<WorktimeRecord> getAllWorktimeRecords(DateTime day);
         List<WorktimeRecord> getAllWorktimeRecords(DateTime from, DateTime to);
         void ChangeStartTime(int id, DateTime newStartDate);
         void ChangeEndTime(int id, DateTime newStartDate);

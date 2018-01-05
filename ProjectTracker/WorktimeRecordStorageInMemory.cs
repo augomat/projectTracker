@@ -33,11 +33,6 @@ namespace ProjectTracker
             wtrs.Last().storageID = wtrs.Count - 1;
         }
 
-        public List<WorktimeRecord> getAllWorktimeRecords(DateTime day)
-        {
-            return wtrs.Where(wtr => (wtr.Start.Date == day.Date)).ToList();
-        }
-
         public List<WorktimeRecord> getAllWorktimeRecords(DateTime from, DateTime to)
         {
             return wtrs.Where(wtr => (wtr.Start >= from && wtr.End <= to)).ToList();

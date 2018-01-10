@@ -213,7 +213,14 @@ namespace ProjectTracker
                 if (Form.flagConsiderOvertime.Checked)
                 {
                     var projectStatisticsAdapted = WorktimeAnalyzer.considerOvertimeUndertime(projectStatistics);
-                    wtUpdater.updateFullDay(Form.dateTimePicker1.Value, projectStatisticsAdapted); //unfortunately if something fails here, the overtime-db was updated anyways
+
+                    DateTime from, to;
+                    ProjectUtilities.getWorkDayByDate(Form.dateTimePicker1.Value, out from, out to);
+                    var wtrs = storage.getAllWorktimeRecords(from, to);
+                    var maxDate = wtrs.Max(wtr => wtr.End);
+                    var wtrsEnd = wtrs.First(wtr => wtr.End == maxDate).End;
+
+                    wtUpdater.updateFullDay(Form.dateTimePicker1.Value, projectStatisticsAdapted, wtrsEnd); //unfortunately if something fails here, the overtime-db was updated anyways
                     wtUpdater.updateProjectEntries(Form.dateTimePicker1.Value, projectStatisticsAdapted);
 
                     Form.currentOvertime.Text = WorktimeAnalyzer.sumTimespans(storage.getOvertimes().Values.ToList()).FormatForOvertime();

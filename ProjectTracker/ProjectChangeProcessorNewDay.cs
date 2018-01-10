@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProjectTracker.Util;
 
 namespace ProjectTracker
 {
@@ -54,7 +55,7 @@ namespace ProjectTracker
                 if (flagConsiderOvertime)
                 {
                     var projectStatisticsAdapted = WorktimeAnalyzer.considerOvertimeUndertime(projectStatistics);
-                    WorktrackerUpdater.updateFullDay(day, projectStatisticsAdapted); //unfortunately if something fails here, the overtime-db was updated anyways
+                    WorktrackerUpdater.updateFullDay(day, projectStatisticsAdapted, Handler.currentProjectSince); //unfortunately if something fails here, the overtime-db was updated anyways
                     WorktrackerUpdater.updateProjectEntries(day, projectStatisticsAdapted);
                 }
                 else

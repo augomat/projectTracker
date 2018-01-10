@@ -71,9 +71,9 @@ namespace ProjectTracker
 
             addProjectEntriesToWorktracker(day, quantizedProjects);
         }
-
+ 
         //adjusts start/endtime such that a possible overtime can be billed
-        public void updateFullDay(DateTime day, WorktimeStatistics wtstats)
+        public void updateFullDay(DateTime day, WorktimeStatistics wtstats, DateTime end)
         {
             if (!WorktrackerConnectInternal())
                 return;
@@ -85,19 +85,64 @@ namespace ProjectTracker
 
             var workEntry = workEntries[0];
 
-            Tuple<DateTime, DateTime> newTimes = calcAdaptedStartEndTimes(day, wtstats, workEntry.StartTime, workEntry.StopTime);
-            workEntry.BreakDuration = wtstats.totalPausetime;
+            var trueEnd = (workEntry.StopTime != default(DateTime) && workEntry.IsComplete) ? workEntry.StopTime : end;
+
+            Tuple<DateTime, DateTime, TimeSpan> newTimes = calcAdaptedStartEndTimes(day, wtstats, trueEnd);
+            workEntry.BreakDuration = newTimes.Item3;
             workEntry.StartTime = newTimes.Item1;
             workEntry.StopTime = newTimes.Item2;
+            workEntry.IsComplete = true;
 
             worktracker.UpdateWorkEntry(workEntry);
         }
 
-        public Tuple<DateTime, DateTime> calcAdaptedStartEndTimes(DateTime day, WorktimeStatistics wtstats, DateTime origStart, DateTime origEnd)
+        public Tuple<DateTime, DateTime, TimeSpan> calcAdaptedStartEndTimes(DateTime day, WorktimeStatistics wtstats, DateTime origEnd)
         {
-            var newStart = origEnd - wtstats.totalTime;
-            var newEnd = origEnd;
-            return new Tuple<DateTime, DateTime>(newStart, newEnd);
+            var newPause = wtstats.totalPausetime;
+            var tmpEnd = ((origEnd.Date == day.Date && origEnd.Hour > 22) || origEnd.Date == day.Add(new TimeSpan(24, 0, 0)).Date) 
+                ? (day.Date + new TimeSpan(22, 0, 0)) 
+                : origEnd;
+            var tmpStart = (tmpEnd - wtstats.totalTime);
+
+            //if start is after 12 o'clock, pretend we started to work at 10
+            if (tmpStart.TimeOfDay > new TimeSpan(12,0,0))
+            {
+                var t = tmpStart.TimeOfDay - new TimeSpan(10, 0, 0);
+                tmpStart -= t;
+                tmpEnd -= t;
+            }
+
+            //if we begin before 6 o'clock, pretend that we started at least at 6
+            if (tmpStart.TimeOfDay < new TimeSpan(6, 0, 0))
+            {
+                var t = new TimeSpan(6, 0, 0) - tmpStart.TimeOfDay; 
+                tmpStart += t;
+                tmpEnd += t;
+            }
+            var newStart = tmpEnd - wtstats.totalTime;
+            var newEnd = tmpEnd;
+
+            //if we are finishing the current day, finish now because otherwise value will be overridden by alarm checkout
+            //However, it must not start before 6 o'clock in any case
+            if (day.Date == DateTime.Now.Date && tmpEnd > DateTime.Now)
+            {
+                var t = tmpEnd - DateTime.Now;
+                if ((tmpStart - t).TimeOfDay < new TimeSpan(6, 0, 0))
+                {
+                    var t2 = new TimeSpan(6, 0, 0) - (tmpStart - t).TimeOfDay;
+                    t -= t2;
+                }
+                tmpStart -= t;
+                tmpEnd -= t;
+            }
+
+            //if pause time is too short, shift start and make pause 40mins
+            if (newPause < new TimeSpan(0,40,0))
+            {
+                newStart -= new TimeSpan(0, 40, 0) - wtstats.totalPausetime;
+                newPause = new TimeSpan(0, 40, 0);
+            }
+            return new Tuple<DateTime, DateTime, TimeSpan>(newStart, newEnd, newPause);
         }
 
         public void updateBreak(DateTime day, TimeSpan breakTime)

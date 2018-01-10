@@ -294,9 +294,9 @@ namespace ProjectTracker
             {
                 
                 var date = DateTime.Parse(grid.Rows[e.RowIndex].Cells["Date"].Value.ToString());
-                var startTime = DateTime.Parse(grid.Rows[e.RowIndex].Cells["StartTime"].Value.ToString());
+                var startTime = DateTime.Parse(date.Date.ToString().Substring(0, 10) + " " + grid.Rows[e.RowIndex].Cells["StartTime"].Value.ToString());
                 var startDateTime = date.Date.Add(startTime.TimeOfDay);
-                var endTime = DateTime.Parse(grid.Rows[e.RowIndex].Cells["EndTime"].Value.ToString());
+                var endTime = DateTime.Parse(date.Date.ToString().Substring(0, 10) + " " + grid.Rows[e.RowIndex].Cells["EndTime"].Value.ToString());
                 var endDateTime = date.Date.Add(endTime.TimeOfDay); //TODO compensate date for overnighters
                 var index = Convert.ToInt32(grid.Rows[e.RowIndex].Cells["Index"].Value);
 

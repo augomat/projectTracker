@@ -96,10 +96,12 @@ namespace ProjectTracker
                 }
                 else //lengthening
                 {
-                    var minTimeOfDay = wtrs.Find(wtr => wtr.Start.Date == newStartDate.Date && wtr.Start.Hour >= 4).Min(wtr => wtr.Start);
-                    var firstOfDay = wtrs.Find(wtr => wtr.Start == minTimeOfDay).FirstOrDefault();
+                    //var minTimeOfDay = wtrs.Find(wtr => wtr.Start.Date == newStartDate.Date && wtr.Start.Hour >= 4).Min(wtr => wtr.Start); //for unknown reasons comparing dates with == does not work (returns empty set)
+                    var fullList = wtrs.Find(x => 1 == 1).ToList(); //should be changed when it starts to have performance implications
+                    var minTimeOfDay = fullList.FindAll(wtr => wtr.Start.Date == newStartDate.Date && wtr.Start.Hour >= 4).Min(wtr => wtr.Start);
+                    var firstOfDay = fullList.Find(wtr => wtr.Start == minTimeOfDay);
 
-                    if (current != firstOfDay) //in the middle
+                    if (current.storageID != firstOfDay.storageID) //in the middle
                         throw new Exception("Lengthening in the middle not implemented");
                     if (newStartDate.Hour < 4)
                         throw new Exception("Day must not start before 4am");

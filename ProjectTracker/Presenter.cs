@@ -435,7 +435,7 @@ namespace ProjectTracker
 
         private void waitForHandleCreated(Form form)
         {
-            while(form.IsHandleCreated == false)
+            while(!form.IsDisposed && form.IsHandleCreated == false)
                 System.Threading.Thread.Sleep(100);
         }
 

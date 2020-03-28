@@ -1,4 +1,22 @@
-﻿using System;
+﻿#if WORKTRACKER
+
+/* 
+You will need to Worktracker references for this (which where on a share if MGI :p)
+Add these to your .csproj-file if ever needed again.
+Not particularly beautiful but I was too lazy to figure out the correct way of defining an MSBUILD custom property
+
+    <Reference Include="WorkTracker, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>T:\mgi\WorkTrackerApi\WorkTracker.dll</HintPath>
+    </Reference>
+	<Reference Include="FpMem, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>T:\mgi\WorkTrackerApi\FpMem.dll</HintPath>
+    </Reference>
+*/
+
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -304,3 +322,4 @@ namespace ProjectTracker
         }
     }
 }
+#endif

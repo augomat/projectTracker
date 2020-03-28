@@ -33,6 +33,11 @@ namespace ProjectTracker
 
             Form.correctProjectCombobox.Items.AddRange(ProjectChangeHandler.getAvailableProjects().Cast<string>().ToArray());
 
+#if !WORKTRACKER
+            Form.SetInWorkT.Enabled = false;
+            Form.finishWTday.Enabled = false;
+            Form.autoFinish.Enabled = false;
+#endif
             Form.countAsWorktime.Leave += countAsWorktime_Leave;
             Form.carryOverHours.Leave += carryOverHours_Leave;
             Form.maxWorktime.Leave += maxWorktime_Leave;

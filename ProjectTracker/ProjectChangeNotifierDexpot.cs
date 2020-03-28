@@ -33,7 +33,7 @@ namespace ProjectTracker
         {
             if (!File.Exists(fileNameLog))
             {
-                Presenter.showError("Dexpot Thread Error", "No Dexpot .log-file found - please enable it under Settings | Plugins & Extras | Enable log File");
+                Presenter.setDexpotError("No Dexpot .log-file found - please enable it under Settings | Plugins & Extras | Enable log File");
                 return;
             }
             Presenter.setNotifierState("Dexbot", true);

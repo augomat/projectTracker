@@ -106,6 +106,16 @@ namespace ProjectTracker
             
         }
 
+        public void setDexpotError(string text)
+        {
+            waitForHandleCreated(Form);
+            Form.Invoke(new MethodInvoker(delegate () {
+                ToolTip yourToolTip = new ToolTip();
+
+                yourToolTip.SetToolTip(Form.dexbotStatus, text);
+            }));
+        }
+
         public TimeSpan getAvailableWorktimebreak()
         {
             //TODO errorhandling

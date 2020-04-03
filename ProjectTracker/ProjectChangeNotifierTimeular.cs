@@ -80,7 +80,7 @@ namespace ProjectTracker
                             System.Threading.Thread.Sleep(WAIT_TIME);
                             continue;
                         }
-                           
+
                         if (currentTracking.activity.name != Handler.currentProject
                             && !Handler.currentProject.Contains("[unknown")) //a bit hacky: don't fire if screen is e.g. locked
                         {

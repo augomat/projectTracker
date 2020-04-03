@@ -21,6 +21,7 @@ namespace ProjectTracker
 
         public ProjectChangeHandler(ProjectChangeHandler handler = null) : base(handler)
         {
+            currentProject = "";
             Handler = this;
             this.RaiseProjectChangeEvent += handleProjectChangeEvent;
             projectChangeNotifiers.Add(this);

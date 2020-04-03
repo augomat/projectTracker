@@ -173,8 +173,7 @@ namespace ProjectTracker
 
         private void updateCurrentProject()
         {
-            if (dataGridView1.Rows.Count > 0
-                && dataGridView1.Rows[dataGridView1.Rows.Count - 1].ReadOnly)
+            if (Presenter.currentProjectVisible())
             {
                 dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells["EndTime"].Value = DateTime.Now.ToLongTimeString();
                 dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells["Mins"].Value = Math.Round((DateTime.Now - Presenter.currentProjectSince).TotalMinutes, 1).ToString();

@@ -90,7 +90,7 @@ namespace ProjectTracker
                                   Handler.currentProjectSince,
                                   projectChangeEvent.WorktimeRecord.End,
                                   ProjectChangeHandler.PROJECT_WORKTIMEBREAK,
-                                  "worktimebreak: " + projectChangeEvent.Message),
+                                  projectChangeEvent.Message),
                               availableWorktimebreak: freeWorkbreaktime
                               )
                     );

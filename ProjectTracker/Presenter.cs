@@ -25,6 +25,7 @@ namespace ProjectTracker
 
         public string currentProject { get { return ProjectHandler.currentProject; } } //TODO errorhandling
         public DateTime currentProjectSince { get { return ProjectHandler.currentProjectSince; } } //TODO errorhandling
+        public string currentProjectComment { get { return ProjectHandler.currentProjectComment; } set { ProjectHandler.currentProjectComment = value; } } //TODO errorhandling
 
 
         public Presenter(Form1 form)
@@ -309,9 +310,13 @@ namespace ProjectTracker
         {
             var grid = Form.dataGridView1;
 
-            if (e.RowIndex == Form.dataGridView1.Rows.Count - 1
-                && Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].ReadOnly) //this is the row with the current project
+            if (e.RowIndex == Form.dataGridView1.Rows.Count - 1 && currentProjectVisible())
+            {
+                if (grid.Columns[e.ColumnIndex].Name == "Comment")            
+                    currentProjectComment = grid.Rows[e.RowIndex].Cells["Comment"].Value.ToString();
                 return;
+            }
+                
 
             try
             {
@@ -374,6 +379,7 @@ namespace ProjectTracker
                         wtr.storageID);
                 }
 
+                // If we need to show current project
                 if (currentProject != null && DateTime.Now >= from && DateTime.Now <= to)
                 {
                     //Add current project
@@ -383,13 +389,21 @@ namespace ProjectTracker
                         "",
                         "",
                         currentProject,
-                        "[current Project]",
+                        currentProjectComment,
                         "");
-                    Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].ReadOnly = true;
-                    Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.Gold;
-                    Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].DefaultCellStyle.SelectionBackColor = Color.Gold;
-                    Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].DefaultCellStyle.ForeColor = Color.Gray;
-                    Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].DefaultCellStyle.SelectionForeColor = Color.Gray;
+
+                    //Make all cells except comment readonly
+                    int lastRow = Form.dataGridView1.Rows.Count - 1;
+                    foreach (DataGridViewCell cell in Form.dataGridView1.Rows[lastRow].Cells)
+                    {
+                        if (cell.OwningColumn.HeaderText != "Comment")
+                            cell.ReadOnly = true;
+                    }
+
+                    Form.dataGridView1.Rows[lastRow].DefaultCellStyle.BackColor = Color.Gold;
+                    Form.dataGridView1.Rows[lastRow].DefaultCellStyle.SelectionBackColor = Color.Gold;
+                    Form.dataGridView1.Rows[lastRow].DefaultCellStyle.ForeColor = Color.Gray;
+                    Form.dataGridView1.Rows[lastRow].DefaultCellStyle.SelectionForeColor = Color.Gray;
                 }
 
 
@@ -404,6 +418,12 @@ namespace ProjectTracker
             {
                 //swallow TODO
             }
+        }
+
+        public bool currentProjectVisible()
+        {
+            return Form.dataGridView1.Rows.Count > 0 
+                && Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor == Color.Gold; //what a hack
         }
 
         public void setDate(DateTime date)

@@ -53,7 +53,7 @@ namespace ProjectTracker
 
             if (newStartDate.TimeOfDay > current.Start.TimeOfDay) //shortening
             {
-                var newWtr = new WorktimeRecord(current.Start, newStartDate, "undefined", "Next project shortened");
+                var newWtr = new WorktimeRecord(current.Start, newStartDate, "undefined", current.Comment);
                 newWtr.storageID = wtrs.Count;
                 var index = wtrs.FindIndex(wtr => wtr.storageID == id);
                 wtrs.Insert(index, newWtr);
@@ -88,7 +88,7 @@ namespace ProjectTracker
 
             if (newEndDate.TimeOfDay < current.End.TimeOfDay) //shortening
             {
-                var newWtr = new WorktimeRecord(newEndDate, current.End, "undefined", "Previous project shortened");
+                var newWtr = new WorktimeRecord(newEndDate, current.End, "undefined", current.Comment);
                 newWtr.storageID = wtrs.Count;
                 var index = wtrs.FindIndex(wtr => wtr.storageID == id);
                 wtrs.Insert(index+1, newWtr);

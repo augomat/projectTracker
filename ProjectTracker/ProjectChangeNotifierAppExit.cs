@@ -28,7 +28,7 @@ namespace ProjectTracker
                             Handler.currentProjectSince,
                             DateTime.Now,
                             Handler.currentProject,
-                            "Application exited")
+                            Handler.currentProjectComment)
                         )
                     );
         }

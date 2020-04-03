@@ -22,6 +22,7 @@ namespace ProjectTracker
         public ProjectChangeHandler(ProjectChangeHandler handler = null) : base(handler)
         {
             currentProject = "";
+            currentProjectComment = "";
             Handler = this;
             this.RaiseProjectChangeEvent += handleProjectChangeEvent;
             projectChangeNotifiers.Add(this);
@@ -39,6 +40,7 @@ namespace ProjectTracker
 
         public string currentProject { get; private set; }
         public DateTime currentProjectSince { get; private set; }
+        public string currentProjectComment { get; set; }
 
         public void addProjectChangeNotifier(ProjectChangeNotifier notifier)
         {
@@ -126,8 +128,11 @@ namespace ProjectTracker
                 //Update fields
                 if (projectChangeEvent.WorktimeRecord != null && projectChangeEvent.WorktimeRecords.Last().End >= currentProjectSince)
                 {
+                    var oldProject = currentProject;
+
                     currentProject = projectChangeEvent.NewProject;
                     currentProjectSince = projectChangeEvent.WorktimeRecords.Last().End;
+                    currentProjectComment = projectChangeEvent.NewProject == oldProject ? currentProjectComment : "";
                 }
             }
         }

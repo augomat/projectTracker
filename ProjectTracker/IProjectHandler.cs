@@ -10,5 +10,6 @@ namespace ProjectTracker
     {
         string currentProject { get; }
         DateTime currentProjectSince { get; }
+        string currentProjectComment { get; set; }
     }
 }

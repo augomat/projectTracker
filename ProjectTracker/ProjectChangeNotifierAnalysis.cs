@@ -30,7 +30,7 @@ namespace ProjectTracker
                             Handler.currentProjectSince,
                             DateTime.Now,
                             Handler.currentProject,
-                            "For analysis of projectstatistics")
+                            Handler.currentProjectComment)
                         );
         }
     }

@@ -48,7 +48,7 @@ namespace ProjectTracker
                             Handler.currentProjectSince,
                             correctedTimes.Item1,
                             Handler.currentProject,
-                            "Project corrected")
+                            Handler.currentProjectComment)
                         );
         }
     }

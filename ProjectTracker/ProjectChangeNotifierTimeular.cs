@@ -92,7 +92,7 @@ namespace ProjectTracker
                                     new DateTime(Handler.currentProjectSince.Ticks),
                                     DateTime.Now,
                                     Handler.currentProject,
-                                    "")
+                                    Handler.currentProjectComment)
                                 )
                             );
                         }

@@ -352,6 +352,9 @@ namespace ProjectTracker
 
         public void refreshGrid()
         {
+            if (storage == null)
+                return;
+
             try
             {
                 int firstDisplayed = Form.dataGridView1.FirstDisplayedScrollingRowIndex;
@@ -410,7 +413,7 @@ namespace ProjectTracker
                 if (shouldAutoscroll)
                     Form.dataGridView1.FirstDisplayedScrollingRowIndex = Form.dataGridView1.RowCount - displayed;
                 else
-                    Form.dataGridView1.FirstDisplayedScrollingRowIndex = firstDisplayed;
+                    Form.dataGridView1.FirstDisplayedScrollingRowIndex = firstDisplayed < 0 ? 0 : firstDisplayed; //Form.dataGridView1.FirstDisplayedScrollingRowIndex will return -1 when not initialized or so but throws an exception when set
 
                 Form.dataGridView1.ResumeLayout();
             }

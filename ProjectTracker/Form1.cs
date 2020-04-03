@@ -59,7 +59,7 @@ namespace ProjectTracker
             Application.Exit();
         }
 
-        private void ShowForm(object sender, EventArgs e) 
+        public void ShowForm(object sender, EventArgs e) 
         {
             this.WindowState = FormWindowState.Normal;
             this.Activate();

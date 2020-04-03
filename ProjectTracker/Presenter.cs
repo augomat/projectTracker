@@ -94,6 +94,7 @@ namespace ProjectTracker
         {
             Form.TrayIcon.BalloonTipTitle = (title != "") ? title : "[no title]";
             Form.TrayIcon.BalloonTipText = (text != "") ? text : "[no text]";
+            Form.TrayIcon.BalloonTipClicked += Form.ShowForm;
             Form.TrayIcon.ShowBalloonTip(10);
         }
 

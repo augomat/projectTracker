@@ -64,6 +64,11 @@ namespace ProjectTracker
             dexbotFilepath.Text = Properties.Settings.Default.DexbotLogFilePath;
             timeularAPIkey.Text = Properties.Settings.Default.timeularAPIkey;
             timeularAPIsecret.Text = Properties.Settings.Default.timeularAPIsecret;
+        }
+
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
 
             RegisterHotKey(this.Handle, 0, (int)KeyModifier.Alt, Keys.D0.GetHashCode());
         }

@@ -18,6 +18,18 @@ namespace ProjectTracker
 {
     public partial class Form1 : Form
     {
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+        enum KeyModifier
+        {
+            None = 0,
+            Alt = 1,
+            Control = 2,
+            Shift = 4,
+            WinKey = 8
+        }
 
         public NotifyIcon TrayIcon;
 
@@ -52,6 +64,8 @@ namespace ProjectTracker
             dexbotFilepath.Text = Properties.Settings.Default.DexbotLogFilePath;
             timeularAPIkey.Text = Properties.Settings.Default.timeularAPIkey;
             timeularAPIsecret.Text = Properties.Settings.Default.timeularAPIsecret;
+
+            RegisterHotKey(this.Handle, 0, (int)KeyModifier.Alt, Keys.D0.GetHashCode());
         }
 
         private void OnExit(object sender, EventArgs e)
@@ -97,7 +111,6 @@ namespace ProjectTracker
             return true;
         }
 
- 
 
         private void Form1_ResizeEnd(object sender, EventArgs e)
         {
@@ -121,6 +134,7 @@ namespace ProjectTracker
             if (MessageBox.Show("This will close the whole application. Confirm?", "Close Application", MessageBoxButtons.YesNo) != DialogResult.Yes)
             {
                 e.Cancel = true;
+                UnregisterHotKey(this.Handle, 0);
             }
         }
 
@@ -177,6 +191,7 @@ namespace ProjectTracker
             {
                 dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells["EndTime"].Value = DateTime.Now.ToLongTimeString();
                 dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells["Mins"].Value = Math.Round((DateTime.Now - Presenter.currentProjectSince).TotalMinutes, 1).ToString();
+                dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells["Comment"].Value = Presenter.currentProjectComment;
             }
         }
 
@@ -187,6 +202,23 @@ namespace ProjectTracker
             updateTrackbarLabel();
 
             updateCurrentProject();
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+
+            if (m.Msg == 0x0312)
+            {
+                /* Note that the three lines below are not needed if you only want to register one hotkey.
+                 * The below lines are useful in case you want to register multiple keys, which you can use a switch with the id as argument, or if you want to know which key/modifier was pressed for some particular reason. */
+
+                Keys key = (Keys)(((int)m.LParam >> 16) & 0xFFFF);                  // The key of the hotkey that was pressed.
+                KeyModifier modifier = (KeyModifier)((int)m.LParam & 0xFFFF);       // The modifier of the hotkey that was pressed.
+                int id = m.WParam.ToInt32();                                        // The id of the hotkey that was pressed.
+
+                Presenter.ShowDialogAddComment();
+            }
         }
     }
 }

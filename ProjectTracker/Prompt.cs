@@ -37,9 +37,9 @@ namespace ProjectTracker
         private DateTime From;
         private DateTime To;
         private List<WorktimeRecord> Suggestions;
-        private ProjectChangeHandler Handler;
+        private IProjectHandler Handler;
 
-        public List<WorktimeRecord> ShowDialog(DateTime from, DateTime to, ProjectChangeHandler handler, List<WorktimeRecord> suggestions = null)
+        public List<WorktimeRecord> ShowDialogMeantime(DateTime from, DateTime to, ProjectChangeHandler handler, List<WorktimeRecord> suggestions = null)
         {
             MinutesBreak = (int)(Math.Floor((to - from).TotalMinutes));
             From = from;
@@ -100,7 +100,6 @@ namespace ProjectTracker
             }
             if (mainScreen == null)
                 mainScreen = Screen.FromControl(prompt);
-
             Rectangle workingArea = mainScreen.WorkingArea;
             prompt.StartPosition = FormStartPosition.Manual;
             prompt.Location = new Point()
@@ -123,6 +122,68 @@ namespace ProjectTracker
                 }
                 ret.Last().End = to; //to compensate for additional seconds
 
+                Handler.currentProjectComment = currentComment.Text; //mmmh...not very convinced by this design
+            }
+            return ret;
+        }
+
+        public List<WorktimeRecord> ShowDialogAddComment(IProjectHandler handler)
+        {
+            Handler = handler;
+
+            prompt = new Form()
+            {
+                Width = 520,
+                Height = 190 - lineHeightAdd,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                Text = "Comment your current project",
+                StartPosition = FormStartPosition.CenterScreen,
+            };
+
+            label2 = new System.Windows.Forms.Label() { Left = 41, Top = 53, Text = "Minutes", Width = 50, Height = 13 };
+            label3 = new System.Windows.Forms.Label() { Left = 221, Top = 53, Text = "Comment", Width = 60, Height = 13 };
+            label4 = new System.Windows.Forms.Label() { Left = 91, Top = 53, Text = "Project", Width = 50, Height = 13 };
+            OkButton = new System.Windows.Forms.Button() { Left = 410, Top = 112 - lineHeightAdd, Width = 75, Text = "OK" };
+
+            OkButton.Click += (sender, e) => { prompt.Close(); };
+            OkButton.DialogResult = DialogResult.OK;
+            prompt.AcceptButton = OkButton;
+
+            prompt.Controls.Add(label2);
+            prompt.Controls.Add(label3);
+            prompt.Controls.Add(label4);
+            prompt.Controls.Add(OkButton);
+            
+            createRowCurrentProject();
+
+            Task.Delay(500).ContinueWith(t => { try { prompt.Invoke(new Action(prompt.Activate)); } catch { } }); //brrrrrrrr hacky, TODO implement something so that it never looses focus (buha)
+            Task.Delay(1000).ContinueWith(t => { try { prompt.Invoke(new Action(prompt.Activate)); } catch { } }); //BRRRRRRRRRRRRR
+            Task.Delay(1500).ContinueWith(t => { try { prompt.Invoke(new Action(prompt.Activate)); } catch { } }); //BRRRRRRRRRRRRR
+            Task.Delay(2000).ContinueWith(t => { try { prompt.Invoke(new Action(prompt.Activate)); } catch { } }); //BRRRRRRRRRRRRR
+            prompt.TopMost = true;
+
+            //center it on main screen
+            Screen mainScreen = null;
+            foreach (var singleScreen in Screen.AllScreens) //TODO agh, wäääh, use lambda, linq, whatever for this!!
+            {
+                if (singleScreen.Primary)
+                    mainScreen = singleScreen;
+            }
+            if (mainScreen == null)
+                mainScreen = Screen.FromControl(prompt);
+            Rectangle workingArea = mainScreen.WorkingArea;
+            prompt.StartPosition = FormStartPosition.Manual;
+            prompt.Location = new Point()
+            {
+                X = Math.Max(workingArea.X, workingArea.X + (workingArea.Width - prompt.Width) / 2),
+                Y = Math.Max(workingArea.Y, workingArea.Y + (workingArea.Height - prompt.Height) / 2)
+            };
+
+            var result = prompt.ShowDialog();
+
+            var ret = new List<WorktimeRecord>();
+            if (result == DialogResult.OK)
+            {
                 Handler.currentProjectComment = currentComment.Text; //mmmh...not very convinced by this design
             }
             return ret;
@@ -182,8 +243,11 @@ namespace ProjectTracker
             currentComment = new System.Windows.Forms.TextBox() { Left = 221, Top = lastLineHeight, Width = 236, Text = currentComment == null ? Handler.currentProjectComment : currentComment.Text }; //Handler.currentProjectComment is actually wrong and a big hack! we rely on the lockscreenNotifier to not change the project! //we should actually use values from the original event here
             labelProject = new System.Windows.Forms.Label() { Left = 91, Top = lastLineHeight, Width = 121, Text = Handler.currentProject };
 
-            AddRowButton.TabIndex = nextTabIndex;
-            nextTabIndex += 1;
+            if (AddRowButton != null)
+            {
+                AddRowButton.TabIndex = nextTabIndex;
+                nextTabIndex += 1;
+            }
             currentComment.TabIndex = nextTabIndex;
             OkButton.TabIndex = nextTabIndex + 1;
 

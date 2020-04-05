@@ -108,6 +108,11 @@ namespace ProjectTracker
             
         }
 
+        public void ShowDialogAddComment()
+        {
+            new Prompt().ShowDialogAddComment(ProjectHandler);
+        }
+
         public void setDexpotError(string text)
         {
             waitForHandleCreated(Form);

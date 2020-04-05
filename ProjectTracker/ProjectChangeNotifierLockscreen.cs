@@ -29,8 +29,8 @@ namespace ProjectTracker
                 //I left my desk
                 OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                         ProjectChangeEvent.Types.Lock,
-                        "[unknown-lock1]",
-                        "Bye bye",
+                        Handler.currentProject, //this is a hack and of course not necessarily true but was a convenient hack for the after unlock-prompt.
+                        Handler.currentProjectComment,
                         new WorktimeRecord(
                             new DateTime(Handler.currentProjectSince.Ticks),
                             DateTime.Now,

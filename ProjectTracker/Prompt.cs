@@ -25,21 +25,27 @@ namespace ProjectTracker
         private List<TextBox> comments = new List<TextBox>();
         private List<ComboBox> projects = new List<ComboBox>();
 
+        private Label labelNow;
+        private TextBox currentComment;
+        private Label labelProject;
+
         private const int lineHeightAdd = 25;
         private int lastLineHeight = 69 - lineHeightAdd;
-        private int lastTabIndex = 0;
+        private int nextTabIndex = 0;
 
         private int MinutesBreak;
         private DateTime From;
         private DateTime To;
         private List<WorktimeRecord> Suggestions;
+        private ProjectChangeHandler Handler;
 
-        public List<WorktimeRecord> ShowDialog(DateTime from, DateTime to, List<WorktimeRecord> suggestions = null)
+        public List<WorktimeRecord> ShowDialog(DateTime from, DateTime to, ProjectChangeHandler handler, List<WorktimeRecord> suggestions = null)
         {
             MinutesBreak = (int)(Math.Floor((to - from).TotalMinutes));
             From = from;
             To = to;
             Suggestions = suggestions;
+            Handler = handler;
 
             prompt = new Form()
             {
@@ -53,8 +59,8 @@ namespace ProjectTracker
             label1 = new System.Windows.Forms.Label() { Left = 47, Top = 24, Text = "Break: ", Width = 40 };
             labelM = new System.Windows.Forms.Label() { Left = 91, Top = 24, Text = $"{MinutesBreak} mins" };
             label2 = new System.Windows.Forms.Label() { Left = 41, Top = 53, Text = "Minutes", Width = 50, Height = 13 };
-            label3 = new System.Windows.Forms.Label() { Left = 91, Top = 53, Text = "Comment", Width = 60, Height = 13 };
-            label4 = new System.Windows.Forms.Label() { Left = 330, Top = 53, Text = "Project", Width = 50, Height = 13 };
+            label3 = new System.Windows.Forms.Label() { Left = 221, Top = 53, Text = "Comment", Width = 60, Height = 13 };
+            label4 = new System.Windows.Forms.Label() { Left = 91, Top = 53, Text = "Project", Width = 50, Height = 13 };
             AddRowButton = new System.Windows.Forms.Button() { Left = 461, Top = 68 - lineHeightAdd, Width = 23, Text = "+" };
             OkButton = new System.Windows.Forms.Button() { Left = 410, Top = 112 - lineHeightAdd, Width = 75, Text = "OK" };
 
@@ -76,6 +82,8 @@ namespace ProjectTracker
                 processSuggestions();
             else
                 createRow();
+
+            createRowCurrentProject();
 
             Task.Delay(500).ContinueWith(t => { try { prompt.Invoke(new Action(prompt.Activate)); } catch { } }); //brrrrrrrr hacky, TODO implement something so that it never looses focus (buha)
             Task.Delay(1000).ContinueWith(t => { try { prompt.Invoke(new Action(prompt.Activate)); } catch { } }); //BRRRRRRRRRRRRR
@@ -114,6 +122,8 @@ namespace ProjectTracker
                     start = end;
                 }
                 ret.Last().End = to; //to compensate for additional seconds
+
+                Handler.currentProjectComment = currentComment.Text; //mmmh...not very convinced by this design
             }
             return ret;
         }
@@ -129,7 +139,10 @@ namespace ProjectTracker
         
         private void AddRowButton_Click(object sender, EventArgs e)
         {
+            //Not exactly beautiful solution but it works
+            removeRowCurrentProject();
             createRow();
+            createRowCurrentProject();
         }
 
         private void createRow()
@@ -137,15 +150,15 @@ namespace ProjectTracker
             lastLineHeight += lineHeightAdd;
 
             breaks.Add(new System.Windows.Forms.TextBox() { Left = 44, Top = lastLineHeight, Width = 38 });
-            comments.Add(new System.Windows.Forms.TextBox() { Left = 91, Top = lastLineHeight, Width = 236 });
+            comments.Add(new System.Windows.Forms.TextBox() { Left = 221, Top = lastLineHeight, Width = 236 });
             projects.Add(createProjectCombobox());
 
-            breaks.Last().TabIndex = lastTabIndex;
-            comments.Last().TabIndex = lastTabIndex + 1;
-            projects.Last().TabIndex = lastTabIndex + 2;
-            AddRowButton.TabIndex = lastTabIndex + 3;
-            OkButton.TabIndex = lastTabIndex + 4;
-            lastTabIndex += 3;
+            breaks.Last().TabIndex = nextTabIndex;
+            projects.Last().TabIndex = nextTabIndex + 1;
+            comments.Last().TabIndex = nextTabIndex + 2;
+            nextTabIndex += 3;
+            AddRowButton.TabIndex = nextTabIndex;
+            OkButton.TabIndex = nextTabIndex + 1;
 
             prompt.Controls.Add(breaks.Last());
             prompt.Controls.Add(comments.Last());
@@ -159,6 +172,40 @@ namespace ProjectTracker
             //breaks.Last().Validating += Break_Validating;
             breaks.Last().SelectAll();
             breaks.Last().Focus();
+        }
+
+        private void createRowCurrentProject()
+        {
+            lastLineHeight += lineHeightAdd;
+
+            labelNow = new System.Windows.Forms.Label() { Left = 44, Top = lastLineHeight, Width = 38, Text = "Now" };
+            currentComment = new System.Windows.Forms.TextBox() { Left = 221, Top = lastLineHeight, Width = 236, Text = currentComment == null ? Handler.currentProjectComment : currentComment.Text }; //Handler.currentProjectComment is actually wrong and a big hack! we rely on the lockscreenNotifier to not change the project! //we should actually use values from the original event here
+            labelProject = new System.Windows.Forms.Label() { Left = 91, Top = lastLineHeight, Width = 121, Text = Handler.currentProject };
+
+            AddRowButton.TabIndex = nextTabIndex;
+            nextTabIndex += 1;
+            currentComment.TabIndex = nextTabIndex;
+            OkButton.TabIndex = nextTabIndex + 1;
+
+            prompt.Controls.Add(labelNow);
+            prompt.Controls.Add(currentComment);
+            prompt.Controls.Add(labelProject);
+
+            OkButton.Top += lineHeightAdd;
+            prompt.Height += lineHeightAdd;
+        }
+
+        private void removeRowCurrentProject()
+        {
+            prompt.Controls.Remove(labelNow);
+            prompt.Controls.Remove(currentComment);
+            prompt.Controls.Remove(labelProject);
+            nextTabIndex -= 1;
+
+            OkButton.Top -= lineHeightAdd;
+            prompt.Height -= lineHeightAdd;
+
+            lastLineHeight -= lineHeightAdd;
         }
 
         private void Break_Validating(object sender, System.ComponentModel.CancelEventArgs e)
@@ -181,7 +228,7 @@ namespace ProjectTracker
 
         private ComboBox createProjectCombobox()
         {
-            var combobox = new System.Windows.Forms.ComboBox() { Left = 333, Top = lastLineHeight, Width = 121 };
+            var combobox = new System.Windows.Forms.ComboBox() { Left = 91, Top = lastLineHeight, Width = 121 };
             combobox.Items.AddRange(ProjectChangeHandler.getAvailableProjects().Cast<string>().ToArray());
             combobox.SelectedIndex = 2; //Hack... We know this must be worktimebreaks because we added them in code...
             return combobox;

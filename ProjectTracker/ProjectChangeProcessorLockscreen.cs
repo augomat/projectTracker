@@ -25,7 +25,9 @@ namespace ProjectTracker
                     projectChangeEvent.WorktimeRecord.Start, projectChangeEvent.WorktimeRecord.End);
 
                 List<WorktimeRecord> breakTimes = new Prompt().ShowDialog(
-                    projectChangeEvent.WorktimeRecord.Start, projectChangeEvent.WorktimeRecord.End,
+                    projectChangeEvent.WorktimeRecord.Start, 
+                    projectChangeEvent.WorktimeRecord.End,
+                    Handler,
                     outlookAppointments);
 
                 foreach (var brk in breakTimes)

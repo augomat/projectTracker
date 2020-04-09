@@ -8,7 +8,7 @@ using Microsoft.Win32;
 
 namespace ProjectTracker
 {
-    class ProjectChangeNotifierLockscreen : ProjectChangeNotifier //publisher
+    class ProjectChangeNotifierLockscreen : AProjectChangeNotifier //publisher
     {
         private string lastProject = "";
 

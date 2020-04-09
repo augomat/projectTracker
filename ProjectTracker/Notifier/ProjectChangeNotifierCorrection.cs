@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace ProjectTracker
 {
-    public class ProjectChangeNotifierCorrection : ProjectChangeNotifier, IProjectCorrectionHandler
+    public class ProjectChangeNotifierCorrection : AProjectChangeNotifier, IProjectCorrectionHandler
     {
         public ProjectChangeNotifierCorrection(ProjectChangeHandler handler) : base(handler) { }
 

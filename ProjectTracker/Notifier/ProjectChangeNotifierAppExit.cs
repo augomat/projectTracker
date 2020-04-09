@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace ProjectTracker
 {
-    class ProjectChangeNotifierAppExit : ProjectChangeNotifier
+    class ProjectChangeNotifierAppExit : AProjectChangeNotifier
     {
         public ProjectChangeNotifierAppExit(ProjectChangeHandler handler) : base(handler)
         {

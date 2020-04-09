@@ -103,34 +103,34 @@
     </Reference>-->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions.cs" />
-    <Compile Include="IStorageClass.cs" />
-    <Compile Include="IProjectChangeSubscriber.cs" />
+    <Compile Include="Util\Extensions.cs" />
+    <Compile Include="Storage\IStorageClass.cs" />
+    <Compile Include="Subscriber\IProjectChangeSubscriber.cs" />
     <Compile Include="IProjectCorrectionHandler.cs" />
     <Compile Include="IProjectHandler.cs" />
     <Compile Include="IWorktimebreakHandler.cs" />
-    <Compile Include="IWorktimeRecordStorage.cs" />
+    <Compile Include="Storage\IWorktimeRecordStorage.cs" />
     <Compile Include="Presenter.cs" />
     <Compile Include="ProjectChangeHandler.cs" />
     <Compile Include="ProjectChangeEvent.cs" />
-    <Compile Include="ProjectChangeNotifierAnalysis.cs" />
-    <Compile Include="ProjectChangeNotifierAppExit.cs" />
-    <Compile Include="ProjectChangeNotifierCorrection.cs" />
-    <Compile Include="ProjectChangeNotifierDexpot.cs" />
-    <Compile Include="ProjectChangeNotifier.cs" />
-    <Compile Include="ProjectChangeNotifierTimeular.cs" />
-    <Compile Include="ProjectChangeProcessorAppStart.cs" />
-    <Compile Include="ProjectChangeProcessorLockscreen.cs" />
-    <Compile Include="ProjectChangeProcessorNewDay.cs" />
-    <Compile Include="ProjectChangeSubscriberFormUpdater.cs" />
-    <Compile Include="StorageExceptionBalloonInformant.cs" />
+    <Compile Include="Notifier\ProjectChangeNotifierAnalysis.cs" />
+    <Compile Include="Notifier\ProjectChangeNotifierAppExit.cs" />
+    <Compile Include="Notifier\ProjectChangeNotifierCorrection.cs" />
+    <Compile Include="Notifier\ProjectChangeNotifierDexpot.cs" />
+    <Compile Include="Notifier\AProjectChangeNotifier.cs" />
+    <Compile Include="Notifier\ProjectChangeNotifierTimeular.cs" />
+    <Compile Include="Processor\ProjectChangeProcessorAppStart.cs" />
+    <Compile Include="Processor\ProjectChangeProcessorLockscreen.cs" />
+    <Compile Include="Processor\ProjectChangeProcessorNewDay.cs" />
+    <Compile Include="Subscriber\ProjectChangeSubscriberFormUpdater.cs" />
+    <Compile Include="Storage\StorageExceptionBalloonInformant.cs" />
     <Compile Include="Util\OutlookAppointmentRetriever.cs" />
-    <Compile Include="ProjectChangeNotifierLockscreen.cs" />
-    <Compile Include="ProjectChangeProcessor.cs" />
-    <Compile Include="ProjectChangeProcessorLongerThan10secs.cs" />
-    <Compile Include="ProjectChangeProcessorWorktimebreaks.cs" />
-    <Compile Include="ProjectChangeSubscriberBalloonInformant.cs" />
-    <Compile Include="ProjectChangeSubscriberLogger.cs" />
+    <Compile Include="Notifier\ProjectChangeNotifierLockscreen.cs" />
+    <Compile Include="Processor\AProjectChangeProcessor.cs" />
+    <Compile Include="Processor\ProjectChangeProcessorLongerThan10secs.cs" />
+    <Compile Include="Processor\ProjectChangeProcessorWorktimebreaks.cs" />
+    <Compile Include="Subscriber\ProjectChangeSubscriberBalloonInformant.cs" />
+    <Compile Include="Subscriber\ProjectChangeSubscriberLogger.cs" />
     <Compile Include="Prompt.cs" />
     <Compile Include="Util\ProjectUtilities.cs" />
     <Compile Include="Form1.cs">
@@ -143,12 +143,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\SerializableDictionary.cs" />
     <Compile Include="WorktimeAnalyzer.cs" />
-    <Compile Include="WorktimeRecord.cs" />
-    <Compile Include="WorktimeRecordStorageCSV.cs" />
-    <Compile Include="WorktimeRecordStorageInMemory.cs" />
-    <Compile Include="WorktimeRecordStorageNoSQL.cs" />
-    <Compile Include="WorktrackerUpdaterNotImplemented.cs" />
-    <Compile Include="WorktrackerUpdater.cs" />
+    <Compile Include="Storage\WorktimeRecord.cs" />
+    <Compile Include="Storage\WorktimeRecordStorageCSV.cs" />
+    <Compile Include="Storage\WorktimeRecordStorageInMemory.cs" />
+    <Compile Include="Storage\WorktimeRecordStorageNoSQL.cs" />
+    <Compile Include="Timetracker\Worktracker\WorktrackerUpdaterNotImplemented.cs" />
+    <Compile Include="Timetracker\Worktracker\WorktrackerUpdater.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -195,6 +195,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

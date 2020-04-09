@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace ProjectTracker
 {
-    abstract public class ProjectChangeNotifier //publisher
+    abstract public class AProjectChangeNotifier //publisher
     {
         public ProjectChangeHandler Handler;
-        protected ProjectChangeNotifier(ProjectChangeHandler handler)
+        protected AProjectChangeNotifier(ProjectChangeHandler handler)
         {
             Handler = handler;
         }

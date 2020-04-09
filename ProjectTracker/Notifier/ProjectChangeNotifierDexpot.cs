@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 
 namespace ProjectTracker
 {
-    class ProjectChangeNotifierDexpot : ProjectChangeNotifier //publisher
+    class ProjectChangeNotifierDexpot : AProjectChangeNotifier //publisher
     {
         private static readonly String fileNameLog;
         private Presenter Presenter;

@@ -8,7 +8,7 @@ using System.Net.Http.Headers;
 
 namespace ProjectTracker
 {
-    class ProjectChangeNotifierTimeular : ProjectChangeNotifier
+    class ProjectChangeNotifierTimeular : AProjectChangeNotifier
     {
         private const string URL = "https://api.timeular.com/api/v1/";
         //private string apiKey = "NzQwN182ZjI4ZDc4ZmRiMWU0ODRiYjVkY2M5MDdjOWViY2I3ZA==";

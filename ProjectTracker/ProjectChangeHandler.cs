@@ -8,13 +8,13 @@ using System.Diagnostics;
 
 namespace ProjectTracker
 {
-    public class ProjectChangeHandler : ProjectChangeNotifier, IProjectChangeSubscriber, IProjectHandler
+    public class ProjectChangeHandler : AProjectChangeNotifier, IProjectChangeSubscriber, IProjectHandler
     {
         public const string PROJECT_MEETING = "Meeting";
         public const string PROJECT_PAUSE = "Pause";
         public const string PROJECT_WORKTIMEBREAK = "Worktimebreak";
 
-        private List<ProjectChangeNotifier> projectChangeNotifiers = new List<ProjectChangeNotifier>();
+        private List<AProjectChangeNotifier> projectChangeNotifiers = new List<AProjectChangeNotifier>();
         private List<AProjectChangeProcessor> projectChangeProcessors = new List<AProjectChangeProcessor>();
         private List<IProjectChangeSubscriber> projectChangeSubscribers = new List<IProjectChangeSubscriber>();
         private List<IWorktimeRecordStorage> worktimeRecordStorages = new List<IWorktimeRecordStorage>();
@@ -42,7 +42,7 @@ namespace ProjectTracker
         public DateTime currentProjectSince { get; private set; }
         public string currentProjectComment { get; set; }
 
-        public void addProjectChangeNotifier(ProjectChangeNotifier notifier)
+        public void addProjectChangeNotifier(AProjectChangeNotifier notifier)
         {
             notifier.RaiseProjectChangeEvent += handleProjectChangeEvent;
             projectChangeNotifiers.Add(notifier);

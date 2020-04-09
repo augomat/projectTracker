@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectTracker
 {
-    public class ProjectChangeNotifierAnalysis : ProjectChangeNotifier
+    public class ProjectChangeNotifierAnalysis : AProjectChangeNotifier
     {
         public ProjectChangeNotifierAnalysis(ProjectChangeHandler handler) : base(handler) { }
 

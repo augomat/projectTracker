@@ -7,7 +7,7 @@ using ProjectTracker.Util;
 
 namespace ProjectTracker
 {
-    class ProjectChangeProcessorNewDay : ProjectChangeProcessor
+    class ProjectChangeProcessorNewDay : AProjectChangeProcessor
     {
         private WorktimeAnalyzer WorktimeAnalyzer;
         private WorktrackerUpdater WorktrackerUpdater;

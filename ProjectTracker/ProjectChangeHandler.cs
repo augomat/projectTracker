@@ -15,7 +15,7 @@ namespace ProjectTracker
         public const string PROJECT_WORKTIMEBREAK = "Worktimebreak";
 
         private List<ProjectChangeNotifier> projectChangeNotifiers = new List<ProjectChangeNotifier>();
-        private List<ProjectChangeProcessor> projectChangeProcessors = new List<ProjectChangeProcessor>();
+        private List<AProjectChangeProcessor> projectChangeProcessors = new List<AProjectChangeProcessor>();
         private List<IProjectChangeSubscriber> projectChangeSubscribers = new List<IProjectChangeSubscriber>();
         private List<IWorktimeRecordStorage> worktimeRecordStorages = new List<IWorktimeRecordStorage>();
 
@@ -58,7 +58,7 @@ namespace ProjectTracker
             t.Start();
         }
 
-        public void addProjectChangeProcessor(ProjectChangeProcessor processor)
+        public void addProjectChangeProcessor(AProjectChangeProcessor processor)
         {
             processor.RaiseProjectChangeEvent += handleProjectChangeEvent;
             projectChangeProcessors.Add(processor);

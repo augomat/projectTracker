@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectTracker
 {
-    class ProjectChangeProcessorLockscreen : ProjectChangeProcessor
+    class ProjectChangeProcessorLockscreen : AProjectChangeProcessor
     {
         public ProjectChangeProcessorLockscreen(ProjectChangeHandler handler) : base(handler)
         { }

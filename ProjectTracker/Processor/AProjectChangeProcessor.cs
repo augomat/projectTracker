@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ProjectTracker
 {
-    abstract public class ProjectChangeProcessor : ProjectChangeNotifier
+    abstract public class AProjectChangeProcessor : ProjectChangeNotifier
     {
-        public ProjectChangeProcessor(ProjectChangeHandler handler) : base(handler) { }
+        public AProjectChangeProcessor(ProjectChangeHandler handler) : base(handler) { }
 
         public abstract bool process(ProjectChangeEvent projectChangeEvent);
 

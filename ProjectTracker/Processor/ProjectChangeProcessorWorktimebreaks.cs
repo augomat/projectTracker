@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectTracker
 {
-    class ProjectChangeProcessorWorktimebreaks : ProjectChangeProcessor, IWorktimebreakHandler
+    class ProjectChangeProcessorWorktimebreaks : AProjectChangeProcessor, IWorktimebreakHandler
     {
         private int CountAsWorktimebreakMins { get { return Properties.Settings.Default.countAsWorktimebreakMins; } } 
         private int CarryOverWorktimeCountHours { get { return Properties.Settings.Default.carryOverWorktimeCountHours; } } 

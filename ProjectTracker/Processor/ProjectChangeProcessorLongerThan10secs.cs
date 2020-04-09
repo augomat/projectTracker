@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectTracker
 {
-    class ProjectChangeProcessorLongerThan10secs : ProjectChangeProcessor
+    class ProjectChangeProcessorLongerThan10secs : AProjectChangeProcessor
     {
         const string messageLonger = "Longer than 10 secs";
 

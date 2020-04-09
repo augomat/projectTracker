@@ -62,7 +62,7 @@ namespace ProjectTracker
                     OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                                ProjectChangeEvent.Types.Start,
                                projectChangeEvent.NewProject,
-                               "Worktimebreak & normal break",
+                               "",
                                new List<WorktimeRecord>()
                                {
                                     new WorktimeRecord(
@@ -85,7 +85,7 @@ namespace ProjectTracker
                     OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                               ProjectChangeEvent.Types.Start,
                               projectChangeEvent.NewProject,
-                              "Worktimebreak",
+                              "",
                               new WorktimeRecord(
                                   Handler.currentProjectSince,
                                   projectChangeEvent.WorktimeRecord.End,

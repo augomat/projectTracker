@@ -87,7 +87,7 @@ namespace ProjectTracker
                             OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                                 ProjectChangeEvent.Types.Change,
                                 currentTracking.activity.name,
-                                "Tracking Change detected",
+                                "",
                                 new WorktimeRecord(
                                     new DateTime(Handler.currentProjectSince.Ticks),
                                     DateTime.Now,

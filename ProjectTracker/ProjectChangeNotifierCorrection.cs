@@ -43,7 +43,7 @@ namespace ProjectTracker
             return new ProjectChangeEvent(
                         ProjectChangeEvent.Types.Change,
                         projectShortname,
-                        "Project corrected",
+                        "",
                         new WorktimeRecord(
                             Handler.currentProjectSince,
                             correctedTimes.Item1,

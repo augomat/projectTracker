@@ -25,7 +25,7 @@ namespace ProjectTracker
             return new ProjectChangeEvent(
                         ProjectChangeEvent.Types.Change,
                         Handler.currentProject,
-                        "For analysis of projectstatistics",
+                        Handler.currentProjectComment,
                         new WorktimeRecord(
                             Handler.currentProjectSince,
                             DateTime.Now,

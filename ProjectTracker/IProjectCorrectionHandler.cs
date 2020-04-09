@@ -11,5 +11,7 @@ namespace ProjectTracker
         Tuple<DateTime, DateTime> getCurrentProjectCorrectedTimes(float percentage);
         ProjectChangeEvent getCorrectCurrentProjectEvent(string projectShortname, float percentage);
         void correctCurrentProject(string projectShortname, float percentage);
+        void addNewCurrentProject(string projectShortname, string projectComment);
+
     }
 }

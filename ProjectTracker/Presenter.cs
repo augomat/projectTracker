@@ -110,7 +110,14 @@ namespace ProjectTracker
 
         public void ShowDialogAddComment()
         {
-            new Prompt().ShowDialogAddComment(ProjectHandler);
+            new Prompt().ShowDialogChangeCurrentComment(ProjectHandler);
+        }
+
+        public void ShowDialogNewProject()
+        {
+            var newCurrentProject = new Prompt().ShowDialogNewProject(ProjectHandler);
+            if (newCurrentProject != null)
+                ProjectCorrectionHandler.addNewCurrentProject(newCurrentProject.ProjectName, newCurrentProject.Comment);
         }
 
         public void setDexpotError(string text)

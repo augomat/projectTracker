@@ -51,5 +51,19 @@ namespace ProjectTracker
                             Handler.currentProjectComment)
                         );
         }
+
+        public void addNewCurrentProject(string projectShortname, string projectComment)
+        {
+            OnRaiseProjectChangeEvent(new ProjectChangeEvent(
+                        ProjectChangeEvent.Types.Change,
+                        projectShortname,
+                        projectComment,
+                        new WorktimeRecord(
+                            Handler.currentProjectSince,
+                            DateTime.Now,
+                            Handler.currentProject,
+                            Handler.currentProjectComment)
+                        ));
+        }
     }
 }

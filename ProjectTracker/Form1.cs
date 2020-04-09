@@ -31,6 +31,13 @@ namespace ProjectTracker
             WinKey = 8
         }
 
+        enum HotKeyActionId
+        {
+            ChangeCurrentComment = 0,
+            NewProject = 1,
+            EditCurrentProject = 2
+        }
+
         public NotifyIcon TrayIcon;
 
         public Presenter Presenter { get;  set; }
@@ -70,7 +77,8 @@ namespace ProjectTracker
         {
             base.OnHandleCreated(e);
 
-            RegisterHotKey(this.Handle, 0, (int)KeyModifier.Alt, Keys.D0.GetHashCode());
+            RegisterHotKey(this.Handle, (int)HotKeyActionId.ChangeCurrentComment, (int)KeyModifier.Alt, Keys.D0.GetHashCode());
+            RegisterHotKey(this.Handle, (int)HotKeyActionId.NewProject, (int)KeyModifier.Alt, Keys.D9.GetHashCode());
         }
 
         private void OnExit(object sender, EventArgs e)
@@ -222,7 +230,10 @@ namespace ProjectTracker
                 KeyModifier modifier = (KeyModifier)((int)m.LParam & 0xFFFF);       // The modifier of the hotkey that was pressed.
                 int id = m.WParam.ToInt32();                                        // The id of the hotkey that was pressed.
 
-                Presenter.ShowDialogAddComment();
+                if (id == (int)HotKeyActionId.ChangeCurrentComment)
+                    Presenter.ShowDialogAddComment();
+                else
+                    Presenter.ShowDialogNewProject();
             }
         }
     }

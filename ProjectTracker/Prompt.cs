@@ -19,6 +19,7 @@ namespace ProjectTracker
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button OkButton;
+        private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.Button AddRowButton;
 
         private List<TextBox> breaks = new List<TextBox>();
@@ -28,6 +29,7 @@ namespace ProjectTracker
         private Label labelNow;
         private TextBox currentComment;
         private Label labelProject;
+        private ComboBox newProject;
 
         private const int lineHeightAdd = 25;
         private int lastLineHeight = 69 - lineHeightAdd;
@@ -47,14 +49,7 @@ namespace ProjectTracker
             Suggestions = suggestions;
             Handler = handler;
 
-            prompt = new Form()
-            {
-                Width = 520,
-                Height = 190 - lineHeightAdd,
-                FormBorderStyle = FormBorderStyle.FixedDialog,
-                Text = "What did you do in the mean time?",
-                StartPosition = FormStartPosition.CenterScreen,
-            };
+            generateForm("What did you do in the mean time?");
 
             label1 = new System.Windows.Forms.Label() { Left = 47, Top = 24, Text = "Break: ", Width = 40 };
             labelM = new System.Windows.Forms.Label() { Left = 91, Top = 24, Text = $"{MinutesBreak} mins" };
@@ -76,6 +71,7 @@ namespace ProjectTracker
             prompt.Controls.Add(label3);
             prompt.Controls.Add(label4);
             prompt.Controls.Add(OkButton);
+            prompt.Controls.Add(CancelButton);
             prompt.Controls.Add(AddRowButton);
 
             if (suggestions != null)
@@ -85,29 +81,8 @@ namespace ProjectTracker
 
             createRowCurrentProject();
 
-            Task.Delay(500).ContinueWith(t => { try { prompt.Invoke(new Action(prompt.Activate)); } catch { } }); //brrrrrrrr hacky, TODO implement something so that it never looses focus (buha)
-            Task.Delay(1000).ContinueWith(t => { try { prompt.Invoke(new Action(prompt.Activate)); } catch { } }); //BRRRRRRRRRRRRR
-            Task.Delay(1500).ContinueWith(t => { try { prompt.Invoke(new Action(prompt.Activate)); } catch { } }); //BRRRRRRRRRRRRR
-            Task.Delay(2000).ContinueWith(t => { try { prompt.Invoke(new Action(prompt.Activate)); } catch { } }); //BRRRRRRRRRRRRR
-            prompt.TopMost = true;
-
-            //center it on main screen
-            Screen mainScreen = null;
-            foreach (var singleScreen in Screen.AllScreens) //TODO agh, wäääh, use lambda, linq, whatever for this!!
-            {
-                if (singleScreen.Primary)
-                    mainScreen = singleScreen;
-            }
-            if (mainScreen == null)
-                mainScreen = Screen.FromControl(prompt);
-            Rectangle workingArea = mainScreen.WorkingArea;
-            prompt.StartPosition = FormStartPosition.Manual;
-            prompt.Location = new Point()
-            {
-                X = Math.Max(workingArea.X, workingArea.X + (workingArea.Width - prompt.Width) / 2),
-                Y = Math.Max(workingArea.Y, workingArea.Y + (workingArea.Height - prompt.Height) / 2)
-            };
-
+            continuallyFocusDialog();
+            centerDialogOnMainscreen();
             var result = prompt.ShowDialog();
 
             var ret = new List<WorktimeRecord>();
@@ -127,42 +102,94 @@ namespace ProjectTracker
             return ret;
         }
 
-        public List<WorktimeRecord> ShowDialogAddComment(IProjectHandler handler)
+        public void ShowDialogChangeCurrentComment(IProjectHandler handler)
         {
             Handler = handler;
 
-            prompt = new Form()
-            {
-                Width = 520,
-                Height = 190 - lineHeightAdd,
-                FormBorderStyle = FormBorderStyle.FixedDialog,
-                Text = "Comment your current project",
-                StartPosition = FormStartPosition.CenterScreen,
-            };
+            generateForm("Comment your current project");
 
             label2 = new System.Windows.Forms.Label() { Left = 41, Top = 53, Text = "Minutes", Width = 50, Height = 13 };
             label3 = new System.Windows.Forms.Label() { Left = 221, Top = 53, Text = "Comment", Width = 60, Height = 13 };
             label4 = new System.Windows.Forms.Label() { Left = 91, Top = 53, Text = "Project", Width = 50, Height = 13 };
             OkButton = new System.Windows.Forms.Button() { Left = 410, Top = 112 - lineHeightAdd, Width = 75, Text = "OK" };
+            CancelButton = new System.Windows.Forms.Button() { Left = 327, Top = 112 - lineHeightAdd, Width = 75, Text = "Cancel" };
 
             OkButton.Click += (sender, e) => { prompt.Close(); };
             OkButton.DialogResult = DialogResult.OK;
+            CancelButton.DialogResult = DialogResult.Cancel;
+            CancelButton.Click += (sender, e) => { prompt.Close(); };
             prompt.AcceptButton = OkButton;
+            prompt.CancelButton = CancelButton;
 
             prompt.Controls.Add(label2);
             prompt.Controls.Add(label3);
             prompt.Controls.Add(label4);
             prompt.Controls.Add(OkButton);
-            
+            prompt.Controls.Add(CancelButton);
+
             createRowCurrentProject();
 
-            Task.Delay(500).ContinueWith(t => { try { prompt.Invoke(new Action(prompt.Activate)); } catch { } }); //brrrrrrrr hacky, TODO implement something so that it never looses focus (buha)
-            Task.Delay(1000).ContinueWith(t => { try { prompt.Invoke(new Action(prompt.Activate)); } catch { } }); //BRRRRRRRRRRRRR
-            Task.Delay(1500).ContinueWith(t => { try { prompt.Invoke(new Action(prompt.Activate)); } catch { } }); //BRRRRRRRRRRRRR
-            Task.Delay(2000).ContinueWith(t => { try { prompt.Invoke(new Action(prompt.Activate)); } catch { } }); //BRRRRRRRRRRRRR
-            prompt.TopMost = true;
+            continuallyFocusDialog();
+            centerDialogOnMainscreen();
+            var result = prompt.ShowDialog();
 
-            //center it on main screen
+            if (result == DialogResult.OK)
+            {
+                Handler.currentProjectComment = currentComment.Text; //mmmh...not very convinced by this design
+            }
+        }
+
+        public WorktimeRecord ShowDialogNewProject(IProjectHandler handler)
+        {
+            Handler = handler;
+
+            generateForm("Create a new project from now on");
+
+            label2 = new System.Windows.Forms.Label() { Left = 41, Top = 53, Text = "Minutes", Width = 50, Height = 13 };
+            label3 = new System.Windows.Forms.Label() { Left = 221, Top = 53, Text = "Comment", Width = 60, Height = 13 };
+            label4 = new System.Windows.Forms.Label() { Left = 91, Top = 53, Text = "Project", Width = 50, Height = 13 };
+            OkButton = new System.Windows.Forms.Button() { Left = 410, Top = 112 - lineHeightAdd, Width = 75, Text = "OK" };
+            CancelButton = new System.Windows.Forms.Button() { Left = 327, Top = 112 - lineHeightAdd, Width = 75, Text = "Cancel" };
+
+            OkButton.Click += (sender, e) => { prompt.Close(); };
+            OkButton.DialogResult = DialogResult.OK;
+            CancelButton.DialogResult = DialogResult.Cancel;
+            CancelButton.Click += (sender, e) => { prompt.Close(); };
+            prompt.AcceptButton = OkButton;
+            prompt.CancelButton = CancelButton;
+
+            prompt.Controls.Add(label2);
+            prompt.Controls.Add(label3);
+            prompt.Controls.Add(label4);
+            prompt.Controls.Add(OkButton);
+            prompt.Controls.Add(CancelButton);
+
+            createRowNewProject();
+
+            continuallyFocusDialog();
+            centerDialogOnMainscreen();
+            var result = prompt.ShowDialog();
+
+            if (result == DialogResult.OK)
+                return new WorktimeRecord(Handler.currentProjectSince, DateTime.Now, newProject.Text, currentComment.Text);
+            else
+                return null;
+        }
+
+        private void generateForm(string message)
+        {
+            prompt = new Form()
+            {
+                Width = 520,
+                Height = 190 - lineHeightAdd,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                Text = message,
+                StartPosition = FormStartPosition.CenterScreen,
+            };
+        }
+
+        private void centerDialogOnMainscreen()
+        {
             Screen mainScreen = null;
             foreach (var singleScreen in Screen.AllScreens) //TODO agh, wäääh, use lambda, linq, whatever for this!!
             {
@@ -178,15 +205,15 @@ namespace ProjectTracker
                 X = Math.Max(workingArea.X, workingArea.X + (workingArea.Width - prompt.Width) / 2),
                 Y = Math.Max(workingArea.Y, workingArea.Y + (workingArea.Height - prompt.Height) / 2)
             };
+        }
 
-            var result = prompt.ShowDialog();
-
-            var ret = new List<WorktimeRecord>();
-            if (result == DialogResult.OK)
-            {
-                Handler.currentProjectComment = currentComment.Text; //mmmh...not very convinced by this design
-            }
-            return ret;
+        private void continuallyFocusDialog()
+        {
+            Task.Delay(500).ContinueWith(t => { try { prompt.Invoke(new Action(prompt.Activate)); } catch { } }); //brrrrrrrr hacky, TODO implement something so that it never looses focus (buha)
+            Task.Delay(1000).ContinueWith(t => { try { prompt.Invoke(new Action(prompt.Activate)); } catch { } }); //BRRRRRRRRRRRRR
+            Task.Delay(1500).ContinueWith(t => { try { prompt.Invoke(new Action(prompt.Activate)); } catch { } }); //BRRRRRRRRRRRRR
+            Task.Delay(2000).ContinueWith(t => { try { prompt.Invoke(new Action(prompt.Activate)); } catch { } }); //BRRRRRRRRRRRRR
+            prompt.TopMost = true;
         }
 
         private void OkButton_Click(object sender, EventArgs e)
@@ -228,6 +255,8 @@ namespace ProjectTracker
             AddRowButton.Top += lineHeightAdd;
             OkButton.Top += lineHeightAdd;
             prompt.Height += lineHeightAdd;
+            if (CancelButton != null)
+                CancelButton.Top += lineHeightAdd;
 
             breaks.Last().Text = getBreakMinutesLeft().ToString();
             //breaks.Last().Validating += Break_Validating;
@@ -257,6 +286,8 @@ namespace ProjectTracker
 
             OkButton.Top += lineHeightAdd;
             prompt.Height += lineHeightAdd;
+            if (CancelButton != null)
+                CancelButton.Top += lineHeightAdd;
         }
 
         private void removeRowCurrentProject()
@@ -268,8 +299,34 @@ namespace ProjectTracker
 
             OkButton.Top -= lineHeightAdd;
             prompt.Height -= lineHeightAdd;
+            if (CancelButton != null)
+                CancelButton.Top += lineHeightAdd;
 
             lastLineHeight -= lineHeightAdd;
+        }
+
+        private void createRowNewProject()
+        {
+            lastLineHeight += lineHeightAdd;
+
+            labelNow = new System.Windows.Forms.Label() { Left = 44, Top = lastLineHeight, Width = 38, Text = "Now" };
+            currentComment = new System.Windows.Forms.TextBox() { Left = 221, Top = lastLineHeight, Width = 236, Text = "" };
+            newProject = createProjectCombobox();
+            newProject.SelectedIndex = -1;
+            newProject.Text = Handler.currentProject;
+
+            currentComment.TabIndex = nextTabIndex;
+            newProject.TabIndex = nextTabIndex + 1;
+            OkButton.TabIndex = nextTabIndex + 2;
+
+            prompt.Controls.Add(labelNow);
+            prompt.Controls.Add(currentComment);
+            prompt.Controls.Add(newProject);
+
+            OkButton.Top += lineHeightAdd;
+            prompt.Height += lineHeightAdd;
+            if (CancelButton != null)
+                CancelButton.Top += lineHeightAdd;
         }
 
         private void Break_Validating(object sender, System.ComponentModel.CancelEventArgs e)

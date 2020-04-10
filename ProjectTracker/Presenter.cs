@@ -347,7 +347,7 @@ namespace ProjectTracker
                 if (grid.Columns[e.ColumnIndex].Name == "Project")
                     storage.ChangeProjectName(index, grid.Rows[e.RowIndex].Cells["Project"].Value.ToString());
                 if (grid.Columns[e.ColumnIndex].Name == "Comment")
-                    storage.ChangeProjectComment(index, grid.Rows[e.RowIndex].Cells["Comment"].Value.ToString());
+                    storage.ChangeProjectComment(index, grid.Rows[e.RowIndex].Cells["Comment"].Value?.ToString() ?? "");
             } catch (Exception ex)
             {
                 //We basically have 2 different forms of validation with this (see CellValidating), but it is apparently not possible 

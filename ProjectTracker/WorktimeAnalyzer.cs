@@ -27,18 +27,16 @@ namespace ProjectTracker
             DateTime from, to;
             ProjectUtilities.getWorkDayByDate(day, out from, out to);
 
+            var items = Storage.getAllWorktimeRecords(from, to);
+                
             if (DateTime.Now >= from && DateTime.Now <= to) //needed to have current project in analysis
-                ProjectAnalysisHandler.logCurrentProject();
+                items.Add(new WorktimeRecord(
+                            ProjectHandler.currentProjectSince,
+                            DateTime.Now,
+                            ProjectHandler.currentProject,
+                            ProjectHandler.currentProjectComment)
+                        );
 
-            var items = Storage.getAllWorktimeRecords(from, to);
-            return generateStatistics(items);
-        }
-
-        public WorktimeStatistics Analyze(DateTime from, DateTime to)
-        {
-            ProjectAnalysisHandler.logCurrentProject();
-
-            var items = Storage.getAllWorktimeRecords(from, to);
             return generateStatistics(items);
         }
 

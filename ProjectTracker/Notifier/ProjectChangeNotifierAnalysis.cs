@@ -15,12 +15,13 @@ namespace ProjectTracker
             //nothing to do here as this notifier does not actually listen to any events    
         }
 
+        [Obsolete("we create a fake wtr for analysis in the WorktimeAnalyzer")]
         public void logCurrentProject()
         {
             OnRaiseProjectChangeEvent(getAnalyseCurrentProjectEvent());
         }
 
-        public ProjectChangeEvent getAnalyseCurrentProjectEvent()
+        private ProjectChangeEvent getAnalyseCurrentProjectEvent()
         {
             return new ProjectChangeEvent(
                         ProjectChangeEvent.Types.Change,

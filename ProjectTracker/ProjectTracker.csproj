@@ -131,7 +131,7 @@
     <Compile Include="Processor\ProjectChangeProcessorWorktimebreaks.cs" />
     <Compile Include="Subscriber\ProjectChangeSubscriberBalloonInformant.cs" />
     <Compile Include="Subscriber\ProjectChangeSubscriberLogger.cs" />
-    <Compile Include="Prompt.cs" />
+    <Compile Include="DialogDefineProjects.cs" />
     <Compile Include="Util\ProjectUtilities.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

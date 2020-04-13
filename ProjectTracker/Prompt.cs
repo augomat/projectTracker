@@ -13,11 +13,6 @@ namespace ProjectTracker
     {
         private Form prompt;
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label labelM;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button OkButton;
         private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.Button AddRowButton;
@@ -51,11 +46,6 @@ namespace ProjectTracker
 
             generateForm("What did you do in the mean time?");
 
-            label1 = new System.Windows.Forms.Label() { Left = 47, Top = 24, Text = "Break: ", Width = 40 };
-            labelM = new System.Windows.Forms.Label() { Left = 91, Top = 24, Text = $"{MinutesTotal} mins" };
-            label2 = new System.Windows.Forms.Label() { Left = 41, Top = 53, Text = "Minutes", Width = 50, Height = 13 };
-            label3 = new System.Windows.Forms.Label() { Left = 221, Top = 53, Text = "Comment", Width = 60, Height = 13 };
-            label4 = new System.Windows.Forms.Label() { Left = 91, Top = 53, Text = "Project", Width = 50, Height = 13 };
             AddRowButton = new System.Windows.Forms.Button() { Left = 461, Top = 68 - lineHeightAdd, Width = 23, Text = "+" };
             OkButton = new System.Windows.Forms.Button() { Left = 410, Top = 112 - lineHeightAdd, Width = 75, Text = "OK" };
 
@@ -65,11 +55,11 @@ namespace ProjectTracker
             OkButton.Click += OkButton_Click;
             prompt.AcceptButton = OkButton;
 
-            prompt.Controls.Add(label1);
-            prompt.Controls.Add(labelM);
-            prompt.Controls.Add(label2);
-            prompt.Controls.Add(label3);
-            prompt.Controls.Add(label4);
+            prompt.Controls.Add(new System.Windows.Forms.Label() { Left = 47, Top = 24, Text = "Break: ", Width = 40 });
+            prompt.Controls.Add(new System.Windows.Forms.Label() { Left = 91, Top = 24, Text = $"{MinutesTotal} mins" });
+            prompt.Controls.Add(new System.Windows.Forms.Label() { Left = 41, Top = 53, Text = "Minutes", Width = 50, Height = 13 });
+            prompt.Controls.Add(new System.Windows.Forms.Label() { Left = 221, Top = 53, Text = "Comment", Width = 60, Height = 13 });
+            prompt.Controls.Add(new System.Windows.Forms.Label() { Left = 91, Top = 53, Text = "Project", Width = 50, Height = 13 });
             prompt.Controls.Add(OkButton);
             prompt.Controls.Add(CancelButton);
             prompt.Controls.Add(AddRowButton);
@@ -108,9 +98,6 @@ namespace ProjectTracker
 
             generateForm("Comment your current project");
 
-            label2 = new System.Windows.Forms.Label() { Left = 41, Top = 53, Text = "Minutes", Width = 50, Height = 13 };
-            label3 = new System.Windows.Forms.Label() { Left = 221, Top = 53, Text = "Comment", Width = 60, Height = 13 };
-            label4 = new System.Windows.Forms.Label() { Left = 91, Top = 53, Text = "Project", Width = 50, Height = 13 };
             OkButton = new System.Windows.Forms.Button() { Left = 410, Top = 112 - lineHeightAdd, Width = 75, Text = "OK" };
             CancelButton = new System.Windows.Forms.Button() { Left = 327, Top = 112 - lineHeightAdd, Width = 75, Text = "Cancel" };
 
@@ -121,9 +108,9 @@ namespace ProjectTracker
             prompt.AcceptButton = OkButton;
             prompt.CancelButton = CancelButton;
 
-            prompt.Controls.Add(label2);
-            prompt.Controls.Add(label3);
-            prompt.Controls.Add(label4);
+            prompt.Controls.Add(new System.Windows.Forms.Label() { Left = 41, Top = 53, Text = "Minutes", Width = 50, Height = 13 });
+            prompt.Controls.Add(new System.Windows.Forms.Label() { Left = 221, Top = 53, Text = "Comment", Width = 60, Height = 13 });
+            prompt.Controls.Add(new System.Windows.Forms.Label() { Left = 91, Top = 53, Text = "Project", Width = 50, Height = 13 });
             prompt.Controls.Add(OkButton);
             prompt.Controls.Add(CancelButton);
 
@@ -145,9 +132,6 @@ namespace ProjectTracker
 
             generateForm("Create a new project from now on");
 
-            label2 = new System.Windows.Forms.Label() { Left = 41, Top = 53, Text = "Minutes", Width = 50, Height = 13 };
-            label3 = new System.Windows.Forms.Label() { Left = 221, Top = 53, Text = "Comment", Width = 60, Height = 13 };
-            label4 = new System.Windows.Forms.Label() { Left = 91, Top = 53, Text = "Project", Width = 50, Height = 13 };
             OkButton = new System.Windows.Forms.Button() { Left = 410, Top = 112 - lineHeightAdd, Width = 75, Text = "OK" };
             CancelButton = new System.Windows.Forms.Button() { Left = 327, Top = 112 - lineHeightAdd, Width = 75, Text = "Cancel" };
 
@@ -158,9 +142,9 @@ namespace ProjectTracker
             prompt.AcceptButton = OkButton;
             prompt.CancelButton = CancelButton;
 
-            prompt.Controls.Add(label2);
-            prompt.Controls.Add(label3);
-            prompt.Controls.Add(label4);
+            prompt.Controls.Add(new System.Windows.Forms.Label() { Left = 41, Top = 53, Text = "Minutes", Width = 50, Height = 13 });
+            prompt.Controls.Add(new System.Windows.Forms.Label() { Left = 221, Top = 53, Text = "Comment", Width = 60, Height = 13 });
+            prompt.Controls.Add(new System.Windows.Forms.Label() { Left = 91, Top = 53, Text = "Project", Width = 50, Height = 13 });
             prompt.Controls.Add(OkButton);
             prompt.Controls.Add(CancelButton);
 
@@ -187,11 +171,6 @@ namespace ProjectTracker
 
             generateForm("Split/Edit current project");
 
-            label1 = new System.Windows.Forms.Label() { Left = 47, Top = 24, Text = "Length: ", Width = 40 };
-            labelM = new System.Windows.Forms.Label() { Left = 91, Top = 24, Text = $"{MinutesTotal} mins" };
-            label2 = new System.Windows.Forms.Label() { Left = 41, Top = 53, Text = "Minutes", Width = 50, Height = 13 };
-            label3 = new System.Windows.Forms.Label() { Left = 221, Top = 53, Text = "Comment", Width = 60, Height = 13 };
-            label4 = new System.Windows.Forms.Label() { Left = 91, Top = 53, Text = "Project", Width = 50, Height = 13 };
             AddRowButton = new System.Windows.Forms.Button() { Left = 461, Top = 68 - lineHeightAdd, Width = 23, Text = "+" };
             OkButton = new System.Windows.Forms.Button() { Left = 410, Top = 112 - lineHeightAdd, Width = 75, Text = "OK" };
             CancelButton = new System.Windows.Forms.Button() { Left = 327, Top = 112 - lineHeightAdd, Width = 75, Text = "Cancel" };
@@ -204,11 +183,11 @@ namespace ProjectTracker
             prompt.AcceptButton = OkButton;
             prompt.CancelButton = CancelButton;
 
-            prompt.Controls.Add(label1);
-            prompt.Controls.Add(labelM);
-            prompt.Controls.Add(label2);
-            prompt.Controls.Add(label3);
-            prompt.Controls.Add(label4);
+            prompt.Controls.Add(new System.Windows.Forms.Label() { Left = 47, Top = 24, Text = "Length: ", Width = 40 });
+            prompt.Controls.Add(new System.Windows.Forms.Label() { Left = 91, Top = 24, Text = $"{MinutesTotal} mins" });
+            prompt.Controls.Add(new System.Windows.Forms.Label() { Left = 41, Top = 53, Text = "Minutes", Width = 50, Height = 13 });
+            prompt.Controls.Add(new System.Windows.Forms.Label() { Left = 221, Top = 53, Text = "Comment", Width = 60, Height = 13 });
+            prompt.Controls.Add(new System.Windows.Forms.Label() { Left = 91, Top = 53, Text = "Project", Width = 50, Height = 13 });
             prompt.Controls.Add(OkButton);
             prompt.Controls.Add(CancelButton);
             prompt.Controls.Add(AddRowButton);
@@ -251,7 +230,6 @@ namespace ProjectTracker
                 StartPosition = FormStartPosition.CenterScreen,
             };
         }
-
         private void centerDialogOnMainscreen()
         {
             Screen mainScreen = null;
@@ -270,7 +248,6 @@ namespace ProjectTracker
                 Y = Math.Max(workingArea.Y, workingArea.Y + (workingArea.Height - prompt.Height) / 2)
             };
         }
-
         private void continuallyFocusDialog()
         {
             Task.Delay(500).ContinueWith(t => { try { prompt.Invoke(new Action(prompt.Activate)); } catch { } }); //brrrrrrrr hacky, TODO implement something so that it never looses focus (buha)
@@ -341,6 +318,9 @@ namespace ProjectTracker
             minutes.Last().Focus();
         }
 
+        /**
+         * Row with just a comment-field
+         */
         private void createRowCurrentProject()
         {
             lastLineHeight += lineHeightAdd;
@@ -368,7 +348,6 @@ namespace ProjectTracker
             if (CancelButton != null)
                 CancelButton.Top += lineHeightAdd;
         }
-
         private void removeRowCurrentProject()
         {
             prompt.Controls.Remove(labelNow);
@@ -384,6 +363,9 @@ namespace ProjectTracker
             lastLineHeight -= lineHeightAdd;
         }
 
+        /**
+         * Row with Project & Comment
+         */
         private void createRowNewProject(bool reverseTabOrder = true)
         {
             lastLineHeight += lineHeightAdd;
@@ -418,7 +400,6 @@ namespace ProjectTracker
             if (CancelButton != null)
                 CancelButton.Top += lineHeightAdd;
         }
-
         private void removeRowNewProject()
         {
             prompt.Controls.Remove(labelNow);
@@ -432,24 +413,6 @@ namespace ProjectTracker
                 CancelButton.Top -= lineHeightAdd;
 
             lastLineHeight -= lineHeightAdd;
-        }
-
-        private void Break_Validating(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            try
-            {
-                if (getMinutesLeft() < 0)
-                {
-                    e.Cancel = true;
-                    MessageBox.Show($"Total Sum of minutes must not exceed {MinutesTotal} minutes", "Error");
-                }
-                    
-            }
-            catch
-            {
-                e.Cancel = true;
-                MessageBox.Show($"Please only input integer numbers", "Error");
-            }
         }
 
         private ComboBox createProjectCombobox()

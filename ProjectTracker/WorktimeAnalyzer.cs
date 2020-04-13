@@ -11,14 +11,12 @@ namespace ProjectTracker
     {
         private IWorktimeRecordStorage Storage;
         private IProjectHandler ProjectHandler;
-        private ProjectChangeNotifierAnalysis ProjectAnalysisHandler;
 
         private TimeSpan maxWorktime { get { return TimeSpan.Parse(Properties.Settings.Default.maxWorktime); } }
 
-        public WorktimeAnalyzer(IWorktimeRecordStorage storage, IProjectHandler projectHandler, ProjectChangeNotifierAnalysis projectAnalysisHandler)
+        public WorktimeAnalyzer(IWorktimeRecordStorage storage, IProjectHandler projectHandler)
         {
             Storage = storage;
-            ProjectAnalysisHandler = projectAnalysisHandler;
             ProjectHandler = projectHandler;
         }
 

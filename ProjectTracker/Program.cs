@@ -31,7 +31,7 @@ namespace ProjectTracker
             var projectCorrectionHandler = new ProjectChangeNotifierCorrection(mainHandler);
             var projectAnalysisHandler = new ProjectChangeNotifierAnalysis(mainHandler);
             var storageEngine = new WorktimeRecordStorageNoSQL();
-            var worktimeAnalyzer = new WorktimeAnalyzer(storageEngine, mainHandler, projectAnalysisHandler);
+            var worktimeAnalyzer = new WorktimeAnalyzer(storageEngine, mainHandler);
             var worktrackerUpdater = new WorktrackerUpdater();
 
             //Change notifiers

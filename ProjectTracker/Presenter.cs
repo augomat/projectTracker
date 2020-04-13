@@ -110,19 +110,19 @@ namespace ProjectTracker
 
         public void ShowDialogAddComment()
         {
-            new Prompt().ShowDialogChangeCurrentComment(ProjectHandler);
+            new DialogDefineProjects().ShowDialogChangeCurrentComment(ProjectHandler);
         }
 
         public void ShowDialogNewProject()
         {
-            var newCurrentProject = new Prompt().ShowDialogNewProject(ProjectHandler);
+            var newCurrentProject = new DialogDefineProjects().ShowDialogNewProject(ProjectHandler);
             if (newCurrentProject != null)
                 ProjectCorrectionHandler.addNewCurrentProject(newCurrentProject.ProjectName, newCurrentProject.Comment);
         }
 
         public void ShowDialogSplitCurrentProject()
         {
-            List <WorktimeRecord> projects = new Prompt().ShowDialogSplitCurrentProject(ProjectHandler);
+            List <WorktimeRecord> projects = new DialogDefineProjects().ShowDialogSplitCurrentProject(ProjectHandler);
 
             if (projects != null && projects.Count > 0)
                 ProjectCorrectionHandler.splitCurrentProject(projects);

@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 
 namespace ProjectTracker
 {
-    public class Prompt
+    public class DialogDefineProjects
     {
         private Form prompt;
 

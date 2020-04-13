@@ -11,7 +11,7 @@ namespace ProjectTrackerTests
         [TestMethod]
         public void WelcomeBackSimple()
         {
-            var prompt = new Prompt();
+            var prompt = new DialogDefineProjects();
             var obj = new PrivateObject(prompt);
 
             obj.SetFieldOrProperty("Suggestions", new List<WorktimeRecord>()
@@ -33,7 +33,7 @@ namespace ProjectTrackerTests
         [TestMethod]
         public void WelcomeBackOverlapBeginEnd()
         {
-            var prompt = new Prompt();
+            var prompt = new DialogDefineProjects();
             var obj = new PrivateObject(prompt);
 
             obj.SetFieldOrProperty("Suggestions", new List<WorktimeRecord>()
@@ -56,7 +56,7 @@ namespace ProjectTrackerTests
         [TestMethod]
         public void WelcomeBackOverlapLong()
         {
-            var prompt = new Prompt();
+            var prompt = new DialogDefineProjects();
             var obj = new PrivateObject(prompt);
 
             obj.SetFieldOrProperty("Suggestions", new List<WorktimeRecord>()
@@ -76,7 +76,7 @@ namespace ProjectTrackerTests
         [TestMethod]
         public void WelcomeBackApointmentOverlap()
         {
-            var prompt = new Prompt();
+            var prompt = new DialogDefineProjects();
             var obj = new PrivateObject(prompt);
 
             obj.SetFieldOrProperty("Suggestions", new List<WorktimeRecord>()
@@ -100,7 +100,7 @@ namespace ProjectTrackerTests
         [TestMethod]
         public void WelcomeBackApointmentWithin()
         {
-            var prompt = new Prompt();
+            var prompt = new DialogDefineProjects();
             var obj = new PrivateObject(prompt);
 
             obj.SetFieldOrProperty("Suggestions", new List<WorktimeRecord>()
@@ -132,7 +132,7 @@ namespace ProjectTrackerTests
         [TestMethod]
         public void WelcomeBackApointmentOverlap2()
         {
-            var prompt = new Prompt();
+            var prompt = new DialogDefineProjects();
             var obj = new PrivateObject(prompt);
 
             obj.SetFieldOrProperty("Suggestions", new List<WorktimeRecord>()
@@ -154,7 +154,7 @@ namespace ProjectTrackerTests
         [TestMethod]
         public void WelcomeBackApointmentOverlap3()
         {
-            var prompt = new Prompt();
+            var prompt = new DialogDefineProjects();
             var obj = new PrivateObject(prompt);
 
             obj.SetFieldOrProperty("Suggestions", new List<WorktimeRecord>()

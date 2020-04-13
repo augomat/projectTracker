@@ -24,7 +24,7 @@ namespace ProjectTracker
                 var outlookAppointments = Util.OutlookAppointmentRetriever.retrieveAppointments(
                     projectChangeEvent.WorktimeRecord.Start, projectChangeEvent.WorktimeRecord.End);
 
-                List<WorktimeRecord> breakTimes = new Prompt().ShowDialogMeantime(
+                List<WorktimeRecord> breakTimes = new DialogDefineProjects().ShowDialogMeantime(
                     projectChangeEvent.WorktimeRecord.Start, 
                     projectChangeEvent.WorktimeRecord.End,
                     Handler,

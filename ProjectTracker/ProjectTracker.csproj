@@ -103,6 +103,14 @@
     </Reference>-->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Timetracker\KIS\DialogKisTasks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Timetracker\KIS\DialogKisTasks.Designer.cs">
+      <DependentUpon>DialogKisTasks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Timetracker\KIS\DialogKISTasksOld.cs" />
+    <Compile Include="Timetracker\KIS\KISTimesCalculator.cs" />
     <Compile Include="Util\Extensions.cs" />
     <Compile Include="Storage\IStorageClass.cs" />
     <Compile Include="Subscriber\IProjectChangeSubscriber.cs" />
@@ -162,6 +170,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Timetracker\KIS\DialogKisTasks.resx">
+      <DependentUpon>DialogKisTasks.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>

@@ -45,6 +45,7 @@
             this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Index = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ButtonShowKisTasks = new System.Windows.Forms.Button();
             this.ButtonUpdate = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.worktimebreakLeft = new System.Windows.Forms.Label();
@@ -204,6 +205,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.ButtonShowKisTasks);
             this.groupBox1.Controls.Add(this.ButtonUpdate);
             this.groupBox1.Controls.Add(this.dateTimePicker1);
             this.groupBox1.Controls.Add(this.dataGridView1);
@@ -213,6 +215,15 @@
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Project history";
+            // 
+            // ButtonShowKisTasks
+            // 
+            this.ButtonShowKisTasks.Location = new System.Drawing.Point(529, 27);
+            this.ButtonShowKisTasks.Name = "ButtonShowKisTasks";
+            this.ButtonShowKisTasks.Size = new System.Drawing.Size(97, 23);
+            this.ButtonShowKisTasks.TabIndex = 4;
+            this.ButtonShowKisTasks.Text = "Show KIS tasks";
+            this.ButtonShowKisTasks.UseVisualStyleBackColor = true;
             // 
             // ButtonUpdate
             // 
@@ -856,6 +867,7 @@
         private System.Windows.Forms.Label label19;
         public System.Windows.Forms.Label timeularStatus;
         private System.Windows.Forms.Label label18;
+        public System.Windows.Forms.Button ButtonShowKisTasks;
     }
 }
 

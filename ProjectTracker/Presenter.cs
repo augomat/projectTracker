@@ -56,6 +56,7 @@ namespace ProjectTracker
             Form.dataGridView1.CellValidating += dataGridView1_CellValidating;
             Form.dataGridView1.CellEndEdit += dataGridView1_CellEndEdit;
             Form.dateTimePicker1.ValueChanged += updateButton_Click; // hack...
+            Form.ButtonShowKisTasks.Click += buttonShowKisTasks_Click;
             Form.Activated += (o, i) => { refreshGrid(); };
           
             DateTime from, to;
@@ -302,6 +303,12 @@ namespace ProjectTracker
         private void updateButton_Click(object sender, EventArgs e)
         {
             refreshGrid();
+        }
+
+        private void buttonShowKisTasks_Click(object sender, EventArgs e)
+        {
+            new ProjectTracker.Timetracker.KIS.DialogKisTasks(storage, ProjectHandler)
+                .Show(Form.dateTimePicker1.Value);
         }
 
         private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)

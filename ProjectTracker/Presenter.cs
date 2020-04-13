@@ -386,12 +386,14 @@ namespace ProjectTracker
                 Form.dataGridView1.SuspendLayout();
                 Form.dataGridView1.Rows.Clear();
 
+                WorktimeRecord lastWtr = null;
                 DateTime from, to;
                 ProjectUtilities.getWorkDayByDate(Form.dateTimePicker1.Value, out from, out to);
                 var wtrs = storage.getAllWorktimeRecords(from, to);
                 foreach (var wtr in wtrs)
                 {
                     //TODO overnighters
+
                     Form.dataGridView1.Rows.Add(
                         wtr.Start.Date.ToShortDateString(),
                         wtr.Start.ToLongTimeString(),
@@ -400,6 +402,10 @@ namespace ProjectTracker
                         wtr.ProjectName,
                         wtr.Comment,
                         wtr.storageID);
+
+                    if (lastWtr != null && lastWtr.End.ToLongTimeString() != wtr.Start.ToLongTimeString())
+                        Form.dataGridView1.Rows[Form.dataGridView1.Rows.Count - 2].DividerHeight = 2;
+                    lastWtr = wtr;
                 }
 
                 // If we need to show current project

@@ -79,6 +79,7 @@ namespace ProjectTracker
 
             RegisterHotKey(this.Handle, (int)HotKeyActionId.ChangeCurrentComment, (int)KeyModifier.Alt, Keys.D0.GetHashCode());
             RegisterHotKey(this.Handle, (int)HotKeyActionId.NewProject, (int)KeyModifier.Alt, Keys.D9.GetHashCode());
+            RegisterHotKey(this.Handle, (int)HotKeyActionId.EditCurrentProject, (int)KeyModifier.Alt, Keys.D8.GetHashCode());
         }
 
         private void OnExit(object sender, EventArgs e)
@@ -232,8 +233,11 @@ namespace ProjectTracker
 
                 if (id == (int)HotKeyActionId.ChangeCurrentComment)
                     Presenter.ShowDialogAddComment();
-                else
+                else if (id == (int)HotKeyActionId.NewProject)
                     Presenter.ShowDialogNewProject();
+                else if (id == (int)HotKeyActionId.EditCurrentProject)
+                    Presenter.ShowDialogSplitCurrentProject();
+
             }
         }
     }

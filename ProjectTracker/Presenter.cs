@@ -120,6 +120,14 @@ namespace ProjectTracker
                 ProjectCorrectionHandler.addNewCurrentProject(newCurrentProject.ProjectName, newCurrentProject.Comment);
         }
 
+        public void ShowDialogSplitCurrentProject()
+        {
+            List <WorktimeRecord> projects = new Prompt().ShowDialogSplitCurrentProject(ProjectHandler);
+
+            if (projects != null && projects.Count > 0)
+                ProjectCorrectionHandler.splitCurrentProject(projects);
+        }
+
         public void setDexpotError(string text)
         {
             waitForHandleCreated(Form);

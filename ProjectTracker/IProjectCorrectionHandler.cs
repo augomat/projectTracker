@@ -12,6 +12,7 @@ namespace ProjectTracker
         ProjectChangeEvent getCorrectCurrentProjectEvent(string projectShortname, float percentage);
         void correctCurrentProject(string projectShortname, float percentage);
         void addNewCurrentProject(string projectShortname, string projectComment);
+        void splitCurrentProject(List<WorktimeRecord> projects);
 
     }
 }

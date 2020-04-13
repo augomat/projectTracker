@@ -22,20 +22,20 @@ namespace ProjectTracker
         private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.Button AddRowButton;
 
-        private List<TextBox> breaks = new List<TextBox>();
+        private List<TextBox> minutes = new List<TextBox>();
         private List<TextBox> comments = new List<TextBox>();
         private List<ComboBox> projects = new List<ComboBox>();
 
         private Label labelNow;
-        private TextBox currentComment;
         private Label labelProject;
-        private ComboBox newProject;
+        private TextBox currentComment;
+        private ComboBox currentProject;
 
         private const int lineHeightAdd = 25;
         private int lastLineHeight = 69 - lineHeightAdd;
         private int nextTabIndex = 0;
 
-        private int MinutesBreak;
+        private int MinutesTotal;
         private DateTime From;
         private DateTime To;
         private List<WorktimeRecord> Suggestions;
@@ -43,7 +43,7 @@ namespace ProjectTracker
 
         public List<WorktimeRecord> ShowDialogMeantime(DateTime from, DateTime to, ProjectChangeHandler handler, List<WorktimeRecord> suggestions = null)
         {
-            MinutesBreak = (int)(Math.Floor((to - from).TotalMinutes));
+            MinutesTotal = (int)(Math.Floor((to - from).TotalMinutes));
             From = from;
             To = to;
             Suggestions = suggestions;
@@ -52,14 +52,14 @@ namespace ProjectTracker
             generateForm("What did you do in the mean time?");
 
             label1 = new System.Windows.Forms.Label() { Left = 47, Top = 24, Text = "Break: ", Width = 40 };
-            labelM = new System.Windows.Forms.Label() { Left = 91, Top = 24, Text = $"{MinutesBreak} mins" };
+            labelM = new System.Windows.Forms.Label() { Left = 91, Top = 24, Text = $"{MinutesTotal} mins" };
             label2 = new System.Windows.Forms.Label() { Left = 41, Top = 53, Text = "Minutes", Width = 50, Height = 13 };
             label3 = new System.Windows.Forms.Label() { Left = 221, Top = 53, Text = "Comment", Width = 60, Height = 13 };
             label4 = new System.Windows.Forms.Label() { Left = 91, Top = 53, Text = "Project", Width = 50, Height = 13 };
             AddRowButton = new System.Windows.Forms.Button() { Left = 461, Top = 68 - lineHeightAdd, Width = 23, Text = "+" };
             OkButton = new System.Windows.Forms.Button() { Left = 410, Top = 112 - lineHeightAdd, Width = 75, Text = "OK" };
 
-            AddRowButton.Click += AddRowButton_Click;
+            AddRowButton.Click += AddRowButton_ClickMeantime;
             OkButton.Click += (sender, e) => { prompt.Close(); };
             OkButton.DialogResult = DialogResult.OK;
             OkButton.Click += OkButton_Click;
@@ -89,9 +89,9 @@ namespace ProjectTracker
             if (result == DialogResult.OK)
             {
                 DateTime start = from;
-                for (int index = 0; index < breaks.Count; index++)
+                for (int index = 0; index < minutes.Count; index++)
                 {
-                    var end = start.AddMinutes(Convert.ToInt32(breaks[index].Text));
+                    var end = start.AddMinutes(Convert.ToInt32(minutes[index].Text));
                     ret.Add(new WorktimeRecord(start, end, projects[index].Text, comments[index].Text));
                     start = end;
                 }
@@ -171,9 +171,73 @@ namespace ProjectTracker
             var result = prompt.ShowDialog();
 
             if (result == DialogResult.OK)
-                return new WorktimeRecord(Handler.currentProjectSince, DateTime.Now, newProject.Text, currentComment.Text);
+                return new WorktimeRecord(Handler.currentProjectSince, DateTime.Now, currentProject.Text, currentComment.Text);
             else
                 return null;
+        }
+
+        public List<WorktimeRecord> ShowDialogSplitCurrentProject(IProjectHandler handler, List<WorktimeRecord> suggestions = null)
+        {
+            Handler = handler;
+            From = Handler.currentProjectSince;
+            To = DateTime.Now;
+            MinutesTotal = (int)(Math.Floor((To - From).TotalMinutes));
+            Suggestions = suggestions;
+            Handler = handler;
+
+            generateForm("Split/Edit current project");
+
+            label1 = new System.Windows.Forms.Label() { Left = 47, Top = 24, Text = "Length: ", Width = 40 };
+            labelM = new System.Windows.Forms.Label() { Left = 91, Top = 24, Text = $"{MinutesTotal} mins" };
+            label2 = new System.Windows.Forms.Label() { Left = 41, Top = 53, Text = "Minutes", Width = 50, Height = 13 };
+            label3 = new System.Windows.Forms.Label() { Left = 221, Top = 53, Text = "Comment", Width = 60, Height = 13 };
+            label4 = new System.Windows.Forms.Label() { Left = 91, Top = 53, Text = "Project", Width = 50, Height = 13 };
+            AddRowButton = new System.Windows.Forms.Button() { Left = 461, Top = 68 - lineHeightAdd, Width = 23, Text = "+" };
+            OkButton = new System.Windows.Forms.Button() { Left = 410, Top = 112 - lineHeightAdd, Width = 75, Text = "OK" };
+            CancelButton = new System.Windows.Forms.Button() { Left = 327, Top = 112 - lineHeightAdd, Width = 75, Text = "Cancel" };
+
+            AddRowButton.Click += AddRowButton_ClickSplit;
+            OkButton.Click += (sender, e) => { prompt.Close(); };
+            OkButton.DialogResult = DialogResult.OK;
+            CancelButton.DialogResult = DialogResult.Cancel;
+            CancelButton.Click += (sender, e) => { prompt.Close(); };
+            prompt.AcceptButton = OkButton;
+            prompt.CancelButton = CancelButton;
+
+            prompt.Controls.Add(label1);
+            prompt.Controls.Add(labelM);
+            prompt.Controls.Add(label2);
+            prompt.Controls.Add(label3);
+            prompt.Controls.Add(label4);
+            prompt.Controls.Add(OkButton);
+            prompt.Controls.Add(CancelButton);
+            prompt.Controls.Add(AddRowButton);
+
+            if (suggestions != null)
+                processSuggestions();
+            else
+                createRow();
+
+            createRowNewProject(false);
+
+            continuallyFocusDialog();
+            centerDialogOnMainscreen();
+            var result = prompt.ShowDialog();
+
+            var ret = new List<WorktimeRecord>();
+            if (result == DialogResult.OK)
+            {
+                DateTime start = From;
+                for (int index = 0; index < minutes.Count; index++)
+                {
+                    var end = start.AddMinutes(Convert.ToInt32(minutes[index].Text));
+                    ret.Add(new WorktimeRecord(start, end, projects[index].Text, comments[index].Text));
+                    start = end;
+                }
+
+                ret.Add(new WorktimeRecord(start, DateTime.Now, currentProject.Text, currentComment.Text));
+            }
+            return ret;
         }
 
         private void generateForm(string message)
@@ -218,14 +282,14 @@ namespace ProjectTracker
 
         private void OkButton_Click(object sender, EventArgs e)
         {
-            if (getBreakMinutesLeft() != 0)
+            if (getMinutesLeft() != 0)
             {
-                MessageBox.Show($"Total Sum of minutes must be exactly {MinutesBreak}", "Error");
+                MessageBox.Show($"Total Sum of minutes must be exactly {MinutesTotal}", "Error");
                 prompt.DialogResult = DialogResult.None;
             }   
         }
         
-        private void AddRowButton_Click(object sender, EventArgs e)
+        private void AddRowButton_ClickMeantime(object sender, EventArgs e)
         {
             //Not exactly beautiful solution but it works
             removeRowCurrentProject();
@@ -233,22 +297,35 @@ namespace ProjectTracker
             createRowCurrentProject();
         }
 
+        private void AddRowButton_ClickSplit(object sender, EventArgs e)
+        {
+            //Not exactly beautiful solution but it works
+            removeRowNewProject();
+            createRow();
+            createRowNewProject(false);
+        }
+
+        /**
+         * Normal row with Project / Comment / Add-Button
+         */
         private void createRow()
         {
             lastLineHeight += lineHeightAdd;
 
-            breaks.Add(new System.Windows.Forms.TextBox() { Left = 44, Top = lastLineHeight, Width = 38 });
+            minutes.Add(new System.Windows.Forms.TextBox() { Left = 44, Top = lastLineHeight, Width = 38 });
             comments.Add(new System.Windows.Forms.TextBox() { Left = 221, Top = lastLineHeight, Width = 236 });
             projects.Add(createProjectCombobox());
 
-            breaks.Last().TabIndex = nextTabIndex;
+            minutes.Last().TabIndex = nextTabIndex;
             projects.Last().TabIndex = nextTabIndex + 1;
             comments.Last().TabIndex = nextTabIndex + 2;
             nextTabIndex += 3;
             AddRowButton.TabIndex = nextTabIndex;
             OkButton.TabIndex = nextTabIndex + 1;
+            if (CancelButton != null)
+                CancelButton.TabIndex = nextTabIndex + 2;
 
-            prompt.Controls.Add(breaks.Last());
+            prompt.Controls.Add(minutes.Last());
             prompt.Controls.Add(comments.Last());
             prompt.Controls.Add(projects.Last());
 
@@ -258,10 +335,10 @@ namespace ProjectTracker
             if (CancelButton != null)
                 CancelButton.Top += lineHeightAdd;
 
-            breaks.Last().Text = getBreakMinutesLeft().ToString();
-            //breaks.Last().Validating += Break_Validating;
-            breaks.Last().SelectAll();
-            breaks.Last().Focus();
+            minutes.Last().Text = getMinutesLeft().ToString();
+            //minutes.Last().Validating += Break_Validating;
+            minutes.Last().SelectAll();
+            minutes.Last().Focus();
         }
 
         private void createRowCurrentProject()
@@ -279,6 +356,8 @@ namespace ProjectTracker
             }
             currentComment.TabIndex = nextTabIndex;
             OkButton.TabIndex = nextTabIndex + 1;
+            if (CancelButton != null)
+                CancelButton.TabIndex = nextTabIndex + 2;
 
             prompt.Controls.Add(labelNow);
             prompt.Controls.Add(currentComment);
@@ -305,23 +384,34 @@ namespace ProjectTracker
             lastLineHeight -= lineHeightAdd;
         }
 
-        private void createRowNewProject()
+        private void createRowNewProject(bool reverseTabOrder = true)
         {
             lastLineHeight += lineHeightAdd;
 
             labelNow = new System.Windows.Forms.Label() { Left = 44, Top = lastLineHeight, Width = 38, Text = "Now" };
             currentComment = new System.Windows.Forms.TextBox() { Left = 221, Top = lastLineHeight, Width = 236, Text = "" };
-            newProject = createProjectCombobox();
-            newProject.SelectedIndex = -1;
-            newProject.Text = Handler.currentProject;
+            currentProject = createProjectCombobox();
+            currentProject.SelectedIndex = -1;
+            currentProject.Text = Handler.currentProject;
 
-            currentComment.TabIndex = nextTabIndex;
-            newProject.TabIndex = nextTabIndex + 1;
-            OkButton.TabIndex = nextTabIndex + 2;
+            if (reverseTabOrder)
+            {
+                currentComment.TabIndex = nextTabIndex;
+                currentProject.TabIndex = nextTabIndex + 1;
+            }
+            else
+            {
+                currentProject.TabIndex = nextTabIndex;
+                currentComment.TabIndex = nextTabIndex + 1;
+            }
+            nextTabIndex += 2;
+            OkButton.TabIndex = nextTabIndex;
+            if (CancelButton != null)
+                CancelButton.TabIndex = nextTabIndex + 2;
 
             prompt.Controls.Add(labelNow);
             prompt.Controls.Add(currentComment);
-            prompt.Controls.Add(newProject);
+            prompt.Controls.Add(currentProject);
 
             OkButton.Top += lineHeightAdd;
             prompt.Height += lineHeightAdd;
@@ -329,14 +419,29 @@ namespace ProjectTracker
                 CancelButton.Top += lineHeightAdd;
         }
 
+        private void removeRowNewProject()
+        {
+            prompt.Controls.Remove(labelNow);
+            prompt.Controls.Remove(currentComment);
+            prompt.Controls.Remove(currentProject);
+            nextTabIndex -= 2;
+
+            OkButton.Top -= lineHeightAdd;
+            prompt.Height -= lineHeightAdd;
+            if (CancelButton != null)
+                CancelButton.Top -= lineHeightAdd;
+
+            lastLineHeight -= lineHeightAdd;
+        }
+
         private void Break_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             try
             {
-                if (getBreakMinutesLeft() < 0)
+                if (getMinutesLeft() < 0)
                 {
                     e.Cancel = true;
-                    MessageBox.Show($"Total Sum of minutes must not exceed {MinutesBreak} minutes", "Error");
+                    MessageBox.Show($"Total Sum of minutes must not exceed {MinutesTotal} minutes", "Error");
                 }
                     
             }
@@ -355,15 +460,15 @@ namespace ProjectTracker
             return combobox;
         }
 
-        private int getBreakMinutesLeft()
+        private int getMinutesLeft()
         {
             int sum = 0;
-            foreach(var brk in breaks)
+            foreach(var brk in minutes)
             {
                 if (brk.Text != "")
                     sum += Convert.ToInt32(brk.Text);
             }
-            return MinutesBreak - sum;
+            return MinutesTotal - sum;
         }
 
         private void processSuggestions()
@@ -373,14 +478,14 @@ namespace ProjectTracker
             foreach (var wtr in fullList)
             {
                 createRow();
-                breaks.Last().Text = ((int)Math.Floor((wtr.End - wtr.Start).TotalMinutes)).ToString();
+                minutes.Last().Text = ((int)Math.Floor((wtr.End - wtr.Start).TotalMinutes)).ToString();
                 comments.Last().Text = wtr.Comment;
                 projects.Last().SelectedIndex = 3; //Hack... first customer project
             }
 
             //Hacky the hack, adjust last value if we floored too much
-            var breakLeft = getBreakMinutesLeft();
-            breaks.Last().Text = (Convert.ToInt32(breaks.Last().Text) + breakLeft).ToString();
+            var breakLeft = getMinutesLeft();
+            minutes.Last().Text = (Convert.ToInt32(minutes.Last().Text) + breakLeft).ToString();
         }
 
         private List<WorktimeRecord> calculateFullSuggestionList()

@@ -65,5 +65,31 @@ namespace ProjectTracker
                             Handler.currentProjectComment)
                         ));
         }
+
+        public void splitCurrentProject(List<WorktimeRecord> projects)
+        {
+            if (projects.Count < 2)
+                throw new Exception("At least 1 and a current project must be specified.");
+
+            for (int i = 0; i < projects.Count - 2; i++)
+            {
+                //var project = projects[i];
+       
+                OnRaiseProjectChangeEvent(new ProjectChangeEvent(
+                    ProjectChangeEvent.Types.Change,
+                    projects[i].ProjectName,
+                    projects[i].Comment,
+                    projects[i]));
+            }
+
+            //The last wtr is the current project, the penultimate the last project to be stored
+            var project = projects[projects.Count - 2];
+            var currentProject = projects.Last();
+            OnRaiseProjectChangeEvent(new ProjectChangeEvent(
+                        ProjectChangeEvent.Types.Change,
+                        currentProject.ProjectName,
+                        currentProject.Comment,
+                        project));
+        }
     }
 }

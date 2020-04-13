@@ -431,7 +431,7 @@ namespace ProjectTracker
 
 
                 if (shouldAutoscroll)
-                    Form.dataGridView1.FirstDisplayedScrollingRowIndex = Form.dataGridView1.RowCount - displayed;
+                    Form.dataGridView1.FirstDisplayedScrollingRowIndex = Form.dataGridView1.RowCount - Form.dataGridView1.DisplayedRowCount(true) + 1;
                 else if (firstDisplayed != -1)
                     Form.dataGridView1.FirstDisplayedScrollingRowIndex = firstDisplayed; //Form.dataGridView1.FirstDisplayedScrollingRowIndex will return -1 when not initialized or so but throws an exception when set
 

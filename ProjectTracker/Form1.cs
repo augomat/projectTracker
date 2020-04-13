@@ -195,8 +195,8 @@ namespace ProjectTracker
             var timeSpanBegin = TimeSpan.FromSeconds((long)(projectTimes.Item1 - Presenter.currentProjectSince).TotalSeconds);
             var timeSpanEnd = TimeSpan.FromSeconds((long)(DateTime.Now - projectTimes.Item1).TotalSeconds);
 
-            trackbarLabel.Text = String.Format("{0} | {1}\n{2} | {3}", 
-                projectTimes.Item1.ToLongTimeString(), projectTimes.Item2.ToLongTimeString(), timeSpanBegin.ToString(), timeSpanEnd.ToString());
+            trackbarLabel.Text = String.Format("        {0}\n{1} | {2}", 
+                 projectTimes.Item1.ToLongTimeString(), timeSpanBegin.ToString(), timeSpanEnd.ToString());
         }
 
         private void updateCurrentProject()

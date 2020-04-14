@@ -109,7 +109,6 @@
     <Compile Include="Timetracker\KIS\DialogKisTasks.Designer.cs">
       <DependentUpon>DialogKisTasks.cs</DependentUpon>
     </Compile>
-    <Compile Include="Timetracker\KIS\DialogKISTasksOld.cs" />
     <Compile Include="Timetracker\KIS\KISTimesCalculator.cs" />
     <Compile Include="Util\Extensions.cs" />
     <Compile Include="Storage\IStorageClass.cs" />

@@ -15,7 +15,7 @@ namespace ProjectTrackerTests
         {
             var mainHandler = new ProjectChangeHandler();
             var projectAnalysisHandler = new ProjectChangeNotifierAnalysis(mainHandler);
-            var wtanalyzer = new WorktimeAnalyzer(new WorktimeRecordStorageInMemory(), mainHandler, projectAnalysisHandler);
+            var wtanalyzer = new WorktimeAnalyzer(new WorktimeRecordStorageInMemory(), mainHandler);
             var obj = new PrivateObject(wtanalyzer);
 
             var origOvertime = ProjectTracker.Properties.Settings.Default.maxWorktime;
@@ -80,7 +80,7 @@ namespace ProjectTrackerTests
         {
             var mainHandler = new ProjectChangeHandler();
             var projectAnalysisHandler = new ProjectChangeNotifierAnalysis(mainHandler);
-            var wtanalyzer = new WorktimeAnalyzer(new WorktimeRecordStorageInMemory(), mainHandler, projectAnalysisHandler);
+            var wtanalyzer = new WorktimeAnalyzer(new WorktimeRecordStorageInMemory(), mainHandler);
             var obj = new PrivateObject(wtanalyzer);
 
             var origOvertime = ProjectTracker.Properties.Settings.Default.maxWorktime;
@@ -151,7 +151,7 @@ namespace ProjectTrackerTests
         {
             var mainHandler = new ProjectChangeHandler();
             var projectAnalysisHandler = new ProjectChangeNotifierAnalysis(mainHandler);
-            var wtanalyzer = new WorktimeAnalyzer(new WorktimeRecordStorageInMemory(), mainHandler, projectAnalysisHandler);
+            var wtanalyzer = new WorktimeAnalyzer(new WorktimeRecordStorageInMemory(), mainHandler);
             var obj = new PrivateObject(wtanalyzer);
 
             var origOvertime = ProjectTracker.Properties.Settings.Default.maxWorktime;
@@ -216,7 +216,7 @@ namespace ProjectTrackerTests
         {
             var mainHandler = new ProjectChangeHandler();
             var projectAnalysisHandler = new ProjectChangeNotifierAnalysis(mainHandler);
-            var wtanalyzer = new WorktimeAnalyzer(new WorktimeRecordStorageInMemory(), mainHandler, projectAnalysisHandler);
+            var wtanalyzer = new WorktimeAnalyzer(new WorktimeRecordStorageInMemory(), mainHandler);
             var obj = new PrivateObject(wtanalyzer);
 
             var origOvertime = ProjectTracker.Properties.Settings.Default.maxWorktime;
@@ -287,7 +287,7 @@ namespace ProjectTrackerTests
         {
             var mainHandler = new ProjectChangeHandler();
             var projectAnalysisHandler = new ProjectChangeNotifierAnalysis(mainHandler);
-            var wtanalyzer = new WorktimeAnalyzer(new WorktimeRecordStorageInMemory(), mainHandler, projectAnalysisHandler);
+            var wtanalyzer = new WorktimeAnalyzer(new WorktimeRecordStorageInMemory(), mainHandler);
             var obj = new PrivateObject(wtanalyzer);
 
             var origOvertime = ProjectTracker.Properties.Settings.Default.maxWorktime;
@@ -360,7 +360,7 @@ namespace ProjectTrackerTests
         {
             var mainHandler = new ProjectChangeHandler();
             var projectAnalysisHandler = new ProjectChangeNotifierAnalysis(mainHandler);
-            var wtanalyzer = new WorktimeAnalyzer(new WorktimeRecordStorageInMemory(), mainHandler, projectAnalysisHandler);
+            var wtanalyzer = new WorktimeAnalyzer(new WorktimeRecordStorageInMemory(), mainHandler);
             var obj = new PrivateObject(wtanalyzer);
 
             var origOvertime = ProjectTracker.Properties.Settings.Default.maxWorktime;
@@ -437,7 +437,7 @@ namespace ProjectTrackerTests
         {
             var mainHandler = new ProjectChangeHandler();
             var projectAnalysisHandler = new ProjectChangeNotifierAnalysis(mainHandler);
-            var wtanalyzer = new WorktimeAnalyzer(new WorktimeRecordStorageInMemory(), mainHandler, projectAnalysisHandler);
+            var wtanalyzer = new WorktimeAnalyzer(new WorktimeRecordStorageInMemory(), mainHandler);
             var obj = new PrivateObject(wtanalyzer);
 
             var origOvertime = ProjectTracker.Properties.Settings.Default.maxWorktime;

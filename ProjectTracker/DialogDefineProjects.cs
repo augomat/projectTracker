@@ -148,7 +148,7 @@ namespace ProjectTracker
             prompt.Controls.Add(OkButton);
             prompt.Controls.Add(CancelButton);
 
-            createRowNewProject();
+            createRowNewProject(false);
 
             continuallyFocusDialog();
             centerDialogOnMainscreen();

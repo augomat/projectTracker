@@ -73,7 +73,7 @@
             this.ProjectTime = new System.Windows.Forms.Label();
             this.Worktime = new System.Windows.Forms.Label();
             this.PauseTime = new System.Windows.Forms.Label();
-            this.UndefinedTime = new System.Windows.Forms.Label();
+            this.PrivateTime = new System.Windows.Forms.Label();
             this.totalTime = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -401,7 +401,7 @@
             this.groupBox2.Controls.Add(this.ProjectTime);
             this.groupBox2.Controls.Add(this.Worktime);
             this.groupBox2.Controls.Add(this.PauseTime);
-            this.groupBox2.Controls.Add(this.UndefinedTime);
+            this.groupBox2.Controls.Add(this.PrivateTime);
             this.groupBox2.Controls.Add(this.totalTime);
             this.groupBox2.Controls.Add(this.label11);
             this.groupBox2.Controls.Add(this.label10);
@@ -500,14 +500,14 @@
             this.PauseTime.TabIndex = 12;
             this.PauseTime.Text = "[not yet analyzed]";
             // 
-            // UndefinedTime
+            // PrivateTime
             // 
-            this.UndefinedTime.AutoSize = true;
-            this.UndefinedTime.Location = new System.Drawing.Point(101, 77);
-            this.UndefinedTime.Name = "UndefinedTime";
-            this.UndefinedTime.Size = new System.Drawing.Size(90, 13);
-            this.UndefinedTime.TabIndex = 11;
-            this.UndefinedTime.Text = "[not yet analyzed]";
+            this.PrivateTime.AutoSize = true;
+            this.PrivateTime.Location = new System.Drawing.Point(101, 77);
+            this.PrivateTime.Name = "PrivateTime";
+            this.PrivateTime.Size = new System.Drawing.Size(90, 13);
+            this.PrivateTime.TabIndex = 11;
+            this.PrivateTime.Text = "[not yet analyzed]";
             // 
             // totalTime
             // 
@@ -548,11 +548,11 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(23, 77);
+            this.label8.Location = new System.Drawing.Point(44, 77);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(59, 13);
+            this.label8.Size = new System.Drawing.Size(37, 13);
             this.label8.TabIndex = 4;
-            this.label8.Text = "Undefined:";
+            this.label8.Text = "Privat:";
             // 
             // label3
             // 
@@ -833,7 +833,7 @@
         public System.Windows.Forms.Label ProjectTime;
         public System.Windows.Forms.Label Worktime;
         public System.Windows.Forms.Label PauseTime;
-        public System.Windows.Forms.Label UndefinedTime;
+        public System.Windows.Forms.Label PrivateTime;
         public System.Windows.Forms.Label totalTime;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;

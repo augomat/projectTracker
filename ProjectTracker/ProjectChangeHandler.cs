@@ -10,6 +10,7 @@ namespace ProjectTracker
 {
     public class ProjectChangeHandler : AProjectChangeNotifier, IProjectChangeSubscriber, IProjectHandler
     {
+        public const string PROJECT_PRIVAT = "Privat";
         public const string PROJECT_MEETING = "Meeting";
         public const string PROJECT_PAUSE = "Pause";
         public const string PROJECT_WORKTIMEBREAK = "Worktimebreak";
@@ -149,10 +150,11 @@ namespace ProjectTracker
         public static List<string> getAvailableProjects()
         {
             var list = new List<string>();
-            list.Add(PROJECT_MEETING);
+            //list.Add(PROJECT_MEETING);
             list.Add(PROJECT_PAUSE);
             list.Add(PROJECT_WORKTIMEBREAK);
             list.AddRange(Properties.Settings.Default.AvailableProjects.Cast<string>().ToArray());
+            list.Add(PROJECT_PRIVAT);
             return list;
         }
     }

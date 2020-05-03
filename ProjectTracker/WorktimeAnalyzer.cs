@@ -58,9 +58,9 @@ namespace ProjectTracker
                 {
                     currentStats.totalPausetime += currentInterval;
                 }
-                else if (wtr.ProjectName == ProjectChangeHandler.PROJECT_MEETING)
+                else if (wtr.ProjectName == ProjectChangeHandler.PROJECT_PRIVAT)
                 {
-                    currentStats.totalUndefinedTime += currentInterval;
+                    currentStats.totalPrivateTime += currentInterval;
                 }
                 else //normal project
                 {
@@ -232,7 +232,7 @@ namespace ProjectTracker
         public TimeSpan totalWorktime = new TimeSpan(0, 0, 0);
         public TimeSpan totalPausetime = new TimeSpan(0, 0, 0);
         public TimeSpan totalWorkbreaktime = new TimeSpan(0, 0, 0);
-        public TimeSpan totalUndefinedTime = new TimeSpan(0, 0, 0);
+        public TimeSpan totalPrivateTime = new TimeSpan(0, 0, 0);
 
         public WorktimeStatistics() { }
 
@@ -245,7 +245,7 @@ namespace ProjectTracker
             totalWorktime = wts.totalWorktime;
             totalPausetime = wts.totalPausetime;
             totalWorkbreaktime = wts.totalWorkbreaktime;
-            totalUndefinedTime = wts.totalUndefinedTime;
+            totalPrivateTime = wts.totalPrivateTime;
         }
     }
 }

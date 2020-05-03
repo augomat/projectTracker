@@ -195,7 +195,7 @@ namespace ProjectTracker
                 Form.ProjectTimesSummary.Visible = true;
 
                 Form.totalTime.Text = projectStatisticsReal.totalTime.ToString(@"hh\:mm\:ss");
-                Form.UndefinedTime.Text = projectStatisticsReal.totalUndefinedTime.ToString(@"hh\:mm\:ss");
+                Form.PrivateTime.Text = projectStatisticsReal.totalPrivateTime.ToString(@"hh\:mm\:ss");
                 Form.PauseTime.Text = projectStatisticsReal.totalPausetime.ToString(@"hh\:mm\:ss");
                 Form.Worktime.Text = projectStatisticsReal.totalWorktime.ToString(@"hh\:mm\:ss");
                 Form.ProjectTime.Text = projectStatisticsReal.totalProjectTime.ToString(@"hh\:mm\:ss");

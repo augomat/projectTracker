@@ -10,25 +10,33 @@ namespace ProjectTracker.Timetracker.KIS
     class KISTimesCalculator
     {
         public TimeSpan DayStartTime = new TimeSpan(8, 0, 0);
+        public TimeSpan LunchTimerangeStart = new TimeSpan(11, 30, 0);
+        public TimeSpan LunchTimerangeEnd = new TimeSpan(13, 30, 0);
+        public TimeSpan Lunchtime = new TimeSpan(0, 30, 0);
 
         public KISTimesCalculator() { }
 
         public List<KISTime> generateKISTimes(WorktimeStatistics wts, DateTime startDay)
         {
-            var kisTimes = new List<KISTime>();
-            
             var totalWorkTime = wts.totalWorktime;
             var currentStartTime = startDay.Date + DayStartTime;
 
             var kisTimeSpans = generateKisTimeSpans(wts);
+            quantizeKisTimeSpansToQuarter(kisTimeSpans, wts.totalWorktime);
 
-            quantizeKisTimesToQuarter(kisTimeSpans, wts.totalWorktime);
+            var kisTimes = generateKisTimes(kisTimeSpans, currentStartTime);
+            kisTimes = addLunchBreak(kisTimes);
+
+            return kisTimes;
+        }
+
+        private static List<KISTime> generateKisTimes(List<KISTimeSpan> kisTimeSpans, DateTime currentStartTime)
+        {
+            var kisTimes = new List<KISTime>();
 
             foreach (var timeSpan in kisTimeSpans)
             {
                 DateTime projectEndTime = currentStartTime + timeSpan.QuantizedSpan;
-
-                //TODO add lunchbreak
 
                 kisTimes.Add(new KISTime(
                     currentStartTime,
@@ -63,7 +71,7 @@ namespace ProjectTracker.Timetracker.KIS
             return kisTimeSpans;
         }
 
-        private void quantizeKisTimesToQuarter(List<KISTimeSpan> timeSpans, TimeSpan totalWorktime)
+        private void quantizeKisTimeSpansToQuarter(List<KISTimeSpan> timeSpans, TimeSpan totalWorktime)
         {
             const float quantizer = 15;
 
@@ -118,6 +126,84 @@ namespace ProjectTracker.Timetracker.KIS
                 span.setQuantizedMinutes((int)(Math.Ceiling(span.getMinutes() / quantizer) * quantizer));
             else
                 span.setQuantizedMinutes((int)(Math.Floor(span.getMinutes() / quantizer) * quantizer));
+        }
+
+        private List<KISTime> addLunchBreak(List<KISTime> kisTimes)
+        {
+            var lunchtimeAdded = false;
+            var newTimes = new List<KISTime>();
+
+            //First round: Check whether any KISTime end in the desired lunchtime
+            foreach (var kisTime in kisTimes)
+            {
+                if (!lunchtimeAdded
+                    && kisTime.End.TimeOfDay >= LunchTimerangeStart
+                    && kisTime.End.TimeOfDay <= LunchTimerangeEnd - Lunchtime)
+                {
+                    newTimes.Add(new KISTime(
+                        kisTime.End,
+                        kisTime.End + Lunchtime,
+                        "Lunchtime",
+                        new TimeSpan(0, 0, 0)));
+                    lunchtimeAdded = true;
+                }
+
+                if (lunchtimeAdded)
+                    newTimes.Add(new KISTime(
+                        kisTime.Start + Lunchtime,
+                        kisTime.End + Lunchtime,
+                        kisTime.ProjectTrackerProject,
+                        kisTime.QuantizationError));
+                else
+                    newTimes.Add(kisTime);
+            }
+
+            if (lunchtimeAdded)
+                return newTimes;
+
+            //Second round: Split the overlapping project
+            newTimes.Clear();
+            foreach (var kisTime in kisTimes)
+            {
+                if (!lunchtimeAdded
+                    && kisTime.End.TimeOfDay >= LunchTimerangeStart
+                    && kisTime.Start.TimeOfDay <= LunchTimerangeEnd - Lunchtime)
+                {
+                    var startDate = kisTime.Start - kisTime.Start.TimeOfDay;
+                    newTimes.Add(new KISTime(
+                        kisTime.Start,
+                        startDate + LunchTimerangeStart,
+                        kisTime.ProjectTrackerProject,
+                        new TimeSpan(0, 0, 0))); //quantization error is done only once, we leave it for the latter part
+                    newTimes.Add(new KISTime(
+                        startDate + LunchTimerangeStart,
+                        startDate + LunchTimerangeStart + Lunchtime,
+                        "Lunchtime",
+                        new TimeSpan(0, 0, 0)));
+                    newTimes.Add(new KISTime(
+                        startDate + LunchTimerangeStart + Lunchtime,
+                        kisTime.End + Lunchtime,
+                        kisTime.ProjectTrackerProject,
+                        kisTime.QuantizationError));
+                    lunchtimeAdded = true;
+                }
+                else
+                {
+                    if (lunchtimeAdded)
+                        newTimes.Add(new KISTime(
+                            kisTime.Start + Lunchtime,
+                            kisTime.End + Lunchtime,
+                            kisTime.ProjectTrackerProject,
+                            kisTime.QuantizationError));
+                    else
+                        newTimes.Add(kisTime);
+                }
+            }
+
+            if (!lunchtimeAdded)
+                throw new Exception("No lunchtime could be added"); //Should not happen
+
+            return newTimes;
         }
     }
 

@@ -14,6 +14,8 @@ namespace ProjectTracker
 {
     public class Presenter
     {
+        public enum Notifier { Dexbot, Timeular, ChangeComment, NewProject, SplitCurrentProject};
+
         //this should actually be an interface but that's not worth the work...
         public Form1 Form;
         public IWorktimebreakHandler WorktimebreakHandler { private get;  set; }
@@ -470,13 +472,19 @@ namespace ProjectTracker
             }));
         }
 
-        public void setNotifierState(string notifierName, bool enabled)
+        public void setNotifierState(Notifier notifierName, bool enabled, string text = null)
         {
             Label label = null;
-            if (notifierName == "Dexbot")
+            if (notifierName == Notifier.Dexbot)
                 label = Form.dexbotStatus;
-            if (notifierName == "Timeular")
+            if (notifierName == Notifier.Timeular)
                 label = Form.timeularStatus;
+            if (notifierName == Notifier.ChangeComment)
+                label = Form.hotkeyChangeComment;
+            if (notifierName == Notifier.NewProject)
+                label = Form.hotkeyNewProject;
+            if (notifierName == Notifier.SplitCurrentProject)
+                label = Form.hotkeySplitCurrentProject;
 
             if (label != null)
             {
@@ -484,7 +492,7 @@ namespace ProjectTracker
                 if (enabled)
                 {
                     Form.Invoke(new MethodInvoker(delegate () {
-                        label.Text = "enabled";
+                        label.Text = text ?? "enabled";
                         label.BackColor = Color.Green;
                         label.ForeColor = Color.White;
                     }));   
@@ -492,7 +500,7 @@ namespace ProjectTracker
                 else
                 {
                     Form.Invoke(new MethodInvoker(delegate () {
-                        label.Text = "disabled";
+                        label.Text = text ?? "disabled";
                         label.BackColor = Color.Red;
                         label.ForeColor = Color.Black;
                     }));

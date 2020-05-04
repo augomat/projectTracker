@@ -36,7 +36,7 @@ namespace ProjectTracker
                 Presenter.setDexpotError("No Dexpot .log-file found - please enable it under Settings | Plugins & Extras | Enable log File");
                 return;
             }
-            Presenter.setNotifierState("Dexbot", true);
+            Presenter.setNotifierState(Presenter.Notifier.Dexbot, true);
 
             using (StreamReader reader = new StreamReader(new FileStream(fileNameLog,
                      FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))

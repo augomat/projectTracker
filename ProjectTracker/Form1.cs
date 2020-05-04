@@ -80,6 +80,10 @@ namespace ProjectTracker
             RegisterHotKey(this.Handle, (int)HotKeyActionId.ChangeCurrentComment, (int)KeyModifier.Alt, Keys.D0.GetHashCode());
             RegisterHotKey(this.Handle, (int)HotKeyActionId.NewProject, (int)KeyModifier.Alt, Keys.D9.GetHashCode());
             RegisterHotKey(this.Handle, (int)HotKeyActionId.EditCurrentProject, (int)KeyModifier.Alt, Keys.D8.GetHashCode());
+
+            Presenter.setNotifierState(Presenter.Notifier.ChangeComment, true, "Alt+0");
+            Presenter.setNotifierState(Presenter.Notifier.NewProject, true, "Alt+9");
+            Presenter.setNotifierState(Presenter.Notifier.SplitCurrentProject, true, "Alt+8");
         }
 
         private void OnExit(object sender, EventArgs e)

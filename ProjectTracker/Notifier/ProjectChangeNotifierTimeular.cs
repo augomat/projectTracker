@@ -120,10 +120,10 @@ namespace ProjectTracker
                 var data = response.Content.ReadAsAsync<Token>().Result;
                 httpClient.DefaultRequestHeaders.Remove("Authorization");
                 httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + data.token);
-                Presenter.setNotifierState("Timeular", true);
+                Presenter.setNotifierState(Presenter.Notifier.Timeular, true);
             }
             else
-                Presenter.setNotifierState("Timeular", false);
+                Presenter.setNotifierState(Presenter.Notifier.Timeular, false);
         }
     }
 }

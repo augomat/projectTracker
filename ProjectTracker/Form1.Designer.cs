@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
@@ -100,6 +100,13 @@
             this.label19 = new System.Windows.Forms.Label();
             this.timeularStatus = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.hotkeyChangeComment = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.hotkeyNewProject = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.hotkeySplitCurrentProject = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -110,6 +117,7 @@
             this.groupBox5.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox7.SuspendLayout();
+            this.groupBox8.SuspendLayout();
             this.SuspendLayout();
             // 
             // notifyIcon1
@@ -150,11 +158,11 @@
             // 
             // Date
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Gray;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Gray;
-            this.Date.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Gray;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Gray;
+            this.Date.DefaultCellStyle = dataGridViewCellStyle3;
             this.Date.HeaderText = "Date";
             this.Date.Name = "Date";
             this.Date.ReadOnly = true;
@@ -174,11 +182,11 @@
             // 
             // Mins
             // 
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Gray;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Gray;
-            this.Mins.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Gray;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Gray;
+            this.Mins.DefaultCellStyle = dataGridViewCellStyle4;
             this.Mins.HeaderText = "Mins";
             this.Mins.Name = "Mins";
             this.Mins.ReadOnly = true;
@@ -575,13 +583,13 @@
             // ProjectTimesSummary
             // 
             this.ProjectTimesSummary.BackColor = System.Drawing.SystemColors.Control;
-            chartArea1.Name = "ChartArea1";
-            this.ProjectTimesSummary.ChartAreas.Add(chartArea1);
+            chartArea2.Name = "ChartArea1";
+            this.ProjectTimesSummary.ChartAreas.Add(chartArea2);
             this.ProjectTimesSummary.Location = new System.Drawing.Point(161, 41);
             this.ProjectTimesSummary.Name = "ProjectTimesSummary";
-            series1.ChartArea = "ChartArea1";
-            series1.Name = "Series1";
-            this.ProjectTimesSummary.Series.Add(series1);
+            series2.ChartArea = "ChartArea1";
+            series2.Name = "Series1";
+            this.ProjectTimesSummary.Series.Add(series2);
             this.ProjectTimesSummary.Size = new System.Drawing.Size(346, 166);
             this.ProjectTimesSummary.TabIndex = 1;
             this.ProjectTimesSummary.Text = "chart1";
@@ -758,11 +766,84 @@
             this.label18.TabIndex = 2;
             this.label18.Text = "Status";
             // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.hotkeySplitCurrentProject);
+            this.groupBox8.Controls.Add(this.label22);
+            this.groupBox8.Controls.Add(this.hotkeyNewProject);
+            this.groupBox8.Controls.Add(this.label17);
+            this.groupBox8.Controls.Add(this.hotkeyChangeComment);
+            this.groupBox8.Controls.Add(this.label21);
+            this.groupBox8.Location = new System.Drawing.Point(20, 712);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(730, 51);
+            this.groupBox8.TabIndex = 12;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Hotkeys";
+            // 
+            // hotkeyChangeComment
+            // 
+            this.hotkeyChangeComment.AutoSize = true;
+            this.hotkeyChangeComment.BackColor = System.Drawing.Color.Red;
+            this.hotkeyChangeComment.Location = new System.Drawing.Point(102, 21);
+            this.hotkeyChangeComment.Name = "hotkeyChangeComment";
+            this.hotkeyChangeComment.Size = new System.Drawing.Size(46, 13);
+            this.hotkeyChangeComment.TabIndex = 1;
+            this.hotkeyChangeComment.Text = "disabled";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(6, 21);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(90, 13);
+            this.label21.TabIndex = 0;
+            this.label21.Text = "Change comment";
+            // 
+            // hotkeyNewProject
+            // 
+            this.hotkeyNewProject.AutoSize = true;
+            this.hotkeyNewProject.BackColor = System.Drawing.Color.Red;
+            this.hotkeyNewProject.Location = new System.Drawing.Point(220, 21);
+            this.hotkeyNewProject.Name = "hotkeyNewProject";
+            this.hotkeyNewProject.Size = new System.Drawing.Size(46, 13);
+            this.hotkeyNewProject.TabIndex = 3;
+            this.hotkeyNewProject.Text = "disabled";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(152, 21);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(64, 13);
+            this.label17.TabIndex = 2;
+            this.label17.Text = "New project";
+            // 
+            // hotkeySplitCurrentProject
+            // 
+            this.hotkeySplitCurrentProject.AutoSize = true;
+            this.hotkeySplitCurrentProject.BackColor = System.Drawing.Color.Red;
+            this.hotkeySplitCurrentProject.Location = new System.Drawing.Point(375, 21);
+            this.hotkeySplitCurrentProject.Name = "hotkeySplitCurrentProject";
+            this.hotkeySplitCurrentProject.Size = new System.Drawing.Size(46, 13);
+            this.hotkeySplitCurrentProject.TabIndex = 5;
+            this.hotkeySplitCurrentProject.Text = "disabled";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(274, 21);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(98, 13);
+            this.label22.TabIndex = 4;
+            this.label22.Text = "Split current project";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(766, 721);
+            this.ClientSize = new System.Drawing.Size(766, 775);
+            this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
@@ -795,6 +876,8 @@
             this.groupBox6.PerformLayout();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -868,6 +951,13 @@
         public System.Windows.Forms.Label timeularStatus;
         private System.Windows.Forms.Label label18;
         public System.Windows.Forms.Button ButtonShowKisTasks;
+        private System.Windows.Forms.GroupBox groupBox8;
+        public System.Windows.Forms.Label hotkeySplitCurrentProject;
+        private System.Windows.Forms.Label label22;
+        public System.Windows.Forms.Label hotkeyNewProject;
+        private System.Windows.Forms.Label label17;
+        public System.Windows.Forms.Label hotkeyChangeComment;
+        private System.Windows.Forms.Label label21;
     }
 }
 

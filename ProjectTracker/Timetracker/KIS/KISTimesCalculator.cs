@@ -30,27 +30,6 @@ namespace ProjectTracker.Timetracker.KIS
             return kisTimes;
         }
 
-        private static List<KISTime> generateKisTimes(List<KISTimeSpan> kisTimeSpans, DateTime currentStartTime)
-        {
-            var kisTimes = new List<KISTime>();
-
-            foreach (var timeSpan in kisTimeSpans)
-            {
-                DateTime projectEndTime = currentStartTime + timeSpan.QuantizedSpan;
-
-                kisTimes.Add(new KISTime(
-                    currentStartTime,
-                    projectEndTime,
-                    timeSpan.ProjectTrackerProject,
-                    new TimeSpan(0, timeSpan.getQuantizationErrorInMins(), 0))
-                    );
-
-                currentStartTime = projectEndTime;
-            }
-
-            return kisTimes;
-        }
-
         private List<KISTimeSpan> generateKisTimeSpans(WorktimeStatistics wts)
         {
             var kisTimeSpans = new List<KISTimeSpan>();
@@ -64,8 +43,9 @@ namespace ProjectTracker.Timetracker.KIS
 
                 kisTimeSpans.Add(new KISTimeSpan(
                     projectSpan,
-                    projectName)
-                    );
+                    projectName,
+                    wts.projectComments.ContainsKey(projectName) ? wts.projectComments[projectName] : null)
+                );
             }
 
             return kisTimeSpans;
@@ -128,6 +108,28 @@ namespace ProjectTracker.Timetracker.KIS
                 span.setQuantizedMinutes((int)(Math.Floor(span.getMinutes() / quantizer) * quantizer));
         }
 
+        private static List<KISTime> generateKisTimes(List<KISTimeSpan> kisTimeSpans, DateTime currentStartTime)
+        {
+            var kisTimes = new List<KISTime>();
+
+            foreach (var timeSpan in kisTimeSpans)
+            {
+                DateTime projectEndTime = currentStartTime + timeSpan.QuantizedSpan;
+
+                kisTimes.Add(new KISTime(
+                    currentStartTime,
+                    projectEndTime,
+                    timeSpan.ProjectTrackerProject,
+                    new TimeSpan(0, timeSpan.getQuantizationErrorInMins(), 0),
+                    timeSpan.Comments)
+                );
+
+                currentStartTime = projectEndTime;
+            }
+
+            return kisTimes;
+        }
+
         private List<KISTime> addLunchBreak(List<KISTime> kisTimes)
         {
             var lunchtimeAdded = false;
@@ -144,7 +146,8 @@ namespace ProjectTracker.Timetracker.KIS
                         kisTime.End,
                         kisTime.End + Lunchtime,
                         "Lunchtime",
-                        new TimeSpan(0, 0, 0)));
+                        new TimeSpan(0, 0, 0),
+                        kisTime.Comments));
                     lunchtimeAdded = true;
                 }
 
@@ -153,7 +156,8 @@ namespace ProjectTracker.Timetracker.KIS
                         kisTime.Start + Lunchtime,
                         kisTime.End + Lunchtime,
                         kisTime.ProjectTrackerProject,
-                        kisTime.QuantizationError));
+                        kisTime.QuantizationError,
+                        kisTime.Comments));
                 else
                     newTimes.Add(kisTime);
             }
@@ -174,7 +178,8 @@ namespace ProjectTracker.Timetracker.KIS
                         kisTime.Start,
                         startDate + LunchTimerangeStart,
                         kisTime.ProjectTrackerProject,
-                        new TimeSpan(0, 0, 0))); //quantization error is done only once, we leave it for the latter part
+                        new TimeSpan(0, 0, 0), //quantization error is done only once, we leave it for the latter part
+                        kisTime.Comments)); 
                     newTimes.Add(new KISTime(
                         startDate + LunchTimerangeStart,
                         startDate + LunchTimerangeStart + Lunchtime,
@@ -184,7 +189,8 @@ namespace ProjectTracker.Timetracker.KIS
                         startDate + LunchTimerangeStart + Lunchtime,
                         kisTime.End + Lunchtime,
                         kisTime.ProjectTrackerProject,
-                        kisTime.QuantizationError));
+                        kisTime.QuantizationError,
+                        kisTime.Comments));
                     lunchtimeAdded = true;
                 }
                 else
@@ -194,7 +200,8 @@ namespace ProjectTracker.Timetracker.KIS
                             kisTime.Start + Lunchtime,
                             kisTime.End + Lunchtime,
                             kisTime.ProjectTrackerProject,
-                            kisTime.QuantizationError));
+                            kisTime.QuantizationError,
+                            kisTime.Comments));
                     else
                         newTimes.Add(kisTime);
                 }
@@ -212,16 +219,18 @@ namespace ProjectTracker.Timetracker.KIS
         public DateTime Start;
         public DateTime End;
         public TimeSpan QuantizationError;
-        public String ProjectTrackerProject;        
+        public String ProjectTrackerProject;
+        public HashSet<string> Comments;
 
         public KISTime() { }
 
-        public KISTime(DateTime start, DateTime end, String project, TimeSpan quantizationError)
+        public KISTime(DateTime start, DateTime end, String project, TimeSpan quantizationError, HashSet<string> comments = null)
         {
             Start = start;
             End = end;
             ProjectTrackerProject = project;
             QuantizationError = quantizationError;
+            Comments = comments ?? new HashSet<string>();
         }
         public TimeSpan getLength()
         {
@@ -234,13 +243,15 @@ namespace ProjectTracker.Timetracker.KIS
         public TimeSpan Span;
         public TimeSpan QuantizedSpan;
         public String ProjectTrackerProject;
+        public HashSet<string> Comments;
 
         public KISTimeSpan() { }
 
-        public KISTimeSpan(TimeSpan span, String project)
+        public KISTimeSpan(TimeSpan span, String project, HashSet<string> comments = null)
         {
             Span = span;
             ProjectTrackerProject = project;
+            Comments = comments ?? new HashSet<string>();
         }
 
         public int getMinutes()

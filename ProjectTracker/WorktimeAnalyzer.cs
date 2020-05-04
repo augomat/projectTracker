@@ -73,6 +73,9 @@ namespace ProjectTracker
 
                 }
                 currentStats.totalTime += currentInterval;
+                if (!currentStats.projectComments.ContainsKey(wtr.ProjectName))
+                    currentStats.projectComments.Add(wtr.ProjectName, new HashSet<string>());
+                currentStats.projectComments[wtr.ProjectName].Add(!String.IsNullOrEmpty(wtr.Comment) ? wtr.Comment : "General");
 
             }
             foreach (var project in currentStats.projectTimes)
@@ -110,8 +113,6 @@ namespace ProjectTracker
                 {
                     var project = originalWts.projectTimes.Keys.ToList().ElementAt(projectIndex);
                     var time = originalWts.projectTimes.Values.ToList().ElementAt(projectIndex);
-
-                    //TODO if project not in official list, then ignore (and hope the other projects make up for enough overtime)
 
                     var timeToSubtract = new TimeSpan(0, 0, 0);
                     if (time <= diff) //whole project time is consumed
@@ -227,6 +228,7 @@ namespace ProjectTracker
     {
         public Dictionary<string, TimeSpan> projectTimes = new Dictionary<string, TimeSpan>();
         public Dictionary<string, float> relativeProjectTimes = new Dictionary<string, float>();
+        public Dictionary<string, HashSet<string>> projectComments = new Dictionary<string, HashSet<string>>(); 
         public TimeSpan totalTime = new TimeSpan(0, 0, 0);
         public TimeSpan totalProjectTime = new TimeSpan(0, 0, 0);
         public TimeSpan totalWorktime = new TimeSpan(0, 0, 0);
@@ -240,6 +242,7 @@ namespace ProjectTracker
         {
             projectTimes = wts.projectTimes.ToDictionary(e => e.Key, e => e.Value);
             relativeProjectTimes = wts.relativeProjectTimes.ToDictionary(e => e.Key, e => e.Value);
+            projectComments = wts.projectComments.ToDictionary(e => e.Key, e => new HashSet<string>(e.Value));
             totalTime = wts.totalTime;
             totalProjectTime = wts.totalProjectTime;
             totalWorktime = wts.totalWorktime;

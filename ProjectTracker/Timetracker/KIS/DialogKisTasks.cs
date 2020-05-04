@@ -38,6 +38,9 @@ namespace ProjectTracker.Timetracker.KIS
 
             foreach(var kisTime in kisTimes)
             {
+                if (kisTime.ProjectTrackerProject == KISTimesCalculator.LunchtimeProjectname)
+                    continue;
+
                 kisTasksView.Rows.Add(
                         day.ToShortDateString(),
                         kisTime.Start.ToString("HHmm"),

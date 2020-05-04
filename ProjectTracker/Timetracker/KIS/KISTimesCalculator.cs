@@ -9,10 +9,12 @@ namespace ProjectTracker.Timetracker.KIS
 
     class KISTimesCalculator
     {
-        public TimeSpan DayStartTime = new TimeSpan(8, 0, 0);
-        public TimeSpan LunchTimerangeStart = new TimeSpan(11, 30, 0);
-        public TimeSpan LunchTimerangeEnd = new TimeSpan(13, 30, 0);
-        public TimeSpan Lunchtime = new TimeSpan(0, 30, 0);
+        private TimeSpan DayStartTime = new TimeSpan(8, 0, 0);
+        private TimeSpan LunchTimerangeStart = new TimeSpan(11, 30, 0);
+        private TimeSpan LunchTimerangeEnd = new TimeSpan(13, 30, 0);
+        private TimeSpan Lunchtime = new TimeSpan(0, 30, 0);
+
+        public const string LunchtimeProjectname = "Lunchtime";
 
         public KISTimesCalculator() { }
 
@@ -145,7 +147,7 @@ namespace ProjectTracker.Timetracker.KIS
                     newTimes.Add(new KISTime(
                         kisTime.End,
                         kisTime.End + Lunchtime,
-                        "Lunchtime",
+                        LunchtimeProjectname,
                         new TimeSpan(0, 0, 0),
                         kisTime.Comments));
                     lunchtimeAdded = true;
@@ -183,7 +185,7 @@ namespace ProjectTracker.Timetracker.KIS
                     newTimes.Add(new KISTime(
                         startDate + LunchTimerangeStart,
                         startDate + LunchTimerangeStart + Lunchtime,
-                        "Lunchtime",
+                        LunchtimeProjectname,
                         new TimeSpan(0, 0, 0)));
                     newTimes.Add(new KISTime(
                         startDate + LunchTimerangeStart + Lunchtime,

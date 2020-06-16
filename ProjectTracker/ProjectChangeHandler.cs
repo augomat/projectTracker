@@ -157,5 +157,15 @@ namespace ProjectTracker
             list.Add(PROJECT_PRIVAT);
             return list;
         }
+
+        public static int getAvailableProjectIndex(string projectName)
+        {
+            return getAvailableProjects().IndexOf(projectName);
+        }
+
+        public static int getFirstCustomProjectIndex()
+        {
+            return 2; //see getAvailableProjects()
+        }
     }
 }

@@ -11,6 +11,8 @@ namespace ProjectTracker
 {
     public class DialogDefineProjects
     {
+        private const string GAP_PROJECTNAME = "[unknown-gap1]";
+
         private Form prompt;
 
         private System.Windows.Forms.Button OkButton;
@@ -419,7 +421,7 @@ namespace ProjectTracker
         {
             var combobox = new System.Windows.Forms.ComboBox() { Left = 91, Top = lastLineHeight, Width = 121 };
             combobox.Items.AddRange(ProjectChangeHandler.getAvailableProjects().Cast<string>().ToArray());
-            combobox.SelectedIndex = 2; //Hack... We know this must be worktimebreaks because we added them in code...
+            combobox.SelectedIndex = ProjectChangeHandler.getAvailableProjectIndex(ProjectChangeHandler.PROJECT_WORKTIMEBREAK); 
             return combobox;
         }
 
@@ -443,7 +445,10 @@ namespace ProjectTracker
                 createRow();
                 minutes.Last().Text = ((int)Math.Floor((wtr.End - wtr.Start).TotalMinutes)).ToString();
                 comments.Last().Text = wtr.Comment;
-                projects.Last().SelectedIndex = 3; //Hack... first customer project
+                if (wtr.ProjectName == GAP_PROJECTNAME)
+                    projects.Last().SelectedIndex = ProjectChangeHandler.getAvailableProjectIndex(ProjectChangeHandler.PROJECT_WORKTIMEBREAK);
+                else
+                    projects.Last().SelectedIndex = ProjectChangeHandler.getFirstCustomProjectIndex();
             }
 
             //Hacky the hack, adjust last value if we floored too much
@@ -478,7 +483,7 @@ namespace ProjectTracker
                 //Add unknown period if there is a gap
                 if (currentSugg.Start > currentEnd)
                 {
-                    ret.Add(new WorktimeRecord(currentEnd, currentSugg.Start, "[unknown-gap1]", ""));
+                    ret.Add(new WorktimeRecord(currentEnd, currentSugg.Start, GAP_PROJECTNAME, ""));
                     currentEnd = currentSugg.Start;
                 }     
 
@@ -513,7 +518,7 @@ namespace ProjectTracker
 
             //Add unknown period if there is a remaining gap at the end
             if (currentEnd < To)
-                ret.Add(new WorktimeRecord(currentEnd, To, "[unknown-gap2]", ""));
+                ret.Add(new WorktimeRecord(currentEnd, To, GAP_PROJECTNAME, ""));
 
             ret.First().Start.AddSeconds(From.Second);
             ret.Last().End.AddSeconds(To.Second);

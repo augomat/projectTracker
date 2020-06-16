@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
@@ -81,7 +81,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.ProjectTimesSummary = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.AnalyzeWorktimes = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.currentOvertime = new System.Windows.Forms.Label();
@@ -101,23 +100,24 @@
             this.timeularStatus = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.hotkeyChangeComment = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.hotkeyNewProject = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
             this.hotkeySplitCurrentProject = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
+            this.hotkeyNewProject = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.hotkeyChangeComment = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.ProjectTimesSummary = new System.Windows.Forms.DataVisualization.Charting.Chart();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.projectTrackBar)).BeginInit();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ProjectTimesSummary)).BeginInit();
             this.groupBox5.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ProjectTimesSummary)).BeginInit();
             this.SuspendLayout();
             // 
             // notifyIcon1
@@ -158,11 +158,11 @@
             // 
             // Date
             // 
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Gray;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Gray;
-            this.Date.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Gray;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Gray;
+            this.Date.DefaultCellStyle = dataGridViewCellStyle1;
             this.Date.HeaderText = "Date";
             this.Date.Name = "Date";
             this.Date.ReadOnly = true;
@@ -182,11 +182,11 @@
             // 
             // Mins
             // 
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Gray;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Gray;
-            this.Mins.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Gray;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Gray;
+            this.Mins.DefaultCellStyle = dataGridViewCellStyle2;
             this.Mins.HeaderText = "Mins";
             this.Mins.Name = "Mins";
             this.Mins.ReadOnly = true;
@@ -417,7 +417,6 @@
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Controls.Add(this.ProjectTimesSummary);
             this.groupBox2.Controls.Add(this.AnalyzeWorktimes);
             this.groupBox2.Location = new System.Drawing.Point(20, 439);
             this.groupBox2.Name = "groupBox2";
@@ -579,21 +578,6 @@
             this.label1.Size = new System.Drawing.Size(56, 13);
             this.label1.TabIndex = 2;
             this.label1.Text = "Total time:";
-            // 
-            // ProjectTimesSummary
-            // 
-            this.ProjectTimesSummary.BackColor = System.Drawing.SystemColors.Control;
-            chartArea2.Name = "ChartArea1";
-            this.ProjectTimesSummary.ChartAreas.Add(chartArea2);
-            this.ProjectTimesSummary.Location = new System.Drawing.Point(161, 41);
-            this.ProjectTimesSummary.Name = "ProjectTimesSummary";
-            series2.ChartArea = "ChartArea1";
-            series2.Name = "Series1";
-            this.ProjectTimesSummary.Series.Add(series2);
-            this.ProjectTimesSummary.Size = new System.Drawing.Size(346, 166);
-            this.ProjectTimesSummary.TabIndex = 1;
-            this.ProjectTimesSummary.Text = "chart1";
-            this.ProjectTimesSummary.Visible = false;
             // 
             // AnalyzeWorktimes
             // 
@@ -781,24 +765,24 @@
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Hotkeys";
             // 
-            // hotkeyChangeComment
+            // hotkeySplitCurrentProject
             // 
-            this.hotkeyChangeComment.AutoSize = true;
-            this.hotkeyChangeComment.BackColor = System.Drawing.Color.Red;
-            this.hotkeyChangeComment.Location = new System.Drawing.Point(102, 21);
-            this.hotkeyChangeComment.Name = "hotkeyChangeComment";
-            this.hotkeyChangeComment.Size = new System.Drawing.Size(46, 13);
-            this.hotkeyChangeComment.TabIndex = 1;
-            this.hotkeyChangeComment.Text = "disabled";
+            this.hotkeySplitCurrentProject.AutoSize = true;
+            this.hotkeySplitCurrentProject.BackColor = System.Drawing.Color.Red;
+            this.hotkeySplitCurrentProject.Location = new System.Drawing.Point(375, 21);
+            this.hotkeySplitCurrentProject.Name = "hotkeySplitCurrentProject";
+            this.hotkeySplitCurrentProject.Size = new System.Drawing.Size(46, 13);
+            this.hotkeySplitCurrentProject.TabIndex = 5;
+            this.hotkeySplitCurrentProject.Text = "disabled";
             // 
-            // label21
+            // label22
             // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(6, 21);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(90, 13);
-            this.label21.TabIndex = 0;
-            this.label21.Text = "Change comment";
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(274, 21);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(98, 13);
+            this.label22.TabIndex = 4;
+            this.label22.Text = "Split current project";
             // 
             // hotkeyNewProject
             // 
@@ -819,38 +803,56 @@
             this.label17.TabIndex = 2;
             this.label17.Text = "New project";
             // 
-            // hotkeySplitCurrentProject
+            // hotkeyChangeComment
             // 
-            this.hotkeySplitCurrentProject.AutoSize = true;
-            this.hotkeySplitCurrentProject.BackColor = System.Drawing.Color.Red;
-            this.hotkeySplitCurrentProject.Location = new System.Drawing.Point(375, 21);
-            this.hotkeySplitCurrentProject.Name = "hotkeySplitCurrentProject";
-            this.hotkeySplitCurrentProject.Size = new System.Drawing.Size(46, 13);
-            this.hotkeySplitCurrentProject.TabIndex = 5;
-            this.hotkeySplitCurrentProject.Text = "disabled";
+            this.hotkeyChangeComment.AutoSize = true;
+            this.hotkeyChangeComment.BackColor = System.Drawing.Color.Red;
+            this.hotkeyChangeComment.Location = new System.Drawing.Point(102, 21);
+            this.hotkeyChangeComment.Name = "hotkeyChangeComment";
+            this.hotkeyChangeComment.Size = new System.Drawing.Size(46, 13);
+            this.hotkeyChangeComment.TabIndex = 1;
+            this.hotkeyChangeComment.Text = "disabled";
             // 
-            // label22
+            // label21
             // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(274, 21);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(98, 13);
-            this.label22.TabIndex = 4;
-            this.label22.Text = "Split current project";
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(6, 21);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(90, 13);
+            this.label21.TabIndex = 0;
+            this.label21.Text = "Change comment";
+            // 
+            // ProjectTimesSummary
+            // 
+            this.ProjectTimesSummary.BackColor = System.Drawing.SystemColors.Control;
+            chartArea1.AxisX.Interval = 1D;
+            chartArea1.Name = "ChartArea1";
+            this.ProjectTimesSummary.ChartAreas.Add(chartArea1);
+            this.ProjectTimesSummary.Location = new System.Drawing.Point(210, 480);
+            this.ProjectTimesSummary.Name = "ProjectTimesSummary";
+            series1.ChartArea = "ChartArea1";
+            series1.Name = "Series1";
+            this.ProjectTimesSummary.Series.Add(series1);
+            this.ProjectTimesSummary.Size = new System.Drawing.Size(320, 162);
+            this.ProjectTimesSummary.TabIndex = 15;
+            this.ProjectTimesSummary.Text = "chart1";
+            this.ProjectTimesSummary.Visible = false;
+            this.ProjectTimesSummary.Click += new System.EventHandler(this.ProjectTimesSummary_Click_1);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(766, 775);
+            this.Controls.Add(this.ProjectTimesSummary);
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.groupBox4);
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.ShowInTaskbar = false;
@@ -869,7 +871,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.projectTrackBar)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ProjectTimesSummary)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox6.ResumeLayout(false);
@@ -878,6 +879,7 @@
             this.groupBox7.PerformLayout();
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ProjectTimesSummary)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -908,7 +910,6 @@
         public System.Windows.Forms.Button CorrectProject;
         private System.Windows.Forms.GroupBox groupBox2;
         public System.Windows.Forms.Button AnalyzeWorktimes;
-        public System.Windows.Forms.DataVisualization.Charting.Chart ProjectTimesSummary;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label3;
@@ -958,6 +959,7 @@
         private System.Windows.Forms.Label label17;
         public System.Windows.Forms.Label hotkeyChangeComment;
         private System.Windows.Forms.Label label21;
+        public System.Windows.Forms.DataVisualization.Charting.Chart ProjectTimesSummary;
     }
 }
 

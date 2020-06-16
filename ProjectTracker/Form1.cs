@@ -244,5 +244,20 @@ namespace ProjectTracker
 
             }
         }
+
+        private void ProjectTimesSummary_Click_1(object sender, EventArgs e)
+        {
+            if (this.ProjectTimesSummary.Location.X == 210)
+            {
+                this.ProjectTimesSummary.Location = new System.Drawing.Point(18, 310);
+                this.ProjectTimesSummary.Size = new System.Drawing.Size(730, 450);
+            }
+            else
+            {
+                this.ProjectTimesSummary.Location = new System.Drawing.Point(210, 480);
+                this.ProjectTimesSummary.Size = new System.Drawing.Size(320, 162);
+            }
+            
+        }
     }
 }

@@ -96,15 +96,20 @@ namespace ProjectTracker
                 }
                 else //lengthening
                 {
-                    //var minTimeOfDay = wtrs.Find(wtr => wtr.Start.Date == newStartDate.Date && wtr.Start.Hour >= 4).Min(wtr => wtr.Start); //for unknown reasons comparing dates with == does not work (returns empty set)
-                    var fullList = wtrs.Find(x => 1 == 1).ToList(); //should be changed when it starts to have performance implications
-                    var minTimeOfDay = fullList.FindAll(wtr => wtr.Start.Date == newStartDate.Date && wtr.Start.Hour >= 4).Min(wtr => wtr.Start);
-                    var firstOfDay = fullList.Find(wtr => wtr.Start == minTimeOfDay);
-
-                    if (current.storageID != firstOfDay.storageID) //in the middle
-                        throw new Exception("Lengthening in the middle not implemented");
                     if (newStartDate.Hour < 4)
                         throw new Exception("Day must not start before 4am");
+
+                    var previous = wtrs.Find(wtr => wtr.storageID != id
+                        && wtr.End <= current.Start
+                        && wtr.End >= current.Start.Date) //weird same day conditions because comparing .Date for some reason doesn't work
+                        .OrderByDescending(wtr => wtr.End)
+                        .FirstOrDefault();
+
+                    if (previous != null)
+                    {
+                        if (previous.End > newStartDate)
+                            throw new Exception("Lengthening only allowed in gaps");
+                    }                    
 
                     current.Start = newStartDate;
                     wtrs.Update(current);
@@ -138,7 +143,22 @@ namespace ProjectTracker
                 }
                 else //lengthening
                 {
-                    throw new Exception("Lengthening not implemented");
+                    //TODO support overnighters
+
+                    var next = wtrs.Find(wtr => wtr.storageID != id 
+                        && wtr.Start >= current.End
+                        && wtr.Start < current.End.Date.Add(new TimeSpan(1,0,0,0))) //weird same day conditions because comparing .Date for some reason doesn't work
+                        .OrderBy(wtr => wtr.Start)
+                        .FirstOrDefault();
+
+                    if (next != null)
+                    {
+                        if (next.Start < newEndDate)
+                            throw new Exception("Lengthening only allowed in gaps");
+                    }
+
+                    current.End = newEndDate;
+                    wtrs.Update(current);
                 }
             }          
         }

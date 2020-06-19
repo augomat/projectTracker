@@ -62,19 +62,19 @@ namespace ProjectTracker
                     OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                                ProjectChangeEvent.Types.Start,
                                projectChangeEvent.NewProject,
-                               "",
+                               projectChangeEvent.Message,
                                new List<WorktimeRecord>()
                                {
                                     new WorktimeRecord(
                                         Handler.currentProjectSince,
                                         worktimebreakEnd,
                                         ProjectChangeHandler.PROJECT_WORKTIMEBREAK,
-                                        projectChangeEvent.Message),
+                                        projectChangeEvent.WorktimeRecord.Comment),
                                     new WorktimeRecord(
                                         worktimebreakEnd,
                                         projectChangeEvent.WorktimeRecord.End,
                                         ProjectChangeHandler.PROJECT_PAUSE,
-                                        projectChangeEvent.Message)
+                                        projectChangeEvent.WorktimeRecord.Comment)
                                })
                            );
                     return true;
@@ -85,12 +85,12 @@ namespace ProjectTracker
                     OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                               ProjectChangeEvent.Types.Start,
                               projectChangeEvent.NewProject,
-                              "",
+                              projectChangeEvent.Message,
                               new WorktimeRecord(
                                   Handler.currentProjectSince,
                                   projectChangeEvent.WorktimeRecord.End,
                                   ProjectChangeHandler.PROJECT_WORKTIMEBREAK,
-                                  projectChangeEvent.Message),
+                                  projectChangeEvent.WorktimeRecord.Comment),
                               availableWorktimebreak: freeWorkbreaktime
                               )
                     );

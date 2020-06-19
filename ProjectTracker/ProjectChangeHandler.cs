@@ -135,7 +135,7 @@ namespace ProjectTracker
 
                     currentProject = projectChangeEvent.NewProject;
                     currentProjectSince = projectChangeEvent.WorktimeRecords.Last().End;
-                    currentProjectComment = projectChangeEvent.Message;
+                    currentProjectComment = projectChangeEvent.NewComment;
                 }
             }
         }

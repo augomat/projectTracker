@@ -12,30 +12,30 @@ namespace ProjectTracker
 
         public Types Type { get; set; }
         public string NewProject { get; set; }
-        public string Message { get; set; }
+        public string NewComment { get; set; }
         public TimeSpan AvailableWorktimebreak { get; set; }
         public Boolean Processed { get; set; }
         public List<WorktimeRecord> WorktimeRecords { get; set; } = new List<WorktimeRecord>(); //RTODO this list should be ordered according to .end
         public WorktimeRecord WorktimeRecord { get { return WorktimeRecords.ElementAt(0); } set { WorktimeRecords[0] = value; } }
         
-        public ProjectChangeEvent(Types type, string newProject, string message, List<WorktimeRecord> wtrs, Boolean processed = false, TimeSpan availableWorktimebreak = new TimeSpan())
+        public ProjectChangeEvent(Types type, string newProject, string newComment, List<WorktimeRecord> wtrs, Boolean processed = false, TimeSpan availableWorktimebreak = new TimeSpan())
         {
             Type = type;
             NewProject = newProject;
-            Message = message;
+            NewComment = newComment;
             AvailableWorktimebreak = availableWorktimebreak;
             WorktimeRecords = wtrs;
             Processed = processed; 
         }
 
-        public ProjectChangeEvent(Types type, string newProject, string message, WorktimeRecord wtr, Boolean processed = false, TimeSpan availableWorktimebreak = new TimeSpan())
-            : this(type, newProject, message, new List<WorktimeRecord>(), processed, availableWorktimebreak)
+        public ProjectChangeEvent(Types type, string newProject, string newComment, WorktimeRecord wtr, Boolean processed = false, TimeSpan availableWorktimebreak = new TimeSpan())
+            : this(type, newProject, newComment, new List<WorktimeRecord>(), processed, availableWorktimebreak)
         {
             WorktimeRecords.Add(wtr);
         }
 
         public ProjectChangeEvent(ProjectChangeEvent pce)
-            : this(pce.Type, pce.NewProject, pce.Message, new List<WorktimeRecord>(), pce.Processed, pce.AvailableWorktimebreak)
+            : this(pce.Type, pce.NewProject, pce.NewComment, new List<WorktimeRecord>(), pce.Processed, pce.AvailableWorktimebreak)
         {
             foreach (var wtr in pce.WorktimeRecords)
             {
@@ -45,11 +45,11 @@ namespace ProjectTracker
 
         public override string ToString()
         {
-            var outString = String.Format("Type: {0} ({1}), New Pj: {2}, Message: {3}: FreeWTB: {4}",
+            var outString = String.Format("Type: {0} ({1}), New Pj: {2}, New Comment: {3}: FreeWTB: {4}",
                 Type.ToString(),
                 (Processed) ? "processed" : "not processed",
                 NewProject,
-                Message,
+                NewComment,
                 AvailableWorktimebreak.TotalSeconds.ToString());
             if (WorktimeRecords.Count() == 0)
             {

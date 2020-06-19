@@ -62,7 +62,7 @@ namespace ProjectTracker
             }
             else if (projectChangeEvent.Type == ProjectChangeEvent.Types.GoodMorning)
             {
-                showBalloon("Good Morning Sir", projectChangeEvent.Message);
+                showBalloon("Good Morning Sir", projectChangeEvent.NewComment);
             }
             else if (projectChangeEvent.Type == ProjectChangeEvent.Types.Exit)
             {
@@ -70,7 +70,7 @@ namespace ProjectTracker
             }
             else if (projectChangeEvent.Type == ProjectChangeEvent.Types.Test)
             {
-                showBalloon("Testmessage captured", projectChangeEvent.Message);
+                showBalloon("Testmessage captured", projectChangeEvent.NewComment);
             }
         }
     }

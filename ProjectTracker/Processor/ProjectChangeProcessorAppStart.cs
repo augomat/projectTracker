@@ -18,7 +18,7 @@ namespace ProjectTracker
             if (string.IsNullOrEmpty(Handler.currentProject) && projectChangeEvent.Type == ProjectChangeEvent.Types.Change)
             {
                 projectChangeEvent.Type = ProjectChangeEvent.Types.Init;
-                projectChangeEvent.Message = "";
+                projectChangeEvent.NewComment = "";
                 projectChangeEvent.WorktimeRecord = new WorktimeRecord(
                                    DateTime.Now,
                                    DateTime.Now,

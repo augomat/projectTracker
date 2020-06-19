@@ -62,7 +62,7 @@ namespace ProjectTracker
                     OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                                ProjectChangeEvent.Types.Start,
                                projectChangeEvent.NewProject,
-                               projectChangeEvent.Message,
+                               projectChangeEvent.NewComment,
                                new List<WorktimeRecord>()
                                {
                                     new WorktimeRecord(
@@ -85,7 +85,7 @@ namespace ProjectTracker
                     OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                               ProjectChangeEvent.Types.Start,
                               projectChangeEvent.NewProject,
-                              projectChangeEvent.Message,
+                              projectChangeEvent.NewComment,
                               new WorktimeRecord(
                                   Handler.currentProjectSince,
                                   projectChangeEvent.WorktimeRecord.End,

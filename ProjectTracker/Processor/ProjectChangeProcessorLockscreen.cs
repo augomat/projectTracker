@@ -30,12 +30,15 @@ namespace ProjectTracker
                     Handler,
                     outlookAppointments);
 
+                var currentProject = breakTimes.Last();
+                breakTimes.Remove(currentProject);
+
                 foreach (var brk in breakTimes)
                 {
                     OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                         ProjectChangeEvent.Types.Start,
                         projectChangeEvent.NewProject,
-                        brk.Comment,
+                        currentProject.Comment,
                         brk));
                 }
                 return true;

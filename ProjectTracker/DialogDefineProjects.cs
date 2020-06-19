@@ -89,7 +89,8 @@ namespace ProjectTracker
                 }
                 ret.Last().End = to; //to compensate for additional seconds
 
-                Handler.currentProjectComment = currentComment.Text; //mmmh...not very convinced by this design
+                //Also pass information regarding the current project
+                ret.Add(new WorktimeRecord(DateTime.MinValue, DateTime.MinValue, null, currentComment.Text)); //what a hack
             }
             return ret;
         }

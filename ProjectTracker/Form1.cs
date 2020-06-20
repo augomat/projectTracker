@@ -149,11 +149,17 @@ namespace ProjectTracker
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (MessageBox.Show("This will close the whole application. Confirm?", "Close Application", MessageBoxButtons.YesNo) != DialogResult.Yes)
+            if (e.CloseReason != CloseReason.WindowsShutDown
+                && MessageBox.Show("This will close the whole application. Confirm?", "Close Application", MessageBoxButtons.YesNo) != DialogResult.Yes)
             {
                 e.Cancel = true;
-                UnregisterHotKey(this.Handle, 0);
+                return;
             }
+            
+            UnregisterHotKey(this.Handle, (int)HotKeyActionId.ChangeCurrentComment);
+            UnregisterHotKey(this.Handle, (int)HotKeyActionId.NewProject);
+            UnregisterHotKey(this.Handle, (int)HotKeyActionId.EditCurrentProject);
+
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)

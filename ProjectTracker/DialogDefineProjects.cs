@@ -420,9 +420,9 @@ namespace ProjectTracker
 
         private ComboBox createProjectCombobox()
         {
-            var combobox = new System.Windows.Forms.ComboBox() { Left = 91, Top = lastLineHeight, Width = 121 };
-            combobox.Items.AddRange(ProjectChangeHandler.getAvailableProjects().Cast<string>().ToArray());
-            combobox.SelectedIndex = ProjectChangeHandler.getAvailableProjectIndex(ProjectChangeHandler.PROJECT_WORKTIMEBREAK); 
+            var combobox = new System.Windows.Forms.ComboBox() { Left = 91, Top = lastLineHeight, Width = 121, AutoCompleteMode = AutoCompleteMode.Append, AutoCompleteSource = AutoCompleteSource.ListItems};
+            combobox.Items.AddRange(Handler.getAvailableProjects().Cast<string>().ToArray());
+            combobox.SelectedIndex = Handler.getAvailableProjectIndex(ProjectChangeHandler.PROJECT_WORKTIMEBREAK); 
             return combobox;
         }
 
@@ -447,7 +447,7 @@ namespace ProjectTracker
                 minutes.Last().Text = ((int)Math.Floor((wtr.End - wtr.Start).TotalMinutes)).ToString();
                 comments.Last().Text = wtr.Comment;
                 if (wtr.ProjectName == GAP_PROJECTNAME)
-                    projects.Last().SelectedIndex = ProjectChangeHandler.getAvailableProjectIndex(ProjectChangeHandler.PROJECT_WORKTIMEBREAK);
+                    projects.Last().SelectedIndex = Handler.getAvailableProjectIndex(ProjectChangeHandler.PROJECT_WORKTIMEBREAK);
                 else
                     projects.Last().SelectedIndex = ProjectChangeHandler.getFirstCustomProjectIndex();
             }

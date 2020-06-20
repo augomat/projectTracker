@@ -34,8 +34,6 @@ namespace ProjectTracker
         {
             Form = form;
 
-            Form.correctProjectCombobox.Items.AddRange(ProjectChangeHandler.getAvailableProjects().Cast<string>().ToArray());
-
 #if !WORKTRACKER
             Form.SetInWorkT.Enabled = false;
             Form.finishWTday.Enabled = false;
@@ -69,6 +67,7 @@ namespace ProjectTracker
         public void onInitCompleted()
         {
             Form.currentOvertime.Text = WorktimeAnalyzer.sumTimespans(storage.getOvertimes().Values.ToList()).FormatForOvertime();
+            Form.correctProjectCombobox.Items.AddRange(ProjectHandler.getAvailableProjects().Cast<string>().ToArray());
 
             var t = new Thread(() => {
                 var waitingTime = 3;

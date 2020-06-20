@@ -113,5 +113,10 @@ namespace ProjectTracker
         {
             throw new NotImplementedException();
         }
+
+        public List<String> getRecentProjects()
+        {
+            return new List<String>();
+        }
     }
 }

@@ -147,7 +147,7 @@ namespace ProjectTracker
             OnRaiseProjectChangeEvent(newEvent);
         }
 
-        public static List<string> getAvailableProjects()
+        public List<string> getAvailableProjects()
         {
             var list = new List<string>();
             //list.Add(PROJECT_MEETING);
@@ -155,10 +155,16 @@ namespace ProjectTracker
             list.Add(PROJECT_WORKTIMEBREAK);
             list.AddRange(Properties.Settings.Default.AvailableProjects.Cast<string>().ToArray());
             list.Add(PROJECT_PRIVAT);
+
+            foreach (var storage in worktimeRecordStorages)
+            {
+                list.AddRange(storage.getRecentProjects());
+            }
+
             return list;
         }
 
-        public static int getAvailableProjectIndex(string projectName)
+        public int getAvailableProjectIndex(string projectName)
         {
             return getAvailableProjects().IndexOf(projectName);
         }

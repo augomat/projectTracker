@@ -11,5 +11,8 @@ namespace ProjectTracker
         string currentProject { get; }
         DateTime currentProjectSince { get; }
         string currentProjectComment { get; set; }
+
+        List<string> getAvailableProjects();
+        int getAvailableProjectIndex(string projectName);
     }
 }

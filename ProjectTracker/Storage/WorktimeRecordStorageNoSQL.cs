@@ -203,7 +203,21 @@ namespace ProjectTracker
                     }
                 }
             }
-        }    
+        }
+
+        public List<String> getRecentProjects()
+        {
+            using (var db = new LiteDatabase(DATABASE_FILE))
+            {
+                var wtrs = db.GetCollection<WorktimeRecord>("worktimeRecords");
+                return wtrs
+                    .Find(wtr => wtr.Start >= DateTime.Now.Add(new TimeSpan(-30, 0, 0, 0)))
+                    .Select(wtr => wtr.ProjectName)
+                    .Where(name => !String.IsNullOrEmpty(name))
+                    .Distinct()
+                    .ToList();
+            }
+        }
     }
 
     public class OvertimeEntity

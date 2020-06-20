@@ -17,5 +17,6 @@ namespace ProjectTracker
         void ChangeProjectComment(int id, string newProjectComment);
         void updateOvertimes(Dictionary<string, TimeSpan> overtimes);
         Dictionary<string, TimeSpan> getOvertimes();
+        List<String> getRecentProjects();
     }
 }

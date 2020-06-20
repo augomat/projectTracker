@@ -378,6 +378,8 @@
             // 
             // correctProjectCombobox
             // 
+            this.correctProjectCombobox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
+            this.correctProjectCombobox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.correctProjectCombobox.FormattingEnabled = true;
             this.correctProjectCombobox.Location = new System.Drawing.Point(381, 44);
             this.correctProjectCombobox.Name = "correctProjectCombobox";

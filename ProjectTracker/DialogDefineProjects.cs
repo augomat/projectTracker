@@ -329,8 +329,9 @@ namespace ProjectTracker
             lastLineHeight += lineHeightAdd;
 
             labelNow = new System.Windows.Forms.Label() { Left = 44, Top = lastLineHeight, Width = 38, Text = "Now" };
+            string lastComment = currentComment != null ? currentComment.Text : "";
             currentComment = createCommentTextfield(221, lastLineHeight, 236);
-            currentComment.Text = currentComment == null ? Handler.currentProjectComment : currentComment.Text;
+            currentComment.Text = lastComment != "" ? lastComment : Handler.currentProjectComment;
             labelProject = new System.Windows.Forms.Label() { Left = 91, Top = lastLineHeight, Width = 121, Text = Handler.currentProject };
 
             if (AddRowButton != null)

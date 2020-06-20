@@ -218,6 +218,21 @@ namespace ProjectTracker
                     .ToList();
             }
         }
+
+        public List<String> getRecentComments(string projectName)
+        {
+            using (var db = new LiteDatabase(DATABASE_FILE))
+            {
+                var wtrs = db.GetCollection<WorktimeRecord>("worktimeRecords");
+                return wtrs
+                    .Find(wtr => wtr.Start >= DateTime.Now.Add(new TimeSpan(-30, 0, 0, 0))
+                        && wtr.ProjectName == projectName)
+                    .Select(wtr => wtr.Comment)
+                    .Where(name => !String.IsNullOrEmpty(name))
+                    .Distinct()
+                    .ToList();
+            }
+        }
     }
 
     public class OvertimeEntity

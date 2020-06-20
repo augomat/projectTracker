@@ -14,5 +14,6 @@ namespace ProjectTracker
 
         List<string> getAvailableProjects();
         int getAvailableProjectIndex(string projectName);
+        List<string> getSuggestedComments(string projectName);
     }
 }

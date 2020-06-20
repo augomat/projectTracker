@@ -173,5 +173,15 @@ namespace ProjectTracker
         {
             return 2; //see getAvailableProjects()
         }
+
+        public List<string> getSuggestedComments(string projectName)
+        {
+            var list = new List<string>();
+            foreach (var storage in worktimeRecordStorages)
+            {
+                list.AddRange(storage.getRecentComments(projectName));
+            }
+            return list;
+        }
     }
 }

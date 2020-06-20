@@ -18,5 +18,6 @@ namespace ProjectTracker
         void updateOvertimes(Dictionary<string, TimeSpan> overtimes);
         Dictionary<string, TimeSpan> getOvertimes();
         List<String> getRecentProjects();
+        List<String> getRecentComments(string projectName);
     }
 }

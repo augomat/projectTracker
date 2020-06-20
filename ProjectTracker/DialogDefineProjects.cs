@@ -293,7 +293,7 @@ namespace ProjectTracker
             lastLineHeight += lineHeightAdd;
 
             minutes.Add(new System.Windows.Forms.TextBox() { Left = 44, Top = lastLineHeight, Width = 38 });
-            comments.Add(new System.Windows.Forms.TextBox() { Left = 221, Top = lastLineHeight, Width = 236 });
+            comments.Add(createCommentTextfield(221, lastLineHeight, 236));
             projects.Add(createProjectCombobox());
 
             minutes.Last().TabIndex = nextTabIndex;
@@ -329,7 +329,8 @@ namespace ProjectTracker
             lastLineHeight += lineHeightAdd;
 
             labelNow = new System.Windows.Forms.Label() { Left = 44, Top = lastLineHeight, Width = 38, Text = "Now" };
-            currentComment = new System.Windows.Forms.TextBox() { Left = 221, Top = lastLineHeight, Width = 236, Text = currentComment == null ? Handler.currentProjectComment : currentComment.Text }; //Handler.currentProjectComment is actually wrong and a big hack! we rely on the lockscreenNotifier to not change the project! //we should actually use values from the original event here
+            currentComment = createCommentTextfield(221, lastLineHeight, 236);
+            currentComment.Text = currentComment == null ? Handler.currentProjectComment : currentComment.Text;
             labelProject = new System.Windows.Forms.Label() { Left = 91, Top = lastLineHeight, Width = 121, Text = Handler.currentProject };
 
             if (AddRowButton != null)
@@ -374,7 +375,7 @@ namespace ProjectTracker
             lastLineHeight += lineHeightAdd;
 
             labelNow = new System.Windows.Forms.Label() { Left = 44, Top = lastLineHeight, Width = 38, Text = "Now" };
-            currentComment = new System.Windows.Forms.TextBox() { Left = 221, Top = lastLineHeight, Width = 236, Text = "" };
+            currentComment = createCommentTextfield(221, lastLineHeight, 236);
             currentProject = createProjectCombobox();
             currentProject.SelectedIndex = -1;
             currentProject.Text = Handler.currentProject;
@@ -424,6 +425,41 @@ namespace ProjectTracker
             combobox.Items.AddRange(Handler.getAvailableProjects().Cast<string>().ToArray());
             combobox.SelectedIndex = Handler.getAvailableProjectIndex(ProjectChangeHandler.PROJECT_WORKTIMEBREAK); 
             return combobox;
+        }
+        
+        private TextBox createCommentTextfield(int Left, int Top, int Width)
+        {
+            var textfield = new System.Windows.Forms.TextBox()
+            {
+                Left = Left,
+                Top = Top,
+                Width = Width,
+                Text = "",
+                AutoCompleteMode = AutoCompleteMode.Append,
+                AutoCompleteSource = AutoCompleteSource.CustomSource
+            };
+            textfield.GotFocus += CommentTextfield_GotFocus;
+
+            return textfield;
+        }
+
+        private void CommentTextfield_GotFocus(object sender, EventArgs e)
+        {
+            string projectName = "";
+            if (sender == currentComment && currentProject != null)
+                projectName = currentProject.Text;
+            else
+            {
+                var commentIndex = comments.IndexOf((TextBox)sender);
+                if (commentIndex != -1)
+                    projectName = projects[commentIndex].Text;
+            }
+
+            var suggestions = Handler.getSuggestedComments(projectName);
+            var suggestionList = new AutoCompleteStringCollection();
+            suggestionList.AddRange(suggestions.ToArray());
+
+            ((TextBox)sender).AutoCompleteCustomSource = suggestionList;
         }
 
         private int getMinutesLeft()

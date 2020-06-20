@@ -134,5 +134,10 @@ namespace ProjectTracker
         {
             return new List<String>();
         }
+
+        public List<string> getRecentComments(string projectName)
+        {
+            return new List<String>();
+        }
     }
 }

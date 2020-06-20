@@ -74,8 +74,15 @@ namespace ProjectTracker
                 }
                 currentStats.totalTime += currentInterval;
                 if (!currentStats.projectComments.ContainsKey(wtr.ProjectName))
-                    currentStats.projectComments.Add(wtr.ProjectName, new HashSet<string>());
-                currentStats.projectComments[wtr.ProjectName].Add(!String.IsNullOrEmpty(wtr.Comment) ? wtr.Comment : "General");
+                    currentStats.projectComments.Add(wtr.ProjectName, new Dictionary<string, TimeSpan>());
+
+                var comment = !String.IsNullOrEmpty(wtr.Comment) ? wtr.Comment : "General";
+
+                if (!currentStats.projectComments[wtr.ProjectName].ContainsKey(comment))
+                    currentStats.projectComments[wtr.ProjectName].Add(comment, new TimeSpan());
+
+                var newSum = currentStats.projectComments[wtr.ProjectName][comment] + currentInterval;
+                currentStats.projectComments[wtr.ProjectName][comment] = newSum;
 
             }
             foreach (var project in currentStats.projectTimes)
@@ -228,7 +235,7 @@ namespace ProjectTracker
     {
         public Dictionary<string, TimeSpan> projectTimes = new Dictionary<string, TimeSpan>();
         public Dictionary<string, float> relativeProjectTimes = new Dictionary<string, float>();
-        public Dictionary<string, HashSet<string>> projectComments = new Dictionary<string, HashSet<string>>(); 
+        public Dictionary<string, Dictionary<string, TimeSpan>> projectComments = new Dictionary<string, Dictionary<string, TimeSpan>>(); //Project<Comment, Sum>
         public TimeSpan totalTime = new TimeSpan(0, 0, 0);
         public TimeSpan totalProjectTime = new TimeSpan(0, 0, 0);
         public TimeSpan totalWorktime = new TimeSpan(0, 0, 0);
@@ -242,7 +249,7 @@ namespace ProjectTracker
         {
             projectTimes = wts.projectTimes.ToDictionary(e => e.Key, e => e.Value);
             relativeProjectTimes = wts.relativeProjectTimes.ToDictionary(e => e.Key, e => e.Value);
-            projectComments = wts.projectComments.ToDictionary(e => e.Key, e => new HashSet<string>(e.Value));
+            projectComments = wts.projectComments.ToDictionary(e => e.Key, e => e.Value.ToDictionary(e1 => e1.Key, e1 => e1.Value));
             totalTime = wts.totalTime;
             totalProjectTime = wts.totalProjectTime;
             totalWorktime = wts.totalWorktime;

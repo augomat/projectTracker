@@ -46,7 +46,7 @@ namespace ProjectTracker.Timetracker.KIS
                 kisTimeSpans.Add(new KISTimeSpan(
                     projectSpan,
                     projectName,
-                    wts.projectComments.ContainsKey(projectName) ? wts.projectComments[projectName] : null)
+                    wts.projectComments.ContainsKey(projectName) ? new HashSet<string>(wts.projectComments[projectName].Keys.ToArray()) : null)
                 );
             }
 

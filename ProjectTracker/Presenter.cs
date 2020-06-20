@@ -173,21 +173,54 @@ namespace ProjectTracker
 
                 Form.currentOvertime.Text = WorktimeAnalyzer.sumTimespans(storage.getOvertimes().Values.ToList()).FormatForOvertime();
                 Form.ProjectTimesSummary.Series.Clear();
-                Series series = new Series
-                {
-                    Name = "projects",
-                    IsVisibleInLegend = false,
-                    ChartType = SeriesChartType.Column
-                };
-                Form.ProjectTimesSummary.Series.Add(series);
 
-                foreach (var project in projectStatisticsReal.projectTimes)
+                int index = 0;
+                int total = projectStatisticsReal.projectComments.Count;
+                foreach (var project in projectStatisticsReal.projectComments)
                 {
-                    series.Points.Add(project.Value.TotalMinutes);
-                    var p = series.Points.Last();
-                    p.AxisLabel = project.Key;
-                    p.Label = Math.Round(projectStatisticsReal.relativeProjectTimes[project.Key]).ToString() + "%";
+                    foreach(var comment in project.Value)
+                    {
+                        Series commentSerie = new Series
+                        {
+                            Name = project.Key+comment.Key,
+                            IsVisibleInLegend = false,
+                            ChartType = SeriesChartType.StackedColumn
+                        };
+                        
+                        commentSerie.Points.AddXY(index, comment.Value.TotalMinutes);
+                        //var p = commentSerie.Points.Last();
+                        //p.AxisLabel = project.Key;
+                        //p.Label = comment.Key;
+
+                        for (int i = 0; i < total; i++)
+                        {
+                            //if (i != index)
+                                //commentSerie.Points.AddXY(i, 10.0);
+                        }
+                        Form.ProjectTimesSummary.Series.Add(commentSerie);
+
+
+                    }
+                    index++;
                 }
+
+                // ---------------------
+
+                //Series series = new Series
+                //{
+                //    Name = "projects",
+                //    IsVisibleInLegend = false,
+                //    ChartType = SeriesChartType.Column
+                //};
+                //Form.ProjectTimesSummary.Series.Add(series);
+
+                //foreach (var project in projectStatisticsReal.projectTimes)
+                //{
+                //    series.Points.Add(project.Value.TotalMinutes);
+                //    var p = series.Points.Last();
+                //    p.AxisLabel = project.Key;
+                //    p.Label = Math.Round(projectStatisticsReal.relativeProjectTimes[project.Key]).ToString() + "%";
+                //}
                 Form.ProjectTimesSummary.ChartAreas[0].AxisX.MajorGrid.LineWidth = 0;
                 Form.ProjectTimesSummary.ChartAreas[0].AxisY.MajorGrid.LineWidth = 0;
                 Form.ProjectTimesSummary.ChartAreas[0].BackColor = System.Drawing.SystemColors.Control;

@@ -183,5 +183,11 @@ namespace ProjectTracker
             }
             return list;
         }
+
+        public void changeCurrentProjectRetrospectively(string project, string comment)
+        {
+            currentProject = project ?? currentProject;
+            currentProjectComment = comment ?? currentProjectComment;
+        }
     }
 }

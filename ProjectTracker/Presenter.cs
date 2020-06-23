@@ -27,7 +27,7 @@ namespace ProjectTracker
 
         public string currentProject { get { return ProjectHandler.currentProject; } } //TODO errorhandling
         public DateTime currentProjectSince { get { return ProjectHandler.currentProjectSince; } } //TODO errorhandling
-        public string currentProjectComment { get { return ProjectHandler.currentProjectComment; } set { ProjectHandler.currentProjectComment = value; } } //TODO errorhandling
+        public string currentProjectComment { get { return ProjectHandler.currentProjectComment; } } //TODO errorhandling
 
 
         public Presenter(Form1 form)
@@ -112,7 +112,7 @@ namespace ProjectTracker
 
         public void ShowDialogAddComment()
         {
-            new DialogDefineProjects().ShowDialogChangeCurrentComment(ProjectHandler);
+            new DialogDefineProjects().ShowDialogChangeCurrentProject(ProjectHandler);
         }
 
         public void ShowDialogNewProject()
@@ -351,8 +351,8 @@ namespace ProjectTracker
 
             if (e.RowIndex == Form.dataGridView1.Rows.Count - 1 && currentProjectVisible())
             {
-                if (grid.Columns[e.ColumnIndex].Name == "Comment")            
-                    currentProjectComment = grid.Rows[e.RowIndex].Cells["Comment"].Value.ToString();
+                if (grid.Columns[e.ColumnIndex].Name == "Comment")
+                    ProjectHandler.changeCurrentProjectRetrospectively(null, grid.Rows[e.RowIndex].Cells["Comment"].Value.ToString());
                 return;
             }
                 

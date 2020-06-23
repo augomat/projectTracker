@@ -10,8 +10,10 @@ namespace ProjectTracker
     {
         string currentProject { get; }
         DateTime currentProjectSince { get; }
-        string currentProjectComment { get; set; }
+        string currentProjectComment { get; }
 
+        
+        void changeCurrentProjectRetrospectively(string project, string comment);
         List<string> getAvailableProjects();
         int getAvailableProjectIndex(string projectName);
         List<string> getSuggestedComments(string projectName);

@@ -95,11 +95,11 @@ namespace ProjectTracker
             return ret;
         }
 
-        public void ShowDialogChangeCurrentComment(IProjectHandler handler)
+        public void ShowDialogChangeCurrentProject(IProjectHandler handler)
         {
             Handler = handler;
 
-            generateForm("Comment your current project");
+            generateForm("CHANGE your CURRENT project");
 
             OkButton = new System.Windows.Forms.Button() { Left = 410, Top = 112 - lineHeightAdd, Width = 75, Text = "OK" };
             CancelButton = new System.Windows.Forms.Button() { Left = 327, Top = 112 - lineHeightAdd, Width = 75, Text = "Cancel" };
@@ -117,7 +117,7 @@ namespace ProjectTracker
             prompt.Controls.Add(OkButton);
             prompt.Controls.Add(CancelButton);
 
-            createRowCurrentProject();
+            createRowNewProject(false, Handler.currentProjectComment);
 
             continuallyFocusDialog();
             centerDialogOnMainscreen();
@@ -125,7 +125,7 @@ namespace ProjectTracker
 
             if (result == DialogResult.OK)
             {
-                Handler.currentProjectComment = currentComment.Text; //mmmh...not very convinced by this design
+                Handler.changeCurrentProjectRetrospectively(currentProject.Text, currentComment.Text);
             }
         }
 
@@ -133,7 +133,7 @@ namespace ProjectTracker
         {
             Handler = handler;
 
-            generateForm("Create a new project from now on");
+            generateForm("CREATE a NEW project from now on");
 
             OkButton = new System.Windows.Forms.Button() { Left = 410, Top = 112 - lineHeightAdd, Width = 75, Text = "OK" };
             CancelButton = new System.Windows.Forms.Button() { Left = 327, Top = 112 - lineHeightAdd, Width = 75, Text = "Cancel" };

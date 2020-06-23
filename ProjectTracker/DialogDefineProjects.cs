@@ -71,7 +71,7 @@ namespace ProjectTracker
             else
                 createRow();
 
-            createRowCurrentProject();
+            createRowNewProject(false, Handler.currentProjectComment);
 
             continuallyFocusDialog();
             centerDialogOnMainscreen();
@@ -90,7 +90,7 @@ namespace ProjectTracker
                 ret.Last().End = to; //to compensate for additional seconds
 
                 //Also pass information regarding the current project
-                ret.Add(new WorktimeRecord(DateTime.MinValue, DateTime.MinValue, null, currentComment.Text)); //what a hack
+                ret.Add(new WorktimeRecord(DateTime.MinValue, DateTime.MinValue, currentProject.Text, currentComment.Text)); //what a hack
             }
             return ret;
         }
@@ -371,12 +371,13 @@ namespace ProjectTracker
         /**
          * Row with Project & Comment
          */
-        private void createRowNewProject(bool reverseTabOrder = true)
+        private void createRowNewProject(bool reverseTabOrder = true, string comment = "")
         {
             lastLineHeight += lineHeightAdd;
 
             labelNow = new System.Windows.Forms.Label() { Left = 44, Top = lastLineHeight, Width = 38, Text = "Now" };
             currentComment = createCommentTextfield(221, lastLineHeight, 236);
+            currentComment.Text = comment;
             currentProject = createProjectCombobox();
             currentProject.SelectedIndex = -1;
             currentProject.Text = Handler.currentProject;

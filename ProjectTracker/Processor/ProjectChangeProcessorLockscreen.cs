@@ -30,7 +30,7 @@ namespace ProjectTracker
                     Handler,
                     outlookAppointments);
 
-                if (breakTimes != null)
+                if (breakTimes != null && breakTimes.Count > 0)
                 {
                     var currentProject = breakTimes.Last();
                     breakTimes.Remove(currentProject);

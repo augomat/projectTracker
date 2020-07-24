@@ -24,7 +24,16 @@ namespace ProjectTracker.Util
 		    {
 		        foreach (Outlook.AppointmentItem appt in rangeAppts)
 		        {
-                    //MessageBox.Show("Subject: " + appt.Subject + " Start: " + appt.Start.ToString("g"));
+					//MessageBox.Show("Subject: " + appt.Subject + " Start: " + appt.Start.ToString("g"));
+
+					//Ignore 0 length appointments
+					if ((appt.End - appt.Start).TotalMinutes < 1)
+						continue;
+
+					//Assume that appointments marked as free are more like "reminders"
+					if (appt.BusyStatus == Outlook.OlBusyStatus.olFree)
+						continue;
+
                     ret.Add(new WorktimeRecord(appt.Start, appt.End, "[unknown-outl]", appt.Subject));
                 }
 		    }

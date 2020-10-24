@@ -98,6 +98,7 @@ namespace ProjectTracker
         public void ShowDialogChangeCurrentProject(IProjectHandler handler)
         {
             Handler = handler;
+            MinutesTotal = (int)((DateTime.Now - Handler.currentProjectSince).TotalMinutes);
 
             generateForm("CHANGE your CURRENT project");
 
@@ -117,7 +118,7 @@ namespace ProjectTracker
             prompt.Controls.Add(OkButton);
             prompt.Controls.Add(CancelButton);
 
-            createRowNewProject(false, Handler.currentProjectComment);
+            createRowNewProject(false, Handler.currentProjectComment, MinutesTotal);
 
             continuallyFocusDialog();
             centerDialogOnMainscreen();
@@ -163,16 +164,15 @@ namespace ProjectTracker
                 return null;
         }
 
-        public List<WorktimeRecord> ShowDialogSplitCurrentProject(IProjectHandler handler, List<WorktimeRecord> suggestions = null)
+        public List<WorktimeRecord> ShowDialogDistraction(IProjectHandler handler)
         {
             Handler = handler;
             From = Handler.currentProjectSince;
             To = DateTime.Now;
             MinutesTotal = (int)(Math.Floor((To - From).TotalMinutes));
-            Suggestions = suggestions;
             Handler = handler;
 
-            generateForm("Split/Edit current project");
+            generateForm("Log distraction");
 
             AddRowButton = new System.Windows.Forms.Button() { Left = 461, Top = 68 - lineHeightAdd, Width = 23, Text = "+" };
             OkButton = new System.Windows.Forms.Button() { Left = 410, Top = 112 - lineHeightAdd, Width = 75, Text = "OK" };
@@ -181,6 +181,7 @@ namespace ProjectTracker
             AddRowButton.Click += AddRowButton_ClickSplit;
             OkButton.Click += (sender, e) => { prompt.Close(); };
             OkButton.DialogResult = DialogResult.OK;
+            OkButton.Click += OkButton_Click;
             CancelButton.DialogResult = DialogResult.Cancel;
             CancelButton.Click += (sender, e) => { prompt.Close(); };
             prompt.AcceptButton = OkButton;
@@ -195,12 +196,10 @@ namespace ProjectTracker
             prompt.Controls.Add(CancelButton);
             prompt.Controls.Add(AddRowButton);
 
-            if (suggestions != null)
-                processSuggestions();
-            else
-                createRow();
+            createRow();
+            minutes.First().KeyUp += DialogDefineProjects_KeyUp;
 
-            createRowNewProject(false);
+            createRowNewProject(false, Handler.currentProjectComment, 0);
 
             continuallyFocusDialog();
             centerDialogOnMainscreen();
@@ -220,6 +219,11 @@ namespace ProjectTracker
                 ret.Add(new WorktimeRecord(start, DateTime.Now, currentProject.Text, currentComment.Text));
             }
             return ret;
+        }
+
+        private void DialogDefineProjects_KeyUp(object sender, KeyEventArgs e)
+        {
+            labelNow.Text = getMinutesLeft().ToString();
         }
 
         private void generateForm(string message)
@@ -368,11 +372,11 @@ namespace ProjectTracker
         /**
          * Row with Project & Comment
          */
-        private void createRowNewProject(bool reverseTabOrder = true, string comment = "")
+        private void createRowNewProject(bool reverseTabOrder = true, string comment = "", int? minutes = null)
         {
             lastLineHeight += lineHeightAdd;
 
-            labelNow = new System.Windows.Forms.Label() { Left = 44, Top = lastLineHeight, Width = 38, Text = "Now" };
+            labelNow = new System.Windows.Forms.Label() { Left = 44, Top = lastLineHeight, Width = 38, Text = (minutes != null) ? minutes.ToString() : "Now" };
             currentComment = createCommentTextfield(221, lastLineHeight, 236);
             currentComment.Text = comment;
             currentProject = createProjectCombobox();
@@ -463,11 +467,16 @@ namespace ProjectTracker
         private int getMinutesLeft()
         {
             int sum = 0;
-            foreach(var brk in minutes)
+            try
             {
-                if (brk.Text != "")
-                    sum += Convert.ToInt32(brk.Text);
+                foreach (var brk in minutes)
+                {
+                    if (brk.Text != "")
+                        sum += Convert.ToInt32(brk.Text);
+                }
             }
+            catch { }
+
             return MinutesTotal - sum;
         }
 

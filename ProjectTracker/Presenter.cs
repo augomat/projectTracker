@@ -123,7 +123,8 @@ namespace ProjectTracker
 
         public void ShowDialogSplitCurrentProject()
         {
-            List <WorktimeRecord> projects = new DialogDefineProjects().ShowDialogSplitCurrentProject(ProjectHandler);
+            //List <WorktimeRecord> projects = new DialogDefineProjects().ShowDialogSplitCurrentProject(ProjectHandler);
+            List <WorktimeRecord> projects = new DialogDefineProjects().ShowDialogDistraction(ProjectHandler);
 
             if (projects != null && projects.Count > 0)
                 ProjectCorrectionHandler.splitCurrentProject(projects);

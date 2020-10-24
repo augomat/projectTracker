@@ -272,9 +272,9 @@ namespace ProjectTracker
         private void AddRowButton_ClickMeantime(object sender, EventArgs e)
         {
             //Not exactly beautiful solution but it works
-            removeRowCurrentProject();
+            removeRowNewProject();
             createRow();
-            createRowCurrentProject();
+            createRowNewProject(false);
         }
 
         private void AddRowButton_ClickSplit(object sender, EventArgs e)
@@ -296,14 +296,13 @@ namespace ProjectTracker
             comments.Add(createCommentTextfield(221, lastLineHeight, 236));
             projects.Add(createProjectCombobox());
 
-            minutes.Last().TabIndex = nextTabIndex;
-            projects.Last().TabIndex = nextTabIndex + 1;
-            comments.Last().TabIndex = nextTabIndex + 2;
-            nextTabIndex += 3;
-            AddRowButton.TabIndex = nextTabIndex;
-            OkButton.TabIndex = nextTabIndex + 1;
+            minutes.Last().TabIndex = nextTabIndex++;
+            projects.Last().TabIndex = nextTabIndex++;
+            comments.Last().TabIndex = nextTabIndex++;
+            AddRowButton.TabIndex = nextTabIndex++;
+            OkButton.TabIndex = nextTabIndex++;
             if (CancelButton != null)
-                CancelButton.TabIndex = nextTabIndex + 2;
+                CancelButton.TabIndex = nextTabIndex++;
 
             prompt.Controls.Add(minutes.Last());
             prompt.Controls.Add(comments.Last());
@@ -335,14 +334,12 @@ namespace ProjectTracker
             labelProject = new System.Windows.Forms.Label() { Left = 91, Top = lastLineHeight, Width = 121, Text = Handler.currentProject };
 
             if (AddRowButton != null)
-            {
-                AddRowButton.TabIndex = nextTabIndex;
-                nextTabIndex += 1;
-            }
-            currentComment.TabIndex = nextTabIndex;
-            OkButton.TabIndex = nextTabIndex + 1;
+                AddRowButton.TabIndex = nextTabIndex++;
+            
+            currentComment.TabIndex = nextTabIndex++;
+            OkButton.TabIndex = nextTabIndex++;
             if (CancelButton != null)
-                CancelButton.TabIndex = nextTabIndex + 2;
+                CancelButton.TabIndex = nextTabIndex++;
 
             prompt.Controls.Add(labelNow);
             prompt.Controls.Add(currentComment);
@@ -384,18 +381,17 @@ namespace ProjectTracker
 
             if (reverseTabOrder)
             {
-                currentComment.TabIndex = nextTabIndex;
-                currentProject.TabIndex = nextTabIndex + 1;
+                currentComment.TabIndex = nextTabIndex++;
+                currentProject.TabIndex = nextTabIndex++;
             }
             else
             {
-                currentProject.TabIndex = nextTabIndex;
-                currentComment.TabIndex = nextTabIndex + 1;
+                currentProject.TabIndex = nextTabIndex++;
+                currentComment.TabIndex = nextTabIndex++;
             }
-            nextTabIndex += 2;
-            OkButton.TabIndex = nextTabIndex;
+            OkButton.TabIndex = nextTabIndex++;
             if (CancelButton != null)
-                CancelButton.TabIndex = nextTabIndex + 2;
+                CancelButton.TabIndex = nextTabIndex++;
 
             prompt.Controls.Add(labelNow);
             prompt.Controls.Add(currentComment);

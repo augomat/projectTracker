@@ -478,7 +478,8 @@ namespace ProjectTracker
         {
             waitForHandleCreated(Form);
             Form.Invoke(new MethodInvoker(delegate () {
-                Form.dateTimePicker1.Value = date;
+                if (Form.IsHandleCreated) //still exists?
+                    Form.dateTimePicker1.Value = date;
             }));
         }
 

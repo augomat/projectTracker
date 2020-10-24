@@ -49,7 +49,6 @@ namespace ProjectTracker
             Form.dexbotFilepath.Leave += dexbotLog_Leave;
 
             Form.CorrectProject.Click += CorrectProject_Click;
-            Form.AnalyzeWorktimes.Click += AnalyzeWorktimes_Click;
             Form.SetInWorkT.Click += SetInWT_Click;
             Form.ButtonUpdate.Click += updateButton_Click;
             Form.dataGridView1.CellValueChanged += grid_CellValueChanged;
@@ -155,8 +154,11 @@ namespace ProjectTracker
         //------------------------------------------------
         //------------------------------------------------
 
-        private void AnalyzeWorktimes_Click(object sender, EventArgs e)
+        private void AnalyzeWorktimes()
         {
+            if (WorktimeAnalyzer == null)
+                return;
+
             try
             {
                 var projectStatistics = WorktimeAnalyzer.AnalyzeWorkday(Form.dateTimePicker1.Value);
@@ -166,7 +168,6 @@ namespace ProjectTracker
                 {
                     Dictionary<string, TimeSpan> newOvertimes = null;
                     WorktimeAnalyzer.calculateOvertimeUndertime(projectStatistics, storage.getOvertimes(), out projectStatisticsReal, out newOvertimes);
-                    
                 }
                 else
                     projectStatisticsReal = projectStatistics;
@@ -212,8 +213,6 @@ namespace ProjectTracker
                 Form.Worktime.Text = projectStatisticsReal.totalWorktime.ToString(@"hh\:mm\:ss");
                 Form.ProjectTime.Text = projectStatisticsReal.totalProjectTime.ToString(@"hh\:mm\:ss");
                 Form.Workbreaktime.Text = projectStatisticsReal.totalWorkbreaktime.ToString(@"hh\:mm\:ss");
-
-                refreshGrid();
             }
             catch (Exception ex)
             {
@@ -459,6 +458,8 @@ namespace ProjectTracker
                     Form.dataGridView1.FirstDisplayedScrollingRowIndex = Form.dataGridView1.RowCount - Form.dataGridView1.DisplayedRowCount(true) + 1;
                 else if (firstDisplayed != -1)
                     Form.dataGridView1.FirstDisplayedScrollingRowIndex = firstDisplayed; //Form.dataGridView1.FirstDisplayedScrollingRowIndex will return -1 when not initialized or so but throws an exception when set
+
+                AnalyzeWorktimes();
 
                 Form.dataGridView1.ResumeLayout();
             }

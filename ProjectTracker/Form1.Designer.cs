@@ -81,7 +81,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.AnalyzeWorktimes = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.currentOvertime = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
@@ -419,7 +418,6 @@
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Controls.Add(this.AnalyzeWorktimes);
             this.groupBox2.Location = new System.Drawing.Point(20, 439);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(513, 209);
@@ -580,15 +578,6 @@
             this.label1.Size = new System.Drawing.Size(56, 13);
             this.label1.TabIndex = 2;
             this.label1.Text = "Total time:";
-            // 
-            // AnalyzeWorktimes
-            // 
-            this.AnalyzeWorktimes.Location = new System.Drawing.Point(7, 20);
-            this.AnalyzeWorktimes.Name = "AnalyzeWorktimes";
-            this.AnalyzeWorktimes.Size = new System.Drawing.Size(65, 23);
-            this.AnalyzeWorktimes.TabIndex = 0;
-            this.AnalyzeWorktimes.Text = "Analyze";
-            this.AnalyzeWorktimes.UseVisualStyleBackColor = true;
             // 
             // groupBox5
             // 
@@ -911,7 +900,6 @@
         private System.Windows.Forms.Timer projectTrackbarUpdater;
         public System.Windows.Forms.Button CorrectProject;
         private System.Windows.Forms.GroupBox groupBox2;
-        public System.Windows.Forms.Button AnalyzeWorktimes;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label3;

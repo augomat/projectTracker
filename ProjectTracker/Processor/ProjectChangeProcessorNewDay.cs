@@ -32,7 +32,6 @@ namespace ProjectTracker
 
                 //Hack: Just replace event data instead of refiring, because the old event is per definition invalid
                 projectChangeEvent.Type = ProjectChangeEvent.Types.GoodMorning;
-                projectChangeEvent.NewComment = "Good Morning";
                 projectChangeEvent.WorktimeRecord = new WorktimeRecord(
                                    DateTime.Now,
                                    DateTime.Now,

@@ -18,6 +18,8 @@ namespace ProjectTracker
 
         //this should actually be an interface but that's not worth the work...
         public Form1 Form;
+        public Overlay overlay;
+
         public IWorktimebreakHandler WorktimebreakHandler { private get;  set; }
         public IProjectCorrectionHandler ProjectCorrectionHandler { private get; set; } //TODO still needed?
         public IProjectHandler ProjectHandler { private get; set; }
@@ -30,9 +32,10 @@ namespace ProjectTracker
         public string currentProjectComment { get { return ProjectHandler.currentProjectComment; } } //TODO errorhandling
 
 
-        public Presenter(Form1 form)
+        public Presenter(Form1 form, Overlay overlay)
         {
             Form = form;
+            this.overlay = overlay;
 
 #if !WORKTRACKER
             Form.SetInWorkT.Enabled = false;
@@ -61,6 +64,8 @@ namespace ProjectTracker
             DateTime from, to;
             ProjectUtilities.getWorkDayByDateTime(DateTime.Now, out from, out to);
             Form.dateTimePicker1.Value = from;
+
+            overlay.Show();
         }
 
         public void onInitCompleted()

@@ -23,7 +23,8 @@ namespace ProjectTracker
             Application.SetCompatibleTextRenderingDefault(false);
 
             Form1 form = new Form1();
-            var presenter = new Presenter(form);
+            Overlay overlay = new Overlay();
+            var presenter = new Presenter(form, overlay);
             form.Presenter = presenter;
 
             ProjectChangeHandler mainHandler = new ProjectChangeHandler();
@@ -52,6 +53,7 @@ namespace ProjectTracker
             //Change subscribers
             mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberFormUpdater(presenter));
             mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberBalloonInformant(presenter.showNotification));
+            mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberOverlayUpdater(overlay.setOverlayText));
             mainHandler.addProjectChangeSubscriber(new ProjectChangeSubscriberLogger());
 
             //Storages

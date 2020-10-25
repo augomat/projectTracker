@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BorderLabel", "BorderLabel\BorderLabel.csproj", "{A8F3D10F-DCE3-4EF5-B352-14AF048212BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BorderLabelTest", "BorderLabelTest\BorderLabelTest.csproj", "{5B767030-A3AA-41B8-AAA8-4E079D1534BA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A8F3D10F-DCE3-4EF5-B352-14AF048212BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8F3D10F-DCE3-4EF5-B352-14AF048212BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8F3D10F-DCE3-4EF5-B352-14AF048212BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8F3D10F-DCE3-4EF5-B352-14AF048212BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B767030-A3AA-41B8-AAA8-4E079D1534BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B767030-A3AA-41B8-AAA8-4E079D1534BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B767030-A3AA-41B8-AAA8-4E079D1534BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B767030-A3AA-41B8-AAA8-4E079D1534BA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2868C0CE-12CC-484B-9BD6-E1AB52082135}
+	EndGlobalSection
+EndGlobal

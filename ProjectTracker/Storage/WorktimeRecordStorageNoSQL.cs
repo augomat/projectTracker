@@ -145,9 +145,10 @@ namespace ProjectTracker
                 {
                     //TODO support overnighters
 
+                    var nextDay = current.End.Date.Add(new TimeSpan(1, 0, 0, 0));
                     var next = wtrs.Find(wtr => wtr.storageID != id 
                         && wtr.Start >= current.End
-                        && wtr.Start < current.End.Date.Add(new TimeSpan(1,0,0,0))) //weird same day conditions because comparing .Date for some reason doesn't work
+                        && wtr.Start < nextDay) //weird same day conditions because comparing .Date for some reason doesn't work
                         .OrderBy(wtr => wtr.Start)
                         .FirstOrDefault();
 

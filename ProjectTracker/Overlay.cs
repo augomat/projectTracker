@@ -15,6 +15,7 @@ namespace ProjectTracker
             this.Text = String.Empty;
             this.FormBorderStyle = FormBorderStyle.None;
             this.TopMost = true;
+            this.ShowInTaskbar = false;
 
             positionOverlay();
         }

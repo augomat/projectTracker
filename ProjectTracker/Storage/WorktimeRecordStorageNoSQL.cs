@@ -210,8 +210,10 @@ namespace ProjectTracker
             using (var db = new LiteDatabase(DATABASE_FILE))
             {
                 var wtrs = db.GetCollection<WorktimeRecord>("worktimeRecords");
+                var thirtyDaysAgo = DateTime.Now.Add(new TimeSpan(-30, 0, 0, 0));
+
                 return wtrs
-                    .Find(wtr => wtr.Start >= DateTime.Now.Add(new TimeSpan(-30, 0, 0, 0)))
+                    .Find(wtr => wtr.Start >= thirtyDaysAgo)
                     .Select(wtr => wtr.ProjectName)
                     .Where(name => !String.IsNullOrEmpty(name))
                     .Distinct()
@@ -224,8 +226,10 @@ namespace ProjectTracker
             using (var db = new LiteDatabase(DATABASE_FILE))
             {
                 var wtrs = db.GetCollection<WorktimeRecord>("worktimeRecords");
+                var thirtyDaysAgo = DateTime.Now.Add(new TimeSpan(-30, 0, 0, 0));
+
                 return wtrs
-                    .Find(wtr => wtr.Start >= DateTime.Now.Add(new TimeSpan(-30, 0, 0, 0))
+                    .Find(wtr => wtr.Start >= thirtyDaysAgo
                         && wtr.ProjectName == projectName)
                     .Select(wtr => wtr.Comment)
                     .Where(name => !String.IsNullOrEmpty(name))

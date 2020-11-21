@@ -40,7 +40,7 @@
             this.borderLabel1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.borderLabel1.Size = new System.Drawing.Size(282, 33);
             this.borderLabel1.TabIndex = 2;
-            this.borderLabel1.Text = "borderasdf";
+            this.borderLabel1.Text = "[ProjectName]";
             this.borderLabel1.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
             // Overlay

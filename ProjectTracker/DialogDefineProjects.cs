@@ -477,6 +477,9 @@ namespace ProjectTracker
             }
             catch { }
 
+            if (labelNow != null && Int32.TryParse(labelNow.Text, out _))
+                sum += Convert.ToInt32(labelNow.Text);
+
             return MinutesTotal - sum;
         }
 

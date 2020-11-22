@@ -9,7 +9,7 @@ namespace ProjectTracker
 {
     class ProjectChangeSubscriberOverlayUpdater : IProjectChangeSubscriber
     {
-        public delegate void UpdateOverlay(string text);
+        public delegate void UpdateOverlay(string text, string comment);
         private UpdateOverlay ShowOverlayText;
 
         public ProjectChangeSubscriberOverlayUpdater(UpdateOverlay showOverlayText)
@@ -22,7 +22,7 @@ namespace ProjectTracker
             if (!projectChangeEvent.Processed)
                 return;
 
-            ShowOverlayText(projectChangeEvent.NewProject);
+            ShowOverlayText(projectChangeEvent.NewProject, projectChangeEvent.NewComment);
         }
     }
 }

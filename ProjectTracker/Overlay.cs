@@ -40,9 +40,10 @@ namespace ProjectTracker
             };
         }
 
-        public void setOverlayText(string text)
+        public void setOverlayText(string text, string comment)
         {
             borderLabel1.Text = text;
+            borderLabel2.Text = comment;
         }
     }
 }

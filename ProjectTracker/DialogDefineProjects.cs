@@ -221,9 +221,66 @@ namespace ProjectTracker
             return ret;
         }
 
+        public List<WorktimeRecord> ShowDialogSince(IProjectHandler handler)
+        {
+            Handler = handler;
+            From = Handler.currentProjectSince;
+            To = DateTime.Now;
+            MinutesTotal = (int)(Math.Floor((To - From).TotalMinutes));
+            Handler = handler;
+
+            generateForm("Change CURRENT / New project SINCE ...");
+
+            AddRowButton = new System.Windows.Forms.Button() { Left = 461, Top = 68 - lineHeightAdd, Width = 23, Text = "+" };
+            OkButton = new System.Windows.Forms.Button() { Left = 410, Top = 112 - lineHeightAdd, Width = 75, Text = "OK" };
+            CancelButton = new System.Windows.Forms.Button() { Left = 327, Top = 112 - lineHeightAdd, Width = 75, Text = "Cancel" };
+
+            AddRowButton.Click += AddRowButton_ClickSince;
+            OkButton.Click += (sender, e) => { prompt.Close(); };
+            OkButton.DialogResult = DialogResult.OK;
+            CancelButton.DialogResult = DialogResult.Cancel;
+            CancelButton.Click += (sender, e) => { prompt.Close(); };
+            prompt.AcceptButton = OkButton;
+            prompt.CancelButton = CancelButton;
+
+            prompt.Controls.Add(new System.Windows.Forms.Label() { Left = 47, Top = 24, Text = "Length: ", Width = 40 });
+            prompt.Controls.Add(new System.Windows.Forms.Label() { Left = 91, Top = 24, Text = $"{MinutesTotal} mins" });
+            prompt.Controls.Add(new System.Windows.Forms.Label() { Left = 41, Top = 53, Text = "Minutes", Width = 50, Height = 13 });
+            prompt.Controls.Add(new System.Windows.Forms.Label() { Left = 221, Top = 53, Text = "Comment", Width = 60, Height = 13 });
+            prompt.Controls.Add(new System.Windows.Forms.Label() { Left = 91, Top = 53, Text = "Project", Width = 50, Height = 13 });
+            prompt.Controls.Add(OkButton);
+            prompt.Controls.Add(CancelButton);
+            prompt.Controls.Add(AddRowButton);
+
+            createRow();
+            minutes.First().KeyUp += DialogDefineProjects_KeyUp;
+
+            continuallyFocusDialog();
+            centerDialogOnMainscreen();
+            var result = prompt.ShowDialog();
+
+            var ret = new List<WorktimeRecord>();
+            From = Handler.currentProjectSince + new TimeSpan(0, getMinutesLeft(), 0);
+            if (getMinutesLeft() > 0)
+                ret.Add(new WorktimeRecord(Handler.currentProjectSince, From, Handler.currentProject, Handler.currentProjectComment));
+
+            if (result == DialogResult.OK)
+            {
+                DateTime start = From;
+                for (int index = 0; index < minutes.Count; index++)
+                {
+                    var end = start.AddMinutes(Convert.ToInt32(minutes[index].Text));
+                    ret.Add(new WorktimeRecord(start, end, projects[index].Text, comments[index].Text));
+                    start = end;
+                }
+            }
+            return ret;
+        }
+
         private void DialogDefineProjects_KeyUp(object sender, KeyEventArgs e)
         {
-            labelNow.Text = getMinutesLeft().ToString();
+            if (labelNow != null)
+                labelNow.Text = getMinutesLeft().ToString();
         }
 
         private void generateForm(string message)
@@ -287,6 +344,11 @@ namespace ProjectTracker
             removeRowNewProject();
             createRow();
             createRowNewProject(false);
+        }
+
+        private void AddRowButton_ClickSince(object sender, EventArgs e)
+        {
+            createRow();
         }
 
         /**

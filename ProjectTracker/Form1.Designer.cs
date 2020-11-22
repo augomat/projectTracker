@@ -811,7 +811,7 @@
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(90, 13);
             this.label21.TabIndex = 0;
-            this.label21.Text = "Change comment";
+            this.label21.Text = "Change current";
             // 
             // ProjectTimesSummary
             // 

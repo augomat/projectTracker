@@ -116,7 +116,12 @@ namespace ProjectTracker
 
         public void ShowDialogAddComment()
         {
-            new DialogDefineProjects().ShowDialogChangeCurrentProject(ProjectHandler);
+            //new DialogDefineProjects().ShowDialogChangeCurrentProject(ProjectHandler);
+
+            List<WorktimeRecord> projects = new DialogDefineProjects().ShowDialogSince(ProjectHandler);
+
+            if (projects != null && projects.Count > 0)
+                ProjectCorrectionHandler.splitCurrentProject(projects);
         }
 
         public void ShowDialogNewProject()
@@ -130,7 +135,7 @@ namespace ProjectTracker
         {
             //List <WorktimeRecord> projects = new DialogDefineProjects().ShowDialogSplitCurrentProject(ProjectHandler);
             List <WorktimeRecord> projects = new DialogDefineProjects().ShowDialogDistraction(ProjectHandler);
-
+            
             if (projects != null && projects.Count > 0)
                 ProjectCorrectionHandler.splitCurrentProject(projects);
         }

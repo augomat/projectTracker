@@ -68,12 +68,19 @@ namespace ProjectTracker
 
         public void splitCurrentProject(List<WorktimeRecord> projects)
         {
-            if (projects.Count < 2)
-                throw new Exception("At least 1 and a current project must be specified.");
+            // This is the implicit contract with DialogDefineProjects that if it full-time (which I cannot know here), 
+            // it will only pass 1 param...hack...
+            if (projects.Count == 1)
+            {
+                Handler.changeCurrentProjectRetrospectively(projects[0].ProjectName, projects[0].Comment);
+                return;
+            }
 
             for (int i = 0; i < projects.Count - 2; i++)
             {
-                //var project = projects[i];
+                var project = projects[i];
+                if ((project.End - project.Start).TotalSeconds < 60)
+                    continue;
        
                 OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                     ProjectChangeEvent.Types.Change,
@@ -83,13 +90,13 @@ namespace ProjectTracker
             }
 
             //The last wtr is the current project, the penultimate the last project to be stored
-            var project = projects[projects.Count - 2];
+            var lastProject = projects[projects.Count - 2];
             var currentProject = projects.Last();
             OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                         ProjectChangeEvent.Types.Change,
                         currentProject.ProjectName,
                         currentProject.Comment,
-                        project));
+                        lastProject));
         }
     }
 }

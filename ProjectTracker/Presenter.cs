@@ -105,6 +105,11 @@ namespace ProjectTracker
             Form.TrayIcon.ShowBalloonTip(10);
         }
 
+        public void repositionOverlay()
+        {
+            overlay.positionOverlay();
+        }
+
         public void showError(string title, string text)
         {
             waitForHandleCreated(Form);

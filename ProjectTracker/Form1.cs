@@ -96,6 +96,7 @@ namespace ProjectTracker
             this.WindowState = FormWindowState.Normal;
             this.Activate();
             this.Focus();
+            Presenter.repositionOverlay();
         }
 
         private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)

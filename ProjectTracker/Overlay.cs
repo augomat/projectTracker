@@ -21,7 +21,7 @@ namespace ProjectTracker
             positionOverlay();
         }
 
-        private void positionOverlay()
+        public void positionOverlay()
         {
             Screen mainScreen = null;
             foreach (var singleScreen in Screen.AllScreens) //TODO agh, wäääh, use lambda, linq, whatever for this!!
@@ -38,6 +38,7 @@ namespace ProjectTracker
                 X = mainScreen.WorkingArea.Right - this.Width,
                 Y = mainScreen.WorkingArea.Bottom - this.Height
             };
+            this.TopMost = true;
         }
 
         public void setOverlayText(string text, string comment)

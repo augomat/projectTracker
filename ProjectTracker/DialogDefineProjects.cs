@@ -252,9 +252,8 @@ namespace ProjectTracker
             prompt.Controls.Add(CancelButton);
             prompt.Controls.Add(AddRowButton);
 
-            createRow();
-            minutes.First().KeyUp += DialogDefineProjects_KeyUp;
-
+            createRowSince();
+            
             continuallyFocusDialog();
             centerDialogOnMainscreen();
             var result = prompt.ShowDialog();
@@ -280,7 +279,7 @@ namespace ProjectTracker
         private void DialogDefineProjects_KeyUp(object sender, KeyEventArgs e)
         {
             if (labelNow != null)
-                labelNow.Text = getMinutesLeft().ToString();
+                labelNow.Text = getMinutesLeft(false).ToString();
         }
 
         private void generateForm(string message)
@@ -323,7 +322,7 @@ namespace ProjectTracker
 
         private void OkButton_Click(object sender, EventArgs e)
         {
-            if (getMinutesLeft() != 0)
+            if (getMinutesLeft(true) != 0)
             {
                 MessageBox.Show($"Total Sum of minutes must be exactly {MinutesTotal}", "Error");
                 prompt.DialogResult = DialogResult.None;
@@ -348,8 +347,9 @@ namespace ProjectTracker
 
         private void AddRowButton_ClickSince(object sender, EventArgs e)
         {
-            createRow();
+            createRowSince();
         }
+
 
         /**
          * Normal row with Project / Comment / Add-Button
@@ -483,6 +483,15 @@ namespace ProjectTracker
             lastLineHeight -= lineHeightAdd;
         }
 
+        private void createRowSince()
+        {
+            createRow();
+
+            projects.Last().Text = Handler.currentProject;
+            comments.Last().Text = Handler.currentProjectComment;
+
+        }
+
         private ComboBox createProjectCombobox()
         {
             var combobox = new System.Windows.Forms.ComboBox() { Left = 91, Top = lastLineHeight, Width = 121, AutoCompleteMode = AutoCompleteMode.Append, AutoCompleteSource = AutoCompleteSource.ListItems};
@@ -526,7 +535,7 @@ namespace ProjectTracker
             ((TextBox)sender).AutoCompleteCustomSource = suggestionList;
         }
 
-        private int getMinutesLeft()
+        private int getMinutesLeft(bool includeLabelNow = false)
         {
             int sum = 0;
             try
@@ -539,7 +548,7 @@ namespace ProjectTracker
             }
             catch { }
 
-            if (labelNow != null && Int32.TryParse(labelNow.Text, out _))
+            if (includeLabelNow && labelNow != null && Int32.TryParse(labelNow.Text, out _))
                 sum += Convert.ToInt32(labelNow.Text);
 
             return MinutesTotal - sum;

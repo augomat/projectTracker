@@ -469,11 +469,13 @@ namespace ProjectTracker
                     Form.dataGridView1.Rows[lastRow].DefaultCellStyle.SelectionForeColor = Color.Gray;
                 }
 
-
-                if (shouldAutoscroll)
-                    Form.dataGridView1.FirstDisplayedScrollingRowIndex = Form.dataGridView1.RowCount - Form.dataGridView1.DisplayedRowCount(true) + 1;
-                else if (firstDisplayed != -1)
-                    Form.dataGridView1.FirstDisplayedScrollingRowIndex = firstDisplayed; //Form.dataGridView1.FirstDisplayedScrollingRowIndex will return -1 when not initialized or so but throws an exception when set
+                if (Form.dataGridView1.Rows.Count > 0)
+                {
+                    if (shouldAutoscroll)
+                        Form.dataGridView1.FirstDisplayedScrollingRowIndex = Form.dataGridView1.RowCount - Form.dataGridView1.DisplayedRowCount(true) + 1;
+                    else if (Form.dataGridView1.FirstDisplayedScrollingRowIndex != -1 && firstDisplayed != -1)
+                        Form.dataGridView1.FirstDisplayedScrollingRowIndex = firstDisplayed; //not actually true if not same day shown
+                }
 
                 AnalyzeWorktimes();
 

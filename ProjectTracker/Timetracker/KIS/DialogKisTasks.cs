@@ -45,7 +45,7 @@ namespace ProjectTracker.Timetracker.KIS
                         day.ToShortDateString(),
                         kisTime.Start.ToString("HHmm"),
                         kisTime.End.ToString("HHmm"),
-                        Math.Round(kisTime.getLength().TotalMinutes, 0),
+                        Math.Round(kisTime.getLength().TotalHours, 2),
                         Math.Round(kisTime.QuantizationError.TotalMinutes, 0),
                         kisTime.ProjectTrackerProject,
                         String.Join(" | ", kisTime.Comments));

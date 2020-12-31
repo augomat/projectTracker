@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace ProjectTracker.Timetracker.KIS
 
     class KISTimesCalculator
     {
-        private TimeSpan DayStartTime = new TimeSpan(8, 0, 0);
+        private TimeSpan DayStartTime = new TimeSpan(7, 30, 0);
         private TimeSpan LunchTimerangeStart = new TimeSpan(11, 30, 0);
         private TimeSpan LunchTimerangeEnd = new TimeSpan(13, 30, 0);
         private TimeSpan Lunchtime = new TimeSpan(0, 30, 0);
@@ -23,6 +24,8 @@ namespace ProjectTracker.Timetracker.KIS
             var totalWorkTime = wts.totalWorktime;
             var currentStartTime = startDay.Date + DayStartTime;
 
+            groupByKisProjectsTimes(wts);
+
             var kisTimeSpans = generateKisTimeSpans(wts);
             quantizeKisTimeSpansToQuarter(kisTimeSpans, wts.totalWorktime);
 
@@ -32,10 +35,43 @@ namespace ProjectTracker.Timetracker.KIS
             return kisTimes;
         }
 
+        private void groupByKisProjectsTimes(WorktimeStatistics wts)
+        {
+            var newRelativeProjectTimes = new Dictionary<string, float>();
+            var newComments = new Dictionary<string, Dictionary<string, TimeSpan>>();
+
+            foreach (var project in wts.relativeProjectTimes)
+            {
+                string projectName = project.Key;
+                string kisProjectName = mapToKisProject(projectName);
+                float projectFraction = project.Value;
+
+                if (!newRelativeProjectTimes.ContainsKey(kisProjectName))
+                    newRelativeProjectTimes[kisProjectName] = 0.0f;
+                newRelativeProjectTimes[kisProjectName] += projectFraction;
+
+                if (!newComments.ContainsKey(kisProjectName))
+                    newComments[kisProjectName] = wts.projectComments[projectName];
+                else
+                {
+                    foreach (var comment in wts.projectComments[projectName])
+                    {
+                        if (!newComments[kisProjectName].ContainsKey(comment.Key))
+                            newComments[kisProjectName][comment.Key] = new TimeSpan();
+                        newComments[kisProjectName][comment.Key] += comment.Value;
+                    }
+
+                }
+            }
+
+            wts.relativeProjectTimes = newRelativeProjectTimes;
+            wts.projectComments = newComments;
+        }
+
         private List<KISTimeSpan> generateKisTimeSpans(WorktimeStatistics wts)
         {
             var kisTimeSpans = new List<KISTimeSpan>();
-
+            
             foreach (var project in wts.relativeProjectTimes)
             {
                 string projectName = project.Key;
@@ -137,6 +173,15 @@ namespace ProjectTracker.Timetracker.KIS
             var lunchtimeAdded = false;
             var newTimes = new List<KISTime>();
 
+            if (kisTimes.Count == 0)
+                return kisTimes;
+            
+            //Check whether we actually need to introduce a lunchbreak
+            var totalTimespan = kisTimes.Last().End - kisTimes.First().Start;
+            var minWorktimeForLuchbreak = LunchTimerangeStart - DayStartTime; //maybe this is not actually true....
+            if (totalTimespan < minWorktimeForLuchbreak)
+                return kisTimes;
+
             //First round: Check whether any KISTime end in the desired lunchtime
             foreach (var kisTime in kisTimes)
             {
@@ -213,6 +258,15 @@ namespace ProjectTracker.Timetracker.KIS
                 throw new Exception("No lunchtime could be added"); //Should not happen
 
             return newTimes;
+        }
+
+        private string mapToKisProject(string projectName)
+        {
+            // TODO: This should of course come from a mapping table, best probably a separate db-lite config
+            if (projectName == "Confluence")
+                return "Confluence";
+            else
+                return "AL";
         }
     }
 

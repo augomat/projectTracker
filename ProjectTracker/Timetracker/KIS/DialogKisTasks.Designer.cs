@@ -35,7 +35,7 @@
             this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StartTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EndTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Mins = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Hours = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Quantized = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Project = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -50,7 +50,7 @@
             this.Date,
             this.StartTime,
             this.EndTime,
-            this.Mins,
+            this.Hours,
             this.Quantized,
             this.Project,
             this.Comment});
@@ -95,17 +95,17 @@
             this.EndTime.Name = "EndTime";
             this.EndTime.Width = 80;
             // 
-            // Mins
+            // Hours
             // 
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightGray;
             dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Gray;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.LightGray;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Gray;
-            this.Mins.DefaultCellStyle = dataGridViewCellStyle2;
-            this.Mins.HeaderText = "Mins";
-            this.Mins.Name = "Mins";
-            this.Mins.ReadOnly = true;
-            this.Mins.Width = 50;
+            this.Hours.DefaultCellStyle = dataGridViewCellStyle2;
+            this.Hours.HeaderText = "Hours";
+            this.Hours.Name = "Hours";
+            this.Hours.ReadOnly = true;
+            this.Hours.Width = 50;
             // 
             // Quantized
             // 
@@ -146,7 +146,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Date;
         private System.Windows.Forms.DataGridViewTextBoxColumn StartTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn EndTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Mins;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Hours;
         private System.Windows.Forms.DataGridViewTextBoxColumn Quantized;
         private System.Windows.Forms.DataGridViewTextBoxColumn Project;
         private System.Windows.Forms.DataGridViewTextBoxColumn Comment;

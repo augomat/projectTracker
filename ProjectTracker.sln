@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectTracker", "ProjectTracker\ProjectTracker.csproj", "{A77B4EEE-A8F8-4BE7-A6E6-EABCEAFF67C8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectTrackerTests", "ProjectTrackerTests\ProjectTrackerTests.csproj", "{02D5254C-3615-4188-B27F-D86F66DF6F9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BorderLabel", "Resources\BorderLabel-v1.0.0.2-src\BorderLabel\BorderLabel.csproj", "{A8F3D10F-DCE3-4EF5-B352-14AF048212BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,8 +23,15 @@ Global
 		{02D5254C-3615-4188-B27F-D86F66DF6F9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02D5254C-3615-4188-B27F-D86F66DF6F9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02D5254C-3615-4188-B27F-D86F66DF6F9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8F3D10F-DCE3-4EF5-B352-14AF048212BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8F3D10F-DCE3-4EF5-B352-14AF048212BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8F3D10F-DCE3-4EF5-B352-14AF048212BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8F3D10F-DCE3-4EF5-B352-14AF048212BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6D1B41AC-52EC-433C-9C08-3F069ABF5AE3}
 	EndGlobalSection
 EndGlobal

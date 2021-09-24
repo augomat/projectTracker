@@ -41,10 +41,9 @@
     <Setting Name="AvailableProjects" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;AL-Orga&lt;/string&gt;
-  &lt;string&gt;Customer&lt;/string&gt;
-  &lt;string&gt;KVP&lt;/string&gt;
-  &lt;string&gt;Micromanagement&lt;/string&gt;
+  &lt;string&gt;Orga&lt;/string&gt;
+  &lt;string&gt;Strategy&lt;/string&gt;
+  &lt;string&gt;People&lt;/string&gt;
   &lt;string&gt;Other&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>

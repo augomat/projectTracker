@@ -68,7 +68,7 @@
       <HintPath>T:\mgi\WorkTrackerApi\FpMem.dll</HintPath>
     </Reference>-->
     <Reference Include="BorderLabel">
-      <HintPath>..\Resources\BorderLabel-v1.0.0.2-src\BorderLabel\bin\Release\BorderLabel.dll</HintPath>
+      <HintPath>..\Resources\BorderLabel-v1.0.0.2-src\BorderLabel\bin\Debug\BorderLabel.dll</HintPath>
     </Reference>
     <Reference Include="LiteDB, Version=5.0.9.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
       <HintPath>..\packages\LiteDB.5.0.9\lib\net45\LiteDB.dll</HintPath>
@@ -210,7 +210,7 @@
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 und x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
@@ -222,7 +222,8 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"c:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe" sign /a $(TargetPath)</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

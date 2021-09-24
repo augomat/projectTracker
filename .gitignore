@@ -244,5 +244,5 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 
-# custom added
-App.config
+# custom added - and removed again as it doesn't compile from scratch without it and it is not immediately obvious how to fix it (rename .example file)
+# App.config

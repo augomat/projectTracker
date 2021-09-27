@@ -63,7 +63,15 @@ namespace ProjectTracker
             httpClient.DefaultRequestHeaders.Accept.Clear();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            getToken();
+            try
+            {
+                getToken();
+            }
+            catch
+            {
+                Console.WriteLine("Timular token could not be retrieved");
+                return;
+            }
             
             while (true)
             {

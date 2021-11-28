@@ -19,5 +19,6 @@ namespace ProjectTracker
         Dictionary<string, TimeSpan> getOvertimes();
         List<String> getRecentProjects();
         List<String> getRecentComments(string projectName);
+        String exportAll();
     }
 }

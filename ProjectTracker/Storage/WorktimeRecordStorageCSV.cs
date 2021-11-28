@@ -123,5 +123,10 @@ namespace ProjectTracker
         {
             return new List<String>();
         }
+
+        public String exportAll()
+        {
+            return "";
+        }
     }
 }

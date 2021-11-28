@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -237,6 +238,18 @@ namespace ProjectTracker
                     .Distinct()
                     .ToList();
             }
+        }
+
+        public String exportAll()
+        {
+            File.Delete("allWtrs.csv");
+
+            using (var db = new LiteDatabase(DATABASE_FILE))
+            {
+                db.Execute("SELECT $ INTO $FILE('allWtrs.csv') FROM worktimeRecords");
+            }
+
+            return "allWtrs.csv";
         }
     }
 

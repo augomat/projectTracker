@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
@@ -106,6 +106,7 @@
             this.hotkeyChangeComment = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.ProjectTimesSummary = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.exportAll = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -157,11 +158,11 @@
             // 
             // Date
             // 
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Gray;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Gray;
-            this.Date.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Gray;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Gray;
+            this.Date.DefaultCellStyle = dataGridViewCellStyle1;
             this.Date.HeaderText = "Date";
             this.Date.Name = "Date";
             this.Date.ReadOnly = true;
@@ -181,11 +182,11 @@
             // 
             // Mins
             // 
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Gray;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Gray;
-            this.Mins.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Gray;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Gray;
+            this.Mins.DefaultCellStyle = dataGridViewCellStyle2;
             this.Mins.HeaderText = "Mins";
             this.Mins.Name = "Mins";
             this.Mins.ReadOnly = true;
@@ -212,6 +213,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.exportAll);
             this.groupBox1.Controls.Add(this.ButtonShowKisTasks);
             this.groupBox1.Controls.Add(this.ButtonUpdate);
             this.groupBox1.Controls.Add(this.dateTimePicker1);
@@ -809,26 +811,35 @@
             this.label21.AutoSize = true;
             this.label21.Location = new System.Drawing.Point(6, 21);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(90, 13);
+            this.label21.Size = new System.Drawing.Size(80, 13);
             this.label21.TabIndex = 0;
             this.label21.Text = "Change current";
             // 
             // ProjectTimesSummary
             // 
             this.ProjectTimesSummary.BackColor = System.Drawing.SystemColors.Control;
-            chartArea2.AxisX.Interval = 1D;
-            chartArea2.Name = "ChartArea1";
-            this.ProjectTimesSummary.ChartAreas.Add(chartArea2);
+            chartArea1.AxisX.Interval = 1D;
+            chartArea1.Name = "ChartArea1";
+            this.ProjectTimesSummary.ChartAreas.Add(chartArea1);
             this.ProjectTimesSummary.Location = new System.Drawing.Point(210, 480);
             this.ProjectTimesSummary.Name = "ProjectTimesSummary";
-            series2.ChartArea = "ChartArea1";
-            series2.Name = "Series1";
-            this.ProjectTimesSummary.Series.Add(series2);
+            series1.ChartArea = "ChartArea1";
+            series1.Name = "Series1";
+            this.ProjectTimesSummary.Series.Add(series1);
             this.ProjectTimesSummary.Size = new System.Drawing.Size(320, 162);
             this.ProjectTimesSummary.TabIndex = 15;
             this.ProjectTimesSummary.Text = "chart1";
             this.ProjectTimesSummary.Visible = false;
             this.ProjectTimesSummary.Click += new System.EventHandler(this.ProjectTimesSummary_Click_1);
+            // 
+            // exportAll
+            // 
+            this.exportAll.Location = new System.Drawing.Point(426, 27);
+            this.exportAll.Name = "exportAll";
+            this.exportAll.Size = new System.Drawing.Size(97, 23);
+            this.exportAll.TabIndex = 5;
+            this.exportAll.Text = "Export all";
+            this.exportAll.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -950,6 +961,7 @@
         public System.Windows.Forms.Label hotkeyChangeComment;
         private System.Windows.Forms.Label label21;
         public System.Windows.Forms.DataVisualization.Charting.Chart ProjectTimesSummary;
+        public System.Windows.Forms.Button exportAll;
     }
 }
 

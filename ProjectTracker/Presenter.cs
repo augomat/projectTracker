@@ -59,6 +59,7 @@ namespace ProjectTracker
             Form.dataGridView1.CellEndEdit += dataGridView1_CellEndEdit;
             Form.dateTimePicker1.ValueChanged += updateButton_Click; // hack...
             Form.ButtonShowKisTasks.Click += buttonShowKisTasks_Click;
+            Form.exportAll.Click += exportAll_Click;
             Form.Activated += (o, i) => { refreshGrid(); };
           
             DateTime from, to;
@@ -336,6 +337,15 @@ namespace ProjectTracker
         {
             new ProjectTracker.Timetracker.KIS.DialogKisTasks(storage, ProjectHandler)
                 .Show(Form.dateTimePicker1.Value);
+        }
+
+        private void exportAll_Click(object sender, EventArgs e)
+        {
+            string filename = storage.exportAll();
+            MessageBox.Show("CSV-File exported: " + filename,
+                        "Worktracker",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
         }
 
         private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)

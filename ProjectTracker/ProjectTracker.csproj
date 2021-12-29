@@ -62,6 +62,9 @@
     <RegisterForComInterop>False</RegisterForComInterop>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>asd.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <!--<Reference Include="FpMem, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

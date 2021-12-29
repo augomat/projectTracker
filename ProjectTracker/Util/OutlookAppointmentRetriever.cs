@@ -30,8 +30,13 @@ namespace ProjectTracker.Util
 					if ((appt.End - appt.Start).TotalMinutes < 1)
 						continue;
 
-					//Assume that appointments marked as free are more like "reminders"
-					if (appt.BusyStatus == Outlook.OlBusyStatus.olFree)
+					//Ignore all day events that are not "alone", assuming these events are more like placeholders
+					if (appt.AllDayEvent && appt.Conflicts?.GetFirst() != null)
+						continue;
+
+					//Assume that appointments marked as free or OOO are more like "reminders"
+					if (appt.BusyStatus == Outlook.OlBusyStatus.olFree
+						|| appt.BusyStatus == Outlook.OlBusyStatus.olOutOfOffice)
 						continue;
 
                     ret.Add(new WorktimeRecord(appt.Start, appt.End, "[unknown-outl]", appt.Subject));

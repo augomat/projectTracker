@@ -257,6 +257,7 @@ namespace ProjectTracker
             continuallyFocusDialog();
             centerDialogOnMainscreen();
             var result = prompt.ShowDialog();
+            prompt.Activate();
 
             var ret = new List<WorktimeRecord>();
             From = Handler.currentProjectSince + new TimeSpan(0, getMinutesLeft(), 0);

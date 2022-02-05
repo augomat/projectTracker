@@ -314,11 +314,13 @@ namespace ProjectTracker
         }
         private void continuallyFocusDialog()
         {
+            prompt.TopMost = true;
+
+            // These appear to have stopped Working (on Win 11?)
             Task.Delay(500).ContinueWith(t => { try { prompt.Invoke(new Action(prompt.Activate)); } catch { } }); //brrrrrrrr hacky, TODO implement something so that it never looses focus (buha)
             Task.Delay(1000).ContinueWith(t => { try { prompt.Invoke(new Action(prompt.Activate)); } catch { } }); //BRRRRRRRRRRRRR
             Task.Delay(1500).ContinueWith(t => { try { prompt.Invoke(new Action(prompt.Activate)); } catch { } }); //BRRRRRRRRRRRRR
             Task.Delay(2000).ContinueWith(t => { try { prompt.Invoke(new Action(prompt.Activate)); } catch { } }); //BRRRRRRRRRRRRR
-            prompt.TopMost = true;
         }
 
         private void OkButton_Click(object sender, EventArgs e)

@@ -100,10 +100,24 @@ namespace ProjectTracker
 
         public void showNotification(string title, string text)
         {
-            Form.TrayIcon.BalloonTipTitle = (title != "") ? title : "[no title]";
-            Form.TrayIcon.BalloonTipText = (text != "") ? text : "[no text]";
-            Form.TrayIcon.BalloonTipClicked += Form.ShowForm;
-            Form.TrayIcon.ShowBalloonTip(10);
+            showNotification(title, text, Form.ShowForm);
+        }
+
+        static EventHandler lastHandler;
+        public void showNotification(string title, string text, EventHandler handler)
+        {
+            Form.Invoke(new MethodInvoker(delegate ()
+            {
+                Form.TrayIcon.BalloonTipTitle = (title != "") ? title : "[no title]";
+                Form.TrayIcon.BalloonTipText = (text != "") ? text : "[no text]";
+                Form.TrayIcon.BalloonTipClicked -= lastHandler;
+                Form.TrayIcon.BalloonTipClicked += handler;
+                Form.TrayIcon.ShowBalloonTip(10);
+
+            }));
+
+            // very unbeautiful but apparently there is no straight forward way to delete all registered eventhandlers
+            lastHandler = handler;
         }
 
         public void repositionOverlay()

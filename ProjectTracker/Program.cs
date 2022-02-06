@@ -40,6 +40,7 @@ namespace ProjectTracker
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierTimeular(mainHandler, presenter));
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierLockscreen(mainHandler));
             mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierAppExit(mainHandler));
+            mainHandler.addProjectChangeNotifier(new ProjectChangeNotifierUpcomingAppointment(mainHandler, presenter));
             mainHandler.addProjectChangeNotifier(projectAnalysisHandler);
             mainHandler.addProjectChangeNotifier(projectCorrectionHandler);
 

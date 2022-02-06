@@ -45,6 +45,7 @@
             this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Index = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.exportAll = new System.Windows.Forms.Button();
             this.ButtonShowKisTasks = new System.Windows.Forms.Button();
             this.ButtonUpdate = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -106,7 +107,6 @@
             this.hotkeyChangeComment = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.ProjectTimesSummary = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.exportAll = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -124,7 +124,6 @@
             // 
             this.notifyIcon1.Text = "notifyIcon1";
             this.notifyIcon1.Visible = true;
-            this.notifyIcon1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseClick);
             // 
             // contextMenuStrip1
             // 
@@ -224,6 +223,15 @@
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Project history";
+            // 
+            // exportAll
+            // 
+            this.exportAll.Location = new System.Drawing.Point(426, 27);
+            this.exportAll.Name = "exportAll";
+            this.exportAll.Size = new System.Drawing.Size(97, 23);
+            this.exportAll.TabIndex = 5;
+            this.exportAll.Text = "Export all";
+            this.exportAll.UseVisualStyleBackColor = true;
             // 
             // ButtonShowKisTasks
             // 
@@ -831,15 +839,6 @@
             this.ProjectTimesSummary.Text = "chart1";
             this.ProjectTimesSummary.Visible = false;
             this.ProjectTimesSummary.Click += new System.EventHandler(this.ProjectTimesSummary_Click_1);
-            // 
-            // exportAll
-            // 
-            this.exportAll.Location = new System.Drawing.Point(426, 27);
-            this.exportAll.Name = "exportAll";
-            this.exportAll.Size = new System.Drawing.Size(97, 23);
-            this.exportAll.TabIndex = 5;
-            this.exportAll.Text = "Export all";
-            this.exportAll.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 

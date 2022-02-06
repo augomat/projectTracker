@@ -99,11 +99,6 @@ namespace ProjectTracker
             Presenter.repositionOverlay();
         }
 
-        private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
-        {
-            
-        }
-
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             Properties.Settings.Default.lastAppExit = DateTime.Now;

@@ -129,14 +129,11 @@ namespace ProjectTracker
                 }
 
                 //Update fields
+                currentProject = projectChangeEvent.NewProject;
+                currentProjectComment = projectChangeEvent.NewComment;
                 if (projectChangeEvent.WorktimeRecord != null && projectChangeEvent.WorktimeRecords.Last().End >= currentProjectSince)
-                {
-                    var oldProject = currentProject;
-
-                    currentProject = projectChangeEvent.NewProject;
                     currentProjectSince = projectChangeEvent.WorktimeRecords.Last().End;
-                    currentProjectComment = projectChangeEvent.NewComment;
-                }
+                    
             }
         }
 
@@ -182,17 +179,6 @@ namespace ProjectTracker
                 list.AddRange(storage.getRecentComments(projectName));
             }
             return list;
-        }
-
-        /**
-         * This is of course a big hack and a very bad idea because we circumvent all listeners with this
-         * Just, there is currently not good way how to easily fit this into the existing event structure
-         * Or at least, I need to come up with one
-         **/
-        public void changeCurrentProjectRetrospectively(string project, string comment)
-        {
-            currentProject = project ?? currentProject;
-            currentProjectComment = comment ?? currentProjectComment;
         }
     }
 }

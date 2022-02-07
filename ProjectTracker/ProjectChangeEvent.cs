@@ -16,7 +16,10 @@ namespace ProjectTracker
         public TimeSpan AvailableWorktimebreak { get; set; }
         public Boolean Processed { get; set; }
         public List<WorktimeRecord> WorktimeRecords { get; set; } = new List<WorktimeRecord>(); //RTODO this list should be ordered according to .end
-        public WorktimeRecord WorktimeRecord { get { return WorktimeRecords.ElementAt(0); } set { WorktimeRecords[0] = value; } }
+        public WorktimeRecord WorktimeRecord { 
+            get { return (WorktimeRecords.Count > 0) ? WorktimeRecords.ElementAt(0) : null; } 
+            set { WorktimeRecords[0] = value; } 
+        }
         
         public ProjectChangeEvent(Types type, string newProject, string newComment, List<WorktimeRecord> wtrs, Boolean processed = false, TimeSpan availableWorktimebreak = new TimeSpan())
         {

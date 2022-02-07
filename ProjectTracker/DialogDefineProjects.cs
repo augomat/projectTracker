@@ -95,41 +95,6 @@ namespace ProjectTracker
             return ret;
         }
 
-        public void ShowDialogChangeCurrentProject(IProjectHandler handler)
-        {
-            Handler = handler;
-            MinutesTotal = (int)((DateTime.Now - Handler.currentProjectSince).TotalMinutes);
-
-            generateForm("CHANGE your CURRENT project");
-
-            OkButton = new System.Windows.Forms.Button() { Left = 410, Top = 112 - lineHeightAdd, Width = 75, Text = "OK" };
-            CancelButton = new System.Windows.Forms.Button() { Left = 327, Top = 112 - lineHeightAdd, Width = 75, Text = "Cancel" };
-
-            OkButton.Click += (sender, e) => { prompt.Close(); };
-            OkButton.DialogResult = DialogResult.OK;
-            CancelButton.DialogResult = DialogResult.Cancel;
-            CancelButton.Click += (sender, e) => { prompt.Close(); };
-            prompt.AcceptButton = OkButton;
-            prompt.CancelButton = CancelButton;
-
-            prompt.Controls.Add(new System.Windows.Forms.Label() { Left = 41, Top = 53, Text = "Minutes", Width = 50, Height = 13 });
-            prompt.Controls.Add(new System.Windows.Forms.Label() { Left = 221, Top = 53, Text = "Comment", Width = 60, Height = 13 });
-            prompt.Controls.Add(new System.Windows.Forms.Label() { Left = 91, Top = 53, Text = "Project", Width = 50, Height = 13 });
-            prompt.Controls.Add(OkButton);
-            prompt.Controls.Add(CancelButton);
-
-            createRowNewProject(false, Handler.currentProjectComment, MinutesTotal);
-
-            continuallyFocusDialog();
-            centerDialogOnMainscreen();
-            var result = prompt.ShowDialog();
-
-            if (result == DialogResult.OK)
-            {
-                Handler.changeCurrentProjectRetrospectively(currentProject.Text, currentComment.Text);
-            }
-        }
-
         public WorktimeRecord ShowDialogNewProject(IProjectHandler handler)
         {
             Handler = handler;

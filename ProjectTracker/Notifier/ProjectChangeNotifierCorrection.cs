@@ -31,12 +31,12 @@ namespace ProjectTracker
             return new Tuple<DateTime, DateTime>(datetimeProjectChange, DateTime.Now);
         }
 
-        public void correctCurrentProject(string projectShortname, float percentage)
+        public void splitCurrentProject(string projectShortname, float percentage)
         {
-            OnRaiseProjectChangeEvent(getCorrectCurrentProjectEvent(projectShortname, percentage));
+            OnRaiseProjectChangeEvent(getSplitCurrentProjectEvent(projectShortname, percentage));
         }
 
-        public ProjectChangeEvent getCorrectCurrentProjectEvent(string projectShortname, float percentage)
+        public ProjectChangeEvent getSplitCurrentProjectEvent(string projectShortname, float percentage)
         {
             var correctedTimes = getCurrentProjectCorrectedTimes(percentage);
 
@@ -50,6 +50,15 @@ namespace ProjectTracker
                             Handler.currentProject,
                             Handler.currentProjectComment)
                         );
+        }
+
+        public void changeCurrentProject(string projectShortname, string projectComment)
+        {
+            OnRaiseProjectChangeEvent(new ProjectChangeEvent(
+                        ProjectChangeEvent.Types.Change,
+                        projectShortname,
+                        projectComment,
+                        new List<WorktimeRecord>()));
         }
 
         public void addNewCurrentProject(string projectShortname, string projectComment)
@@ -68,11 +77,13 @@ namespace ProjectTracker
 
         public void splitCurrentProject(List<WorktimeRecord> projects)
         {
-            // This is the implicit contract with DialogDefineProjects that if it full-time (which I cannot know here), 
-            // it will only pass 1 param...hack...
             if (projects.Count == 1)
             {
-                Handler.changeCurrentProjectRetrospectively(projects[0].ProjectName, projects[0].Comment);
+                OnRaiseProjectChangeEvent(new ProjectChangeEvent(
+                        ProjectChangeEvent.Types.Change,
+                        projects[0].ProjectName,
+                        projects[0].Comment,
+                        new List<WorktimeRecord>()));
                 return;
             }
 
@@ -84,8 +95,8 @@ namespace ProjectTracker
        
                 OnRaiseProjectChangeEvent(new ProjectChangeEvent(
                     ProjectChangeEvent.Types.Change,
-                    projects[i].ProjectName,
-                    projects[i].Comment,
+                    projects[i+1].ProjectName,
+                    projects[i+1].Comment,
                     projects[i]));
             }
 

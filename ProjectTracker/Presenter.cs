@@ -153,7 +153,6 @@ namespace ProjectTracker
 
         public void ShowDialogSplitCurrentProject()
         {
-            //List <WorktimeRecord> projects = new DialogDefineProjects().ShowDialogSplitCurrentProject(ProjectHandler);
             List <WorktimeRecord> projects = new DialogDefineProjects().ShowDialogDistraction(ProjectHandler);
             
             if (projects != null && projects.Count > 0)
@@ -339,7 +338,7 @@ namespace ProjectTracker
                 return;
             }
 
-            ProjectCorrectionHandler.correctCurrentProject(Form.correctProjectCombobox.Text, Form.getTrackerbarPercentage());
+            ProjectCorrectionHandler.splitCurrentProject(Form.correctProjectCombobox.Text, Form.getTrackerbarPercentage());
         }
 
         private void updateButton_Click(object sender, EventArgs e)
@@ -391,7 +390,9 @@ namespace ProjectTracker
             if (e.RowIndex == Form.dataGridView1.Rows.Count - 1 && currentProjectVisible())
             {
                 if (grid.Columns[e.ColumnIndex].Name == "Comment")
-                    ProjectHandler.changeCurrentProjectRetrospectively(null, grid.Rows[e.RowIndex].Cells["Comment"].Value.ToString());
+                    ProjectCorrectionHandler.changeCurrentProject(
+                        grid.Rows[e.RowIndex].Cells["Project"].Value.ToString(), 
+                        grid.Rows[e.RowIndex].Cells["Comment"].Value.ToString());
                 return;
             }
                 

@@ -110,6 +110,7 @@ namespace ProjectTracker
             CancelButton.Click += (sender, e) => { prompt.Close(); };
             prompt.AcceptButton = OkButton;
             prompt.CancelButton = CancelButton;
+            prompt.Shown += delegate (Object o, EventArgs a) { prompt.Activate(); };
 
             prompt.Controls.Add(new System.Windows.Forms.Label() { Left = 41, Top = 53, Text = "Minutes", Width = 50, Height = 13 });
             prompt.Controls.Add(new System.Windows.Forms.Label() { Left = 221, Top = 53, Text = "Comment", Width = 60, Height = 13 });
